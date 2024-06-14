@@ -1,0 +1,17 @@
+# NOTE there must be no spaces before the '-', so put the comma after.
+# When making changes, ensure that the output of the clang-tidy command run is verified to
+# confirm the desired checks are enabled. The command should be executed from a directory
+# containing a .clang-tidy file.
+# NOTE: Please don't disable inheritance from the parent to make sure that common checks get propagated.
+---
+InheritParentConfig: true
+Checks: '
+performance-*,
+'
+
+CheckOptions:
+- key: performance-unnecessary-value-param.AllowedTypes
+  value: '[Pp]ointer$;[Pp]tr$;[Rr]ef(erence)?$'
+- key: performance-unnecessary-copy-initialization.AllowedTypes
+  value: '[Pp]ointer$;[Pp]tr$;[Rr]ef(erence)?$'
+...

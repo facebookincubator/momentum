@@ -1,0 +1,42 @@
+name: CI Windows
+
+on:
+  push:
+    branches:
+      - "**"
+    paths-ignore:
+      - "**/website/**"
+  pull_request:
+    branches:
+      - "**"
+    paths-ignore:
+      - "**/website/**"
+
+jobs:
+  build:
+    name: win
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          cache: true
+      - name: Build and test Momentum
+        run: |
+          pixi run test
+      - name: Install Momentum and Build hello_world
+        run: |
+          pixi run cmake `
+            --build build `
+            --config Release `
+            --target install `
+            --parallel
+          pixi run cmake `
+            -S momentum/examples/hello_world `
+            -B momentum/examples/hello_world/build
+          pixi run cmake `
+            --build momentum/examples/hello_world/build `
+            --config Release `
+            --parallel

@@ -1,0 +1,59 @@
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+#pragma once
+
+#include <momentum/common/memory.h>
+
+namespace momentum {
+
+MOMENTUM_FWD_DECLARE_STRUCT(ConstraintData);
+MOMENTUM_FWD_DECLARE_STRUCT(GaussNewtonSolverQROptions);
+MOMENTUM_FWD_DECLARE_STRUCT(SimdNormalConstraints);
+MOMENTUM_FWD_DECLARE_STRUCT(SimdPlaneConstraints);
+MOMENTUM_FWD_DECLARE_STRUCT(SimdPositionConstraints);
+
+MOMENTUM_FWD_DECLARE_CLASS(SimdNormalErrorFunction);
+MOMENTUM_FWD_DECLARE_CLASS(SimdPlaneErrorFunction);
+MOMENTUM_FWD_DECLARE_CLASS(SimdPositionErrorFunction);
+#ifdef MOMENTUM_ENABLE_AVX
+MOMENTUM_FWD_DECLARE_CLASS(SimdNormalErrorFunctionAVX);
+MOMENTUM_FWD_DECLARE_CLASS(SimdPlaneErrorFunctionAVX);
+MOMENTUM_FWD_DECLARE_CLASS(SimdPositionErrorFunctionAVX);
+#endif
+
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(AimData);
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(FixedAxisData);
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(NormalData);
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(OrientationData);
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(PlaneData);
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(PositionData);
+MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT(VertexConstraint);
+
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(AimDirErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(AimDistErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(CollisionErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(CollisionErrorFunctionStateless);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(FixedAxisAngleErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(FixedAxisCosErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(FixedAxisDiffErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(GaussNewtonSolverQR);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(LimitErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(ModelParametersErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(NormalErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(OrientationErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(PlaneErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(PosePriorErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(PositionErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(SimdCollisionErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(SkeletonErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(SkeletonSolverFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(StateErrorFunction);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(TrustRegionQR);
+MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS(VertexErrorFunction);
+
+} // namespace momentum

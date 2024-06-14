@@ -1,0 +1,37 @@
+name: Publish to GHE
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/publish_to_ghe.yml"
+
+jobs:
+  sync:
+    runs-on: self-hosted-mac-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add dest host
+        run: |
+          set -ex
+          git remote add dest https://x-access-token:${{ secrets.DESTINATION_GITHUB_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }}
+          git fetch origin
+          git fetch dest
+
+      - name: Push to dest host
+        run: |
+          set -ex
+          git rm -r .github
+          git commit -m "Remove .github files"
+          git push -f dest main
+
+      - name: Cleanup
+        if: always()
+        run: |
+          set -ex
+          git remote remove dest

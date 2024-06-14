@@ -1,0 +1,122 @@
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+#pragma once
+
+#include <momentum/character/fwd.h>
+#include <momentum/character/parameter_transform.h>
+#include <momentum/character/types.h>
+#include <momentum/character_solver/fwd.h>
+
+namespace momentum {
+
+template <typename T>
+class SkeletonErrorFunctionT {
+ public:
+  SkeletonErrorFunctionT(const Skeleton& skel, const ParameterTransform& pt)
+      : skeleton_(skel),
+        parameterTransform_(pt),
+        weight_(1.0),
+        activeJointParams_(pt.activeJointParams) {
+    enabledParameters_.flip(); // all parameters enabled by default
+  }
+  virtual ~SkeletonErrorFunctionT() = default;
+
+  void setWeight(T w) {
+    weight_ = w;
+  }
+
+  [[nodiscard]] T getWeight() const {
+    return weight_;
+  }
+
+  void setActiveJoints(const VectorX<bool>& aj) {
+    activeJointParams_ = aj;
+  }
+
+  void setEnabledParameters(const ParameterSet& ps) {
+    enabledParameters_ = ps;
+  }
+
+  virtual double getError(const ModelParametersT<T>&, const SkeletonStateT<T>&) {
+    return 0.0f;
+  };
+
+  virtual double
+  getGradient(const ModelParametersT<T>&, const SkeletonStateT<T>&, Eigen::Ref<Eigen::VectorX<T>>) {
+    return 0.0f;
+  };
+
+  virtual double getJacobian(
+      const ModelParametersT<T>&,
+      const SkeletonStateT<T>&,
+      Eigen::Ref<Eigen::MatrixX<T>>,
+      Eigen::Ref<Eigen::VectorX<T>>,
+      int& usedRows) {
+    usedRows = 0;
+    return 0.0f;
+  };
+
+  virtual void
+  getHessian(const ModelParametersT<T>&, const SkeletonStateT<T>&, Eigen::Ref<Eigen::MatrixX<T>>) {
+    throw;
+    return;
+  };
+
+  virtual double getSolverDerivatives(
+      const ModelParametersT<T>& parameters,
+      const SkeletonStateT<T>& state,
+      const size_t actualParameters,
+      Eigen::MatrixX<T>& hess,
+      Eigen::VectorX<T>& grad) {
+    const int paramSize = static_cast<int>(parameters.size());
+    double error = 0.0;
+
+    if (useHessian_) {
+      // get some ice cream, you deserve it
+      error = getGradient(parameters, state, grad);
+      getHessian(parameters, state, hess);
+    } else {
+      const int residualSize = static_cast<int>(getJacobianSize());
+
+      Eigen::MatrixX<T> jacobian = Eigen::MatrixX<T>::Zero(residualSize, paramSize);
+      Eigen::VectorX<T> residual = Eigen::VectorX<T>::Zero(residualSize);
+      int rows;
+
+      error = getJacobian(parameters, state, jacobian, residual, rows);
+
+      // Update JtJ
+      if (rows > 0) {
+        // ! In truth, on the the "actualParameters" leftmost block will be used
+        // We take advantage of this here and skip the other computations
+        hess.template triangularView<Eigen::Lower>() += 2.0 *
+            jacobian.topLeftCorner(rows, actualParameters).transpose() *
+            jacobian.topLeftCorner(rows, actualParameters);
+
+        // Update JtR
+        grad.noalias() +=
+            2.0 * jacobian.topLeftCorner(rows, actualParameters).transpose() * residual.head(rows);
+      }
+    }
+
+    return error;
+  }
+
+  virtual size_t getJacobianSize() const {
+    return 0;
+  }
+
+ protected:
+  const Skeleton& skeleton_;
+  const ParameterTransform& parameterTransform_;
+  T weight_;
+  VectorX<bool> activeJointParams_;
+  ParameterSet enabledParameters_; // set to zero by default constr
+  bool useHessian_{false}; // this can be true only if the getHessian is implemented
+};
+
+} // namespace momentum

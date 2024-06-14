@@ -1,0 +1,34 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
+cmake_minimum_required(VERSION 3.16.3)
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+
+find_dependency(axel CONFIG)
+find_dependency(Ceres CONFIG)
+find_dependency(CLI11 CONFIG)
+find_dependency(Dispenso CONFIG)
+find_dependency(drjit CONFIG)
+find_dependency(Eigen3 3.4.0 CONFIG)
+find_dependency(ezc3d CONFIG)
+find_dependency(Microsoft.GSL CONFIG)
+find_dependency(fmt CONFIG)
+find_dependency(fx-gltf CONFIG)
+find_dependency(nlohmann_json CONFIG)
+find_dependency(openfbx CONFIG)
+find_dependency(re2 MODULE)
+find_dependency(Sophus CONFIG)
+find_dependency(spdlog CONFIG)
+
+list(REMOVE_AT CMAKE_MODULE_PATH -1)
+
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
+
+check_required_components("@PROJECT_NAME@")

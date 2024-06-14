@@ -1,0 +1,1003 @@
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+#include "momentum/io/openfbx/openfbx_io.h"
+
+#include "momentum/character/character.h"
+#include "momentum/character/collision_geometry_state.h"
+#include "momentum/character/skin_weights.h"
+#include "momentum/character/types.h"
+#include "momentum/common/log.h"
+#include "momentum/io/common/gsl_utils.h"
+#include "momentum/io/openfbx/polygon_data.h"
+#include "momentum/io/skeleton/locator_io.h"
+#include "momentum/io/skeleton/parameter_limits_io.h"
+#include "momentum/io/skeleton/parameter_transform_io.h"
+#include "momentum/io/skeleton/parameters_io.h"
+#include "momentum/math/constants.h"
+#include "momentum/math/mesh.h"
+#include "momentum/math/utility.h"
+
+#include <fmt/format.h>
+#include <momentum/common/filesystem.h>
+#include <ofbx.h>
+#include <gsl/span_ext>
+
+#include <cmath>
+#include <fstream>
+#include <numeric>
+#include <stdexcept>
+#include <unordered_map>
+#include <variant>
+
+namespace momentum {
+
+namespace {
+
+Eigen::Vector3d toEigen(const ofbx::DVec3& v) {
+  return Eigen::Vector3d(v.x, v.y, v.z);
+}
+
+Eigen::Affine3d toEigen(const ofbx::DMatrix& mat) {
+  return Eigen::Affine3d(Eigen::Matrix4d(mat.m));
+}
+
+Eigen::Vector3i getRotationOrder(ofbx::RotationOrder order) {
+  switch (order) {
+    case ofbx::RotationOrder::EULER_XYZ:
+    default:
+      return Eigen::Vector3i(0, 1, 2);
+    case ofbx::RotationOrder::EULER_XZY:
+      return Eigen::Vector3i(0, 2, 1);
+    case ofbx::RotationOrder::EULER_YZX:
+      return Eigen::Vector3i(1, 2, 0);
+    case ofbx::RotationOrder::EULER_YXZ:
+      return Eigen::Vector3i(1, 0, 2);
+    case ofbx::RotationOrder::EULER_ZXY:
+      return Eigen::Vector3i(2, 0, 1);
+    case ofbx::RotationOrder::EULER_ZYX:
+      return Eigen::Vector3i(2, 1, 0);
+  }
+}
+
+const char* rotationOrderStr(ofbx::RotationOrder order) {
+  switch (order) {
+    case ofbx::RotationOrder::EULER_XYZ:
+      return "EULER_XYZ";
+    case ofbx::RotationOrder::EULER_XZY:
+      return "EULER_XZY";
+    case ofbx::RotationOrder::EULER_YZX:
+      return "EULER_YZX";
+    case ofbx::RotationOrder::EULER_YXZ:
+      return "EULER_YXZ";
+    case ofbx::RotationOrder::EULER_ZXY:
+      return "EULER_ZXY";
+    case ofbx::RotationOrder::EULER_ZYX:
+      return "EULER_ZYX";
+    case ofbx::RotationOrder::SPHERIC_XYZ:
+      return "SPHERIC_XYZ";
+    default:
+      return "Unknown";
+  }
+}
+
+template <typename T>
+Eigen::Quaternion<T> computeEulerRotation(
+    const Eigen::Matrix<T, 3, 1>& angles,
+    ofbx::RotationOrder order) {
+  typedef Eigen::Matrix<T, 3, 1> VecType;
+  typedef Eigen::Quaternion<T> QuaternionType;
+
+  if (order == ofbx::RotationOrder::SPHERIC_XYZ) {
+    // in the case of a ball-joint the 3 parameters are simply the xyz parameters of a quaternion
+    return QuaternionType(
+        std::sqrt(std::max(T(1) - angles.squaredNorm(), T(0))), angles.x(), angles.y(), angles.z());
+  } else {
+    const Eigen::Vector3i rotOrder = getRotationOrder(order);
+    QuaternionType result = QuaternionType::Identity();
+    for (uint32_t index = 0; index < 3; ++index) {
+      const auto& rIndex = rotOrder(index);
+      result = QuaternionType(Eigen::AngleAxis<T>(angles(rIndex), VecType::Unit(rIndex))) * result;
+    }
+    return result;
+  }
+}
+
+Eigen::Quaterniond fbxEulerRotationToQuat(
+    const ofbx::DVec3& eulerAngles,
+    const ofbx::RotationOrder rotOrder) {
+  const Eigen::Vector3d rotDegrees = toEigen(eulerAngles).head<3>();
+  const Eigen::Vector3d rotRadians = toRad<double>() * rotDegrees;
+  return computeEulerRotation<double>(rotRadians, rotOrder);
+}
+
+const ofbx::IElement* findChild(const ofbx::IElement& element, const char* id) {
+  auto curChild = element.getFirstChild();
+  while (curChild) {
+    if (curChild->getID() == id)
+      return curChild;
+    curChild = curChild->getSibling();
+  }
+  return nullptr;
+}
+
+bool equalsCaseInsensitive(const ofbx::DataView& data, const char* rhs) {
+  const char* c = rhs;
+  const char* c2 = (const char*)data.begin;
+  while (*c && c2 != (const char*)data.end) {
+    if (tolower(*c) != tolower(*c2))
+      return 0;
+    ++c;
+    ++c2;
+  }
+  return c2 == (const char*)data.end && *c == '\0';
+}
+
+// This function is more or less copied from the OpenFBX SDK.
+ofbx::IElement* resolveProperty(const ofbx::Object& object, const char* name) {
+  // This is black magic, but for some reason all the user properties are stored in an
+  // element named Properties70.
+  const ofbx::IElement* props = findChild(object.element, "Properties70");
+  if (!props)
+    return nullptr;
+
+  ofbx::IElement* prop = props->getFirstChild();
+  while (prop) {
+    auto firstProp = prop->getFirstProperty();
+    if (firstProp->getType() != ofbx::IElementProperty::STRING)
+      throw std::runtime_error("Expected string for first property value.");
+
+    // The Autodesk SDK appears to be case-insensitive wrt names, so we'll mirror that
+    // behavior here.
+    if (firstProp != nullptr && equalsCaseInsensitive(firstProp->getValue(), name))
+      return prop;
+    prop = prop->getSibling();
+  }
+  return nullptr;
+}
+
+// Get the nth property, needed because elements store properties in the order [name, ?, ?, ?,
+// value].
+const ofbx::IElementProperty* getElementProperty(const ofbx::IElement* element, size_t iProp) {
+  auto prop = element->getFirstProperty();
+  for (size_t j = 0; j < iProp; ++j) {
+    if (prop == nullptr)
+      return nullptr;
+    prop = prop->getNext();
+  }
+
+  return prop;
+}
+
+static double resolveDoubleProperty(const ofbx::Object& object, const char* name) {
+  const ofbx::IElement* element = resolveProperty(object, name);
+  if (element == nullptr)
+    throw std::runtime_error(std::string("Unable to find property element in ") + object.name);
+
+  const ofbx::IElementProperty* x = getElementProperty(element, 4);
+  if (x == nullptr)
+    throw std::runtime_error(std::string("Unable to find property ") + name + " in " + object.name);
+
+  if (x->getType() == ofbx::IElementProperty::DOUBLE)
+    return x->getValue().toDouble();
+  else if (x->getType() == ofbx::IElementProperty::FLOAT)
+    return x->getValue().toFloat();
+  else
+    throw std::runtime_error(
+        std::string("For property ") + name + "; expected float/double array.");
+}
+
+template <typename VecArray, typename EltType>
+VecArray extractPropertyArrayImp(const ofbx::IElementProperty* prop, const char* what) {
+  typedef typename VecArray::value_type VecType;
+  typedef typename VecType::Scalar Scalar;
+
+  const auto nScalar = prop->getCount();
+  if (nScalar == 0) {
+    return VecArray();
+  }
+
+  const auto vecLength = VecType::RowsAtCompileTime;
+  const auto nVec = nScalar / vecLength;
+
+  if (nVec * vecLength != nScalar) {
+    throw std::runtime_error(fmt::format(
+        "For {}; expected to be divisible by {} but got {} as count",
+        what,
+        int(vecLength),
+        nScalar));
+  }
+
+  std::vector<double> vals(nScalar);
+  prop->getValues(vals.data(), (int)(sizeof(EltType) * vals.size()));
+
+  VecArray result;
+  result.reserve(nVec);
+  for (int iVec = 0; iVec < nVec; ++iVec) {
+    VecType v;
+    for (Eigen::DenseIndex k = 0; k < vecLength; ++k) {
+      v[k] = (Scalar)vals[iVec * static_cast<size_t>(vecLength) + k];
+    }
+    result.push_back(v);
+  }
+
+  return result;
+}
+
+template <typename VecArray>
+VecArray extractPropertyVecArray(const ofbx::IElement* element, const char* what) {
+  const auto prop = element->getFirstProperty();
+  if (prop == nullptr)
+    throw std::runtime_error(std::string("For element ") + what + "; found no property.");
+
+  if (prop->getType() == ofbx::IElementProperty::ARRAY_DOUBLE)
+    return extractPropertyArrayImp<VecArray, double>(prop, what);
+  else if (prop->getType() == ofbx::IElementProperty::ARRAY_FLOAT)
+    return extractPropertyArrayImp<VecArray, float>(prop, what);
+  else
+    throw std::runtime_error(
+        std::string("For property ") + what + "; expected float/double array.");
+}
+
+template <typename T>
+ofbx::IElementProperty::Type propertyArrayType();
+template <>
+ofbx::IElementProperty::Type propertyArrayType<double>() {
+  return ofbx::IElementProperty::ARRAY_DOUBLE;
+}
+template <>
+ofbx::IElementProperty::Type propertyArrayType<float>() {
+  return ofbx::IElementProperty::ARRAY_FLOAT;
+}
+template <>
+ofbx::IElementProperty::Type propertyArrayType<int>() {
+  return ofbx::IElementProperty::ARRAY_INT;
+}
+
+template <typename T>
+std::vector<T> extractPropertyArray(const ofbx::IElement* element, const char* what) {
+  const auto prop = element->getFirstProperty();
+  if (prop == nullptr)
+    throw std::runtime_error(std::string("For element ") + what + "; found no property.");
+
+  if (prop->getType() == propertyArrayType<T>()) {
+    std::vector<T> vals(prop->getCount());
+    prop->getValues(&vals[0], (int)(sizeof(T) * vals.size()));
+    return vals;
+  } else {
+    throw std::runtime_error(
+        std::string("For property ") + what + "; expected " + typeid(T).name() + " array.");
+  }
+}
+
+std::vector<double> extractPropertyFloatArray(const ofbx::IElement* element, const char* what) {
+  const auto prop = element->getFirstProperty();
+  if (prop == nullptr)
+    throw std::runtime_error(std::string("For element ") + what + "; found no property.");
+
+  if (prop->getType() == ofbx::IElementProperty::ARRAY_DOUBLE) {
+    return extractPropertyArray<double>(element, what);
+  } else if (prop->getType() == ofbx::IElementProperty::ARRAY_FLOAT) {
+    auto res = extractPropertyArray<float>(element, what);
+    std::vector<double> result(res.begin(), res.end());
+    return result;
+  } else {
+    throw std::runtime_error(std::string("For property ") + what + "; expected float array.");
+  }
+}
+
+void parseSkeleton(
+    const ofbx::Object* curSkelNode,
+    const size_t parent,
+    Skeleton& skeleton,
+    std::vector<const ofbx::Object*>& fbxObjects,
+    CollisionGeometry& capsules,
+    LocatorList& locators,
+    bool permissive) {
+  // Skip non-transform nodes:
+  if (!curSkelNode->isNode()) {
+    return;
+  }
+  const auto type = curSkelNode->getType();
+  const std::string jointName = curSkelNode->name;
+
+  // A transform node could be a lot of different objects.
+  if (type == ofbx::Object::Type::NULL_NODE) {
+    // Check for collision capsule in a custom attribute
+    auto res = resolveProperty(*curSkelNode, "col_type");
+
+    if (res != nullptr) {
+      // Extract the capsule if present:
+      const double length = resolveDoubleProperty(*curSkelNode, "length");
+      const double rad_a = resolveDoubleProperty(*curSkelNode, "rad_a");
+      const double rad_b = resolveDoubleProperty(*curSkelNode, "rad_b");
+
+      const auto xf = curSkelNode->getLocalTransform();
+
+      TaperedCapsule capsule;
+      capsule.parent = parent;
+      capsule.length = length;
+      capsule.radius = {rad_a, rad_b};
+      capsule.transformation = toEigen(xf).cast<float>();
+      capsules.push_back(capsule);
+    } else if (parent != kInvalidIndex) {
+      // It's a locator if it has a parent joint
+      Locator locator;
+      locator.name = jointName;
+      const auto translationOffset = curSkelNode->getLocalTranslation();
+      locator.offset = toEigen(translationOffset).cast<float>();
+      locator.parent = parent;
+      // TODO when we have rotations in the locator:
+      // locator.rotationOffset = preRotation.cast<float>();
+      locators.push_back(locator);
+    } else if (parent == kInvalidIndex) {
+      // If we haven't found the skeleton root yet, this could be a group node and we will try to
+      // traverse it.
+      int i = 0;
+      while (ofbx::Object* child = curSkelNode->resolveObjectLink(i++)) {
+        parseSkeleton(child, kInvalidIndex, skeleton, fbxObjects, capsules, locators, permissive);
+      }
+    }
+  } else if (type == ofbx::Object::Type::LIMB_NODE) {
+    // Get node transformation info
+    // get rotation order
+    auto order = curSkelNode->getRotationOrder();
+    if (order != ofbx::RotationOrder::EULER_XYZ) {
+      if (permissive) {
+        MT_LOGW(
+            "momentum supports only XYZ rotation; joint {} has {} rotation order.",
+            jointName,
+            rotationOrderStr(order));
+      } else {
+        throw std::runtime_error(fmt::format(
+            "momentum supports only XYZ rotation; joint {} has {} rotation order.",
+            jointName,
+            rotationOrderStr(order)));
+      }
+    }
+
+    // get local rotation
+    auto localRot = fbxEulerRotationToQuat(curSkelNode->getLocalRotation(), order);
+    if (Eigen::AngleAxisd(localRot).angle() > 1e-2) {
+      if (permissive) {
+        MT_LOGW(
+            "{}: Node {} has nonzero rest rotation ({}, {}, {}), which will be baked into the skeleton.",
+            __func__,
+            jointName,
+            curSkelNode->getLocalRotation().x,
+            curSkelNode->getLocalRotation().y,
+            curSkelNode->getLocalRotation().z);
+      } else {
+        MT_LOGE(
+            "{}: Node {} has nonzero rest rotation ({}, {}, {}) and it will be ignored",
+            __func__,
+            jointName,
+            curSkelNode->getLocalRotation().x,
+            curSkelNode->getLocalRotation().y,
+            curSkelNode->getLocalRotation().z);
+        localRot = Eigen::Quaterniond::Identity();
+      }
+    }
+
+    // get pre- and post-rotation
+    const auto preRotEuler = curSkelNode->getPreRotation();
+    // Pre-rot always uses XYZ order:
+    const Eigen::Quaterniond preRotation =
+        fbxEulerRotationToQuat(preRotEuler, ofbx::RotationOrder::EULER_XYZ) * localRot;
+
+    MT_LOGE_IF(
+        toEigen(curSkelNode->getPostRotation()).head<3>().norm() > 1e-8,
+        "{}: Node {} has nonzero post-rotation; it will be ignored.",
+        __func__,
+        jointName);
+
+    // get local offset
+    const auto translationOffset = curSkelNode->getLocalTranslation();
+
+    // ignore scaling values for now
+
+    // Create a skeleton joint
+    Joint joint;
+    joint.name = jointName;
+    joint.parent = parent;
+    joint.preRotation = preRotation.cast<float>();
+    joint.translationOffset = toEigen(translationOffset).cast<float>();
+    const size_t jointIndex = skeleton.joints.size();
+    skeleton.joints.push_back(joint);
+    fbxObjects.push_back(curSkelNode);
+
+    // Traverse the skeleton hierarchy.
+    int i = 0;
+    while (ofbx::Object* child = curSkelNode->resolveObjectLink(i++)) {
+      parseSkeleton(child, jointIndex, skeleton, fbxObjects, capsules, locators, permissive);
+    }
+  }
+}
+
+std::tuple<Skeleton, std::vector<const ofbx::Object*>, LocatorList, CollisionGeometry>
+parseSkeleton(const ofbx::Object* sceneRoot, const std::string& skelRoot, bool permissive) {
+  Skeleton skeleton;
+  LocatorList locators;
+  CollisionGeometry collision;
+  std::vector<const ofbx::Object*>
+      jointFbxNodes; // Contains the mapping between FbxNode* and indices in the FbxSkeleton
+
+  int i = 0;
+  while (ofbx::Object* child = sceneRoot->resolveObjectLink(i)) {
+    i++;
+    if (!skelRoot.empty() && child->name != skelRoot) {
+      continue;
+    }
+    parseSkeleton(child, kInvalidIndex, skeleton, jointFbxNodes, collision, locators, permissive);
+  }
+
+  return {skeleton, jointFbxNodes, locators, collision};
+}
+
+void parseSkinnedModel(
+    const ofbx::Mesh* meshRoot,
+    const std::vector<const ofbx::Object*>& boneFbxNodes,
+    Mesh& mesh,
+    SkinWeights& skinWeights,
+    TransformationList& inverseBindPoseTransforms) {
+  enum EMapping {
+    MAPPING_UNKNOWN,
+    MAPPING_BY_POLY_VERTEX,
+    MAPPING_BY_VERTEX,
+  };
+  enum EReference {
+    REF_UNKNOWN,
+    REF_INDEX_TO_DIRECT,
+    REF_DIRECT,
+  };
+
+  // We will parse out the geometry ourselves rather than using OpenFBX's
+  // Geometry class, since the latter throws away a lot of useful information.
+  const auto geometry = meshRoot->getGeometry();
+  const auto& geomElement = geometry->element;
+
+  const auto vertices_element = findChild(geomElement, "Vertices");
+  if (vertices_element == nullptr || !vertices_element->getFirstProperty())
+    throw std::runtime_error("No vertices found in mesh element.");
+  const auto vertexPositions =
+      extractPropertyVecArray<std::vector<Eigen::Vector3f>>(vertices_element, "Vertices");
+  const auto nVerts = vertexPositions.size();
+
+  const auto polys_element = findChild(geomElement, "PolygonVertexIndex");
+  if (polys_element == nullptr || !polys_element->getFirstProperty())
+    throw std::runtime_error("No polygons found in mesh element.");
+  const auto indices = extractPropertyArray<int>(polys_element, "PolygonVertexIndex");
+
+  PolygonData faces;
+  faces.indices.reserve(indices.size());
+  for (const auto& i : indices) {
+    if (i < 0) {
+      // end of polygon is indicated by a negative index:
+      faces.indices.push_back(-(i + 1));
+      faces.offsets.push_back((uint32_t)faces.indices.size());
+    } else {
+      faces.indices.push_back(i);
+    }
+  }
+
+  std::vector<Eigen::Vector2f> textureCoords;
+  const auto layer_uv_element = findChild(geomElement, "LayerElementUV");
+  if (layer_uv_element != nullptr) {
+    const auto uvs_element = findChild(*layer_uv_element, "UV");
+    if (uvs_element == nullptr || !uvs_element->getFirstProperty()) {
+      // Some legitimate uses of fbxsdk (ie fbx_io.cpp:saveFbx) seem to be unable to write to this
+      // element. So we are not hard-failing to remain "compatible".
+      MT_LOGE("No UVs found in mesh element.");
+    } else {
+      EMapping mapping = MAPPING_UNKNOWN;
+      const auto mapping_element = findChild(*layer_uv_element, "MappingInformationType");
+      if (mapping_element != nullptr && mapping_element->getFirstProperty() != nullptr) {
+        const ofbx::DataView& view = mapping_element->getFirstProperty()->getValue();
+        if (view == "ByPolygonVertex")
+          mapping = MAPPING_BY_POLY_VERTEX;
+        else if (view == "ByVertex" || view == "ByVertice")
+          mapping = MAPPING_BY_VERTEX;
+      }
+      if (mapping == MAPPING_UNKNOWN) {
+        throw std::runtime_error(
+            "Don't currently know how to deal with mapping type that is not 'ByPolygonVertex' or 'ByVertex'.");
+      }
+
+      EReference reference = REF_UNKNOWN;
+      const auto reference_element = findChild(*layer_uv_element, "ReferenceInformationType");
+      if (reference_element != nullptr && reference_element->getFirstProperty() != nullptr) {
+        const ofbx::DataView& view = reference_element->getFirstProperty()->getValue();
+        if (view == "IndexToDirect")
+          reference = REF_INDEX_TO_DIRECT;
+        else if (view == "Direct")
+          reference = REF_DIRECT;
+      }
+      if (reference == REF_UNKNOWN) {
+        throw std::runtime_error(
+            "Don't currently know how to deal with reference type that is not 'IndexToDirect' or 'Direct'.");
+      }
+
+      // Coords array is handled the same for either mapping type
+      textureCoords = extractPropertyVecArray<std::vector<Eigen::Vector2f>>(uvs_element, "UV");
+
+      if (reference == REF_INDEX_TO_DIRECT) {
+        // IndexToDirect means there is another mapping array which gives the order of the UVs in
+        // the mesh
+        auto indices_element = findChild(*layer_uv_element, "UVIndex");
+        if (indices_element == nullptr) {
+          throw std::runtime_error("Missing indices element.");
+        }
+        const auto textureIndices =
+            extractPropertyArray<int>(indices_element, "PolygonVertexIndex");
+
+        if (textureIndices.size() != faces.indices.size())
+          throw std::runtime_error("Mismatch between texture indices size and indices size.");
+
+        std::copy(
+            textureIndices.begin(), textureIndices.end(), std::back_inserter(faces.textureIndices));
+      } else if (reference == REF_DIRECT) {
+        // Direct means the UV array is already in order.
+        if (textureCoords.size() != faces.indices.size())
+          throw std::runtime_error(
+              "Mismatch between 'Direct' texture coord array size and vertex indices size.");
+
+        faces.textureIndices.resize(faces.indices.size());
+        std::iota(faces.textureIndices.begin(), faces.textureIndices.end(), 0);
+      } else {
+        throw std::runtime_error(
+            "UV reading code failed to handle a valid reference type. This is a bug.");
+      }
+    }
+  }
+
+  // Momentum wants the y coords flipped:
+  for (auto& tc : textureCoords) {
+    tc.y() = 1.0f - tc.y();
+  }
+
+  auto errMsg = faces.errorMessage(nVerts);
+  if (!errMsg.empty()) {
+    throw std::runtime_error("Error reading polygons from FBX file: " + errMsg);
+  }
+  errMsg = faces.warnMessage(textureCoords.size());
+  MT_LOGW_IF(!errMsg.empty(), "Error reading polygon data from FBX file: {}", errMsg);
+
+  const auto fbxskin = geometry->getSkin();
+  if (fbxskin == nullptr)
+    throw std::runtime_error("No skin found for geometry.");
+
+  // Need a fast map from an FbxNode to the bone index in our representation:
+  std::unordered_map<const ofbx::Object*, size_t> boneMap;
+  for (size_t i = 0; i < boneFbxNodes.size(); ++i)
+    boneMap.insert(std::make_pair(boneFbxNodes[i], i));
+
+  // The weights in the FBX file are stored by bone rather than by
+  // vertex; we will cache them all as (vertex, bone, weight) in
+  // this array and then sort it to get them in vertex order.
+  typedef std::tuple<size_t, size_t, double> VertexBoneWithWeight;
+  std::vector<VertexBoneWithWeight> weights;
+  weights.reserve(2 * nVerts);
+
+  int clusterCount = fbxskin->getClusterCount();
+  for (int clusterIndex = 0; clusterIndex < clusterCount; clusterIndex++) {
+    const auto cluster = fbxskin->getCluster(clusterIndex);
+    MT_CHECK(cluster != nullptr);
+
+    const auto bone = cluster->getLink();
+
+    const auto fbxJointItr = boneMap.find(bone);
+    if (fbxJointItr == boneMap.end()) {
+      throw std::runtime_error(
+          fmt::format("Cluster {} references invalid bone: {}", cluster->name, bone->name));
+    }
+    const size_t boneIndex = fbxJointItr->second;
+    inverseBindPoseTransforms[boneIndex] =
+        toEigen(cluster->getTransformLinkMatrix()).inverse().cast<float>();
+
+    const auto skinning_indices_element = findChild(cluster->element, "Indexes");
+    if (skinning_indices_element == nullptr || !skinning_indices_element->getFirstProperty())
+      continue;
+    /*
+    if (skinning_indices_element == nullptr || !skinning_indices_element->getFirstProperty())
+        throw std::runtime_error ((boost::format ("No skinning indices found in cluster element %s
+    (mesh is %s).") % cluster->name % meshRoot->name).str());
+        */
+    const auto skinningIndices = extractPropertyArray<int>(skinning_indices_element, "Indexes");
+
+    const auto skinning_weights_element = findChild(cluster->element, "Weights");
+    if (skinning_weights_element == nullptr || !skinning_weights_element->getFirstProperty()) {
+      throw std::runtime_error(fmt::format(
+          "No skinning weights found in cluster element {} (mesh is {}).",
+          cluster->name,
+          meshRoot->name));
+    }
+    const auto skinningWeights = extractPropertyFloatArray(skinning_weights_element, "Weights");
+
+    // iterate through all the vertices, which are affected by the bone
+    if (skinningIndices.size() != skinningWeights.size())
+      throw std::runtime_error(fmt::format(
+          "Mismatch between indices count ({}) and weight count ({}) in cluster {}",
+          skinningIndices.size(),
+          skinningWeights.size(),
+          cluster->name));
+
+    const auto numBoneVertexIndices = skinningIndices.size();
+    for (size_t boneVIndex = 0; boneVIndex < numBoneVertexIndices; boneVIndex++) {
+      const int boneVertexIndex = skinningIndices[boneVIndex];
+      if (boneVertexIndex < 0 || static_cast<size_t>(boneVertexIndex) >= nVerts)
+        throw std::runtime_error(
+            fmt::format("Invalid vertex index ({}) in cluster {}", boneVertexIndex, cluster->name));
+
+      const auto boneWeight = skinningWeights[boneVIndex];
+      if (boneWeight <= 0)
+        continue;
+
+      MT_LOGW_IF(
+          boneWeight > 1.01,
+          "{}: Bone weight of {} found; expected value between 0 and 1.",
+          __func__,
+          boneWeight);
+      weights.emplace_back(boneVertexIndex, boneIndex, boneWeight);
+    }
+  }
+
+  const size_t vertexOffset = mesh.vertices.size();
+  std::copy(
+      std::begin(vertexPositions), std::end(vertexPositions), std::back_inserter(mesh.vertices));
+  for (const auto& t : triangulate(faces.indices, faces.offsets)) {
+    mesh.faces.emplace_back(t + Eigen::Vector3i::Constant(vertexOffset));
+  }
+
+  mesh.normals.resize(vertexOffset + nVerts, Vector3f::Zero());
+  mesh.colors.resize(vertexOffset + nVerts, Vector3b::Zero());
+  mesh.confidence.resize(vertexOffset + nVerts, 1);
+
+  const size_t textureCoordOffset = mesh.texcoords.size();
+  std::copy(std::begin(textureCoords), std::end(textureCoords), std::back_inserter(mesh.texcoords));
+  for (const auto& t : triangulate(faces.textureIndices, faces.offsets)) {
+    mesh.texcoord_faces.emplace_back(t + Eigen::Vector3i::Constant(textureCoordOffset));
+  }
+
+  skinWeights.index.conservativeResize(vertexOffset + nVerts, Eigen::NoChange);
+  skinWeights.weight.conservativeResize(vertexOffset + nVerts, Eigen::NoChange);
+  skinWeights.index.bottomRows(nVerts).setZero();
+  skinWeights.weight.bottomRows(nVerts).setZero();
+
+  std::stable_sort(
+      weights.begin(),
+      weights.end(),
+      [](const VertexBoneWithWeight& b1, const VertexBoneWithWeight& b2) {
+        return std::get<0>(b1) < std::get<0>(b2);
+      });
+  auto weightItr = weights.begin();
+
+  using BoneWeight = std::pair<size_t, double>;
+  std::vector<BoneWeight> curBoneWeights;
+  for (size_t iVertex = 0; iVertex < nVerts; ++iVertex) {
+    curBoneWeights.clear();
+    if (weightItr == weights.end() || std::get<0>(*weightItr) != iVertex) {
+      throw std::runtime_error(
+          fmt::format("No weights found for vertex {} in mesh {}", iVertex, meshRoot->name));
+    }
+
+    auto vertWeightsBegin = weightItr;
+    while (weightItr != weights.end() && std::get<0>(*weightItr) == iVertex)
+      ++weightItr;
+    auto vertWeightsEnd = weightItr;
+
+    for (auto itr = vertWeightsBegin; itr != vertWeightsEnd; ++itr) {
+      const auto boneIndex = std::get<1>(*itr);
+      const auto boneWeight = std::clamp(std::get<2>(*itr), 0.0, 1.0);
+      curBoneWeights.emplace_back(boneIndex, boneWeight);
+    }
+
+    std::stable_sort(
+        curBoneWeights.begin(),
+        curBoneWeights.end(),
+        [](const BoneWeight& b1, const BoneWeight& b2) { return b1.second > b2.second; });
+    curBoneWeights.resize(std::min<size_t>(curBoneWeights.size(), kMaxSkinJoints));
+
+    double weightSum = 0;
+    for (const auto& [idx, weight] : curBoneWeights) {
+      weightSum += weight;
+    }
+
+    if (weightSum <= 0) {
+      throw std::runtime_error(
+          fmt::format("Empty weight sum found for vertex {} in mesh {}", iVertex, meshRoot->name));
+    }
+
+    for (int iPr = 0; iPr < curBoneWeights.size() && iPr < kMaxSkinJoints; ++iPr) {
+      const auto [boneIdx, weight] = curBoneWeights[iPr];
+      skinWeights.index(vertexOffset + iVertex, iPr) = boneIdx;
+      skinWeights.weight(vertexOffset + iVertex, iPr) = weight / weightSum;
+    }
+  }
+}
+
+double getMaxSeconds(const std::vector<const ofbx::AnimationCurveNode*>& curves) {
+  ofbx::i64 fbxTime = 0;
+  for (const ofbx::AnimationCurveNode* node : curves) {
+    for (size_t iChannel = 0; iChannel < 3; ++iChannel) {
+      const ofbx::AnimationCurve* channel = node->getCurve(iChannel);
+      if (channel == nullptr) {
+        continue;
+      }
+      const int count = channel->getKeyCount();
+      if (count <= 0) {
+        continue;
+      }
+      const ofbx::i64* time = channel->getKeyTime();
+      if (time[count - 1] > fbxTime) {
+        fbxTime = time[count - 1];
+      }
+    }
+  }
+  return ofbx::fbxTimeToSeconds(fbxTime);
+}
+
+size_t findJointIndex(
+    const ofbx::Object* queryObj,
+    const std::vector<const ofbx::Object*>& fbxNodes) {
+  size_t result = kInvalidIndex;
+  for (size_t iNode = 0; iNode < fbxNodes.size(); ++iNode) {
+    if (queryObj == fbxNodes[iNode]) {
+      result = iNode;
+      break;
+    }
+  }
+
+  return result;
+}
+
+MatrixXf parseAnimation(
+    const ofbx::AnimationStack* animStack,
+    const std::vector<const ofbx::Object*>& boneFbxNodes,
+    const Skeleton& skeleton,
+    const float fps,
+    bool permissive) {
+  // Return motion in numJointParameters X numFrames
+  MatrixXf motion;
+  std::vector<const ofbx::AnimationCurveNode*> animCurves;
+
+  // Collect all anim curves
+  int iLayer = 0;
+  while (const ofbx::AnimationLayer* animLayer = animStack->getLayer(iLayer++)) {
+    int iCurve = 0;
+    while (const ofbx::AnimationCurveNode* curve = animLayer->getCurveNode(iCurve++)) {
+      animCurves.push_back(curve);
+    }
+  }
+  if (animCurves.empty()) {
+    return {};
+  }
+
+  const double totalSeconds = getMaxSeconds(animCurves);
+  const size_t numFrames = ceil(totalSeconds * fps) + 1;
+  motion.setZero(skeleton.joints.size() * kParametersPerJoint, numFrames);
+
+  for (size_t i = 0; i < skeleton.joints.size(); ++i) {
+    // Load the rest pose into the animation; for channels that aren't animated, Maya
+    // won't export a curve node and so this is the only way to get the rest pose set
+    // up correctly.
+    // Note that the rest translation is already baked into the translationOffset in
+    // the skeleton so we don't want to set it here.
+    if (!permissive) {
+      // Local rotation is Euler angles:
+      const auto localRot = boneFbxNodes[i]->getLocalRotation();
+      motion.row(i * kParametersPerJoint + 3).setConstant(toRad(localRot.x));
+      motion.row(i * kParametersPerJoint + 4).setConstant(toRad(localRot.y));
+      motion.row(i * kParametersPerJoint + 5).setConstant(toRad(localRot.z));
+    }
+    motion.row(i * kParametersPerJoint + 6)
+        .setConstant(std::log2(boneFbxNodes[i]->getLocalScaling().x));
+  }
+
+  std::vector<bool> writtenJoints(skeleton.joints.size() * kParametersPerJoint, false);
+
+  // Curves on the same node will be added together.
+  for (const ofbx::AnimationCurveNode* curveNode : animCurves) {
+    // Find the skeleton joint
+    const size_t jointIndex = findJointIndex(curveNode->getBone(), boneFbxNodes);
+    if (jointIndex == kInvalidIndex) {
+      continue;
+    }
+    // Find out which channels
+    const auto& property = curveNode->getBoneLinkProperty();
+    int mode = -1;
+    if (property == "Lcl Translation") {
+      mode = 0;
+    } else if (property == "Lcl Rotation") {
+      mode = 1;
+    } else if (property == "Lcl Scaling") {
+      mode = 2;
+    } else {
+      continue;
+    }
+    // Find the indices to write to
+    const size_t startIndex = jointIndex * kParametersPerJoint + mode * 3;
+    const size_t endIndex = startIndex + ((mode == 2) ? 1 : 3);
+    for (size_t i = startIndex; i < endIndex; ++i) {
+      if (writtenJoints.at(i)) {
+        char propertyName[128];
+        property.toString(propertyName);
+        MT_LOGW(
+            "Multiple curves affecting the same parameter {} in {}",
+            propertyName,
+            curveNode->getBone()->name);
+      }
+
+      writtenJoints.at(i) = true;
+    }
+
+    // Linear interpolation of the curve on timeline
+    for (size_t iFrame = 0; iFrame < numFrames; ++iFrame) {
+      const ofbx::DVec3 values =
+          curveNode->getNodeLocalTransform(static_cast<double>(iFrame) / fps);
+
+      // Aggregate the motion
+      if (mode == 0) {
+        // FBX unit is default to centimeter - the same as Momentum unit
+        motion.col(iFrame).template segment<3>(startIndex).noalias() =
+            toEigen(values).cast<float>() - skeleton.joints[jointIndex].translationOffset;
+      } else if (mode == 1) {
+        // assume the correct rotation order
+        motion.col(iFrame).template segment<3>(startIndex).noalias() =
+            toRad() * toEigen(values).cast<float>();
+      } else if (mode == 2) {
+        float scale = 1.0;
+        // Warn and average if non-uniform scale
+        const float kMaxScaleDiff = 1e-4;
+        if (std::abs(values.x - values.y) > kMaxScaleDiff ||
+            std::abs(values.x - values.z) > kMaxScaleDiff) {
+          MT_LOGW(
+              "Animation has non-uniform scale, which is not supported: ({}, {}, {})",
+              values.x,
+              values.y,
+              values.z);
+          scale = (values.x + values.y + values.z) / 3.0;
+        } else {
+          scale = values.x;
+        }
+        // XXX not sure how to handle layers of scaling; we don't assume to support this case for
+        // now.
+        motion.col(iFrame)[startIndex] = std::log2(scale);
+      }
+    }
+  }
+  return motion;
+}
+
+std::tuple<std::unique_ptr<ofbx::u8[]>, size_t> readFileToBuffer(const filesystem::path& path) {
+  // The FBX SDK returns a confusing error if the file doesn't actually
+  // exist, so we should trap that case and return a more helpful error instead.
+  std::ifstream ifs(path.string(), std::ios::binary | std::ios::ate);
+  if (!ifs.good()) {
+    throw std::runtime_error("Error reading FBX file from " + path.string());
+  }
+
+  auto length = ifs.tellg();
+  ifs.seekg(0, std::ifstream::beg);
+
+  if (length > INT32_MAX) {
+    throw std::runtime_error("File too large for OpenFBX.");
+  }
+
+  auto buffer = std::make_unique<ofbx::u8[]>(length);
+  ifs.read((char*)buffer.get(), length);
+  if (!ifs.good()) {
+    throw std::runtime_error("Error reading the entire FBX file from " + path.string());
+  }
+
+  return std::make_tuple(std::move(buffer), length);
+}
+
+std::tuple<Character, std::vector<MatrixXf>, float> loadOpenFbx(
+    const gsl::span<const std::byte> fbxDataRaw,
+    bool keepLocators,
+    bool loadAnim,
+    bool permissive) {
+  auto fbxCharDataRaw = cast_span<const unsigned char>(fbxDataRaw);
+  const size_t length = fbxCharDataRaw.size();
+  if (length > INT32_MAX) {
+    throw std::runtime_error("File too large for OpenFBX.");
+  }
+
+  auto ofbx_deleter = [](ofbx::IScene* s) { s->destroy(); };
+  // We don't currently use blend shapes for anything and they can be very
+  // expensive to load. Ignore stuff in the scene that we don't support.
+  auto loadFlags = ofbx::LoadFlags::IGNORE_BLEND_SHAPES | ofbx::LoadFlags::IGNORE_CAMERAS |
+      ofbx::LoadFlags::IGNORE_LIGHTS | ofbx::LoadFlags::IGNORE_VIDEOS |
+      ofbx::LoadFlags::IGNORE_MATERIALS;
+  if (!loadAnim) {
+    loadFlags |= ofbx::LoadFlags::IGNORE_ANIMATIONS;
+  }
+  std::unique_ptr<ofbx::IScene, decltype(ofbx_deleter)> scene(
+      ofbx::load(fbxCharDataRaw.data(), (int32_t)length, (ofbx::u16)loadFlags), ofbx_deleter);
+  if (!scene) {
+    throw std::runtime_error("Error reading FBX scene data: " + std::string(ofbx::getError()));
+  }
+
+  const auto [skeleton, jointFbxNodes, locators, collision] =
+      parseSkeleton(scene->getRoot(), {}, permissive);
+
+  TransformationList inverseBindPoseTransforms;
+  for (const auto& j : jointFbxNodes) {
+    Eigen::Affine3d mat = Eigen::Affine3d::Identity();
+    if (j) {
+      mat = toEigen(j->getGlobalTransform());
+    }
+    inverseBindPoseTransforms.push_back(mat.inverse().cast<float>());
+  }
+
+  Mesh mesh;
+  SkinWeights skinWeights;
+
+  for (int iMesh = 0; iMesh < scene->getMeshCount(); ++iMesh) {
+    parseSkinnedModel(
+        scene->getMesh(iMesh), jointFbxNodes, mesh, skinWeights, inverseBindPoseTransforms);
+  }
+  mesh.updateNormals();
+
+  std::vector<MatrixXf> jointParamMotions;
+  if (loadAnim) {
+    for (int iAnim = 0; iAnim < scene->getAnimationStackCount(); ++iAnim) {
+      const ofbx::AnimationStack* stack = scene->getAnimationStack(iAnim);
+      if (stack != nullptr) {
+        jointParamMotions.emplace_back(
+            parseAnimation(stack, jointFbxNodes, skeleton, scene->getSceneFrameRate(), permissive));
+      }
+    }
+  }
+
+  Character result(
+      skeleton,
+      ParameterTransform::empty(skeleton.joints.size() * kParametersPerJoint),
+      ParameterLimits(),
+      keepLocators ? locators : LocatorList(),
+      &mesh,
+      &skinWeights,
+      collision.empty() ? nullptr : &collision);
+  result.resetJointMap();
+  result.inverseBindPose = inverseBindPoseTransforms;
+
+  return {result, jointParamMotions, scene->getSceneFrameRate()};
+}
+
+} // namespace
+
+Character loadOpenFbxCharacter(
+    const gsl::span<const std::byte> fbxDataRaw,
+    bool keepLocators,
+    bool permissive) {
+  auto [character, motion, fps] = loadOpenFbx(fbxDataRaw, keepLocators, false, permissive);
+  return character;
+}
+
+Character loadOpenFbxCharacter(const filesystem::path& path, bool keepLocators, bool permissive) {
+  auto [buffer, length] = readFileToBuffer(path);
+  return loadOpenFbxCharacter(
+      gsl::as_bytes(gsl::make_span(buffer.get(), length)), keepLocators, permissive);
+}
+
+std::tuple<Character, std::vector<MatrixXf>, float> loadOpenFbxCharacterWithMotion(
+    gsl::span<const std::byte> inputSpan,
+    bool keepLocators,
+    bool permissive) {
+  return loadOpenFbx(inputSpan, keepLocators, true, permissive);
+}
+
+std::tuple<Character, std::vector<MatrixXf>, float> loadOpenFbxCharacterWithMotion(
+    const filesystem::path& inputPath,
+    bool keepLocators,
+    bool permissive) {
+  auto [buffer, length] = readFileToBuffer(inputPath);
+  return loadOpenFbxCharacterWithMotion(
+      gsl::as_bytes(gsl::make_span(buffer.get(), length)), keepLocators, permissive);
+}
+
+} // namespace momentum

@@ -1,0 +1,20 @@
+diff --git a/dispenso/small_buffer_allocator.cpp b/dispenso/small_buffer_allocator.cpp
+index 576ba7a..79c0098 100644
+--- a/dispenso/small_buffer_allocator.cpp
++++ b/dispenso/small_buffer_allocator.cpp
+@@ -56,6 +56,7 @@ SchwarzSmallBufferInit::SchwarzSmallBufferInit() {
+ 
+ static void destroySmallBufferGlobals() {
+   DISPENSO_TSAN_ANNOTATE_IGNORE_WRITES_BEGIN();
++#if 0
+   g_globals4.~SmallBufferGlobals();
+   g_globals8.~SmallBufferGlobals();
+   g_globals16.~SmallBufferGlobals();
+@@ -63,6 +64,7 @@ static void destroySmallBufferGlobals() {
+   g_globals64.~SmallBufferGlobals();
+   g_globals128.~SmallBufferGlobals();
+   g_globals256.~SmallBufferGlobals();
++#endif
+   DISPENSO_TSAN_ANNOTATE_IGNORE_WRITES_END();
+ }
+ 

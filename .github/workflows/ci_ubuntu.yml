@@ -1,0 +1,51 @@
+name: CI Ubuntu
+
+on:
+  push:
+    branches:
+      - "**"
+    paths-ignore:
+      - "**/website/**"
+  pull_request:
+    branches:
+      - "**"
+    paths-ignore:
+      - "**/website/**"
+
+jobs:
+  momentum:
+    name: momentum-ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          cache: true
+      - name: Build and test Momentum
+        run: |
+          pixi run test
+      - name: Install Momentum and Build hello_world
+        run: |
+          pixi run cmake --build build --target install --parallel
+          pixi run cmake \
+            -S momentum/examples/hello_world \
+            -B momentum/examples/hello_world/build \
+            -DCMAKE_BUILD_TYPE=Release
+          pixi run cmake --build momentum/examples/hello_world/build
+
+  pymomentum:
+    name: pymomentum-ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          cache: true
+      - name: Build PyMomentum
+        run: |
+          pixi run build-pymomentum
+          pixi run test-pymomentum

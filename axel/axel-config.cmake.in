@@ -1,0 +1,17 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(drjit CONFIG)
+find_dependency(Eigen3 3.4.0 CONFIG)
+find_dependency(Microsoft.GSL CONFIG)
+find_dependency(Dispenso CONFIG)
+
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
+
+check_required_components("@PROJECT_NAME@")
