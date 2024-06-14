@@ -82,7 +82,7 @@ void setLogLevel(LogLevel level) {
   arvr::logging::getChannel(DEFAULT_LOG_CHANNEL).setLevel(toArvrLogLevel(level));
 #else
   (void)level;
-  std::cout << "Momentum was not built with XR_LOGGER, so setting log level has no effect.\n";
+  MT_LOGW("Setting log level is not supported.\n");
 #endif
 }
 
