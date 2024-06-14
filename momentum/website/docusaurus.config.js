@@ -15,7 +15,7 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
   title: 'Momentum',
   tagline: 'A library for human kinematic motion and numerical optimization solvers to apply human motion',
   url: 'https://facebookincubator.github.io',
-  baseUrl: '/',
+  baseUrl: '/momentum/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
   favicon: 'img/favicon.ico',
