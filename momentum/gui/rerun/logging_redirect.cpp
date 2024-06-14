@@ -80,7 +80,7 @@ bool redirectLogsToRerun(const rerun::RecordingStream& rec) {
   return (handle != 0);
 #else
   (void)rec;
-  std::cout << "Momentum was not built with XR_LOGGER, so logs will not be redirected to Rerun.\n";
+  MT_LOGW("Log redirection is not supported.\n");
   return false;
 #endif
 }
