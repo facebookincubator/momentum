@@ -59,4 +59,4 @@ jobs:
           cache: true
       - name: Build PyMomentum
         run: |
-          pixi run build-pymomentum
+          pixi run build_pymomentum

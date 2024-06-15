@@ -38,49 +38,49 @@ zlib = ">=1.2.13,<1.3"
 
 [tasks]
 clean = { cmd = "rm -rf build && rm -rf .deps && rm -rf .pixi && rm pixi.lock" }
-create-deps-dir = { cmd = "mkdir -p .deps" }
-remove-deps-dir = { cmd = "rm -rf .deps" }
-install-drjit = { cmd = "git clone --recursive https://github.com/mitsuba-renderer/drjit.git -b 'v0.4.4' --single-branch --depth 1 && cmake drjit -B drjit/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DDRJIT_ENABLE_JIT=ON -DDRJIT_ENABLE_AUTODIFF=OFF -DDRJIT_ENABLE_PYTHON=OFF && cmake --build drjit/build --target install --parallel && rm -rf drjit", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+create_deps_dir = { cmd = "mkdir -p .deps" }
+remove_deps_dir = { cmd = "rm -rf .deps" }
+install_drjit = { cmd = "git clone --recursive https://github.com/mitsuba-renderer/drjit.git -b 'v0.4.4' --single-branch --depth 1 && cmake drjit -B drjit/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DDRJIT_ENABLE_JIT=ON -DDRJIT_ENABLE_AUTODIFF=OFF -DDRJIT_ENABLE_PYTHON=OFF && cmake --build drjit/build --target install --parallel && rm -rf drjit", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/cmake/drjit/drjitConfig.cmake",
 ] }
-install-dispenso = { cmd = "git clone https://github.com/facebookincubator/dispenso.git && cd dispenso && git checkout 9867f5f17d915fd27a3d1a27d357b3d0f0b76884 && git apply ../../patches/dispenso-double-free.patch && cd .. && cmake dispenso -B dispenso/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release && cmake --build dispenso/build --target install --parallel && rm -rf dispenso", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_dispenso = { cmd = "git clone https://github.com/facebookincubator/dispenso.git && cd dispenso && git checkout 9867f5f17d915fd27a3d1a27d357b3d0f0b76884 && git apply ../../patches/dispenso-double-free.patch && cd .. && cmake dispenso -B dispenso/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release && cmake --build dispenso/build --target install --parallel && rm -rf dispenso", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/lib/cmake/Dispenso-1.2.0/DispensoConfig.cmake",
 ] }
-install-OpenFBX = { cmd = "git clone https://github.com/jeongseok-meta/OpenFBX.git && cd OpenFBX && git checkout 02dcab9ff96b7377c8a23237667cc4eb0a5c37c9 && cd .. && cmake OpenFBX -B OpenFBX/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release && cmake --build OpenFBX/build --target install --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_OpenFBX = { cmd = "git clone https://github.com/jeongseok-meta/OpenFBX.git && cd OpenFBX && git checkout 02dcab9ff96b7377c8a23237667cc4eb0a5c37c9 && cd .. && cmake OpenFBX -B OpenFBX/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release && cmake --build OpenFBX/build --target install --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
 ] }
-install-fx-gltf = { cmd = "git clone https://github.com/jessey-git/fx-gltf.git && cd fx-gltf && git checkout 7766c237ea81c0bb3759e78e5c0f22854843eef8 && cd .. && cmake fx-gltf -B fx-gltf/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DFX_GLTF_BUILD_TESTS=OFF && cmake --build fx-gltf/build --target install --parallel && rm -rf fx-gltf", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_fx_gltf = { cmd = "git clone https://github.com/jessey-git/fx-gltf.git && cd fx-gltf && git checkout 7766c237ea81c0bb3759e78e5c0f22854843eef8 && cd .. && cmake fx-gltf -B fx-gltf/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DFX_GLTF_BUILD_TESTS=OFF && cmake --build fx-gltf/build --target install --parallel && rm -rf fx-gltf", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/lib/cmake/fx-gltf/fx-gltfConfig.cmake",
 ] }
-install-sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/sophus/cmake/SophusConfig.cmake",
 ] }
-install-ms-gsl = { cmd = "git clone https://github.com/microsoft/GSL.git -b 'v4.0.0' --single-branch --depth 1 && cmake GSL -B GSL/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DGSL_TEST=OFF && cmake --build GSL/build --target install --parallel && rm -rf GSL", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_ms_gsl = { cmd = "git clone https://github.com/microsoft/GSL.git -b 'v4.0.0' --single-branch --depth 1 && cmake GSL -B GSL/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DGSL_TEST=OFF && cmake --build GSL/build --target install --parallel && rm -rf GSL", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/cmake/Microsoft.GSL/Microsoft.GSLConfig.cmake",
 ] }
-install-deps = { depends_on = [
-    "install-drjit",
-    "install-dispenso",
-    "install-OpenFBX",
-    "install-fx-gltf",
-    "install-sophus",
-    "remove-deps-dir",
+install_deps = { depends_on = [
+    "install_drjit",
+    "install_dispenso",
+    "install_OpenFBX",
+    "install_fx_gltf",
+    "install_sophus",
+    "remove_deps_dir",
 ] }
-reinstall-deps = { depends_on = ["remove-deps-dir", "install-deps"] }
+reinstall_deps = { depends_on = ["remove_deps_dir", "install_deps"] }
 configure = { cmd = "cmake -S . -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=ON", depends_on = [
-    "install-deps",
+    "install_deps",
 ], inputs = [
     "CMakeLists.txt",
 ] }
@@ -108,12 +108,12 @@ build = { cmd = "cmake --build build -j --target all", depends_on = [
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
 ] }
-hello-world = { cmd = "build/hello_world", depends_on = ["build"] }
-convert-model = { cmd = "build/convert_model", depends_on = ["build"] }
-c3d-viewer = { cmd = "build/c3d_viewer", depends_on = ["build"] }
-fbx-viewer = { cmd = "build/fbx_viewer", depends_on = ["build"] }
-glb-viewer = { cmd = "build/glb_viewer", depends_on = ["build"] }
-process-markers = { cmd = "build/process_markers_app", depends_on = ["build"] }
+hello_world = { cmd = "build/hello_world", depends_on = ["build"] }
+convert_model = { cmd = "build/convert_model", depends_on = ["build"] }
+c3d_viewer = { cmd = "build/c3d_viewer", depends_on = ["build"] }
+fbx_viewer = { cmd = "build/fbx_viewer", depends_on = ["build"] }
+glb_viewer = { cmd = "build/glb_viewer", depends_on = ["build"] }
+process_markers = { cmd = "build/process_markers_app", depends_on = ["build"] }
 install = { cmd = "cmake --build build -j --target install", depends_on = [
     "build",
 ] }
@@ -133,14 +133,14 @@ sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
-install-deps = { depends_on = [
-    "install-drjit",
-    "install-dispenso",
-    "install-OpenFBX",
-    "install-fx-gltf",
+install_deps = { depends_on = [
+    "install_drjit",
+    "install_dispenso",
+    "install_OpenFBX",
+    "install_fx_gltf",
 ] }
-build-pymomentum = { cmd = "pip install -e .", depends_on = ["install-deps"] }
-test-pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomentum/test/test_fbx.py pymomentum/test/test_parameter_transform.py pymomentum/test/test_quaternion.py pymomentum/test/test_skel_state.py pymomentum/test/test_skeleton.py", env = { MOMENTUM_MODELS_PATH = "momentum/" } }
+build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
+test_pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomentum/test/test_fbx.py pymomentum/test/test_parameter_transform.py pymomentum/test/test_quaternion.py pymomentum/test/test_skel_state.py pymomentum/test/test_skeleton.py", env = { MOMENTUM_MODELS_PATH = "momentum/" } }
 
 #============
 # osx-arm64
@@ -153,14 +153,14 @@ clang-format-18 = ">=18.1.2,<19"
 pytorch = ">=2.1.2,<2.2"
 
 [target.osx-arm64.tasks]
-install-deps = { depends_on = [
-    "install-drjit",
-    "install-dispenso",
-    "install-OpenFBX",
-    "install-fx-gltf",
-    "install-sophus",
-    "install-ms-gsl",
-    "remove-deps-dir",
+install_deps = { depends_on = [
+    "install_drjit",
+    "install_dispenso",
+    "install_OpenFBX",
+    "install_fx_gltf",
+    "install_sophus",
+    "install_ms_gsl",
+    "remove_deps_dir",
 ] }
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
@@ -183,7 +183,7 @@ build = { cmd = "cmake --build build -j --target all", depends_on = [
     "build/glb_viewer",
     "build/process_markers_app",
 ] }
-build-pymomentum = { cmd = "pip install -e .", depends_on = ["install-deps"] }
+build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
 
 #=========
 # win-64
@@ -194,37 +194,37 @@ ms-gsl = ">=4.0.0,<4.1"
 pytorch-cuda = ">=12.1,<13"
 
 [target.win-64.tasks]
-install-drjit = { cmd = "git clone --recursive https://github.com/mitsuba-renderer/drjit.git -b 'v0.4.4' --single-branch --depth 1 && cmake drjit -B drjit/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DDRJIT_ENABLE_JIT=ON -DDRJIT_ENABLE_AUTODIFF=OFF -DDRJIT_ENABLE_PYTHON=OFF && cmake --build drjit/build --target install --config Release --parallel && rm -rf drjit", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_drjit = { cmd = "git clone --recursive https://github.com/mitsuba-renderer/drjit.git -b 'v0.4.4' --single-branch --depth 1 && cmake drjit -B drjit/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DDRJIT_ENABLE_JIT=ON -DDRJIT_ENABLE_AUTODIFF=OFF -DDRJIT_ENABLE_PYTHON=OFF && cmake --build drjit/build --target install --config Release --parallel && rm -rf drjit", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/cmake/drjit/drjitConfig.cmake",
 ] }
-install-dispenso = { cmd = "git clone https://github.com/facebookincubator/dispenso.git && cd dispenso && git checkout 0e193c3e1f22442a0c5e9da0a9237eff755eb844 && cd .. && cmake dispenso -B dispenso/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX && cmake --build dispenso/build --target install --config Release --parallel && rm -rf dispenso", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_dispenso = { cmd = "git clone https://github.com/facebookincubator/dispenso.git && cd dispenso && git checkout 0e193c3e1f22442a0c5e9da0a9237eff755eb844 && cd .. && cmake dispenso -B dispenso/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX && cmake --build dispenso/build --target install --config Release --parallel && rm -rf dispenso", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/lib/cmake/Dispenso-1.2.0/DispensoConfig.cmake",
 ] }
-install-OpenFBX = { cmd = "git clone https://github.com/jeongseok-meta/OpenFBX.git && cd OpenFBX && git checkout 02dcab9ff96b7377c8a23237667cc4eb0a5c37c9 && cd .. && cmake OpenFBX -B OpenFBX/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX && cmake --build OpenFBX/build --target install --config Release --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_OpenFBX = { cmd = "git clone https://github.com/jeongseok-meta/OpenFBX.git && cd OpenFBX && git checkout 02dcab9ff96b7377c8a23237667cc4eb0a5c37c9 && cd .. && cmake OpenFBX -B OpenFBX/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX && cmake --build OpenFBX/build --target install --config Release --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
 ] }
-install-fx-gltf = { cmd = "git clone https://github.com/jessey-git/fx-gltf.git && cd fx-gltf && git checkout 7766c237ea81c0bb3759e78e5c0f22854843eef8 && cd .. && cmake fx-gltf -B fx-gltf/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DFX_GLTF_BUILD_TESTS=OFF && cmake --build fx-gltf/build --target install --config Release --parallel && rm -rf fx-gltf", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_fx_gltf = { cmd = "git clone https://github.com/jessey-git/fx-gltf.git && cd fx-gltf && git checkout 7766c237ea81c0bb3759e78e5c0f22854843eef8 && cd .. && cmake fx-gltf -B fx-gltf/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DFX_GLTF_BUILD_TESTS=OFF && cmake --build fx-gltf/build --target install --config Release --parallel && rm -rf fx-gltf", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/lib/cmake/fx-gltf/fx-gltfConfig.cmake",
 ] }
-install-sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --config Release --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
-    "create-deps-dir",
+install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --config Release --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
+    "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/sophus/cmake/SophusConfig.cmake",
 ] }
 configure = { cmd = "cmake -S . -B build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SHARED_LIBS=OFF -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=OFF", depends_on = [
-    "install-deps",
+    "install_deps",
 ], inputs = [
     "CMakeLists.txt",
 ] }
-open-vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = [
+open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = [
     "configure",
 ] }
 build = { cmd = "cmake --build build -j --config Release", depends_on = [
@@ -251,14 +251,14 @@ build = { cmd = "cmake --build build -j --config Release", depends_on = [
 test = { cmd = "ctest --test-dir build --output-on-failure --build-config Release", depends_on = [
     "build",
 ] }
-hello-world = { cmd = "build/Release/hello_world.exe", depends_on = ["build"] }
-convert-model = { cmd = "build/Release/convert_model.exe", depends_on = [
+hello_world = { cmd = "build/Release/hello_world.exe", depends_on = ["build"] }
+convert_model = { cmd = "build/Release/convert_model.exe", depends_on = [
     "build",
 ] }
-c3d-viewer = { cmd = "build/Release/c3d_viewer.exe", depends_on = ["build"] }
-fbx-viewer = { cmd = "build/Release/fbx_viewer.exe", depends_on = ["build"] }
-glb-viewer = { cmd = "build/Release/glb_viewer.exe", depends_on = ["build"] }
-process-markers = { cmd = "build/Release/process_markers_app.exe", depends_on = [
+c3d_viewer = { cmd = "build/Release/c3d_viewer.exe", depends_on = ["build"] }
+fbx_viewer = { cmd = "build/Release/fbx_viewer.exe", depends_on = ["build"] }
+glb_viewer = { cmd = "build/Release/glb_viewer.exe", depends_on = ["build"] }
+process_markers = { cmd = "build/Release/process_markers_app.exe", depends_on = [
     "build",
 ] }
 install = { cmd = "cmake --build build -j --target install --config Release", depends_on = [
