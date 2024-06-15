@@ -4,97 +4,75 @@ sidebar_position: 1
 
 # Getting Started
 
-## Supported Environments
-
-* **OS**: Windows, Linux, macOS
+This page guides you through the process of building Momentum and running the examples.
 
 ## Prerequisite
 
 Complete the following steps only once:
 
-- Install Pixi by following the instructions on https://prefix.dev/
-
-## Install Momentum
+1. Install Pixi by following the instructions on https://prefix.dev/
 
 1. Clone the repository and navigate to the root directory:
 
+   ```
+   git clone https://github.com/facebookincubator/momentum
+   cd momentum
+   ```
+
+   Ensure that all subsequent commands are executed in the project's root directory unless specified otherwise.
+
+## Build Momentum
+
+After completing the prerequisites, you are ready to build and use Momentum.
+
+- Build the project with the following command (note that the first run may take a few minutes as it installs all dependencies):
+
   ```
-  clone https://github.com/facebookincubator/momentum
-  cd momentum
+  pixi run build
   ```
 
-2. Build and install Momentum in a virtual environment using Pixi:
+- Run the tests with:
 
   ```
-  pixi run cmake --build build --target install --parallel
+  pixi run test
   ```
 
-## Creating Your First Application
+To view all available command lines, run `pixi task list`.
 
-### Writing Source Code
+## Running Hello World
 
-Now, let's define a simple Momentum application. Create a new file named `main.cpp` with the following content:
+To run the `hello_world` example:
 
-```cpp
-#include <momentum/math/mesh.h>
-
-using namespace momentum;
-
-int main() {
-  auto mesh = Mesh();
-  mesh.updateNormals();
-  return EXIT_SUCCESS;
-}
+```
+pixi run hello_world
 ```
 
-### Writing CMake Script
-
-Create a `CMakeLists.txt` file in the same directory as `main.cpp`.
-
-To add momentum to your CMake project, first find the momentum package using the
-`find_package` function and then add the appropriate `momentum::<target>` as a
-dependency to your library or executable. For example, if you want to use the
-character functionality from momentum, you would add `momentum::character` as a
-dependency:
-
-```cmake
-cmake_minimum_required(VERSION 3.16.3)
-
-project(momentum)
-
-find_package(momentum CONFIG REQUIRED)
-add_executable(hello_world main.cpp)
-target_link_libraries(hello_world PRIVATE momentum::math)
-```
-
-Refer to the example project located at `momentum/examples/hello_world/` for the complete source code.
-
-### Building using CMake
-
-To configure the application, run:
+Alternatively, you can directly run the executable:
 
 ```
 # Linux and macOS
-pixi run cmake -S momentum/examples/hello_world -B momentum/examples/hello_world/build -DCMAKE_BUILD_TYPE=Release
+./build/hello_world
 
 # Windows
-pixi run cmake -S momentum/examples/hello_world -B momentum/examples/hello_world/build
+build/Release/hello_world.exe
 ```
 
-To build the application, run:
+## Running Example
+
+To run other examples:
 
 ```
-# Linux and macOS
-pixi run cmake --build momentum/examples/hello_world/build
-
-# Windows
-pixi run cmake --build momentum/examples/hello_world/build --config Release
+pixi run glb_viewer --help
 ```
 
-### Run the Application
+For more examples, please refer to the [Examples](../examples/viewers) page.
 
-Execute the application with:
+## Clean Up
+
+If you need to start over for any reason:
 
 ```
-./momentum/examples/hello_world/build/hello_world
+pixi run clean
 ```
+
+Momentum uses the `build/` directory for CMake builds, `.pixi/` for the Pixi virtual environment, and `.deps/` for building dependencies. You can clean up everything by either manually removing these directories or by running the command above.
