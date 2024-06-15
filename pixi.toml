@@ -86,24 +86,6 @@ configure = { cmd = "cmake -S . -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$CONDA_
 ] }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
     "configure",
-], outputs = [
-    "build/common_test",
-    "build/simd_test",
-    "build/online_qr_test",
-    "build/math_test",
-    "build/character_test",
-    "build/character_solver_test",
-    "build/character_sequence_solver_test",
-    "build/diff_ik_test",
-    "build/io_common_test",
-    "build/io_marker_test",
-
-    "build/hello_world",
-    "build/convert_model",
-    "build/c3d_viewer",
-    "build/fbx_viewer",
-    "build/glb_viewer",
-    "build/process_markers_app",
 ] }
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
@@ -165,23 +147,6 @@ install_deps = { depends_on = [
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
     "configure",
-], outputs = [
-    "build/common_test",
-    "build/simd_test",
-    "build/online_qr_test",
-    "build/math_test",
-    "build/character_test",
-    "build/character_solver_test",
-    "build/character_sequence_solver_test",
-    "build/io_common_test",
-    "build/io_marker_test",
-
-    "build/hello_world",
-    "build/convert_model",
-    "build/c3d_viewer",
-    "build/fbx_viewer",
-    "build/glb_viewer",
-    "build/process_markers_app",
 ] }
 build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
 
@@ -229,24 +194,6 @@ open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = [
 ] }
 build = { cmd = "cmake --build build -j --config Release", depends_on = [
     "configure",
-], outputs = [
-    "build/Release/common_test.exe",
-    "build/Release/simd_test.exe",
-    "build/Release/online_qr_test.exe",
-    "build/Release/math_test.exe",
-    "build/Release/character_test.exe",
-    "build/Release/character_solver_test.exe",
-    "build/Release/character_sequence_solver_test.exe",
-    "build/Release/diff_ik_test.exe",
-    "build/Release/io_common_test.exe",
-    "build/Release/io_marker_test.exe",
-
-    "build/Release/hello_world.exe",
-    "build/Release/convert_model.exe",
-    "build/Release/c3d_viewer.exe",
-    "build/Release/fbx_viewer.exe",
-    "build/Release/glb_viewer.exe",
-    "build/Release/process_markers_app.exe",
 ] }
 test = { cmd = "ctest --test-dir build --output-on-failure --build-config Release", depends_on = [
     "build",
