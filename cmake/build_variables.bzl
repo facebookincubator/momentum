@@ -548,7 +548,7 @@ hello_world_sources = [
 ]
 
 convert_model_sources = [
-    "examples/convert_model/main.cpp",
+    "examples/convert_model/convert_model.cpp",
 ]
 
 glb_viewer_sources = [
@@ -564,5 +564,5 @@ c3d_viewer_sources = [
 ]
 
 process_markers_app_sources = [
-    "examples/process_markers_app/main.cpp",
+    "examples/process_markers_app/process_markers_app.cpp",
 ]
