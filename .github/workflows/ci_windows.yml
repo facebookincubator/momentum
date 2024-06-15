@@ -28,11 +28,7 @@ jobs:
           pixi run test
       - name: Install Momentum and Build hello_world
         run: |
-          pixi run cmake `
-            --build build `
-            --config Release `
-            --target install `
-            --parallel
+          pixi run install
           pixi run cmake `
             -S momentum/examples/hello_world `
             -B momentum/examples/hello_world/build

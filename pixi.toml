@@ -261,3 +261,6 @@ glb-viewer = { cmd = "build/Release/glb_viewer.exe", depends_on = ["build"] }
 process-markers = { cmd = "build/Release/process_markers_app.exe", depends_on = [
     "build",
 ] }
+install = { cmd = "cmake --build build -j --target install --config Release", depends_on = [
+    "build",
+] }
