@@ -41,5 +41,5 @@ exit
 To open the project in Visual Studio 2022, use the command:
 
   ```
-  pixi run open-vs
+  pixi run open_vs
   ```

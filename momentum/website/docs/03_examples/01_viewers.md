@@ -13,7 +13,7 @@ For simplicity, we have built individual viewers for each file format. Each view
 To run the GLB viewer, use the following command:
 
 ```
-pixi run glb-viewer --input <my_file.glb>
+pixi run glb_viewer --input <my_file.glb>
 ```
 
 ![glb_viewer](/img/glb_viewer.png)
@@ -25,7 +25,7 @@ pixi run glb-viewer --input <my_file.glb>
 To run the FBX viewer, use the following command:
 
 ```
-pixi run fbx-viewer --input <my_file.fbx>
+pixi run fbx_viewer --input <my_file.fbx>
 ```
 
 * [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/fbx_viewer)
@@ -35,7 +35,7 @@ pixi run fbx-viewer --input <my_file.fbx>
 To run the C3D viewer, use the following command:
 
 ```
-pixi run c3d-viewer --input <my_file.c3d>
+pixi run c3d_viewer --input <my_file.c3d>
 ```
 
 * [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/c3d_viewer)

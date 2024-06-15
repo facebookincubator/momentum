@@ -33,7 +33,7 @@ buck2 run @arvr/mode/win/opt :process_markers_app -- -c process_markers_calib.co
 
 <OssOnly>
 ```
-pixi run process-markers -c process_markers_calib.config
+pixi run process_markers -c process_markers_calib.config
 ```
 </OssOnly>
 

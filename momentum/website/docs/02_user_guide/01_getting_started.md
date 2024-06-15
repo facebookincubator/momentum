@@ -44,7 +44,7 @@ To view all available command lines, run `pixi task list`.
 To run the `hello_world` example:
 
 ```
-pixi run hello-world
+pixi run hello_world
 ```
 
 Alternatively, you can directly run the executable:
@@ -62,7 +62,7 @@ build/Release/hello_world.exe
 To run other examples:
 
 ```
-pixi run glb-viewer --help
+pixi run glb_viewer --help
 ```
 
 For more examples, please refer to the [Examples](../examples/viewers) page.
