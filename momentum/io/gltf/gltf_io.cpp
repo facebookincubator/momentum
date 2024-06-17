@@ -947,22 +947,6 @@ fx::gltf::Document makeCharacterDocument(
   return fileBuilder.getDocument();
 }
 
-void saveCharacter(
-    const filesystem::path& filename,
-    const Character& character,
-    const float fps,
-    const MotionParameters& motion,
-    const IdentityParameters& offsets,
-    const std::vector<std::vector<Marker>>& markerSequence,
-    const GltfFileFormat fileFormat) {
-  constexpr auto kEmbedResources = false; // Don't embed resource for saving glb
-  // create new model
-  fx::gltf::Document model =
-      makeCharacterDocument(character, fps, motion, offsets, markerSequence, kEmbedResources);
-
-  GltfBuilder::save(model, filename, fileFormat, kEmbedResources);
-}
-
 MarkerSequence loadMarkerSequence(const filesystem::path& filename) {
   MarkerSequence result;
 
@@ -1025,6 +1009,22 @@ MarkerSequence loadMarkerSequence(const filesystem::path& filename) {
   }
 
   return result;
+}
+
+void saveCharacter(
+    const filesystem::path& filename,
+    const Character& character,
+    const float fps,
+    const MotionParameters& motion,
+    const IdentityParameters& offsets,
+    const std::vector<std::vector<Marker>>& markerSequence,
+    const GltfFileFormat fileFormat) {
+  constexpr auto kEmbedResources = false; // Don't embed resource for saving glb
+  // create new model
+  fx::gltf::Document model =
+      makeCharacterDocument(character, fps, motion, offsets, markerSequence, kEmbedResources);
+
+  GltfBuilder::save(model, filename, fileFormat, kEmbedResources);
 }
 
 void saveCharacter(

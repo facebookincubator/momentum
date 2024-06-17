@@ -355,7 +355,7 @@ void addSkeletonStatesToModel(
     return;
   }
 
-  // store paremeterized motion into joints for actual animation
+  // store parameterized motion into joints for actual animation
   const auto numJoints = character.skeleton.joints.size();
   std::vector<float> timestamps(numFrames);
   std::vector<Vector3<bool>> useChannel(numJoints, Vector3<bool>::Constant(false));
@@ -486,7 +486,7 @@ void addMotionToModel(
   const auto inputPoses = mapMotionToCharacter(inputMotion, character);
   const auto inputOffset = mapIdentityToCharacter(inputIdentity, character);
 
-  // store paremeterized motion into joints for actual animation
+  // store parameterized motion into joints for actual animation
   const auto numJoints = character.skeleton.joints.size();
   std::vector<float> timestamps(numFrames);
   std::vector<Vector3<bool>> useChannel(numJoints, Vector3<bool>::Constant(false));
@@ -494,7 +494,7 @@ void addMotionToModel(
   std::vector<std::vector<Vector4f>> rotation(numJoints, std::vector<Vector4f>(numFrames));
   std::vector<std::vector<Vector3f>> scale(numJoints, std::vector<Vector3f>(numFrames));
 
-  // create sle;eton states from model params
+  // create skeleton states from model params
   std::vector<momentum::SkeletonState> skeletonStates(numFrames);
   CharacterParameters params;
   params.offsets = inputOffset;
