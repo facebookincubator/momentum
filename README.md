@@ -51,7 +51,7 @@ To view all available command lines, run `pixi task list`.
 To run the `hello_world` example:
 
 ```
-pixi run hello-world
+pixi run hello_world
 ```
 
 Alternatively, you can directly run the executable:
