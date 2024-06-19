@@ -313,6 +313,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/mpc-1.3.1-h91ba8db_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/mpfr-4.2.1-h41d338b_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mpmath-1.3.0-pyhd8ed1ab_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/ms-gsl-4.0.0-h420ef59_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/ncurses-6.5-hb89a1cb_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/networkx-3.3-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/ninja-1.11.1-hffc8910_0.conda
@@ -6984,6 +6985,22 @@ packages:
   license_family: MIT
   size: 24981
   timestamp: 1682992435386
+- kind: conda
+  name: ms-gsl
+  version: 4.0.0
+  build: h420ef59_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/ms-gsl-4.0.0-h420ef59_1.conda
+  sha256: 44dc0789c08b943a4c6ee5da93b489cde5503e22d6257448ad381fcffd487dca
+  md5: 37d23e711a114938f1936b0e7880e3cb
+  depends:
+  - __osx >=11.0
+  - libcxx >=16
+  license: MIT
+  license_family: MIT
+  size: 25405
+  timestamp: 1718740558325
 - kind: conda
   name: ms-gsl
   version: 4.0.0
