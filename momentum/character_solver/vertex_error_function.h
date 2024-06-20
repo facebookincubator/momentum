@@ -92,8 +92,8 @@ class VertexErrorFunctionT : public SkeletonErrorFunctionT<T> {
       const ModelParametersT<T>& modelParameters,
       const SkeletonStateT<T>& state,
       const VertexConstraintT<T>& constr,
-      const T sourceNormalWeight,
-      const T targetNormalWeight,
+      T sourceNormalWeight,
+      T targetNormalWeight,
       Ref<Eigen::MatrixX<T>> jac,
       T& res) const;
 
@@ -107,8 +107,8 @@ class VertexErrorFunctionT : public SkeletonErrorFunctionT<T> {
       const ModelParametersT<T>& modelParameters,
       const SkeletonStateT<T>& state,
       const VertexConstraintT<T>& constr,
-      const T sourceNormalWeight,
-      const T targetNormalWeight,
+      T sourceNormalWeight,
+      T targetNormalWeight,
       Eigen::Ref<Eigen::VectorX<T>> jointGrad) const;
 
   // Utility function used now in calculateNormalJacobian and calculatePositionGradient

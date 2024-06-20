@@ -39,7 +39,7 @@ struct BlendShape : public BlendShapeBase {
 
   VectorXf estimateCoefficients(
       gsl::span<const Vector3f> vertices,
-      const float regularization = 1.0f,
+      float regularization = 1.0f,
       const VectorXf& weights = VectorXf()) const;
 
   void setShapeVector(size_t index, gsl::span<const Vector3f> shapeVector);

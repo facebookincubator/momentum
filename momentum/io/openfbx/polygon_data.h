@@ -46,10 +46,10 @@ struct PolygonData {
   // If everything is kosher, returns an empty string.
   // This function is used in a few places when reading the mesh from
   // disk to make sure it's valid.
-  std::string errorMessage(const size_t numVertices) const;
+  [[nodiscard]] std::string errorMessage(size_t numVertices) const;
 
   // Similar to errorMessage, but the issue is not severe enough to terminate.
-  std::string warnMessage(const size_t numTexVertices) const;
+  [[nodiscard]] std::string warnMessage(size_t numTexVertices) const;
 
   size_t numPolygons() const;
 };

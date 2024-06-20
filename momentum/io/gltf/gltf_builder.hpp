@@ -62,10 +62,10 @@ class GltfBuilder final {
   // the motion, the character will be automatically added with the default settings.
   void addMotion(
       const Character& character,
-      const float fps = 120.0f,
+      float fps = 120.0f,
       const MotionParameters& motion = {},
       const IdentityParameters& offsets = {},
-      const bool addExtensions = true,
+      bool addExtensions = true,
       const std::string& customName = "default");
 
   // Add a skeleton states to the provided character. If addCharacter is not called before adding
@@ -85,9 +85,9 @@ class GltfBuilder final {
   /// MarkerMesh::None).
   /// @param[in] animName Optional parameter specifying the animation name (default is "default").
   void addMarkerSequence(
-      const float fps,
+      float fps,
       gsl::span<const std::vector<momentum::Marker>> markerSequence,
-      const MarkerMesh markerMesh = MarkerMesh::None,
+      MarkerMesh markerMesh = MarkerMesh::None,
       const std::string& animName = "default");
 
   // Save the file with the provided filename. If the fileFormat is 'GltfFileFormat::EXTENSION',
@@ -95,13 +95,13 @@ class GltfBuilder final {
   // When embedResources is true, it will set all the existing buffers to embed the data.
   void save(
       const filesystem::path& filename,
-      const GltfFileFormat fileFormat = GltfFileFormat::EXTENSION,
+      GltfFileFormat fileFormat = GltfFileFormat::EXTENSION,
       bool embedResources = false);
 
   static void save(
       fx::gltf::Document& document,
       const filesystem::path& filename,
-      const GltfFileFormat fileFormat = GltfFileFormat::EXTENSION,
+      GltfFileFormat fileFormat = GltfFileFormat::EXTENSION,
       bool embedResources = false);
 
   // Set all existing buffers to embed resources.

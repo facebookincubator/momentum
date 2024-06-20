@@ -71,7 +71,7 @@ std::tuple<MatrixXf, VectorXf, float> loadMotionOnCharacter(
 /// represented as joint parameters, and the fps. The model parameters and joint parameters are
 /// mapped to the input character by name matching.
 std::tuple<MatrixXf, VectorXf, float> loadMotionOnCharacter(
-    const gsl::span<const std::byte> byteSpan,
+    gsl::span<const std::byte> byteSpan,
     const Character& character);
 
 /// Loads a MarkerSequence from a file.
@@ -82,7 +82,7 @@ MarkerSequence loadMarkerSequence(const filesystem::path& filename);
 
 fx::gltf::Document makeCharacterDocument(
     const Character& character,
-    const float fps = 120.0f,
+    float fps = 120.0f,
     const MotionParameters& motion = {},
     const IdentityParameters& offsets = {},
     const std::vector<std::vector<Marker>>& markerSequence = {},
@@ -97,11 +97,11 @@ fx::gltf::Document makeCharacterDocument(
 void saveCharacter(
     const filesystem::path& filename,
     const Character& Character,
-    const float fps = 120.0f,
+    float fps = 120.0f,
     const MotionParameters& motion = {},
     const IdentityParameters& offsets = {},
     const std::vector<std::vector<Marker>>& markerSequence = {},
-    const GltfFileFormat fileFormat = GltfFileFormat::EXTENSION);
+    GltfFileFormat fileFormat = GltfFileFormat::EXTENSION);
 
 /// Saves character skeleton states to a glb file.
 ///

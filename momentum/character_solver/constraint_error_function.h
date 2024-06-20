@@ -213,7 +213,7 @@ class ConstraintErrorFunctionT : public SkeletonErrorFunctionT<T> {
   /// @param[out] v: if valid, output the vector v=T*source; there could be NumVec of vs
   /// @param[out] dfdv: if valid, output the matrix df/dv of dimension FuncDim x 3 per v
   virtual void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       FuncType& f,
       optional_ref<std::array<VType, NumVec>> v = {},

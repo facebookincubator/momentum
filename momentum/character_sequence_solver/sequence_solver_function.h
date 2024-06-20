@@ -27,7 +27,7 @@ class SequenceSolverFunctionT : public SolverFunctionT<T> {
       const Skeleton* skel,
       const ParameterTransformT<T>* parameterTransform,
       const ParameterSet& universal,
-      const size_t nFrames);
+      size_t nFrames);
 
   double getError(const Eigen::VectorX<T>& parameters) final;
 
@@ -50,22 +50,20 @@ class SequenceSolverFunctionT : public SolverFunctionT<T> {
   // is convenient for e.g. limit errors but requires that the error function be stateless. Note:
   // you are allowed to call this in a multithreaded context but you must ensure the frame indices
   // are different between the different threads.
-  void addErrorFunction(
-      const size_t frame,
-      std::shared_ptr<SkeletonErrorFunctionT<T>> errorFunction);
+  void addErrorFunction(size_t frame, std::shared_ptr<SkeletonErrorFunctionT<T>> errorFunction);
   void addSequenceErrorFunction(
-      const size_t startFrame,
+      size_t startFrame,
       std::shared_ptr<SequenceErrorFunctionT<T>> errorFunction);
 
   size_t getNumFrames() const {
     return states_.size();
   }
 
-  const ModelParametersT<T>& getFrameParameters(const size_t frame) const {
+  const ModelParametersT<T>& getFrameParameters(size_t frame) const {
     return frameParameters_[frame];
   }
 
-  void setFrameParameters(const size_t frame, const ModelParametersT<T>& parameters);
+  void setFrameParameters(size_t frame, const ModelParametersT<T>& parameters);
   ModelParametersT<T> getUniversalParameters() const;
   Eigen::VectorX<T> getJoinedParameterVector() const;
   void setJoinedParameterVector(const Eigen::VectorX<T>& joinedParameters);

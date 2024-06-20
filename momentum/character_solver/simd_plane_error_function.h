@@ -28,11 +28,11 @@ struct SimdPlaneConstraints final {
   void clearConstraints();
 
   void addConstraint(
-      const size_t jointIndex,
+      size_t jointIndex,
       const Vector3f& offset,
       const Vector3f& targetNormal,
-      const float targetOffset,
-      const float targetWeight);
+      float targetOffset,
+      float targetWeight);
 
   VectorXi getNumConstraints() const;
 

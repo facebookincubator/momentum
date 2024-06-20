@@ -87,7 +87,7 @@ JointParameters applyJointParameterLimits(
 ParameterLimits getPoseConstraintParameterLimits(
     const std::string& name,
     const ParameterTransform& pt,
-    const float weight = 1.0f);
+    float weight = 1.0f);
 
 MOMENTUM_DEFINE_POINTERS(ParameterLimits)
 } // namespace momentum

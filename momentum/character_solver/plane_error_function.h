@@ -36,7 +36,7 @@ std::vector<PlaneDataT<T>> createFloorConstraints(
     const LocatorList& locators,
     const Vector3<T>& floorNormal,
     const T& floorOffset,
-    const float weight);
+    float weight);
 
 /// The PlaneErrorFunction computes the 3D positional errors from a list of Constraints.
 /// Each constraint specifies a locator on the skeleton (parent joint and offset), and its target 3D
@@ -86,7 +86,7 @@ class PlaneErrorFunctionT : public ConstraintErrorFunctionT<T, PlaneDataT<T>, 1>
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector<T, 1>& f,
       optional_ref<std::array<Vector3<T>, 1>> = {},
