@@ -81,7 +81,7 @@ template <typename T>
 Eigen::VectorX<T> FullyDifferentiableMotionErrorFunctionT<T>::d_gradient_d_input_dot(
     const std::string& inputName,
     const ModelParametersT<T>& params,
-    const SkeletonStateT<T>& state,
+    const SkeletonStateT<T>& /* state */,
     Eigen::Ref<const Eigen::VectorX<T>> inputVec) {
   // The error function is just
   //    \sum_i (w_i * (param_i - targetParam_i))^2

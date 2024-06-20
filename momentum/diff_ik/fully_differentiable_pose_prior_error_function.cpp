@@ -194,7 +194,7 @@ template <typename T>
 Eigen::VectorX<T> FullyDifferentiablePosePriorErrorFunctionT<T>::d_gradient_d_input_dot(
     const std::string& inputName,
     const ModelParametersT<T>& params,
-    const SkeletonStateT<T>& state,
+    const SkeletonStateT<T>& /* state */,
     Eigen::Ref<const Eigen::VectorX<T>> inputVec) {
   if (!this->posePrior_) {
     throw std::runtime_error("No pose prior loaded, can't set values.");
