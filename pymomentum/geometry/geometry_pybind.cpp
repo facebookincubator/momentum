@@ -324,6 +324,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "from_gltf_bytes",
           &loadGLTFCharacterFromBytes,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character from a gltf byte array.
 
 :parameter gltf_bytes: A :class:`bytes` containing the GLTF JSON/messagepack data.
@@ -334,6 +335,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "to_gltf",
           &toGLTF,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Serialize a character as a GLTF using dictionary form.
 
 :parameter character: A valid character.
@@ -347,6 +349,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "load_fbx",
           &loadFBXCharacterFromFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character from an FBX file.  Optionally pass in a separate model definition and locators file.
 
 :parameter fbx_filename: .fbx file that contains the skeleton and skinned mesh; e.g. blue_man_s0.fbx.
@@ -362,6 +365,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "load_fbx_with_motion",
           &loadFBXCharacterWithMotionFromFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character and animation curves from an FBX file.
 
 :parameter fbx_filename: .fbx file that contains the skeleton and skinned mesh; e.g. blue_man_s0.fbx.
@@ -372,6 +376,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "load_fbx_with_motion_from_bytes",
           &loadFBXCharacterWithMotionFromBytes,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character and animation curves from an FBX file.
 
 :parameter fbx_bytes: A Python bytes that is an .fbx file containing the skeleton and skinned mesh.
@@ -383,6 +388,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "load_fbx_from_bytes",
           &pymomentum::loadFBXCharacterFromBytes,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character from byte array for an FBX file.
 
 :parameter fbx_bytes: An array of bytes in FBX format.
@@ -393,6 +399,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def(
           "load_locators",
           &pymomentum::loadLocatorsFromFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load locators from a .locators file.
 
 :parameter character: The character to map the locators onto.
@@ -403,6 +410,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def(
           "load_locators_from_bytes",
           &pymomentum::loadLocatorsFromBytes,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load locators from a .locators file.
 
 :parameter character: The character to map the locators onto.
@@ -413,6 +421,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def(
           "load_model_definition",
           &pymomentum::loadConfigFromFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a model definition from a .model file.  This defines the parameter transform, model parameters, and joint limits.
 
 :parameter character: The character containing a valid skeleton.
@@ -423,6 +432,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def(
           "load_model_definition_from_bytes",
           &pymomentum::loadConfigFromBytes,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a model definition from a .model file.  This defines the parameter transform, model parameters, and joint limits.
 
 :parameter character: The character containing a valid skeleton.
@@ -433,6 +443,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "load_gltf_with_motion",
           &loadCharacterWithMotion,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character and a motion sequence from a gltf file.
 
 :parameter gltfFilename: A .gltf file; e.g. character_s0.glb.
@@ -443,6 +454,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "load_gltf",
           &loadGLTFCharacterFromFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Load a character from a gltf file.
 
 :parameter path: A .gltf file; e.g. character_s0.glb.
@@ -452,6 +464,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "save_gltf",
           &saveGLTFCharacterToFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Save a character to a gltf file.
 
 :parameter path: A .gltf export filename.
@@ -472,6 +485,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "save_gltf_from_skel_states",
           &saveGLTFCharacterToFileFromSkelStates,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Save a character to a gltf file.
 
 :parameter path: A .gltf export filename.
@@ -491,6 +505,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def_static(
           "save_fbx",
           &saveFBXCharacterToFile,
+          py::call_guard<py::gil_scoped_release>(),
           R"(Save a character to an fbx file.
 
 :parameter path: An .fbx export filename.
