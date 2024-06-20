@@ -1,5 +1,19 @@
 # Momentum
 
+[![CI Windows][ci-windows-badge]][ci-windows]
+[![CI macOS][ci-macos-badge]][ci-macos]
+[![CI Ubuntu][ci-ubuntu-badge]][ci-ubuntu]
+[![Publish Website][website-badge]][website]
+
+[ci-windows-badge]: https://github.com/facebookincubator/momentum/actions/workflows/ci_windows.yml/badge.svg
+[ci-windows]: https://github.com/facebookincubator/momentum/actions/workflows/ci_windows.yml
+[ci-macos-badge]: https://github.com/facebookincubator/momentum/actions/workflows/ci_macos.yml/badge.svg
+[ci-macos]: https://github.com/facebookincubator/momentum/actions/workflows/ci_macos.yml
+[ci-ubuntu-badge]: https://github.com/facebookincubator/momentum/actions/workflows/ci_ubuntu.yml/badge.svg
+[ci-ubuntu]: https://github.com/facebookincubator/momentum/actions/workflows/ci_ubuntu.yml
+[website-badge]: https://github.com/facebookincubator/momentum/actions/workflows/publish_website.yml/badge.svg
+[website]: https://github.com/facebookincubator/momentum/actions/workflows/publish_website.yml
+
 Momentum provides foundational algorithms for human kinematic motion and
 numerical optimization solvers to apply human motion in various applications.
 
@@ -69,7 +83,7 @@ Alternatively, you can directly run the executable:
 To run other examples:
 
 ```
-pixi run glb-viewer --help
+pixi run glb_viewer --help
 ```
 
 For more examples, please refer to the [Examples](https://facebookincubator.github.io/momentum/docs/examples/viewers) page.
