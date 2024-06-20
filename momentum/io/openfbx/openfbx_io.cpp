@@ -89,8 +89,8 @@ template <typename T>
 Eigen::Quaternion<T> computeEulerRotation(
     const Eigen::Matrix<T, 3, 1>& angles,
     ofbx::RotationOrder order) {
-  typedef Eigen::Matrix<T, 3, 1> VecType;
-  typedef Eigen::Quaternion<T> QuaternionType;
+  using VecType = Eigen::Matrix<T, 3, 1>;
+  using QuaternionType = Eigen::Quaternion<T>;
 
   if (order == ofbx::RotationOrder::SPHERIC_XYZ) {
     // in the case of a ball-joint the 3 parameters are simply the xyz parameters of a quaternion
@@ -193,8 +193,8 @@ static double resolveDoubleProperty(const ofbx::Object& object, const char* name
 
 template <typename VecArray, typename EltType>
 VecArray extractPropertyArrayImp(const ofbx::IElementProperty* prop, const char* what) {
-  typedef typename VecArray::value_type VecType;
-  typedef typename VecType::Scalar Scalar;
+  using VecType = typename VecArray::value_type;
+  using Scalar = typename VecType::Scalar;
 
   const auto nScalar = prop->getCount();
   if (nScalar == 0) {
@@ -578,7 +578,7 @@ void parseSkinnedModel(
   // The weights in the FBX file are stored by bone rather than by
   // vertex; we will cache them all as (vertex, bone, weight) in
   // this array and then sort it to get them in vertex order.
-  typedef std::tuple<size_t, size_t, double> VertexBoneWithWeight;
+  using VertexBoneWithWeight = std::tuple<size_t, size_t, double>;
   std::vector<VertexBoneWithWeight> weights;
   weights.reserve(2 * nVerts);
 

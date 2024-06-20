@@ -263,7 +263,7 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
   paramTransformNew.activeJointParams.setConstant(paramTransformOld.numJointParameters(), false);
 
   // Remap the transformation.
-  typedef typename SparseRowMatrix<T>::Index IndexType;
+  using IndexType = typename SparseRowMatrix<T>::Index;
   std::vector<Eigen::Triplet<T>> tripletsNew;
   for (int k = 0; k < paramTransformOld.transform.outerSize(); ++k) {
     for (typename SparseRowMatrix<T>::InnerIterator it(paramTransformOld.transform, k); it; ++it) {
