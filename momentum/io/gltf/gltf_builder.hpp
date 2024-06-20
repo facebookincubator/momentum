@@ -86,7 +86,7 @@ class GltfBuilder final {
   /// @param[in] animName Optional parameter specifying the animation name (default is "default").
   void addMarkerSequence(
       const float fps,
-      const std::vector<std::vector<Marker>>& markerSequence,
+      gsl::span<const std::vector<momentum::Marker>> markerSequence,
       const MarkerMesh markerMesh = MarkerMesh::None,
       const std::string& animName = "default");
 

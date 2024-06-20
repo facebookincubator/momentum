@@ -185,7 +185,7 @@ static const auto kUnitCubeGreen = createUnitCube(Eigen::Vector3b(0, 255, 0));
 void addActorAnimationToModel(
     fx::gltf::Document& model,
     const float fps,
-    const std::vector<std::vector<Marker>>& markerSequence,
+    gsl::span<const std::vector<momentum::Marker>> markerSequence,
     const GltfBuilder::MarkerMesh markerMesh,
     const std::string& animName) {
   if (markerSequence.empty())
@@ -845,7 +845,7 @@ std::vector<size_t> GltfBuilder::getCharacterMotions(const std::string& characte
 
 void GltfBuilder::addMarkerSequence(
     const float fps,
-    const std::vector<std::vector<Marker>>& markers,
+    gsl::span<const std::vector<momentum::Marker>> markers,
     const MarkerMesh markerMesh,
     const std::string& animName) {
   setFps(fps);

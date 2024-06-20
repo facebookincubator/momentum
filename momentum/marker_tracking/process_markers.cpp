@@ -106,7 +106,8 @@ void processMarkerFile(
         character,
         identity,
         finalMotion,
-        {actor->frames.begin() + firstFrame, actor->frames.begin() + lastFrame},
+        gsl::span<const std::vector<momentum::Marker>>(
+            actor->frames.data() + firstFrame, actor->frames.data() + lastFrame),
         actor->fps);
     MT_LOGI("{} saved", outputFile);
   } catch (std::exception& e) {
