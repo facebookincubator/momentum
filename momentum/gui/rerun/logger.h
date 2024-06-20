@@ -40,7 +40,7 @@ void logMarkerLocatorCorrespondence(
     const std::map<std::string, size_t>& locatorLookup,
     const LocatorState& locatorState,
     gsl::span<const Marker> markers,
-    const float kPositionErrorThreshold);
+    float kPositionErrorThreshold);
 
 void logBvh(
     const rerun::RecordingStream& rec,

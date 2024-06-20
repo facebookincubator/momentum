@@ -60,7 +60,7 @@ class FixedAxisDiffErrorFunctionT : public ConstraintErrorFunctionT<T, FixedAxis
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector3<T>& f,
       optional_ref<std::array<Vector3<T>, 1>> v = {},
@@ -94,7 +94,7 @@ class FixedAxisCosErrorFunctionT : public ConstraintErrorFunctionT<T, FixedAxisD
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector<T, 1>& f,
       optional_ref<std::array<Vector3<T>, 1>> v = {},
@@ -129,7 +129,7 @@ class FixedAxisAngleErrorFunctionT
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector<T, 1>& f,
       optional_ref<std::array<Vector3<T>, 1>> v = {},

@@ -23,7 +23,7 @@ class MultiposeSolverFunctionT : public SolverFunctionT<T> {
       const Skeleton* skel,
       const ParameterTransformT<T>* parameterTransform,
       gsl::span<const int> universal,
-      const size_t frames);
+      size_t frames);
 
   double getError(const Eigen::VectorX<T>& parameters) final;
 
@@ -38,7 +38,7 @@ class MultiposeSolverFunctionT : public SolverFunctionT<T> {
   void updateParameters(Eigen::VectorX<T>& parameters, const Eigen::VectorX<T>& gradient) final;
   void setEnabledParameters(const ParameterSet&) final;
 
-  void addErrorFunction(const size_t frame, SkeletonErrorFunctionT<T>* errorFunction);
+  void addErrorFunction(size_t frame, SkeletonErrorFunctionT<T>* errorFunction);
 
   size_t getNumFrames() const {
     return states_.size();
@@ -48,7 +48,7 @@ class MultiposeSolverFunctionT : public SolverFunctionT<T> {
     return frameParameters_[frame];
   }
 
-  void setFrameParameters(const size_t frame, const ModelParametersT<T>& parameters);
+  void setFrameParameters(size_t frame, const ModelParametersT<T>& parameters);
   Eigen::VectorX<T> getUniversalParameters();
   Eigen::VectorX<T> getJoinedParameterVector() const;
   void setJoinedParameterVector(const Eigen::VectorX<T>& joinedParameters);

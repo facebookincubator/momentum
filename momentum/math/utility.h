@@ -201,7 +201,7 @@ template <typename T>
     const Eigen::Vector3<T>& d1,
     const Eigen::Vector3<T>& o2,
     const Eigen::Vector3<T>& d2,
-    const T maxDist = std::numeric_limits<T>::max());
+    T maxDist = std::numeric_limits<T>::max());
 
 // The skew-symmetric matrix that corresponds to the
 // cross product v x (something):

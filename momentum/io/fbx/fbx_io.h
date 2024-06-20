@@ -24,8 +24,8 @@ void saveFbx(
     const Character& character,
     const MatrixXf& poses = MatrixXf(),
     const VectorXf& identity = VectorXf(),
-    const double framerate = 120.0,
-    const bool saveMesh = false);
+    double framerate = 120.0,
+    bool saveMesh = false);
 
 // A shorthand of saveFbx() to save both the skeleton and mesh as a model but without any animation
 void saveFbxModel(const filesystem::path& filename, const Character& character);

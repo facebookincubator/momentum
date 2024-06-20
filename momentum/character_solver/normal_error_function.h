@@ -64,7 +64,7 @@ class NormalErrorFunctionT : public ConstraintErrorFunctionT<T, NormalDataT<T>, 
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector<T, 1>&,
       optional_ref<std::array<Vector3<T>, 2>> v = {},

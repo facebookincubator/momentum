@@ -65,7 +65,7 @@ class PositionErrorFunctionT : public ConstraintErrorFunctionT<T, PositionDataT<
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector3<T>&,
       optional_ref<std::array<Vector3<T>, 1>> = {},

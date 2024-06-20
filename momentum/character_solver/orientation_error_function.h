@@ -64,7 +64,7 @@ class OrientationErrorFunctionT : public ConstraintErrorFunctionT<T, Orientation
 
  protected:
   void evalFunction(
-      const size_t constrIndex,
+      size_t constrIndex,
       const JointStateT<T>& state,
       Vector<T, 9>& f,
       optional_ref<std::array<Vector3<T>, 3>> v = {},
