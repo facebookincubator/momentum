@@ -180,7 +180,7 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
   // Use automatic differentiation on the gradient function:
   if (inputName == "targetPositionWeights") {
     Eigen::VectorX<T> result = Eigen::VectorX<T>::Zero(this->skeleton_.joints.size());
-    typedef ceres::Jet<T, 1> JetType;
+    using JetType = ceres::Jet<T, 1>;
     for (size_t iJoint = 0; iJoint < this->skeleton_.joints.size(); ++iJoint) {
       result(iJoint) = calculateGradient_dot<JetType>(
                            state,
@@ -195,7 +195,7 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
     return result;
   } else if (inputName == "targetRotationWeights") {
     Eigen::VectorX<T> result = Eigen::VectorX<T>::Zero(this->skeleton_.joints.size());
-    typedef ceres::Jet<T, 1> JetType;
+    using JetType = ceres::Jet<T, 1>;
     for (size_t iJoint = 0; iJoint < this->skeleton_.joints.size(); ++iJoint) {
       result(iJoint) = calculateGradient_dot<JetType>(
                            state,
@@ -212,7 +212,7 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
     Eigen::VectorX<T> result = Eigen::VectorX<T>::Zero(8 * this->skeleton_.joints.size());
     for (size_t iJoint = 0; iJoint < this->skeleton_.joints.size(); ++iJoint) {
       {
-        typedef ceres::Jet<T, 3> JetType;
+        using JetType = ceres::Jet<T, 3>;
         result.template segment<3>(8 * iJoint + 0) =
             calculateGradient_dot<JetType>(
                 state,
@@ -225,7 +225,7 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
                 .v;
       }
       {
-        typedef ceres::Jet<T, 4> JetType;
+        using JetType = ceres::Jet<T, 4>;
         result.template segment<4>(8 * iJoint + 3) =
             calculateGradient_dot<JetType>(
                 state,
