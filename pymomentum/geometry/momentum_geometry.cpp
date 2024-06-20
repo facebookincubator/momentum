@@ -62,7 +62,6 @@ momentum::Character loadGLTFCharacterFromBytes(const pybind11::bytes& bytes) {
     throw std::runtime_error("Unable to extract contents from bytes.");
   }
 
-  pybind11::gil_scoped_release release;
   return momentum::loadGltfCharacter(
       gsl::make_span<const std::byte>(data, length));
 }
@@ -196,7 +195,6 @@ momentum::Character loadFBXCharacterFromFile(
     const std::optional<std::string>& configPath,
     const std::optional<std::string>& locatorsPath,
     bool permissive) {
-  pybind11::gil_scoped_release release;
   momentum::Character result = momentum::loadOpenFbxCharacter(
       filesystem::path(fbxPath), keepLocators, permissive);
   if (configPath && !configPath->empty()) {
@@ -224,7 +222,6 @@ std::tuple<momentum::Character, std::vector<Eigen::MatrixXf>, float>
 loadFBXCharacterWithMotionFromFile(
     const std::string& fbxPath,
     bool permissive) {
-  pybind11::gil_scoped_release release;
   auto [character, motion, fps] = momentum::loadOpenFbxCharacterWithMotion(
       filesystem::path(fbxPath), keepLocators, permissive);
   transposeMotionInPlace(motion);
@@ -235,7 +232,6 @@ std::tuple<momentum::Character, std::vector<Eigen::MatrixXf>, float>
 loadFBXCharacterWithMotionFromBytes(
     const py::bytes& fbxBytes,
     bool permissive) {
-  pybind11::gil_scoped_release release;
   auto [character, motion, fps] = momentum::loadOpenFbxCharacterWithMotion(
       toSpan<std::byte>(fbxBytes), keepLocators, permissive);
   transposeMotionInPlace(motion);
@@ -245,7 +241,6 @@ loadFBXCharacterWithMotionFromBytes(
 momentum::Character loadLocatorsFromFile(
     const momentum::Character& character,
     const std::string& locatorsPath) {
-  pybind11::gil_scoped_release release;
   if (locatorsPath.empty()) {
     throw std::runtime_error("Missing locators path.");
   }
@@ -262,7 +257,6 @@ momentum::Character loadLocatorsFromFile(
 momentum::Character loadConfigFromFile(
     const momentum::Character& character,
     const std::string& configPath) {
-  pybind11::gil_scoped_release release;
   if (configPath.empty()) {
     throw std::runtime_error("Missing model definition path.");
   }
@@ -277,7 +271,6 @@ momentum::Character loadConfigFromFile(
 momentum::Character loadFBXCharacterFromBytes(
     const pybind11::bytes& bytes,
     bool permissive) {
-  pybind11::gil_scoped_release release;
   return momentum::loadOpenFbxCharacter(
       toSpan<std::byte>(bytes), keepLocators, permissive);
 }
@@ -285,7 +278,6 @@ momentum::Character loadFBXCharacterFromBytes(
 momentum::Character loadConfigFromBytes(
     const momentum::Character& character,
     const pybind11::bytes& bytes) {
-  pybind11::gil_scoped_release release;
   momentum::Character result = character;
   std::tie(result.parameterTransform, result.parameterLimits) =
       momentum::loadModelDefinition(
@@ -296,7 +288,6 @@ momentum::Character loadConfigFromBytes(
 momentum::Character loadLocatorsFromBytes(
     const momentum::Character& character,
     const pybind11::bytes& bytes) {
-  pybind11::gil_scoped_release release;
   momentum::Character result = character;
   auto locators = momentum::loadLocatorsFromBuffer(
       toSpan<std::byte>(bytes),
@@ -309,13 +300,11 @@ momentum::Character loadLocatorsFromBytes(
 
 std::shared_ptr<const momentum::Mppca> loadPosePriorFromFile(
     const std::string& path) {
-  pybind11::gil_scoped_release release;
   return momentum::loadMppca(path);
 }
 
 std::shared_ptr<const momentum::Mppca> loadPosePriorFromBytes(
     const py::bytes& bytes) {
-  pybind11::gil_scoped_release release;
   return momentum::loadMppca(toSpan<unsigned char>(bytes));
 }
 
@@ -323,7 +312,6 @@ std::shared_ptr<momentum::BlendShape> loadBlendShapeFromFile(
     const std::string& path,
     int nExpectedShapes,
     int nExpectedVertices) {
-  pybind11::gil_scoped_release release;
   auto result =
       momentum::loadBlendShape(path, nExpectedShapes, nExpectedVertices);
   if (result.getBaseShape().empty()) {
