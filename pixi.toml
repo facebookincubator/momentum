@@ -51,7 +51,7 @@ install_dispenso = { cmd = "git clone https://github.com/facebookincubator/dispe
 ], outputs = [
     "$CONDA_PREFIX/lib/cmake/Dispenso-1.2.0/DispensoConfig.cmake",
 ] }
-install_OpenFBX = { cmd = "git clone https://github.com/jeongseok-meta/OpenFBX.git && cd OpenFBX && git checkout 16a386610dd42abb2fcba160e3de489e8aac0929 && cd .. && cmake OpenFBX -B OpenFBX/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release && cmake --build OpenFBX/build --target install --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
+install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd OpenFBX && git checkout 932dbba1fe38b821d4de9b9ba64070e00e65549f && cd .. && cmake OpenFBX -B OpenFBX/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DOFBX_DOUBLE_PRECISION=ON && cmake --build OpenFBX/build --target install --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
     "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
@@ -162,7 +162,7 @@ install_dispenso = { cmd = "git clone https://github.com/facebookincubator/dispe
 ], outputs = [
     "$CONDA_PREFIX/lib/cmake/Dispenso-1.2.0/DispensoConfig.cmake",
 ] }
-install_OpenFBX = { cmd = "git clone https://github.com/jeongseok-meta/OpenFBX.git && cd OpenFBX && git checkout 16a386610dd42abb2fcba160e3de489e8aac0929 && cd .. && cmake OpenFBX -B OpenFBX/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX && cmake --build OpenFBX/build --target install --config Release --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
+install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd OpenFBX && git checkout 932dbba1fe38b821d4de9b9ba64070e00e65549f && cd .. && cmake OpenFBX -B OpenFBX/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DOFBX_DOUBLE_PRECISION=ON && cmake --build OpenFBX/build --target install --config Release --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
     "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
