@@ -49,7 +49,7 @@ void StateSequenceErrorFunctionT<T>::setTargetWeights(
 
 template <typename T>
 double StateSequenceErrorFunctionT<T>::getError(
-    gsl::span<const ModelParametersT<T>> modelParameters,
+    gsl::span<const ModelParametersT<T>> /* modelParameters */,
     gsl::span<const SkeletonStateT<T>> skelStates) const {
   MT_PROFILE_EVENT("StateSequenceError: getError");
 
@@ -85,7 +85,7 @@ double StateSequenceErrorFunctionT<T>::getError(
 
 template <typename T>
 double StateSequenceErrorFunctionT<T>::getGradient(
-    gsl::span<const ModelParametersT<T>> modelParameters,
+    gsl::span<const ModelParametersT<T>> /* modelParameters */,
     gsl::span<const SkeletonStateT<T>> skelStates,
     Eigen::Ref<Eigen::VectorX<T>> gradient) const {
   MT_PROFILE_EVENT("StateSequenceError: getGradient");
@@ -206,7 +206,7 @@ size_t StateSequenceErrorFunctionT<T>::getJacobianSize() const {
 
 template <typename T>
 double StateSequenceErrorFunctionT<T>::getJacobian(
-    gsl::span<const ModelParametersT<T>> modelParameters,
+    gsl::span<const ModelParametersT<T>> /* modelParameters */,
     gsl::span<const SkeletonStateT<T>> skelStates,
     Eigen::Ref<Eigen::MatrixX<T>> jacobian_full,
     Eigen::Ref<Eigen::VectorX<T>> residual_full,

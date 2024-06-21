@@ -100,7 +100,7 @@ Locator createLocator(const fx::gltf::Node& node, const nlohmann::json& extensio
   return loc;
 }
 
-Joint createJoint(const fx::gltf::Node& node, const nlohmann::json& extension) {
+Joint createJoint(const fx::gltf::Node& node) {
   Joint joint;
   joint.name = node.name;
   joint.parent = kInvalidIndex;
@@ -303,7 +303,7 @@ void loadHierarchyRecursive(
     locators.push_back(loc);
     nodeToObjectMap[nodeId] = locators.size() - 1;
   } else if ((!useExtension && (node.mesh < 0)) || type == "skeleton_joint") {
-    Joint joint = createJoint(node, extension);
+    Joint joint = createJoint(node);
     joint.parent = parentJointId;
     joints.push_back(joint);
     nodeToObjectMap[nodeId] = joints.size() - 1;
@@ -611,9 +611,7 @@ void loadGlobalExtensions(const fx::gltf::Document& model, Character& character)
   }
 }
 
-Character populateCharacterFromModel(
-    const fx::gltf::Document& model,
-    const filesystem::path& filename) {
+Character populateCharacterFromModel(const fx::gltf::Document& model) {
   // #TODO: set character name
   Character result;
 
@@ -852,7 +850,7 @@ Character loadGltfCharacter(fx::gltf::Document& model) {
   // ---------------------------------------------
   Character result;
   try {
-    result = populateCharacterFromModel(model, "in-document");
+    result = populateCharacterFromModel(model);
   } catch (std::runtime_error& err) {
     throw std::runtime_error(fmt::format("Unable to load gltf : {}", std::string(err.what())));
   }

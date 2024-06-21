@@ -59,7 +59,7 @@ double ModelParametersSequenceErrorFunctionT<T>::getError(
 template <typename T>
 double ModelParametersSequenceErrorFunctionT<T>::getGradient(
     gsl::span<const ModelParametersT<T>> modelParameters,
-    gsl::span<const SkeletonStateT<T>> skelStates,
+    gsl::span<const SkeletonStateT<T>> /* skelStates */,
     Eigen::Ref<Eigen::VectorX<T>> gradient) const {
   // ignore if we don't have any reasonable data
   if (targetWeights_.size() !=
@@ -98,7 +98,7 @@ size_t ModelParametersSequenceErrorFunctionT<T>::getJacobianSize() const {
 template <typename T>
 double ModelParametersSequenceErrorFunctionT<T>::getJacobian(
     gsl::span<const ModelParametersT<T>> modelParameters,
-    gsl::span<const SkeletonStateT<T>> skelStates,
+    gsl::span<const SkeletonStateT<T>> /* skelStates */,
     Eigen::Ref<Eigen::MatrixX<T>> jacobian,
     Eigen::Ref<Eigen::VectorX<T>> residual,
     int& usedRows) const {

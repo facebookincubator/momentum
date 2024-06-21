@@ -310,7 +310,7 @@ void VertexErrorFunctionT<T>::calculateDWorldPos(
 
 template <typename T>
 double VertexErrorFunctionT<T>::calculatePositionGradient(
-    const ModelParametersT<T>& modelParameters,
+    const ModelParametersT<T>& /* modelParameters */,
     const SkeletonStateT<T>& state,
     const VertexConstraintT<T>& constr,
     Eigen::Ref<Eigen::VectorX<T>> gradient) const {
@@ -415,7 +415,7 @@ double VertexErrorFunctionT<T>::calculatePositionGradient(
 
 template <typename T>
 double VertexErrorFunctionT<T>::calculatePositionJacobian(
-    const ModelParametersT<T>& modelParameters,
+    const ModelParametersT<T>& /* modelParameters */,
     const SkeletonStateT<T>& state,
     const VertexConstraintT<T>& constr,
     Ref<Eigen::MatrixX<T>> jac,
@@ -521,7 +521,7 @@ double VertexErrorFunctionT<T>::calculatePositionJacobian(
 
 template <typename T>
 double VertexErrorFunctionT<T>::calculateNormalGradient(
-    const ModelParametersT<T>& modelParameters,
+    const ModelParametersT<T>& /* modelParameters */,
     const SkeletonStateT<T>& state,
     const VertexConstraintT<T>& constr,
     const T sourceNormalWeight,
@@ -629,7 +629,7 @@ double VertexErrorFunctionT<T>::calculateNormalGradient(
 
 template <typename T>
 double VertexErrorFunctionT<T>::calculateNormalJacobian(
-    const ModelParametersT<T>& modelParameters,
+    const ModelParametersT<T>& /* modelParameters */,
     const SkeletonStateT<T>& state,
     const VertexConstraintT<T>& constr,
     const T sourceNormalWeight,

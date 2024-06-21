@@ -166,7 +166,7 @@ JetType FullyDifferentiableStateErrorFunctionT<T>::calculateGradient_dot(
 template <typename T>
 Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_dot(
     const std::string& inputName,
-    const ModelParametersT<T>& params,
+    const ModelParametersT<T>& /* params */,
     const SkeletonStateT<T>& state,
     Eigen::Ref<const Eigen::VectorX<T>> inputVec) {
   const auto& targetState = this->getTargetState();
