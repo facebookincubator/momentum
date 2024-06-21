@@ -36,6 +36,6 @@ void saveLocators(
     const filesystem::path& filename,
     const LocatorList& locators,
     const Skeleton& skeleton,
-    const LocatorSpace space = LocatorSpace::Global);
+    LocatorSpace space = LocatorSpace::Global);
 
 } // namespace momentum

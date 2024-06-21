@@ -58,7 +58,7 @@ class SolverT {
   void setParameters(const Eigen::VectorX<T>& params);
 
   /// Sets the flag whether to store iteration history.
-  void setStoreHistory(const bool b);
+  void setStoreHistory(bool b);
 
   /// Returns the history of the solver's iterations.
   const std::unordered_map<std::string, Eigen::MatrixX<T>>& getHistory() const;

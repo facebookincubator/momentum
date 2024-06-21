@@ -60,13 +60,13 @@ struct JointStateT {
   // possible as this is part of many inner loops.
   /// The derivative of a global vector ref wrt the rotation parameters of the global
   /// transformation.
-  [[nodiscard]] Eigen::Vector3<T> getRotationDerivative(
-      const size_t index,
-      const Eigen::Vector3<T>& ref) const;
+  [[nodiscard]] Eigen::Vector3<T> getRotationDerivative(size_t index, const Eigen::Vector3<T>& ref)
+      const;
 
   /// The derivative of any global vector wrt the translation parameters of the global
   /// transformation.
-  [[nodiscard]] Eigen::Vector3<T> getTranslationDerivative(const size_t index) const;
+  [[nodiscard]] Eigen::Vector3<T> getTranslationDerivative(size_t index) const;
+
   /// The derivative of a global vector ref wrt the scaling parameter of the global transformation.
   [[nodiscard]] Eigen::Vector3<T> getScaleDerivative(const Eigen::Vector3<T>& ref) const noexcept;
 

@@ -41,7 +41,7 @@ Affine3f getInverseSSDTransformation(
     const TransformationList& inverseBindPose,
     const SkinWeights& skin,
     const SkeletonState& state,
-    const size_t index);
+    size_t index);
 
 std::vector<Vector3f> applyInverseSSD(
     const TransformationList& inverseBindPose,

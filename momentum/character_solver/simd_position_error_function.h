@@ -28,10 +28,10 @@ struct SimdPositionConstraints final {
   void clearConstraints();
 
   void addConstraint(
-      const size_t jointIndex,
+      size_t jointIndex,
       const Vector3f& offset,
       const Vector3f& target,
-      const float targetWeight);
+      float targetWeight);
 
   VectorXi getNumConstraints() const;
 

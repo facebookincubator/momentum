@@ -178,7 +178,7 @@ class OnlineHouseholderQR {
   // extra matrix:
   //   | [ lambda * I ] [ x ] - [ 0 ] |^2
   //   | [     A      ]         [ b ] |
-  explicit OnlineHouseholderQR(const Eigen::Index n, T lambda = T(0));
+  explicit OnlineHouseholderQR(Eigen::Index n, T lambda = T(0));
 
   void addMutating(Eigen::Ref<MatrixType> A, Eigen::Ref<VectorType> b) {
     addMutating(ColumnIndexedMatrix<MatrixType>(A), b);
@@ -205,7 +205,7 @@ class OnlineHouseholderQR {
   VectorType At_times_b() const;
 
   void reset();
-  void reset(const Eigen::Index n, T lambda = T(0));
+  void reset(Eigen::Index n, T lambda = T(0));
 
  private:
   // R is defined by
@@ -252,7 +252,7 @@ class OnlineBlockHouseholderQR {
   // extra matrix:
   //   | [ lambda * I ] [ x ] - [ 0 ] |^2
   //   | [     A      ]         [ b ] |
-  explicit OnlineBlockHouseholderQR(const Eigen::Index n_common, T lambda = T(0));
+  explicit OnlineBlockHouseholderQR(Eigen::Index n_common, T lambda = T(0));
 
   void add(size_t iBlock, MatrixType A_diag, MatrixType A_common, VectorType b) {
     addMutating(iBlock, A_diag, A_common, b);
@@ -379,9 +379,9 @@ class OnlineBandedHouseholderQR {
   //   | [ lambda * I ] [ x ] - [ 0 ] |^2
   //   | [     A      ]         [ b ] |
   explicit OnlineBandedHouseholderQR(
-      const Eigen::Index n_band,
+      Eigen::Index n_band,
       Eigen::Index n_common,
-      const Eigen::Index bandwidth,
+      Eigen::Index bandwidth,
       T lambda = T(0));
 
   void add(size_t iCol_offset, MatrixType A_band, MatrixType A_common, VectorType b) {
@@ -416,7 +416,7 @@ class OnlineBandedHouseholderQR {
   // Mutating addition operator that also remaps the columns, allowing passing in arbitrary subsets
   // of the columns in A_diag and A_common.
   void addMutating(
-      const Eigen::Index iCol_offset,
+      Eigen::Index iCol_offset,
       ColumnIndexedMatrix<MatrixType> A_band,
       ColumnIndexedMatrix<MatrixType> A_common,
       Eigen::Ref<VectorType> b);
@@ -434,7 +434,7 @@ class OnlineBandedHouseholderQR {
   // is much smaller than the number of banded variables this can provide a substantial
   // speedup in practice.
   void zeroBandedPart(
-      const Eigen::Index iCol_offset,
+      Eigen::Index iCol_offset,
       ColumnIndexedMatrix<MatrixType> A_band,
       ColumnIndexedMatrix<MatrixType> A_common,
       Eigen::Ref<VectorType> b);

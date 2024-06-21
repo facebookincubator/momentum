@@ -18,7 +18,7 @@ namespace momentum {
 struct BlendShapeBase {
  public:
   BlendShapeBase() {}
-  BlendShapeBase(const size_t modelSize, const size_t numShapes);
+  BlendShapeBase(size_t modelSize, size_t numShapes);
 
   void setShapeVectors(const MatrixXf& shapeVectors) {
     shapeVectors_ = shapeVectors;
