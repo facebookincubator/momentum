@@ -401,7 +401,7 @@ at::Tensor computeVertexNormals(
   at::Tensor x3 =
       at::index_select(vertex_positions, -2, triangles.select(-1, 2));
 
-  at::Tensor triangle_normals = at::cross(x2 - x1, x3 - x1);
+  at::Tensor triangle_normals = at::cross(x2 - x1, x3 - x1, -1);
   at::Tensor vertex_normals = at::zeros_like(vertex_positions);
   for (int64_t i = 0; i < 3; ++i) {
     vertex_normals.index_add_(-2, triangles.select(-1, i), triangle_normals);
