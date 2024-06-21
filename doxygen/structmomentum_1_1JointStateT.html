@@ -91,12 +91,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab46e18e8c61215bcfc965ab865a5f075"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#ab46e18e8c61215bcfc965ab865a5f075">set</a> (const <a class="el" href="structmomentum_1_1JointT.html">JointT</a>&lt; T &gt; &amp;joint, const <a class="el" href="namespacemomentum.html#aff9bae09081ac758b3db8ef03961cc3b">JointVectorT</a>&lt; T &gt; &amp;parameters, const <a class="el" href="structmomentum_1_1JointStateT.html">JointStateT</a>&lt; T &gt; *parentState=nullptr, bool computeDeriv=true) noexcept</td></tr>
 <tr class="memdesc:ab46e18e8c61215bcfc965ab865a5f075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively update all the transformations from the root to leaves.  <a href="structmomentum_1_1JointStateT.html#ab46e18e8c61215bcfc965ab865a5f075">More...</a><br /></td></tr>
 <tr class="separator:ab46e18e8c61215bcfc965ab865a5f075"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85463a5b063177f768ad2a743eb22e5"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#aa85463a5b063177f768ad2a743eb22e5">getRotationDerivative</a> (const size_t index, const Eigen::Vector3&lt; T &gt; &amp;ref) const</td></tr>
-<tr class="memdesc:aa85463a5b063177f768ad2a743eb22e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of a global vector ref wrt the rotation parameters of the global transformation.  <a href="structmomentum_1_1JointStateT.html#aa85463a5b063177f768ad2a743eb22e5">More...</a><br /></td></tr>
-<tr class="separator:aa85463a5b063177f768ad2a743eb22e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad791970d31beb05f1cc265015550b4da"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#ad791970d31beb05f1cc265015550b4da">getTranslationDerivative</a> (const size_t index) const</td></tr>
-<tr class="memdesc:ad791970d31beb05f1cc265015550b4da"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of any global vector wrt the translation parameters of the global transformation.  <a href="structmomentum_1_1JointStateT.html#ad791970d31beb05f1cc265015550b4da">More...</a><br /></td></tr>
-<tr class="separator:ad791970d31beb05f1cc265015550b4da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3656d2dcf3c6c8f1aaf4e9c20ef95478"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a3656d2dcf3c6c8f1aaf4e9c20ef95478">getRotationDerivative</a> (size_t index, const Eigen::Vector3&lt; T &gt; &amp;ref) const</td></tr>
+<tr class="memdesc:a3656d2dcf3c6c8f1aaf4e9c20ef95478"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of a global vector ref wrt the rotation parameters of the global transformation.  <a href="structmomentum_1_1JointStateT.html#a3656d2dcf3c6c8f1aaf4e9c20ef95478">More...</a><br /></td></tr>
+<tr class="separator:a3656d2dcf3c6c8f1aaf4e9c20ef95478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a741288b33f633935024501d5ca5cac"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a7a741288b33f633935024501d5ca5cac">getTranslationDerivative</a> (size_t index) const</td></tr>
+<tr class="memdesc:a7a741288b33f633935024501d5ca5cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of any global vector wrt the translation parameters of the global transformation.  <a href="structmomentum_1_1JointStateT.html#a7a741288b33f633935024501d5ca5cac">More...</a><br /></td></tr>
+<tr class="separator:a7a741288b33f633935024501d5ca5cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e650d19c6f1fc871b3a666f054f0fb9"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a3e650d19c6f1fc871b3a666f054f0fb9">getScaleDerivative</a> (const Eigen::Vector3&lt; T &gt; &amp;ref) const noexcept</td></tr>
 <tr class="memdesc:a3e650d19c6f1fc871b3a666f054f0fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of a global vector ref wrt the scaling parameter of the global transformation.  <a href="structmomentum_1_1JointStateT.html#a3e650d19c6f1fc871b3a666f054f0fb9">More...</a><br /></td></tr>
 <tr class="separator:a3e650d19c6f1fc871b3a666f054f0fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,8 +167,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa85463a5b063177f768ad2a743eb22e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa85463a5b063177f768ad2a743eb22e5">&#9670;&nbsp;</a></span>getRotationDerivative()</h2>
+<a id="a3656d2dcf3c6c8f1aaf4e9c20ef95478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3656d2dcf3c6c8f1aaf4e9c20ef95478">&#9670;&nbsp;</a></span>getRotationDerivative()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,7 +178,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">Eigen::Vector3&lt; T &gt; <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::getRotationDerivative </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
@@ -229,8 +229,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ad791970d31beb05f1cc265015550b4da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad791970d31beb05f1cc265015550b4da">&#9670;&nbsp;</a></span>getTranslationDerivative()</h2>
+<a id="a7a741288b33f633935024501d5ca5cac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a741288b33f633935024501d5ca5cac">&#9670;&nbsp;</a></span>getTranslationDerivative()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +240,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">Eigen::Vector3&lt; T &gt; <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::getTranslationDerivative </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
           <td> const</td>
         </tr>

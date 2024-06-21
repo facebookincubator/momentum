@@ -86,8 +86,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1579e1a11dbf73982e3a65ca71f7dec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfce91d2bfec93619b3639785f16f784"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1SimdPlaneConstraints.html#adfce91d2bfec93619b3639785f16f784">clearConstraints</a> ()</td></tr>
 <tr class="separator:adfce91d2bfec93619b3639785f16f784"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a763d1479c28b3a0341c4ebc211a0a10c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1SimdPlaneConstraints.html#a763d1479c28b3a0341c4ebc211a0a10c">addConstraint</a> (const size_t jointIndex, const <a class="el" href="namespacemomentum.html#ae82b3ca4dc893c348bf22f3c7815f782">Vector3f</a> &amp;offset, const <a class="el" href="namespacemomentum.html#ae82b3ca4dc893c348bf22f3c7815f782">Vector3f</a> &amp;targetNormal, const float targetOffset, const float targetWeight)</td></tr>
-<tr class="separator:a763d1479c28b3a0341c4ebc211a0a10c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d5fe12cc56e9083a4ab2f1a6f58bfab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1SimdPlaneConstraints.html#a7d5fe12cc56e9083a4ab2f1a6f58bfab">addConstraint</a> (size_t jointIndex, const <a class="el" href="namespacemomentum.html#ae82b3ca4dc893c348bf22f3c7815f782">Vector3f</a> &amp;offset, const <a class="el" href="namespacemomentum.html#ae82b3ca4dc893c348bf22f3c7815f782">Vector3f</a> &amp;targetNormal, float targetOffset, float targetWeight)</td></tr>
+<tr class="separator:a7d5fe12cc56e9083a4ab2f1a6f58bfab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae029d3aab88059f2f363413f9d03fa1d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#a966a4c10cdccae863c6e95efb6d4a4f8">VectorXi</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1SimdPlaneConstraints.html#ae029d3aab88059f2f363413f9d03fa1d">getNumConstraints</a> () const</td></tr>
 <tr class="separator:ae029d3aab88059f2f363413f9d03fa1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -168,8 +168,8 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a763d1479c28b3a0341c4ebc211a0a10c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a763d1479c28b3a0341c4ebc211a0a10c">&#9670;&nbsp;</a></span>addConstraint()</h2>
+<a id="a7d5fe12cc56e9083a4ab2f1a6f58bfab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d5fe12cc56e9083a4ab2f1a6f58bfab">&#9670;&nbsp;</a></span>addConstraint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +177,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">void momentum::SimdPlaneConstraints::addConstraint </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>jointIndex</em>, </td>
         </tr>
         <tr>
@@ -195,13 +195,13 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float&#160;</td>
+          <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>targetOffset</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float&#160;</td>
+          <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>targetWeight</em>&#160;</td>
         </tr>
         <tr>

@@ -88,8 +88,8 @@ Inheritance diagram for momentum::MultiposeSolverFunctionT&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad437e1b2c785c4243f6016317f30cea7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#ad437e1b2c785c4243f6016317f30cea7">MultiposeSolverFunctionT</a> (const Skeleton *skel, const <a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt; *parameterTransform, gsl::span&lt; const int &gt; universal, const size_t frames)</td></tr>
-<tr class="separator:ad437e1b2c785c4243f6016317f30cea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e36781629d3b7b0184e15d22d4cd21a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a5e36781629d3b7b0184e15d22d4cd21a">MultiposeSolverFunctionT</a> (const Skeleton *skel, const <a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt; *parameterTransform, gsl::span&lt; const int &gt; universal, size_t frames)</td></tr>
+<tr class="separator:a5e36781629d3b7b0184e15d22d4cd21a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7992cacf058d98c569d86d349ef49ff2"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a7992cacf058d98c569d86d349ef49ff2">getError</a> (const Eigen::VectorX&lt; T &gt; &amp;parameters) final</td></tr>
 <tr class="separator:a7992cacf058d98c569d86d349ef49ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a610d1efa0106937d855d6dff057a2f49"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a610d1efa0106937d855d6dff057a2f49">getGradient</a> (const Eigen::VectorX&lt; T &gt; &amp;parameters, Eigen::VectorX&lt; T &gt; &amp;gradient) final</td></tr>
@@ -101,14 +101,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a97b3681f0ef88b2aaf29a1c0da70c9ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a97b3681f0ef88b2aaf29a1c0da70c9ee">setEnabledParameters</a> (const <a class="el" href="namespacemomentum.html#a41af5d46b5431d98f3c25f94f0b16349">ParameterSet</a> &amp;) final</td></tr>
 <tr class="memdesc:a97b3681f0ef88b2aaf29a1c0da70c9ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the enabled parameters.  <a href="classmomentum_1_1MultiposeSolverFunctionT.html#a97b3681f0ef88b2aaf29a1c0da70c9ee">More...</a><br /></td></tr>
 <tr class="separator:a97b3681f0ef88b2aaf29a1c0da70c9ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebd9840bb10defbdb7c2eae6e67ff61e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#aebd9840bb10defbdb7c2eae6e67ff61e">addErrorFunction</a> (const size_t frame, <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; *errorFunction)</td></tr>
-<tr class="separator:aebd9840bb10defbdb7c2eae6e67ff61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a682b6d4f91ac3df9ff8356218992a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a5a682b6d4f91ac3df9ff8356218992a0">addErrorFunction</a> (size_t frame, <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; *errorFunction)</td></tr>
+<tr class="separator:a5a682b6d4f91ac3df9ff8356218992a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c171b9a3b7111e103610d50f0587b90"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a0c171b9a3b7111e103610d50f0587b90">getNumFrames</a> () const</td></tr>
 <tr class="separator:a0c171b9a3b7111e103610d50f0587b90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae86312532d2da0bb90594eda46c287d6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#ae86312532d2da0bb90594eda46c287d6">getFrameParameters</a> (const size_t frame) const</td></tr>
 <tr class="separator:ae86312532d2da0bb90594eda46c287d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ed10dfbefedc11745fb2dbf6fa0c252"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a4ed10dfbefedc11745fb2dbf6fa0c252">setFrameParameters</a> (const size_t frame, const <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt; &amp;parameters)</td></tr>
-<tr class="separator:a4ed10dfbefedc11745fb2dbf6fa0c252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b6136b216c3df72f99338b18b265207"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a9b6136b216c3df72f99338b18b265207">setFrameParameters</a> (size_t frame, const <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt; &amp;parameters)</td></tr>
+<tr class="separator:a9b6136b216c3df72f99338b18b265207"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f84236098547f5b826c0daed1f01af5"><td class="memItemLeft" align="right" valign="top">Eigen::VectorX&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a1f84236098547f5b826c0daed1f01af5">getUniversalParameters</a> ()</td></tr>
 <tr class="separator:a1f84236098547f5b826c0daed1f01af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae615921aa0a427ecd558a40b9e6793fa"><td class="memItemLeft" align="right" valign="top">Eigen::VectorX&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#ae615921aa0a427ecd558a40b9e6793fa">getJoinedParameterVector</a> () const</td></tr>
@@ -171,8 +171,8 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a6dce4ef63d088f4eabd17b11d57d01be inherit pro_attribs_classmomentum_1_1SolverFunctionT"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad437e1b2c785c4243f6016317f30cea7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad437e1b2c785c4243f6016317f30cea7">&#9670;&nbsp;</a></span>MultiposeSolverFunctionT()</h2>
+<a id="a5e36781629d3b7b0184e15d22d4cd21a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e36781629d3b7b0184e15d22d4cd21a">&#9670;&nbsp;</a></span>MultiposeSolverFunctionT()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,7 +200,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>frames</em>&#160;</td>
         </tr>
         <tr>
@@ -214,8 +214,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aebd9840bb10defbdb7c2eae6e67ff61e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebd9840bb10defbdb7c2eae6e67ff61e">&#9670;&nbsp;</a></span>addErrorFunction()</h2>
+<a id="a5a682b6d4f91ac3df9ff8356218992a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a682b6d4f91ac3df9ff8356218992a0">&#9670;&nbsp;</a></span>addErrorFunction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,7 +225,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html">momentum::MultiposeSolverFunctionT</a>&lt; T &gt;::addErrorFunction </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>frame</em>, </td>
         </tr>
         <tr>
@@ -511,8 +511,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a4ed10dfbefedc11745fb2dbf6fa0c252"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ed10dfbefedc11745fb2dbf6fa0c252">&#9670;&nbsp;</a></span>setFrameParameters()</h2>
+<a id="a9b6136b216c3df72f99338b18b265207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b6136b216c3df72f99338b18b265207">&#9670;&nbsp;</a></span>setFrameParameters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -522,7 +522,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html">momentum::MultiposeSolverFunctionT</a>&lt; T &gt;::setFrameParameters </td>
           <td>(</td>
-          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>frame</em>, </td>
         </tr>
         <tr>
