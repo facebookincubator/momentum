@@ -8,7 +8,6 @@
 import math
 import unittest
 
-# import msgpack
 import pymomentum.quaternion as quaternion
 import torch
 

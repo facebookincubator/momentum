@@ -8,7 +8,6 @@
 import unittest
 from typing import Optional
 
-# import msgpack
 import pymomentum.geometry as geometry
 import torch
 

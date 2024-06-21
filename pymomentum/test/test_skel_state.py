@@ -7,7 +7,6 @@
 
 import unittest
 
-# import msgpack
 import pymomentum.geometry as pym_geometry
 import pymomentum.quaternion as quaternion
 import pymomentum.skel_state as skel_state
