@@ -41,6 +41,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cxx-compiler-1.7.0-h00ab1b0_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/dispenso-1.3.0-hac33072_2.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/drjit-cpp-0.4.6-hac33072_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/eigen-3.4.0-h00ab1b0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/exceptiongroup-1.2.0-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ezc3d-1.5.9-py312_python3_h0990d18_0.conda
@@ -230,6 +231,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/compiler-rt_osx-arm64-16.0.6-h3808999_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/cxx-compiler-1.7.0-h2ffa867_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/dispenso-1.3.0-h00cdb27_2.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/drjit-cpp-0.4.6-h00cdb27_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/eigen-3.4.0-h1995070_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/exceptiongroup-1.2.0-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/ezc3d-1.5.9-py312_python3_h0e7aeb7_0.conda
@@ -405,6 +407,7 @@ environments:
       - conda: https://conda.anaconda.org/nvidia/noarch/cuda-version-12.5-3.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/win-64/cxx-compiler-1.7.0-h91493d7_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/dispenso-1.3.0-he0c23c2_2.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/drjit-cpp-0.4.6-he0c23c2_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/eigen-3.4.0-h91493d7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/exceptiongroup-1.2.0-pyhd8ed1ab_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/ezc3d-1.5.9-py312_python3_hcb2535b_0.conda
@@ -2451,6 +2454,52 @@ packages:
   license: MIT
   size: 197601
   timestamp: 1719092278217
+- kind: conda
+  name: drjit-cpp
+  version: 0.4.6
+  build: h00cdb27_2
+  build_number: 2
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/drjit-cpp-0.4.6-h00cdb27_2.conda
+  sha256: c6b575bbf429bdc600b6b201bf1865971154ae356efcdb8cae3c802b33513877
+  md5: 016acb74b6096497f88eb36db15fd739
+  depends:
+  - __osx >=11.0
+  - libcxx >=16
+  license: BSD-3-Clause
+  size: 150150
+  timestamp: 1719105163153
+- kind: conda
+  name: drjit-cpp
+  version: 0.4.6
+  build: hac33072_2
+  build_number: 2
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/drjit-cpp-0.4.6-hac33072_2.conda
+  sha256: 3564ecdd7a152725180fc9753262244055c5ebd281208d72f558049958375417
+  md5: 6d3cc76802e93a843b5f4e943f29e707
+  depends:
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  license: BSD-3-Clause
+  size: 150190
+  timestamp: 1719105609677
+- kind: conda
+  name: drjit-cpp
+  version: 0.4.6
+  build: he0c23c2_2
+  build_number: 2
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/drjit-cpp-0.4.6-he0c23c2_2.conda
+  sha256: 9fdd90f0549ada91db53435abff61843bfc26e97448f9ca2d57d317d675a633e
+  md5: 74bc283367b1ef8bbac47df40b30cdd2
+  depends:
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  license: BSD-3-Clause
+  size: 149836
+  timestamp: 1719105816469
 - kind: conda
   name: eigen
   version: 3.4.0
