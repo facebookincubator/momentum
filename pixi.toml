@@ -25,6 +25,7 @@ setuptools = ">=69.5.1,<69.6"
 blas = ">=1.1,<3"
 ceres-solver = ">=2.2.0,<2.3"
 cli11 = ">=2.4.1,<2.5"
+dispenso = ">=1.3.0,<1.4"
 eigen = "3.4.0.*"
 ezc3d = "1.5.9.*"
 fmt = "10.2.1.*"
@@ -47,11 +48,6 @@ install_drjit = { cmd = "git clone --recursive https://github.com/mitsuba-render
 ], outputs = [
     "$CONDA_PREFIX/share/cmake/drjit/drjitConfig.cmake",
 ] }
-install_dispenso = { cmd = "git clone https://github.com/facebookincubator/dispenso.git && cd dispenso && git checkout 9867f5f17d915fd27a3d1a27d357b3d0f0b76884 && git apply ../../patches/dispenso-double-free.patch && cd .. && cmake dispenso -B dispenso/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release && cmake --build dispenso/build --target install --parallel && rm -rf dispenso", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/lib/cmake/Dispenso-1.2.0/DispensoConfig.cmake",
-] }
 install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd OpenFBX && git checkout 932dbba1fe38b821d4de9b9ba64070e00e65549f && cd .. && cmake OpenFBX -B OpenFBX/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DOFBX_DOUBLE_PRECISION=ON && cmake --build OpenFBX/build --target install --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
     "create_deps_dir",
 ], outputs = [
@@ -64,7 +60,6 @@ install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1
 ] }
 install_deps = { depends_on = [
     "install_drjit",
-    "install_dispenso",
     "install_OpenFBX",
     "install_sophus",
     "remove_deps_dir",
@@ -107,7 +102,6 @@ sysroot_linux-64 = ">=2.28"
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 install_deps = { depends_on = [
     "install_drjit",
-    "install_dispenso",
     "install_OpenFBX",
 ] }
 build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
@@ -126,7 +120,6 @@ pytorch = ">=2.1.2,<2.2"
 [target.osx-arm64.tasks]
 install_deps = { depends_on = [
     "install_drjit",
-    "install_dispenso",
     "install_OpenFBX",
     "install_sophus",
     "remove_deps_dir",
@@ -149,11 +142,6 @@ install_drjit = { cmd = "git clone --recursive https://github.com/mitsuba-render
     "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/cmake/drjit/drjitConfig.cmake",
-] }
-install_dispenso = { cmd = "git clone https://github.com/facebookincubator/dispenso.git && cd dispenso && git checkout 0e193c3e1f22442a0c5e9da0a9237eff755eb844 && cd .. && cmake dispenso -B dispenso/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX && cmake --build dispenso/build --target install --config Release --parallel && rm -rf dispenso", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/lib/cmake/Dispenso-1.2.0/DispensoConfig.cmake",
 ] }
 install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd OpenFBX && git checkout 932dbba1fe38b821d4de9b9ba64070e00e65549f && cd .. && cmake OpenFBX -B OpenFBX/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DOFBX_DOUBLE_PRECISION=ON && cmake --build OpenFBX/build --target install --config Release --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
     "create_deps_dir",
