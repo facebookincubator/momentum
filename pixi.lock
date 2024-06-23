@@ -47,6 +47,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/fmt-10.2.1-h00ab1b0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/freetype-2.12.1-h267a509_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/fsspec-2024.6.0-pyhff2d567_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/fx-gltf-2.0.0-hac33072_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gcc-12.3.0-h915e2ae_10.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gcc_impl_linux-64-12.3.0-h58ffeeb_10.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gcc_linux-64-12.3.0-h6b3dd4b_7.conda
@@ -234,6 +235,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/fmt-10.2.1-h2ffa867_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/freetype-2.12.1-hadb7bae_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/fsspec-2024.6.0-pyhff2d567_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/fx-gltf-2.0.0-h00cdb27_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gflags-2.2.2-hc88da5d_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glog-0.7.1-heb240a5_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gmp-6.3.0-hebf3989_1.conda
@@ -405,6 +407,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/ezc3d-1.5.9-py312_python3_hcb2535b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/fmt-10.2.1-h181d51b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/freetype-2.12.1-hdaf720e_2.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/fx-gltf-2.0.0-he0c23c2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/gflags-2.2.2-ha925a31_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/win-64/glog-0.7.1-h3ff59bf_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/iniconfig-2.0.0-pyhd8ed1ab_0.conda
@@ -2637,6 +2640,52 @@ packages:
   license_family: BSD
   size: 132958
   timestamp: 1717498629896
+- kind: conda
+  name: fx-gltf
+  version: 2.0.0
+  build: h00cdb27_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/fx-gltf-2.0.0-h00cdb27_1.conda
+  sha256: 830138461c3df447c24b987fca7011fdaf87682c0ea07b6ae0ca3dd4c8cbf4f7
+  md5: 95919585a75c0248a91791a4d22efc21
+  depends:
+  - __osx >=11.0
+  - libcxx >=16
+  license: MIT
+  size: 20957
+  timestamp: 1719075024050
+- kind: conda
+  name: fx-gltf
+  version: 2.0.0
+  build: hac33072_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/fx-gltf-2.0.0-hac33072_1.conda
+  sha256: 54fc4de89fb7fe23c0067d8a4bd78b424e5d58b9631feef2a54d24fba37a02b6
+  md5: 6489b66a2acb331171ee43241c88b83c
+  depends:
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  license: MIT
+  size: 20749
+  timestamp: 1719074892314
+- kind: conda
+  name: fx-gltf
+  version: 2.0.0
+  build: he0c23c2_1
+  build_number: 1
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/fx-gltf-2.0.0-he0c23c2_1.conda
+  sha256: 56a0b427b2201768c85df74bffd68c99e31603b9b4c56e06124826ffac2aaca1
+  md5: 462e42660e80932c84198b773bbbbfd7
+  depends:
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  license: MIT
+  size: 21113
+  timestamp: 1719075207105
 - kind: conda
   name: gcc
   version: 12.3.0
