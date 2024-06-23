@@ -28,6 +28,7 @@ cli11 = ">=2.4.1,<2.5"
 eigen = "3.4.0.*"
 ezc3d = "1.5.9.*"
 fmt = "10.2.1.*"
+fx-gltf = ">=2.0.0,<2.1"
 libdeflate = ">=1.19,<2"
 librerun-sdk = ">=0.16,<0.17"
 ms-gsl = ">=4.0.0,<4.1"
@@ -56,11 +57,6 @@ install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd O
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
 ] }
-install_fx_gltf = { cmd = "git clone https://github.com/jessey-git/fx-gltf.git && cd fx-gltf && git checkout 7766c237ea81c0bb3759e78e5c0f22854843eef8 && cd .. && cmake fx-gltf -B fx-gltf/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DFX_GLTF_BUILD_TESTS=OFF && cmake --build fx-gltf/build --target install --parallel && rm -rf fx-gltf", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/lib/cmake/fx-gltf/fx-gltfConfig.cmake",
-] }
 install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
     "create_deps_dir",
 ], outputs = [
@@ -70,7 +66,6 @@ install_deps = { depends_on = [
     "install_drjit",
     "install_dispenso",
     "install_OpenFBX",
-    "install_fx_gltf",
     "install_sophus",
     "remove_deps_dir",
 ] }
@@ -114,7 +109,6 @@ install_deps = { depends_on = [
     "install_drjit",
     "install_dispenso",
     "install_OpenFBX",
-    "install_fx_gltf",
 ] }
 build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
 test_pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomentum/test/test_fbx.py pymomentum/test/test_parameter_transform.py pymomentum/test/test_quaternion.py pymomentum/test/test_skel_state.py pymomentum/test/test_skeleton.py", env = { MOMENTUM_MODELS_PATH = "momentum/" } }
@@ -134,7 +128,6 @@ install_deps = { depends_on = [
     "install_drjit",
     "install_dispenso",
     "install_OpenFBX",
-    "install_fx_gltf",
     "install_sophus",
     "remove_deps_dir",
 ] }
@@ -166,11 +159,6 @@ install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd O
     "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
-] }
-install_fx_gltf = { cmd = "git clone https://github.com/jessey-git/fx-gltf.git && cd fx-gltf && git checkout 7766c237ea81c0bb3759e78e5c0f22854843eef8 && cd .. && cmake fx-gltf -B fx-gltf/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DFX_GLTF_BUILD_TESTS=OFF && cmake --build fx-gltf/build --target install --config Release --parallel && rm -rf fx-gltf", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/lib/cmake/fx-gltf/fx-gltfConfig.cmake",
 ] }
 install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --config Release --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
     "create_deps_dir",
