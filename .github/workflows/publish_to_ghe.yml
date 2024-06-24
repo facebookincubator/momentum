@@ -4,34 +4,22 @@ on:
   push:
     branches:
       - "main"
-    paths-ignore:
-      - ".github/**"
-      - "!.github/workflows/publish_to_ghe.yml"
+  workflow_dispatch:
 
 jobs:
   sync:
-    runs-on: self-hosted-mac-arm
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetches all history for all branches and tags
 
-      - name: Add dest host
+      - name: Push Mirror to GitHub Enterprise
         run: |
-          set -ex
-          git remote add dest https://x-access-token:${{ secrets.DESTINATION_GITHUB_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }}
-          git fetch origin
-          git fetch dest
-
-      - name: Push to dest host
-        run: |
-          set -ex
-          git rm -r .github
-          git commit -m "Remove .github files"
-          git push -f dest main
-
-      - name: Cleanup
-        if: always()
-        run: |
-          set -ex
-          git remote remove dest
+          git checkout main
+          git push https://${{ secrets.GHE_USERNAME }}:${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} main:main --force
+          git push https://${{ secrets.GHE_USERNAME }}:${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} --tags
+        env:
+          GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
