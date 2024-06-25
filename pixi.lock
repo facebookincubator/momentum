@@ -174,7 +174,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.5.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sleef-3.5.1-h9b69904_2.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/snappy-1.2.0-hdb0a2a9_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/sophus-22.10-h27087fc_0.tar.bz2
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/sophus-1!1.24.6-hac33072_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/spdlog-1.12.0-hd2e6256_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/suitesparse-7.7.0-hf4753ba_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.12.1-pypyh2585a3b_103.conda
@@ -349,6 +349,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sigtool-0.1.3-h44b9a77_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sleef-3.5.1-h156473d_2.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/snappy-1.2.0-hd04f947_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/sophus-1!1.24.6-h00cdb27_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/spdlog-1.12.0-he64bfa9_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/suitesparse-7.7.0-hf6fcff2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.12.1-pypyh2585a3b_103.conda
@@ -519,6 +520,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/scipy-1.13.1-py312h1f4e10d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.5.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/snappy-1.2.0-hfb803bf_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/sophus-1!1.24.6-he0c23c2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/spdlog-1.12.0-h64d2f7d_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/tbb-2021.12.0-hc790b64_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/tk-8.6.13-h5226925_1.conda
@@ -8509,20 +8511,56 @@ packages:
   timestamp: 1712591680669
 - kind: conda
   name: sophus
-  version: '22.10'
-  build: h27087fc_0
+  version: 1!1.24.6
+  build: h00cdb27_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/sophus-1!1.24.6-h00cdb27_1.conda
+  sha256: c314da8813ca2a8c021618ec41b6c13c89b409d1f3e6950efc17b044940f0fd5
+  md5: 52fd5a6d7bb2f8f6748d5210519a61fe
+  depends:
+  - __osx >=11.0
+  - eigen >=3.3
+  - libcxx >=16
+  license: MIT
+  license_family: MIT
+  size: 49589
+  timestamp: 1719292168756
+- kind: conda
+  name: sophus
+  version: 1!1.24.6
+  build: hac33072_1
+  build_number: 1
   subdir: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/sophus-22.10-h27087fc_0.tar.bz2
-  sha256: 688c7c8b0db4f458aadec832a6d8f3c5cff175cc11ec0b6daea7c736dc430e64
-  md5: bb2aa80faa4fc96ad0aed57f60965170
+  url: https://conda.anaconda.org/conda-forge/linux-64/sophus-1!1.24.6-hac33072_1.conda
+  sha256: 61af844b4e5d653f1396f061181e1e044ad3d2bdbe76c71f3944169f4f31ad67
+  md5: b1c69b4e35dd860c3012994ed83349e5
   depends:
   - eigen >=3.3
   - libgcc-ng >=12
   - libstdcxx-ng >=12
   license: MIT
   license_family: MIT
-  size: 48681
-  timestamp: 1665496751889
+  size: 49466
+  timestamp: 1719292378317
+- kind: conda
+  name: sophus
+  version: 1!1.24.6
+  build: he0c23c2_1
+  build_number: 1
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/sophus-1!1.24.6-he0c23c2_1.conda
+  sha256: b94214736d98fb74d944ec1c639ab4a51025bc1ee34d4054f5958cfd50ee9c78
+  md5: 8395183e8983dc642f0ee82dc929317d
+  depends:
+  - eigen >=3.3
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  license: MIT
+  license_family: MIT
+  size: 49786
+  timestamp: 1719293157202
 - kind: conda
   name: spdlog
   version: 1.12.0
