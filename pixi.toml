@@ -37,6 +37,7 @@ ms-gsl = ">=4.0.0,<4.1"
 nlohmann_json = "3.11.*"
 openssl = ">=3.2.1,<3.3"
 re2 = "2023.9.1.*"
+sophus = ">=1!1.24.6,<1!1.25"
 spdlog = ">=1.12.0,<1.13"
 zlib = ">=1.2.13,<1.3"
 
@@ -49,14 +50,8 @@ install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd O
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
 ] }
-install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/share/sophus/cmake/SophusConfig.cmake",
-] }
 install_deps = { depends_on = [
     "install_OpenFBX",
-    "install_sophus",
     "remove_deps_dir",
 ] }
 reinstall_deps = { depends_on = ["remove_deps_dir", "install_deps"] }
@@ -90,7 +85,6 @@ clang-format-18 = ">=18.1.2,<19"
 
 [target.linux-64.dependencies]
 pytorch = ">=2.1.2,<2.2"
-sophus = ">=22.10,<23"
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
@@ -114,7 +108,6 @@ pytorch = ">=2.1.2,<2.2"
 [target.osx-arm64.tasks]
 install_deps = { depends_on = [
     "install_OpenFBX",
-    "install_sophus",
     "remove_deps_dir",
 ] }
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
@@ -135,11 +128,6 @@ install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd O
     "create_deps_dir",
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
-] }
-install_sophus = { cmd = "git clone https://github.com/strasdat/Sophus.git -b '1.22.10' --single-branch --depth 1 && cmake Sophus -B Sophus/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SOPHUS_TESTS=OFF -DBUILD_SOPHUS_EXAMPLES=OFF && cmake --build Sophus/build --target install --config Release --parallel && rm -rf Sophus", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/share/sophus/cmake/SophusConfig.cmake",
 ] }
 configure = { cmd = "cmake -S . -B build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SHARED_LIBS=OFF -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=OFF", depends_on = [
     "install_deps",
