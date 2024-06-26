@@ -23,7 +23,6 @@ std::vector<Vector3f> PoseShape::compute(const SkeletonState& state) const {
 
   // compute coefficients
   VectorXf coefficients(shapeVectors.cols());
-  ;
 
   // calculate base transform
   const Quaternionf base = baseRot * state.jointState[baseJoint].rotation.inverse();

@@ -49,7 +49,7 @@ void JointStateT<T>::set(
   }
 
   // do the translations
-  localTranslation.noalias() = joint.translationOffset + parameters.template segment<3>(0);
+  localTranslation.noalias() = joint.translationOffset + parameters.template head<3>();
 
   // apply pre-rotation
   localRotation = joint.preRotation;

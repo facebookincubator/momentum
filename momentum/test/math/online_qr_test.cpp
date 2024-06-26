@@ -522,8 +522,8 @@ TEST(OnlineBlockQR, TwoBlocks) {
 
   // Try adding the whole matrix at once:
   OnlineBlockHouseholderQR<double> qr_blockwise(1);
-  qr_blockwise.add(0, A1_diag, A1_common, b_diag.segment<3>(0));
-  qr_blockwise.add(1, A2_diag, A2_common, b_diag.segment<3>(3));
+  qr_blockwise.add(0, A1_diag, A1_common, b_diag.head<3>());
+  qr_blockwise.add(1, A2_diag, A2_common, b_diag.tail<3>());
 
   const Eigen::MatrixXd R_dense = qr_blockwise.R_dense();
   const Eigen::VectorXd y_dense = qr_blockwise.y_dense();
