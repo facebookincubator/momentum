@@ -1,0 +1,8 @@
+publish(
+    wiki_root_path = "RL/XR_Tech/Core_Libraries/Axel",
+    srcs = [
+        "README.md",
+    ],
+    oncall = "axel_dev",
+    readme_as_root = True,
+)
