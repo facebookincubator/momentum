@@ -28,6 +28,7 @@ include(cmake/mt_defs.cmake)
 #===============================================================================
 
 option(BUILD_SHARED_LIBS "Build as shared libraries" ON)
+option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
 option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
 option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
 option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
@@ -278,16 +279,55 @@ mt_library(
     OpenFBX
 )
 
-# TODO: Enable io_fbx with the FBX SDK dependency
+if(MOMENTUM_BUILD_IO_FBX)
+  if(DEFINED ENV{FBXSDK_PATH})
+    set(fbxsdk_path $ENV{FBXSDK_PATH})
+
+    if(NOT EXISTS "${fbxsdk_path}")
+      message(FATAL_ERROR "FBXSDK_PATH does not exist: ${fbxsdk_path}")
+    endif()
+
+    if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+      set(io_fbx_sources_var io_fbx_sources_windows)
+      set(fbxsdk_libs
+        "${fbxsdk_path}/lib/vs2017/x64/release/libfbxsdk-md.lib"
+        "${fbxsdk_path}/lib/vs2017/x64/release/libxml2-md.lib"
+        "${fbxsdk_path}/lib/vs2017/x64/release/zlib-md.lib"
+      )
+    else()
+      message(FATAL_ERROR "Unsupported platform")
+    endif()
+
+    mt_library(
+      NAME fbxsdk
+      PUBLIC_INCLUDE_DIRECTORIES
+        "${fbxsdk_path}/include"
+      PUBLIC_LINK_LIBRARIES
+        ${fbxsdk_libs}
+    )
+
+    set(io_fbx_private_link_libraries fbxsdk)
+  else()
+    message(WARNING "MOMENTUM_BUILD_IO_FBX is enabled, but the FBXSDK_PATH environment variable is not defined. The build will proceed without the FBX SDK. Please download the required FBX SDK 2019.2 from the Autodesk Developer Network: https://aps.autodesk.com/developer/overview/fbx-sdk. After installation, set FBXSDK_PATH to the installation directory, for example, 'C:\\Program Files\\Autodesk\\FBX\\FBX SDK\\2019.2'.")
+    set(io_fbx_sources_var io_fbx_sources_unsupported)
+    set(io_fbx_private_link_libraries )
+  endif()
+else()
+  set(io_fbx_sources_var io_fbx_sources_unsupported)
+  set(io_fbx_private_link_libraries )
+endif()
+
 mt_library(
   NAME io_fbx
   HEADERS_VARS
     io_fbx_public_headers
   PRIVATE_HEADERS_VARS
     io_fbx_private_headers
-  SOURCES_VARS io_fbx_sources_unsupported
+  SOURCES_VARS
+    ${io_fbx_sources_var}
   PRIVATE_LINK_LIBRARIES
     io_skeleton
+    ${io_fbx_private_link_libraries}
 )
 
 mt_library(
@@ -313,6 +353,7 @@ mt_library(
   PUBLIC_LINK_LIBRARIES
     character
 )
+
 mt_library(
   NAME io_marker
   HEADERS_VARS io_marker_public_headers
