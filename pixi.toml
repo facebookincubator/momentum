@@ -39,7 +39,6 @@ openssl = ">=3.2.1,<3.3"
 re2 = "2023.9.1.*"
 sophus = ">=1!1.24.6,<1!1.25"
 spdlog = ">=1.12.0,<1.13"
-zlib = ">=1.2.13,<1.3"
 
 [tasks]
 clean = { cmd = "rm -rf build && rm -rf .deps && rm -rf .pixi && rm pixi.lock" }
@@ -129,7 +128,7 @@ install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd O
 ], outputs = [
     "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
 ] }
-configure = { cmd = "cmake -S . -B build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SHARED_LIBS=OFF -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=OFF", depends_on = [
+configure = { cmd = "cmake -S . -B build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SHARED_LIBS=OFF -DMOMENTUM_BUILD_IO_FBX=ON -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=OFF", depends_on = [
     "install_deps",
 ], inputs = [
     "CMakeLists.txt",
