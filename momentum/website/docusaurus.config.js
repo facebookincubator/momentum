@@ -48,6 +48,9 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+        gtag: {
+          trackingID: 'G-NQKPMTK7XB',
+        },
       }),
     ],
   ],
