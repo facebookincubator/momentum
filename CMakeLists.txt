@@ -34,6 +34,10 @@ option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
 option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
 option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
 
+# TODO: Workaround for Pixi/conda packaging
+option(MOMENTUM_BUILD_WITH_EZC3D "Build with ezc3d dependency" ON)
+option(MOMENTUM_BUILD_WITH_OPENFBX "Build with OpenFBX dependency" ON)
+
 #===============================================================================
 # Find dependencies
 #===============================================================================
@@ -44,12 +48,16 @@ find_package(CLI11 CONFIG REQUIRED)
 find_package(Dispenso CONFIG REQUIRED)
 find_package(drjit CONFIG REQUIRED)
 find_package(Eigen3 3.4.0 CONFIG REQUIRED)
-find_package(ezc3d CONFIG REQUIRED)
+if(MOMENTUM_BUILD_WITH_EZC3D)
+  find_package(ezc3d CONFIG REQUIRED)
+endif()
 find_package(Microsoft.GSL CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(fx-gltf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(openfbx CONFIG REQUIRED)
+if(MOMENTUM_BUILD_WITH_OPENFBX)
+  find_package(openfbx CONFIG REQUIRED)
+endif()
 find_package(re2 MODULE REQUIRED)
 find_package(Sophus CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
@@ -266,18 +274,20 @@ mt_library(
     character
 )
 
-mt_library(
-  NAME io_openfbx
-  HEADERS_VARS
-    io_openfbx_public_headers
-  PRIVATE_HEADERS_VARS
-    io_openfbx_private_headers
-  SOURCES_VARS io_openfbx_sources
-  PRIVATE_LINK_LIBRARIES
-    io_common
-    io_skeleton
-    OpenFBX
-)
+if(TARGET OpenFBX)
+  mt_library(
+    NAME io_openfbx
+    HEADERS_VARS
+      io_openfbx_public_headers
+    PRIVATE_HEADERS_VARS
+      io_openfbx_private_headers
+    SOURCES_VARS io_openfbx_sources
+    PRIVATE_LINK_LIBRARIES
+      io_common
+      io_skeleton
+      OpenFBX
+  )
+endif()
 
 if(MOMENTUM_BUILD_IO_FBX)
   if(DEFINED ENV{FBXSDK_PATH})
@@ -354,32 +364,36 @@ mt_library(
     character
 )
 
-mt_library(
-  NAME io_marker
-  HEADERS_VARS io_marker_public_headers
-  SOURCES_VARS io_marker_sources
-  PUBLIC_LINK_LIBRARIES
-    character
-  PRIVATE_LINK_LIBRARIES
-    io_common
-    io_gltf
-    ezc3d
-)
+if(TARGET ezc3d)
+  mt_library(
+    NAME io_marker
+    HEADERS_VARS io_marker_public_headers
+    SOURCES_VARS io_marker_sources
+    PUBLIC_LINK_LIBRARIES
+      character
+    PRIVATE_LINK_LIBRARIES
+      io_common
+      io_gltf
+      ezc3d
+  )
+endif()
 
-mt_library(
-  NAME io
-  HEADERS_VARS io_public_headers
-  SOURCES_VARS io_sources
-  PUBLIC_LINK_LIBRARIES
-    io_common
-    io_fbx
-    io_gltf
-    io_motion
-    io_marker
-    io_openfbx
-    io_shape
-    io_skeleton
-)
+if(TARGET io_marker AND TARGET io_openfbx)
+  mt_library(
+    NAME io
+    HEADERS_VARS io_public_headers
+    SOURCES_VARS io_sources
+    PUBLIC_LINK_LIBRARIES
+      io_common
+      io_fbx
+      io_gltf
+      io_motion
+      io_marker
+      io_openfbx
+      io_shape
+      io_skeleton
+  )
+endif()
 
 mt_library(
   NAME marker_tracker
@@ -393,33 +407,37 @@ mt_library(
     character_sequence_solver
 )
 
-mt_library(
-  NAME app_utils
-  HEADERS_VARS
-    app_utils_public_headers
-  SOURCES_VARS
-    app_utils_sources
-  PUBLIC_LINK_LIBRARIES
-    character
-    marker_tracker
-    CLI11::CLI11
-  PRIVATE_LINK_LIBRARIES
-    io
-)
+if(TARGET io)
+  mt_library(
+    NAME app_utils
+    HEADERS_VARS
+      app_utils_public_headers
+    SOURCES_VARS
+      app_utils_sources
+    PUBLIC_LINK_LIBRARIES
+      character
+      marker_tracker
+      CLI11::CLI11
+    PRIVATE_LINK_LIBRARIES
+      io
+  )
+endif()
 
-mt_library(
-  NAME process_markers
-  HEADERS_VARS
-    process_markers_public_headers
-  SOURCES_VARS
-    process_markers_sources
-  PUBLIC_LINK_LIBRARIES
-    app_utils
-    marker_tracker
-    skeleton
-  PRIVATE_LINK_LIBRARIES
-    io_marker
-)
+if(TARGET io_marker AND TARGET app_utils)
+  mt_library(
+    NAME process_markers
+    HEADERS_VARS
+      process_markers_public_headers
+    SOURCES_VARS
+      process_markers_sources
+    PUBLIC_LINK_LIBRARIES
+      app_utils
+      marker_tracker
+      skeleton
+    PRIVATE_LINK_LIBRARIES
+      io_marker
+  )
+endif()
 
 mt_library(
   NAME rerun_eigen_adapters
@@ -643,12 +661,14 @@ if(MOMENTUM_BUILD_EXAMPLES)
       momentum
   )
 
-  mt_executable(
-    NAME convert_model
-    SOURCES_VARS convert_model_sources
-    LINK_LIBRARIES
-      momentum io CLI11::CLI11
-  )
+  if(TARGET io)
+    mt_executable(
+      NAME convert_model
+      SOURCES_VARS convert_model_sources
+      LINK_LIBRARIES
+        momentum io CLI11::CLI11
+    )
+  endif()
 
   mt_executable(
     NAME glb_viewer
@@ -660,34 +680,40 @@ if(MOMENTUM_BUILD_EXAMPLES)
       rerun_sdk
   )
 
-  mt_executable(
-    NAME fbx_viewer
-    SOURCES_VARS fbx_viewer_sources
-    LINK_LIBRARIES
-      io_openfbx
-      rerun
-      CLI11::CLI11
-      rerun_sdk
-  )
+  if(TARGET io_openfbx)
+    mt_executable(
+      NAME fbx_viewer
+      SOURCES_VARS fbx_viewer_sources
+      LINK_LIBRARIES
+        io_openfbx
+        rerun
+        CLI11::CLI11
+        rerun_sdk
+    )
+  endif()
 
-  mt_executable(
-    NAME c3d_viewer
-    SOURCES_VARS c3d_viewer_sources
-    LINK_LIBRARIES
-      io_marker
-      rerun
-      CLI11::CLI11
-      rerun_sdk
-  )
+  if(TARGET io_marker)
+    mt_executable(
+      NAME c3d_viewer
+      SOURCES_VARS c3d_viewer_sources
+      LINK_LIBRARIES
+        io_marker
+        rerun
+        CLI11::CLI11
+        rerun_sdk
+    )
+  endif()
 
-  mt_executable(
-    NAME process_markers_app
-    SOURCES_VARS process_markers_app_sources
-    LINK_LIBRARIES
-      app_utils
-      common
-      process_markers
-  )
+  if(TARGET process_markers)
+    mt_executable(
+      NAME process_markers_app
+      SOURCES_VARS process_markers_app_sources
+      LINK_LIBRARIES
+        app_utils
+        common
+        process_markers
+    )
+  endif()
 endif()
 
 #===============================================================================
