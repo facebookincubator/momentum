@@ -723,6 +723,9 @@ install(
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
   COMPONENT headers
   FILES_MATCHING PATTERN "*.h"
+  PATTERN "*/examples/*" EXCLUDE
+  PATTERN "*/test/*" EXCLUDE
+  PATTERN "*/website/*" EXCLUDE
 )
 
 # Install targets (lib)
