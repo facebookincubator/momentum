@@ -151,6 +151,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/nlohmann_json-3.11.3-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/numpy-1.26.4-py312heda63a1_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/openblas-0.3.27-pthreads_h7a3da1a_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/openfbx-0.9-h1f05711_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/openjpeg-2.5.2-h488ebb8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/openssl-3.2.2-h4ab18f5_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/orc-2.0.0-h17fec99_1.conda
@@ -326,6 +327,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/nomkl-1.0-h5ca1d4c_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/numpy-1.26.4-py312h8442bc7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/openblas-0.3.27-openmp_h55c453e_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/openfbx-0.9-hf252ed8_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/openjpeg-2.5.2-h9f1df11_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/openssl-3.2.2-hfb2fe0b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/orc-2.0.0-h4aad248_1.conda
@@ -499,6 +501,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/ninja-1.11.1-h91493d7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/nlohmann_json-3.11.3-h1537add_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/numpy-1.26.4-py312h8753938_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/openfbx-0.9-he75f1b5_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/openjpeg-2.5.2-h3d672ee_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/openssl-3.2.2-h2466b09_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/orc-2.0.0-h7e885a9_1.conda
@@ -7428,6 +7431,56 @@ packages:
   license_family: BSD
   size: 5730600
   timestamp: 1712364465401
+- kind: conda
+  name: openfbx
+  version: '0.9'
+  build: h1f05711_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/openfbx-0.9-h1f05711_1.conda
+  sha256: a190f8aa76349aa7081b6736a24388fd6243031313329a984c841b8bed35b17c
+  md5: 5064c895b9fbc315f82f871940eb3cb2
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libdeflate >=1.20,<1.21.0a0
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  license: MIT
+  size: 86796
+  timestamp: 1719862640030
+- kind: conda
+  name: openfbx
+  version: '0.9'
+  build: he75f1b5_1
+  build_number: 1
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/openfbx-0.9-he75f1b5_1.conda
+  sha256: afc9d78d806ff2da853d6462661eece89637e1ea31bdc097bc6ba9c2167604fd
+  md5: eaf5cf3fce547f518c0c0737e15dfaff
+  depends:
+  - libdeflate >=1.20,<1.21.0a0
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  license: MIT
+  size: 134128
+  timestamp: 1719862823630
+- kind: conda
+  name: openfbx
+  version: '0.9'
+  build: hf252ed8_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/openfbx-0.9-hf252ed8_1.conda
+  sha256: 600501deab04c9e88d11bf4a130139e3a2255968ce8c04a343658799d605f4af
+  md5: e70ad3843b044991bc110680396420b1
+  depends:
+  - __osx >=11.0
+  - libcxx >=16
+  - libdeflate >=1.20,<1.21.0a0
+  license: MIT
+  size: 78227
+  timestamp: 1719862696634
 - kind: conda
   name: openjpeg
   version: 2.5.2
