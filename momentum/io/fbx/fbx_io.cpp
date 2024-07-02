@@ -58,7 +58,7 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
   nodes.push_back(scene->GetRootNode());
   do {
     // get current node
-    auto node = nodes.back();
+    auto* node = nodes.back();
     nodes.pop_back();
 
     // check if it' valid
@@ -71,7 +71,7 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
 
     // check for skeleton Node
     if (node->GetNodeAttribute()->GetAttributeType() == ::fbxsdk::FbxNodeAttribute::eSkeleton) {
-      auto lSkeleton = (::fbxsdk::FbxSkeleton*)node->GetNodeAttribute();
+      auto* lSkeleton = (::fbxsdk::FbxSkeleton*)node->GetNodeAttribute();
 
       // create a new joint and add data from the fbx file to it
       Joint joint;
@@ -143,7 +143,7 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
   nodes.push_back(scene->GetRootNode());
   do {
     // get current node
-    auto node = nodes.front();
+    auto* node = nodes.front();
     nodes.pop_front();
 
     // check if it's valid
@@ -178,7 +178,7 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
                 .cast<float>();
 
       // load colors if present
-      const auto colorElement = lMesh->GetElementVertexColor();
+      auto* const colorElement = lMesh->GetElementVertexColor();
       if (colorElement != nullptr) {
         const auto mode = colorElement->GetMappingMode();
         if (mode == ::fbxsdk::FbxLayerElement::eByPolygonVertex) {
@@ -333,12 +333,12 @@ Character loadFbxScene(const std::variant<filesystem::path, gsl::span<const std:
   // ---------------------------------------------
   // initialize FBX SDK and load data
   // ---------------------------------------------
-  auto manager = ::fbxsdk::FbxManager::Create();
-  auto ios = ::fbxsdk::FbxIOSettings::Create(manager, IOSROOT);
+  auto* manager = ::fbxsdk::FbxManager::Create();
+  auto* ios = ::fbxsdk::FbxIOSettings::Create(manager, IOSROOT);
   manager->SetIOSettings(ios);
 
   std::unique_ptr<FbxStream> custom_stream; // needs to outlive importer
-  auto importer = ::fbxsdk::FbxImporter::Create(manager, "");
+  auto* importer = ::fbxsdk::FbxImporter::Create(manager, "");
   bool initialized = false;
 
   std::visit(
@@ -362,7 +362,7 @@ Character loadFbxScene(const std::variant<filesystem::path, gsl::span<const std:
     throw std::runtime_error(fmt::format(
         "Unable to initialize fbx importer {}", importer->GetStatus().GetErrorString()));
   }
-  auto scene = ::fbxsdk::FbxScene::Create(manager, "myScene");
+  auto* scene = ::fbxsdk::FbxScene::Create(manager, "myScene");
   importer->Import(scene);
   importer->Destroy();
 
@@ -618,8 +618,8 @@ void saveFbx(
   // ---------------------------------------------
   // initialize FBX SDK and prepare for export
   // ---------------------------------------------
-  auto manager = ::fbxsdk::FbxManager::Create();
-  auto ios = ::fbxsdk::FbxIOSettings::Create(manager, IOSROOT);
+  auto* manager = ::fbxsdk::FbxManager::Create();
+  auto* ios = ::fbxsdk::FbxIOSettings::Create(manager, IOSROOT);
   manager->SetIOSettings(ios);
 
   // Create an exporter.
@@ -698,7 +698,7 @@ void saveFbx(
     const auto& joint = character.skeleton.joints[i];
 
     // set parent if it has one
-    auto skeletonNode = jointToNodeMap[i];
+    auto* skeletonNode = jointToNodeMap[i];
     if (joint.parent != kInvalidIndex) {
       skeletonNodes[joint.parent]->AddChild(skeletonNode);
     }

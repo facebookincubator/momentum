@@ -925,19 +925,19 @@ double SimdPositionErrorFunctionAVX::getJacobian(
                   const float pw = parameterTransform_.transform.valuePtr()[pIndex];
 
                   const __m256 pjacx = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacx);
-                  const auto addressx = &jacobian(
+                  auto* const addressx = &jacobian(
                       offset + jindex + 0, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevx = _mm256_loadu_ps(addressx);
                   _mm256_storeu_ps(addressx, _mm256_add_ps(prevx, pjacx));
 
                   const __m256 pjacy = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacy);
-                  const auto addressy = &jacobian(
+                  auto* const addressy = &jacobian(
                       offset + jindex + 8, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevy = _mm256_loadu_ps(addressy);
                   _mm256_storeu_ps(addressy, _mm256_add_ps(prevy, pjacy));
 
                   const __m256 pjacz = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacz);
-                  const auto addressz = &jacobian(
+                  auto* const addressz = &jacobian(
                       offset + jindex + 16, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevz = _mm256_loadu_ps(addressz);
                   _mm256_storeu_ps(addressz, _mm256_add_ps(prevz, pjacz));
@@ -965,19 +965,19 @@ double SimdPositionErrorFunctionAVX::getJacobian(
                   const float pw = parameterTransform_.transform.valuePtr()[pIndex];
 
                   const __m256 pjacx = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacx);
-                  const auto addressx = &jacobian(
+                  auto* const addressx = &jacobian(
                       offset + jindex + 0, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevx = _mm256_loadu_ps(addressx);
                   _mm256_storeu_ps(addressx, _mm256_add_ps(prevx, pjacx));
 
                   const __m256 pjacy = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacy);
-                  const auto addressy = &jacobian(
+                  auto* const addressy = &jacobian(
                       offset + jindex + 8, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevy = _mm256_loadu_ps(addressy);
                   _mm256_storeu_ps(addressy, _mm256_add_ps(prevy, pjacy));
 
                   const __m256 pjacz = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacz);
-                  const auto addressz = &jacobian(
+                  auto* const addressz = &jacobian(
                       offset + jindex + 16, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevz = _mm256_loadu_ps(addressz);
                   _mm256_storeu_ps(addressz, _mm256_add_ps(prevz, pjacz));
@@ -1000,19 +1000,19 @@ double SimdPositionErrorFunctionAVX::getJacobian(
                 const float pw = parameterTransform_.transform.valuePtr()[pIndex];
 
                 const __m256 pjacx = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacx);
-                const auto addressx = &jacobian(
+                auto* const addressx = &jacobian(
                     offset + jindex + 0, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prevx = _mm256_loadu_ps(addressx);
                 _mm256_storeu_ps(addressx, _mm256_add_ps(prevx, pjacx));
 
                 const __m256 pjacy = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacy);
-                const auto addressy = &jacobian(
+                auto* const addressy = &jacobian(
                     offset + jindex + 8, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prevy = _mm256_loadu_ps(addressy);
                 _mm256_storeu_ps(addressy, _mm256_add_ps(prevy, pjacy));
 
                 const __m256 pjacz = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacz);
-                const auto addressz = &jacobian(
+                auto* const addressz = &jacobian(
                     offset + jindex + 16, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prevz = _mm256_loadu_ps(addressz);
                 _mm256_storeu_ps(addressz, _mm256_add_ps(prevz, pjacz));

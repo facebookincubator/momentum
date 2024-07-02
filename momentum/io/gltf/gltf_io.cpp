@@ -591,7 +591,7 @@ SkinWeights_u bindMeshToJoint(const Mesh_u& mesh, size_t jointId) {
 void loadGlobalExtensions(const fx::gltf::Document& model, Character& character) {
   try {
     // load additional momentum data if present
-    auto& def = getMomentumExtension(model.extensionsAndExtras);
+    const auto& def = getMomentumExtension(model.extensionsAndExtras);
 
     if (def.count("transform") > 0)
       character.parameterTransform = parameterTransformFromJson(character, def["transform"]);
@@ -752,7 +752,7 @@ std::tuple<MotionParameters, IdentityParameters, float> loadMotion(fx::gltf::Doc
     // load motion
     auto& def = getMomentumExtension(model.extensionsAndExtras);
     const float fps = def.value("fps", 120.0f);
-    auto [motion, identity] = getMotionFromModel(model);
+    const auto& [motion, identity] = getMotionFromModel(model);
     return {motion, identity, fps};
   } catch (std::runtime_error& err) {
     throw std::runtime_error(
@@ -952,7 +952,7 @@ MarkerSequence loadMarkerSequence(const filesystem::path& filename) {
   if (model.animations.empty())
     return result;
 
-  auto& def = getMomentumExtension(model.extensionsAndExtras);
+  const auto& def = getMomentumExtension(model.extensionsAndExtras);
   const float fps = def.value("fps", 120.0f);
   result.fps = fps;
   // TODO: result.name = model.name;

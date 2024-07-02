@@ -33,7 +33,7 @@ template <typename T>
 void GradientDescentSolverT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const GradientDescentSolverOptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const GradientDescentSolverOptions*>(&options)) {
     learningRate_ = derivedOptions->learningRate;
   }
 }

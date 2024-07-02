@@ -116,7 +116,7 @@ Eigen::Quaterniond fbxEulerRotationToQuat(
 }
 
 const ofbx::IElement* findChild(const ofbx::IElement& element, const char* id) {
-  auto curChild = element.getFirstChild();
+  auto* curChild = element.getFirstChild();
   while (curChild) {
     if (curChild->getID() == id)
       return curChild;
@@ -147,7 +147,7 @@ ofbx::IElement* resolveProperty(const ofbx::Object& object, const char* name) {
 
   ofbx::IElement* prop = props->getFirstChild();
   while (prop) {
-    auto firstProp = prop->getFirstProperty();
+    auto* firstProp = prop->getFirstProperty();
     if (firstProp->getType() != ofbx::IElementProperty::STRING)
       throw std::runtime_error("Expected string for first property value.");
 
@@ -163,7 +163,7 @@ ofbx::IElement* resolveProperty(const ofbx::Object& object, const char* name) {
 // Get the nth property, needed because elements store properties in the order [name, ?, ?, ?,
 // value].
 const ofbx::IElementProperty* getElementProperty(const ofbx::IElement* element, size_t iProp) {
-  auto prop = element->getFirstProperty();
+  auto* prop = element->getFirstProperty();
   for (size_t j = 0; j < iProp; ++j) {
     if (prop == nullptr)
       return nullptr;
@@ -230,7 +230,7 @@ VecArray extractPropertyArrayImp(const ofbx::IElementProperty* prop, const char*
 
 template <typename VecArray>
 VecArray extractPropertyVecArray(const ofbx::IElement* element, const char* what) {
-  const auto prop = element->getFirstProperty();
+  const auto* prop = element->getFirstProperty();
   if (prop == nullptr)
     throw std::runtime_error(std::string("For element ") + what + "; found no property.");
 
@@ -260,7 +260,7 @@ ofbx::IElementProperty::Type propertyArrayType<int>() {
 
 template <typename T>
 std::vector<T> extractPropertyArray(const ofbx::IElement* element, const char* what) {
-  const auto prop = element->getFirstProperty();
+  const auto* prop = element->getFirstProperty();
   if (prop == nullptr)
     throw std::runtime_error(std::string("For element ") + what + "; found no property.");
 
@@ -275,7 +275,7 @@ std::vector<T> extractPropertyArray(const ofbx::IElement* element, const char* w
 }
 
 std::vector<double> extractPropertyFloatArray(const ofbx::IElement* element, const char* what) {
-  const auto prop = element->getFirstProperty();
+  const auto* prop = element->getFirstProperty();
   if (prop == nullptr)
     throw std::runtime_error(std::string("For element ") + what + "; found no property.");
 
@@ -308,7 +308,7 @@ void parseSkeleton(
   // A transform node could be a lot of different objects.
   if (type == ofbx::Object::Type::NULL_NODE) {
     // Check for collision capsule in a custom attribute
-    auto res = resolveProperty(*curSkelNode, "col_type");
+    auto* res = resolveProperty(*curSkelNode, "col_type");
 
     if (res != nullptr) {
       // Extract the capsule if present:
@@ -457,17 +457,17 @@ void parseSkinnedModel(
 
   // We will parse out the geometry ourselves rather than using OpenFBX's
   // Geometry class, since the latter throws away a lot of useful information.
-  const auto geometry = meshRoot->getGeometry();
+  const auto* geometry = meshRoot->getGeometry();
   const auto& geomElement = geometry->element;
 
-  const auto vertices_element = findChild(geomElement, "Vertices");
+  const auto* vertices_element = findChild(geomElement, "Vertices");
   if (vertices_element == nullptr || !vertices_element->getFirstProperty())
     throw std::runtime_error("No vertices found in mesh element.");
   const auto vertexPositions =
       extractPropertyVecArray<std::vector<Eigen::Vector3f>>(vertices_element, "Vertices");
   const auto nVerts = vertexPositions.size();
 
-  const auto polys_element = findChild(geomElement, "PolygonVertexIndex");
+  const auto* polys_element = findChild(geomElement, "PolygonVertexIndex");
   if (polys_element == nullptr || !polys_element->getFirstProperty())
     throw std::runtime_error("No polygons found in mesh element.");
   const auto indices = extractPropertyArray<int>(polys_element, "PolygonVertexIndex");
@@ -485,16 +485,16 @@ void parseSkinnedModel(
   }
 
   std::vector<Eigen::Vector2f> textureCoords;
-  const auto layer_uv_element = findChild(geomElement, "LayerElementUV");
+  const auto* layer_uv_element = findChild(geomElement, "LayerElementUV");
   if (layer_uv_element != nullptr) {
-    const auto uvs_element = findChild(*layer_uv_element, "UV");
+    const auto* uvs_element = findChild(*layer_uv_element, "UV");
     if (uvs_element == nullptr || !uvs_element->getFirstProperty()) {
       // Some legitimate uses of fbxsdk (ie fbx_io.cpp:saveFbx) seem to be unable to write to this
       // element. So we are not hard-failing to remain "compatible".
       MT_LOGE("No UVs found in mesh element.");
     } else {
       EMapping mapping = MAPPING_UNKNOWN;
-      const auto mapping_element = findChild(*layer_uv_element, "MappingInformationType");
+      const auto* mapping_element = findChild(*layer_uv_element, "MappingInformationType");
       if (mapping_element != nullptr && mapping_element->getFirstProperty() != nullptr) {
         const ofbx::DataView& view = mapping_element->getFirstProperty()->getValue();
         if (view == "ByPolygonVertex")
@@ -508,7 +508,7 @@ void parseSkinnedModel(
       }
 
       EReference reference = REF_UNKNOWN;
-      const auto reference_element = findChild(*layer_uv_element, "ReferenceInformationType");
+      const auto* reference_element = findChild(*layer_uv_element, "ReferenceInformationType");
       if (reference_element != nullptr && reference_element->getFirstProperty() != nullptr) {
         const ofbx::DataView& view = reference_element->getFirstProperty()->getValue();
         if (view == "IndexToDirect")
@@ -527,7 +527,7 @@ void parseSkinnedModel(
       if (reference == REF_INDEX_TO_DIRECT) {
         // IndexToDirect means there is another mapping array which gives the order of the UVs in
         // the mesh
-        auto indices_element = findChild(*layer_uv_element, "UVIndex");
+        const auto* indices_element = findChild(*layer_uv_element, "UVIndex");
         if (indices_element == nullptr) {
           throw std::runtime_error("Missing indices element.");
         }
@@ -566,7 +566,7 @@ void parseSkinnedModel(
   errMsg = faces.warnMessage(textureCoords.size());
   MT_LOGW_IF(!errMsg.empty(), "Error reading polygon data from FBX file: {}", errMsg);
 
-  const auto fbxskin = geometry->getSkin();
+  const auto* fbxskin = geometry->getSkin();
   if (fbxskin == nullptr)
     throw std::runtime_error("No skin found for geometry.");
 
@@ -584,10 +584,10 @@ void parseSkinnedModel(
 
   int clusterCount = fbxskin->getClusterCount();
   for (int clusterIndex = 0; clusterIndex < clusterCount; clusterIndex++) {
-    const auto cluster = fbxskin->getCluster(clusterIndex);
+    const auto* cluster = fbxskin->getCluster(clusterIndex);
     MT_CHECK(cluster != nullptr);
 
-    const auto bone = cluster->getLink();
+    const auto* bone = cluster->getLink();
 
     const auto fbxJointItr = boneMap.find(bone);
     if (fbxJointItr == boneMap.end()) {
@@ -598,7 +598,7 @@ void parseSkinnedModel(
     inverseBindPoseTransforms[boneIndex] =
         toEigen(cluster->getTransformLinkMatrix()).inverse().cast<float>();
 
-    const auto skinning_indices_element = findChild(cluster->element, "Indexes");
+    const auto* skinning_indices_element = findChild(cluster->element, "Indexes");
     if (skinning_indices_element == nullptr || !skinning_indices_element->getFirstProperty())
       continue;
     /*
@@ -608,7 +608,7 @@ void parseSkinnedModel(
         */
     const auto skinningIndices = extractPropertyArray<int>(skinning_indices_element, "Indexes");
 
-    const auto skinning_weights_element = findChild(cluster->element, "Weights");
+    const auto* skinning_weights_element = findChild(cluster->element, "Weights");
     if (skinning_weights_element == nullptr || !skinning_weights_element->getFirstProperty()) {
       throw std::runtime_error(fmt::format(
           "No skinning weights found in cluster element {} (mesh is {}).",
