@@ -119,9 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7c9e49f0d0ab7a922621afd5e96c60ed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SolverFunctionT.html#a7c9e49f0d0ab7a922621afd5e96c60ed">updateParameters</a> (<a class="el" href="namespacemomentum.html#a15524ec60f1a3e6d0ec96db0eaeac0b1">VectorX</a>&lt; T &gt; &amp;parameters, const <a class="el" href="namespacemomentum.html#a15524ec60f1a3e6d0ec96db0eaeac0b1">VectorX</a>&lt; T &gt; &amp;gradient)=0</td></tr>
 <tr class="memdesc:a7c9e49f0d0ab7a922621afd5e96c60ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the parameters given the gradient.  <a href="classmomentum_1_1SolverFunctionT.html#a7c9e49f0d0ab7a922621afd5e96c60ed">More...</a><br /></td></tr>
 <tr class="separator:a7c9e49f0d0ab7a922621afd5e96c60ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a1574da54c2b7fead1ee98c06a0d1e1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SolverFunctionT.html#a0a1574da54c2b7fead1ee98c06a0d1e1">setEnabledParameters</a> (const <a class="el" href="namespacemomentum.html#a41af5d46b5431d98f3c25f94f0b16349">ParameterSet</a> &amp;)</td></tr>
-<tr class="memdesc:a0a1574da54c2b7fead1ee98c06a0d1e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the enabled parameters.  <a href="classmomentum_1_1SolverFunctionT.html#a0a1574da54c2b7fead1ee98c06a0d1e1">More...</a><br /></td></tr>
-<tr class="separator:a0a1574da54c2b7fead1ee98c06a0d1e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa75eca8db9c61ec8af90fb9ff76522c1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SolverFunctionT.html#aa75eca8db9c61ec8af90fb9ff76522c1">setEnabledParameters</a> (const <a class="el" href="namespacemomentum.html#a41af5d46b5431d98f3c25f94f0b16349">ParameterSet</a> &amp;parameterSet)</td></tr>
+<tr class="memdesc:aa75eca8db9c61ec8af90fb9ff76522c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the enabled parameters.  <a href="classmomentum_1_1SolverFunctionT.html#aa75eca8db9c61ec8af90fb9ff76522c1">More...</a><br /></td></tr>
+<tr class="separator:aa75eca8db9c61ec8af90fb9ff76522c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46e19b760c8c0ea68d3733a1f32f276a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SolverFunctionT.html#a46e19b760c8c0ea68d3733a1f32f276a">getNumParameters</a> () const</td></tr>
 <tr class="memdesc:a46e19b760c8c0ea68d3733a1f32f276a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of parameters.  <a href="classmomentum_1_1SolverFunctionT.html#a46e19b760c8c0ea68d3733a1f32f276a">More...</a><br /></td></tr>
 <tr class="separator:a46e19b760c8c0ea68d3733a1f32f276a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -510,8 +510,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a0a1574da54c2b7fead1ee98c06a0d1e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a1574da54c2b7fead1ee98c06a0d1e1">&#9670;&nbsp;</a></span>setEnabledParameters()</h2>
+<a id="aa75eca8db9c61ec8af90fb9ff76522c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa75eca8db9c61ec8af90fb9ff76522c1">&#9670;&nbsp;</a></span>setEnabledParameters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -525,7 +525,7 @@ template&lt;typename T &gt; </div>
           <td class="memname">void <a class="el" href="classmomentum_1_1SolverFunctionT.html">momentum::SolverFunctionT</a>&lt; T &gt;::setEnabledParameters </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespacemomentum.html#a41af5d46b5431d98f3c25f94f0b16349">ParameterSet</a> &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>parameterSet</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -538,7 +538,7 @@ template&lt;typename T &gt; </div>
 
 <p>Sets the enabled parameters. </p>
 
-<p>Reimplemented in <a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#ab743f448d9c241064f7b797345d890ac">momentum::SkeletonSolverFunctionT&lt; T &gt;</a>, <a class="el" href="classmomentum_1_1SequenceSolverFunctionT.html#addbd81e66bff7451b9c65ab92111380f">momentum::SequenceSolverFunctionT&lt; T &gt;</a>, and <a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a97b3681f0ef88b2aaf29a1c0da70c9ee">momentum::MultiposeSolverFunctionT&lt; T &gt;</a>.</p>
+<p>Reimplemented in <a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#ab743f448d9c241064f7b797345d890ac">momentum::SkeletonSolverFunctionT&lt; T &gt;</a>, <a class="el" href="classmomentum_1_1SequenceSolverFunctionT.html#a949d1314dd090f79d17b53dc128c1883">momentum::SequenceSolverFunctionT&lt; T &gt;</a>, and <a class="el" href="classmomentum_1_1MultiposeSolverFunctionT.html#a91e52676b24b51b0667b830332b9f307">momentum::MultiposeSolverFunctionT&lt; T &gt;</a>.</p>
 
 </div>
 </div>
