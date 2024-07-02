@@ -66,7 +66,7 @@ class NormalErrorFunctionT : public ConstraintErrorFunctionT<T, NormalDataT<T>, 
   void evalFunction(
       size_t constrIndex,
       const JointStateT<T>& state,
-      Vector<T, 1>&,
+      Vector<T, 1>& f,
       optional_ref<std::array<Vector3<T>, 2>> v = {},
       optional_ref<std::array<Eigen::Matrix<T, 1, 3>, 2>> dfdv = {}) const final;
 };

@@ -67,9 +67,9 @@ class PositionErrorFunctionT : public ConstraintErrorFunctionT<T, PositionDataT<
   void evalFunction(
       size_t constrIndex,
       const JointStateT<T>& state,
-      Vector3<T>&,
-      optional_ref<std::array<Vector3<T>, 1>> = {},
-      optional_ref<std::array<Matrix3<T>, 1>> /*dfdv*/ = {}) const final;
+      Vector3<T>& f,
+      optional_ref<std::array<Vector3<T>, 1>> v = {},
+      optional_ref<std::array<Matrix3<T>, 1>> dfdv = {}) const final;
 };
 
 } // namespace momentum

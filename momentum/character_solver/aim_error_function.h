@@ -68,7 +68,7 @@ class AimDistErrorFunctionT : public ConstraintErrorFunctionT<T, AimDataT<T>, 3,
   void evalFunction(
       size_t constrIndex,
       const JointStateT<T>& state,
-      Vector3<T>&,
+      Vector3<T>& f,
       optional_ref<std::array<Vector3<T>, 2>> v = {},
       optional_ref<std::array<Eigen::Matrix3<T>, 2>> dfdv = {}) const final;
 };
@@ -105,7 +105,7 @@ class AimDirErrorFunctionT : public ConstraintErrorFunctionT<T, AimDataT<T>, 3, 
   void evalFunction(
       size_t constrIndex,
       const JointStateT<T>& state,
-      Vector3<T>&,
+      Vector3<T>& f,
       optional_ref<std::array<Vector3<T>, 2>> v = {},
       optional_ref<std::array<Eigen::Matrix3<T>, 2>> dfdv = {}) const final;
 };

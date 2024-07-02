@@ -117,7 +117,9 @@ SimdPlaneErrorFunction::SimdPlaneErrorFunction(const Character& character, size_
   // Do nothing
 }
 
-double SimdPlaneErrorFunction::getError(const ModelParameters&, const SkeletonState& state) {
+double SimdPlaneErrorFunction::getError(
+    const ModelParameters& /* params */,
+    const SkeletonState& state) {
   if (constraints_ == nullptr) {
     return 0.0f;
   }
@@ -164,7 +166,7 @@ double SimdPlaneErrorFunction::getError(const ModelParameters&, const SkeletonSt
 }
 
 double SimdPlaneErrorFunction::getGradient(
-    const ModelParameters&,
+    const ModelParameters& /* params */,
     const SkeletonState& state,
     Ref<VectorXf> gradient) {
   if (constraints_ == nullptr) {
@@ -312,7 +314,7 @@ __vectorcall DRJIT_INLINE void jacobian_jointParams_to_modelParams(
 }
 
 double SimdPlaneErrorFunction::getJacobian(
-    const ModelParameters&,
+    const ModelParameters& /* params */,
     const SkeletonState& state,
     Ref<MatrixXf> jacobian,
     Ref<VectorXf> residual,
@@ -494,7 +496,9 @@ SimdPlaneErrorFunctionAVX::SimdPlaneErrorFunctionAVX(const Character& character,
   // Do nothing
 }
 
-double SimdPlaneErrorFunctionAVX::getError(const ModelParameters&, const SkeletonState& state) {
+double SimdPlaneErrorFunctionAVX::getError(
+    const ModelParameters& /* params */,
+    const SkeletonState& state) {
   // do all summations in double to prevent rounding errors
   double error = 0.0;
   if (constraints_ == nullptr) {
@@ -558,7 +562,7 @@ double SimdPlaneErrorFunctionAVX::getError(const ModelParameters&, const Skeleto
 }
 
 double SimdPlaneErrorFunctionAVX::getGradient(
-    const ModelParameters&,
+    const ModelParameters& /* params */,
     const SkeletonState& state,
     Ref<VectorXf> gradient) {
   if (constraints_ == nullptr) {
@@ -760,7 +764,7 @@ double SimdPlaneErrorFunctionAVX::getGradient(
 }
 
 double SimdPlaneErrorFunctionAVX::getJacobian(
-    const ModelParameters&,
+    const ModelParameters& /* params */,
     const SkeletonState& state,
     Ref<MatrixXf> jacobian,
     Ref<VectorXf> residual,

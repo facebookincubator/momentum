@@ -20,19 +20,19 @@ class FbxMemoryStream : public FbxStream {
  public:
   FbxMemoryStream(gsl::span<const std::byte> buffer, int pReaderId);
   ~FbxMemoryStream() override;
-  virtual EState GetState() override;
-  virtual bool Open(void* pStreamData) override;
-  virtual bool Close() override;
-  virtual bool Flush() override;
-  virtual int Write(const void*, int) override;
-  virtual int Read(void*, int) const override;
-  virtual int GetReaderID() const override;
-  virtual int GetWriterID() const override;
-  virtual void Seek(const FbxInt64& pOffset, const FbxFile::ESeekPos& pSeekPos) override;
-  virtual long GetPosition() const override;
-  virtual void SetPosition(long pPosition) override;
-  virtual int GetError() const override;
-  virtual void ClearError() override;
+  EState GetState() override;
+  bool Open(void* pStreamData) override;
+  bool Close() override;
+  bool Flush() override;
+  int Write(const void* buffer, int count) override;
+  int Read(void* buffer, int count) const override;
+  int GetReaderID() const override;
+  int GetWriterID() const override;
+  void Seek(const FbxInt64& pOffset, const FbxFile::ESeekPos& pSeekPos) override;
+  long GetPosition() const override;
+  void SetPosition(long pPosition) override;
+  int GetError() const override;
+  void ClearError() override;
 
  private:
   gsl::span<const std::byte> buffer_;

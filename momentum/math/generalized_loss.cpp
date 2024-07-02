@@ -23,7 +23,7 @@ T L2Loss(const T& sqrError, const T& invC2) {
 }
 
 template <typename T>
-T derivL2Loss(const T&, const T& invC2) {
+T derivL2Loss(const T& /* sqrError */, const T& invC2) {
   return invC2;
 }
 

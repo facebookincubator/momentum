@@ -58,7 +58,7 @@ double SolverFunctionT<T>::getSolverDerivatives(
 }
 
 template <typename T>
-void SolverFunctionT<T>::setEnabledParameters(const ParameterSet&) {};
+void SolverFunctionT<T>::setEnabledParameters(const ParameterSet& /* params */) {};
 
 template <typename T>
 size_t SolverFunctionT<T>::getNumParameters() const {
