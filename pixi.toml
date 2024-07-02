@@ -6,7 +6,7 @@ version = "0.1.0"
 description = "A library providing foundational algorithms for human kinematic motion and numerical optimization solvers to apply human motion in various applications"
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/facebookincubator/momentum"
+homepage = "https://facebookincubator.github.io/momentum/"
 repository = "https://github.com/facebookincubator/momentum"
 
 [build-dependencies]
@@ -31,32 +31,18 @@ ezc3d = "1.5.9.*"
 drjit-cpp = ">=0.4.6,<0.5"
 fmt = "10.2.1.*"
 fx-gltf = ">=2.0.0,<2.1"
-libdeflate = ">=1.19,<2"
 librerun-sdk = ">=0.16,<0.17"
 ms-gsl = ">=4.0.0,<4.1"
 nlohmann_json = "3.11.*"
+openfbx = ">=0.9,<1"
 openssl = ">=3.2.1,<3.3"
 re2 = "2023.9.1.*"
 sophus = ">=1!1.24.6,<1!1.25"
 spdlog = ">=1.12.0,<1.13"
 
 [tasks]
-clean = { cmd = "rm -rf build && rm -rf .deps && rm -rf .pixi && rm pixi.lock" }
-create_deps_dir = { cmd = "mkdir -p .deps" }
-remove_deps_dir = { cmd = "rm -rf .deps" }
-install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd OpenFBX && git checkout 932dbba1fe38b821d4de9b9ba64070e00e65549f && cd .. && cmake OpenFBX -B OpenFBX/build -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DOFBX_DOUBLE_PRECISION=ON && cmake --build OpenFBX/build --target install --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
-] }
-install_deps = { depends_on = [
-    "install_OpenFBX",
-    "remove_deps_dir",
-] }
-reinstall_deps = { depends_on = ["remove_deps_dir", "install_deps"] }
-configure = { cmd = "cmake -S . -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=ON", depends_on = [
-    "install_deps",
-], inputs = [
+clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
+configure = { cmd = "cmake -S . -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=ON", inputs = [
     "CMakeLists.txt",
 ] }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
@@ -88,10 +74,7 @@ sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
-install_deps = { depends_on = [
-    "install_OpenFBX",
-] }
-build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
+build_pymomentum = { cmd = "pip install -e ." }
 test_pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomentum/test/test_fbx.py pymomentum/test/test_parameter_transform.py pymomentum/test/test_quaternion.py pymomentum/test/test_skel_state.py pymomentum/test/test_skeleton.py", env = { MOMENTUM_MODELS_PATH = "momentum/" } }
 
 #============
@@ -105,15 +88,11 @@ clang-format-18 = ">=18.1.2,<19"
 pytorch = ">=2.1.2,<2.2"
 
 [target.osx-arm64.tasks]
-install_deps = { depends_on = [
-    "install_OpenFBX",
-    "remove_deps_dir",
-] }
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
     "configure",
 ] }
-build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
+build_pymomentum = { cmd = "pip install -e ." }
 
 #=========
 # win-64
@@ -123,14 +102,7 @@ build_pymomentum = { cmd = "pip install -e .", depends_on = ["install_deps"] }
 pytorch-cuda = ">=12.1,<13"
 
 [target.win-64.tasks]
-install_OpenFBX = { cmd = "git clone https://github.com/nem0/OpenFBX.git && cd OpenFBX && git checkout 932dbba1fe38b821d4de9b9ba64070e00e65549f && cd .. && cmake OpenFBX -B OpenFBX/build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DOFBX_DOUBLE_PRECISION=ON && cmake --build OpenFBX/build --target install --config Release --parallel && rm -rf OpenFBX", cwd = ".deps", depends_on = [
-    "create_deps_dir",
-], outputs = [
-    "$CONDA_PREFIX/share/openfbx/openfbxConfig.cmake",
-] }
-configure = { cmd = "cmake -S . -B build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SHARED_LIBS=OFF -DMOMENTUM_BUILD_IO_FBX=ON -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=OFF", depends_on = [
-    "install_deps",
-], inputs = [
+configure = { cmd = "cmake -S . -B build -G 'Visual Studio 17 2022' -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DBUILD_SHARED_LIBS=OFF -DMOMENTUM_BUILD_IO_FBX=ON -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=OFF", inputs = [
     "CMakeLists.txt",
 ] }
 open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = [
