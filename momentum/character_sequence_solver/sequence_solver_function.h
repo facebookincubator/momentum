@@ -40,7 +40,7 @@ class SequenceSolverFunctionT : public SolverFunctionT<T> {
       size_t& actualRows) final;
 
   void updateParameters(Eigen::VectorX<T>& parameters, const Eigen::VectorX<T>& gradient) final;
-  void setEnabledParameters(const ParameterSet&) final;
+  void setEnabledParameters(const ParameterSet& parameterSet) final;
 
   ParameterSet getUniversalParameterSet() const {
     return universalParameters_;

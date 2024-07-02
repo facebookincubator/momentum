@@ -40,7 +40,7 @@ bool FbxMemoryStream::Flush() {
   return true;
 }
 
-int FbxMemoryStream::Write(const void*, int) {
+int FbxMemoryStream::Write(const void* /* buffer */, int /* count */) {
   errorCode_ = 1;
   return 0;
 }
@@ -84,8 +84,8 @@ long FbxMemoryStream::GetPosition() const {
   return position_;
 }
 
-void FbxMemoryStream::SetPosition(long pos) {
-  position_ = pos;
+void FbxMemoryStream::SetPosition(long pPosition) {
+  position_ = pPosition;
 }
 
 int FbxMemoryStream::GetError() const {

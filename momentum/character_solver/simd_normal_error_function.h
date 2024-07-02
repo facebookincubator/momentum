@@ -94,7 +94,7 @@ class SimdNormalErrorFunction : public SkeletonErrorFunction {
       Ref<VectorXf> gradient) final;
 
   double getJacobian(
-      const ModelParameters&,
+      const ModelParameters& params,
       const SkeletonState& state,
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,
@@ -135,7 +135,7 @@ class SimdNormalErrorFunctionAVX : public SimdNormalErrorFunction {
       : SimdNormalErrorFunction(character, maxThreads) {}
 
   double getJacobian(
-      const ModelParameters&,
+      const ModelParameters& params,
       const SkeletonState& state,
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,

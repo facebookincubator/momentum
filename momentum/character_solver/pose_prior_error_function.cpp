@@ -86,7 +86,7 @@ double PosePriorErrorFunctionT<T>::logProbability(const ModelParametersT<T>& par
 template <typename T>
 double PosePriorErrorFunctionT<T>::getError(
     const ModelParametersT<T>& params,
-    const SkeletonStateT<T>&) {
+    const SkeletonStateT<T>& /* state */) {
   // return error
   return -logProbability(params) * kPosePriorWeight * this->weight_;
 }
@@ -94,7 +94,7 @@ double PosePriorErrorFunctionT<T>::getError(
 template <typename T>
 double PosePriorErrorFunctionT<T>::getGradient(
     const ModelParametersT<T>& params,
-    const SkeletonStateT<T>&,
+    const SkeletonStateT<T>& /* state */,
     Eigen::Ref<Eigen::VectorX<T>> gradient) {
   MT_PROFILE_EVENT("PosePrior: getGradient");
 
@@ -145,7 +145,7 @@ size_t PosePriorErrorFunctionT<T>::getJacobianSize() const {
 template <typename T>
 double PosePriorErrorFunctionT<T>::getJacobian(
     const ModelParametersT<T>& params,
-    const SkeletonStateT<T>&,
+    const SkeletonStateT<T>& /* state */,
     Eigen::Ref<Eigen::MatrixX<T>> jacobian,
     Eigen::Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {

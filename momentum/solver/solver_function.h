@@ -51,7 +51,7 @@ class SolverFunctionT {
   virtual void updateParameters(VectorX<T>& parameters, const VectorX<T>& gradient) = 0;
 
   /// Sets the enabled parameters.
-  virtual void setEnabledParameters(const ParameterSet&);
+  virtual void setEnabledParameters(const ParameterSet& parameterSet);
 
   /// Returns the total number of parameters.
   size_t getNumParameters() const;

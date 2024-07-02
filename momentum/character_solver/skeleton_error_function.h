@@ -42,27 +42,33 @@ class SkeletonErrorFunctionT {
     enabledParameters_ = ps;
   }
 
-  virtual double getError(const ModelParametersT<T>&, const SkeletonStateT<T>&) {
+  virtual double getError(
+      const ModelParametersT<T>& /* params */,
+      const SkeletonStateT<T>& /* state */) {
     return 0.0f;
   };
 
-  virtual double
-  getGradient(const ModelParametersT<T>&, const SkeletonStateT<T>&, Eigen::Ref<Eigen::VectorX<T>>) {
+  virtual double getGradient(
+      const ModelParametersT<T>& /* params */,
+      const SkeletonStateT<T>& /* state */,
+      Eigen::Ref<Eigen::VectorX<T>> /* gradient */) {
     return 0.0f;
   };
 
   virtual double getJacobian(
-      const ModelParametersT<T>&,
-      const SkeletonStateT<T>&,
-      Eigen::Ref<Eigen::MatrixX<T>>,
-      Eigen::Ref<Eigen::VectorX<T>>,
+      const ModelParametersT<T>& /* params */,
+      const SkeletonStateT<T>& /* state */,
+      Eigen::Ref<Eigen::MatrixX<T>> /* jacobian */,
+      Eigen::Ref<Eigen::VectorX<T>> /* residual */,
       int& usedRows) {
     usedRows = 0;
     return 0.0f;
   };
 
-  virtual void
-  getHessian(const ModelParametersT<T>&, const SkeletonStateT<T>&, Eigen::Ref<Eigen::MatrixX<T>>) {
+  virtual void getHessian(
+      const ModelParametersT<T>& /* params */,
+      const SkeletonStateT<T>& /* state */,
+      Eigen::Ref<Eigen::MatrixX<T>> /* hessian */) {
     throw;
     return;
   };

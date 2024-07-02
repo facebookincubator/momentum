@@ -89,7 +89,7 @@ class PlaneErrorFunctionT : public ConstraintErrorFunctionT<T, PlaneDataT<T>, 1>
       size_t constrIndex,
       const JointStateT<T>& state,
       Vector<T, 1>& f,
-      optional_ref<std::array<Vector3<T>, 1>> = {},
+      optional_ref<std::array<Vector3<T>, 1>> v = {},
       optional_ref<std::array<Eigen::Matrix<T, 1, 3>, 1>> /*dfdv*/ = {}) const final;
 
  private:

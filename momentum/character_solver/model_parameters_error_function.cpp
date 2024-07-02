@@ -42,7 +42,7 @@ ModelParametersErrorFunctionT<T>::ModelParametersErrorFunctionT(
 template <typename T>
 double ModelParametersErrorFunctionT<T>::getError(
     const ModelParametersT<T>& parameters,
-    const SkeletonStateT<T>&) {
+    const SkeletonStateT<T>& /* state */) {
   // ignore if we don't have any reasonable data
   if (targetParameters_.size() != parameters.size() || targetWeights_.size() != parameters.size()) {
     return 0.0;
@@ -64,7 +64,7 @@ double ModelParametersErrorFunctionT<T>::getError(
 template <typename T>
 double ModelParametersErrorFunctionT<T>::getGradient(
     const ModelParametersT<T>& parameters,
-    const SkeletonStateT<T>&,
+    const SkeletonStateT<T>& /* state */,
     Ref<Eigen::VectorX<T>> gradient) {
   // ignore if we don't have any reasonable data
   if (targetParameters_.size() != parameters.size() || targetWeights_.size() != parameters.size()) {
@@ -92,7 +92,7 @@ size_t ModelParametersErrorFunctionT<T>::getJacobianSize() const {
 template <typename T>
 double ModelParametersErrorFunctionT<T>::getJacobian(
     const ModelParametersT<T>& parameters,
-    const SkeletonStateT<T>&,
+    const SkeletonStateT<T>& /* state */,
     Ref<Eigen::MatrixX<T>> jacobian,
     Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {

@@ -21,7 +21,9 @@ spanstreambuf::spanstreambuf(gsl::span<const std::byte> buffer) {
 
 spanstreambuf::~spanstreambuf() {}
 
-std::streamsize spanstreambuf::xsputn(const spanstreambuf::char_type*, std::streamsize) {
+std::streamsize spanstreambuf::xsputn(
+    const spanstreambuf::char_type* /* s */,
+    std::streamsize /* n */) {
   throw std::runtime_error("spanstreambuf is not writable.");
 }
 

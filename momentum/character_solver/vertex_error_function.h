@@ -58,7 +58,7 @@ class VertexErrorFunctionT : public SkeletonErrorFunctionT<T> {
       Eigen::Ref<Eigen::VectorX<T>> gradient) final;
 
   double getJacobian(
-      const ModelParametersT<T>&,
+      const ModelParametersT<T>& params,
       const SkeletonStateT<T>& state,
       Eigen::Ref<Eigen::MatrixX<T>> jacobian,
       Eigen::Ref<Eigen::VectorX<T>> residual,

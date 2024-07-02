@@ -29,7 +29,7 @@ ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::ConstraintErrorFunct
 
 template <typename T, class Data, size_t FuncDim, size_t NumVec, size_t NumPos>
 double ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::getError(
-    const ModelParametersT<T>&,
+    const ModelParametersT<T>& /* params */,
     const SkeletonStateT<T>& state) {
   MT_PROFILE_EVENT("Constraint: getError");
 

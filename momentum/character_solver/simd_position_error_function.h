@@ -92,7 +92,7 @@ class SimdPositionErrorFunction : public SkeletonErrorFunction {
       Ref<VectorXf> gradient) override;
 
   double getJacobian(
-      const ModelParameters&,
+      const ModelParameters& /* params */,
       const SkeletonState& state,
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,
@@ -138,7 +138,7 @@ class SimdPositionErrorFunctionAVX : public SimdPositionErrorFunction {
       Ref<VectorXf> gradient) final;
 
   double getJacobian(
-      const ModelParameters&,
+      const ModelParameters& params,
       const SkeletonState& state,
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,
