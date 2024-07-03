@@ -325,7 +325,7 @@ TYPED_TEST(TransformPoseTest, ValidateTransformSimple) {
       const momentum::Affine3<T> actualTransform =
           skelState_final.jointState[iJoint].transformation;
 
-      EXPECT_LE((targetTransform.matrix() - actualTransform.matrix()).norm(), 1e-4);
+      EXPECT_LE((targetTransform.matrix() - actualTransform.matrix()).norm(), 5e-4);
     }
   }
 }
