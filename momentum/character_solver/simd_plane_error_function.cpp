@@ -908,7 +908,7 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
                      ++pIndex) {
                   const float pw = parameterTransform_.transform.valuePtr()[pIndex];
                   const __m256 pjac = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jac);
-                  const auto address = &jacobian(
+                  auto* const address = &jacobian(
                       offset + index, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prev = _mm256_loadu_ps(address);
                   _mm256_storeu_ps(address, _mm256_add_ps(prev, pjac));
@@ -939,7 +939,7 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
                      ++pIndex) {
                   const float pw = parameterTransform_.transform.valuePtr()[pIndex];
                   const __m256 pjac = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jac);
-                  const auto address = &jacobian(
+                  auto* const address = &jacobian(
                       offset + index, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prev = _mm256_loadu_ps(address);
                   _mm256_storeu_ps(address, _mm256_add_ps(prev, pjac));
@@ -965,7 +965,7 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
                    ++pIndex) {
                 const float pw = parameterTransform_.transform.valuePtr()[pIndex];
                 const __m256 pjac = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jac);
-                const auto address = &jacobian(
+                auto* const address = &jacobian(
                     offset + index, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prev = _mm256_loadu_ps(address);
                 _mm256_storeu_ps(address, _mm256_add_ps(prev, pjac));

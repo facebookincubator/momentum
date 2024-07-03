@@ -613,7 +613,7 @@ double SimdNormalErrorFunctionAVX::getJacobian(
                      ++pIndex) {
                   const float pw = parameterTransform_.transform.valuePtr()[pIndex];
                   const __m256 pjac = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jac);
-                  const auto address = &jacobian(
+                  auto* const address = &jacobian(
                       offset + index, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   MT_CHECK((uintptr_t)address % 32 == 0);
                   const __m256 prev = _mm256_load_ps(address);
@@ -645,7 +645,7 @@ double SimdNormalErrorFunctionAVX::getJacobian(
                      ++pIndex) {
                   const float pw = parameterTransform_.transform.valuePtr()[pIndex];
                   const __m256 pjac = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jac);
-                  const auto address = &jacobian(
+                  auto* const address = &jacobian(
                       offset + index, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   MT_CHECK((uintptr_t)address % 32 == 0);
                   const __m256 prev = _mm256_load_ps(address);
@@ -671,7 +671,7 @@ double SimdNormalErrorFunctionAVX::getJacobian(
                    ++pIndex) {
                 const float pw = parameterTransform_.transform.valuePtr()[pIndex];
                 const __m256 pjac = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jac);
-                const auto address = &jacobian(
+                auto* const address = &jacobian(
                     offset + index, parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 MT_CHECK((uintptr_t)address % 32 == 0);
                 const __m256 prev = _mm256_load_ps(address);

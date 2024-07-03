@@ -37,7 +37,7 @@ template <typename T>
 void SubsetGaussNewtonSolverT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const SubsetGaussNewtonSolverOptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const SubsetGaussNewtonSolverOptions*>(&options)) {
     regularization_ = derivedOptions->regularization;
     doLineSearch_ = derivedOptions->doLineSearch;
   }

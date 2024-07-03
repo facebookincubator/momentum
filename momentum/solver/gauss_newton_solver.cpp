@@ -34,7 +34,7 @@ template <typename T>
 void GaussNewtonSolverT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const GaussNewtonSolverOptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const GaussNewtonSolverOptions*>(&options)) {
     regularization_ = derivedOptions->regularization;
     doLineSearch_ = derivedOptions->doLineSearch;
     useBlockJtJ_ = derivedOptions->useBlockJtJ;

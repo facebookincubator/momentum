@@ -41,7 +41,7 @@ template <typename T>
 void TrustRegionQRT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const TrustRegionQROptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const TrustRegionQROptions*>(&options)) {
     this->trustRegionRadius_ = derivedOptions->trustRegionRadius_;
   }
 }

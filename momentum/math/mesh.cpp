@@ -30,8 +30,9 @@ void MeshT<T>::updateNormals() {
         (vertices[face[1]] - vertices[face[0]]).cross(vertices[face[2]] - vertices[face[0]]);
     if (IsNanNoOpt(normal[0]))
       continue;
-    for (auto& faceIdx : face)
+    for (const auto& faceIdx : face) {
       normals[faceIdx] += normal;
+    }
   }
   // re-normalize normals
   for (size_t i = 0; i < normals.size(); i++) {

@@ -41,7 +41,7 @@ template <typename T>
 void GaussNewtonSolverQRT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const GaussNewtonSolverQROptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const GaussNewtonSolverQROptions*>(&options)) {
     regularization_ = derivedOptions->regularization;
     doLineSearch_ = derivedOptions->doLineSearch;
   }

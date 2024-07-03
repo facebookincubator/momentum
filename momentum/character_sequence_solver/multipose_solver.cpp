@@ -36,7 +36,7 @@ template <typename T>
 void MultiposeSolverT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const MultiposeSolverOptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const MultiposeSolverOptions*>(&options)) {
     regularization_ = derivedOptions->regularization;
   }
 }

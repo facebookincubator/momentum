@@ -49,7 +49,7 @@ template <typename T>
 void SequenceSolverT<T>::setOptions(const SolverOptions& options) {
   SolverT<T>::setOptions(options);
 
-  if (const auto derivedOptions = dynamic_cast<const SequenceSolverOptions*>(&options)) {
+  if (const auto* derivedOptions = dynamic_cast<const SequenceSolverOptions*>(&options)) {
     this->regularization_ = derivedOptions->regularization;
     this->doLineSearch_ = derivedOptions->doLineSearch;
     this->multithreaded_ = derivedOptions->multithreaded;
