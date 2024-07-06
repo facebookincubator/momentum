@@ -1,7 +1,7 @@
 [project]
 name = "momentum"
 channels = ["nvidia", "conda-forge", "pytorch"]
-platforms = ["linux-64", "osx-arm64", "win-64"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 description = "A library providing foundational algorithms for human kinematic motion and numerical optimization solvers to apply human motion in various applications"
 license = "MIT"
@@ -76,6 +76,23 @@ sysroot_linux-64 = ">=2.28"
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build_pymomentum = { cmd = "pip install -e ." }
 test_pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomentum/test/test_fbx.py pymomentum/test/test_parameter_transform.py pymomentum/test/test_quaternion.py pymomentum/test/test_skel_state.py pymomentum/test/test_skeleton.py", env = { MOMENTUM_MODELS_PATH = "momentum/" } }
+
+#============
+# osx-64
+#============
+
+[target.osx.build-dependencies]
+clang-format-18 = ">=18.1.2,<19"
+
+[target.osx.dependencies]
+pytorch = ">=2.1.2,<2.2"
+
+[target.osx.tasks]
+lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
+build = { cmd = "cmake --build build -j --target all", depends_on = [
+    "configure",
+] }
+build_pymomentum = { cmd = "pip install -e ." }
 
 #============
 # osx-arm64
