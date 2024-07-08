@@ -12,7 +12,7 @@ sidebar_position: 1
 
 Before developing Momentum, it is necessary to install various dependencies. This process can be platform-dependent and tedious. To simplify this, Momentum utilizes [Pixi](https://prefix.dev/).
 
-Pixi facilitates building Momentum in a virtual environment across different platforms (Windows, macOS ARM, Linux) using consistent command lines.
+Pixi facilitates building Momentum in a virtual environment across different platforms (Windows, macOS Intel/ARM, Linux) using consistent command lines.
 
 For those interested, you can examine the `pixi.toml` file to see how dependencies are specified and to explore the available Pixi tasks for Momentum.
 
