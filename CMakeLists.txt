@@ -28,6 +28,7 @@ include(cmake/mt_defs.cmake)
 #===============================================================================
 
 option(BUILD_SHARED_LIBS "Build as shared libraries" ON)
+option(MOMENTUM_ENABLE_SIMD "Enable building with SIMD instructions" ON)
 option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
 option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
 option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
