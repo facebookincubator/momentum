@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NQKPMTK7XB"></script>
 <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-NQKPMTK7XB",{})</script><link rel="stylesheet" href="/momentum/assets/css/styles.f6048675.css">
-<script src="/momentum/assets/js/runtime~main.2c99dd72.js" defer="defer"></script>
-<script src="/momentum/assets/js/main.68f9be18.js" defer="defer"></script>
+<script src="/momentum/assets/js/runtime~main.95715bb3.js" defer="defer"></script>
+<script src="/momentum/assets/js/main.d88b3d9d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script>
@@ -19,7 +19,7 @@
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="package-manager">Package Manager<a href="#package-manager" class="hash-link" aria-label="Direct link to Package Manager" title="Direct link to Package Manager">​</a></h2>
 <p>Before developing Momentum, it is necessary to install various dependencies. This process can be platform-dependent and tedious. To simplify this, Momentum utilizes <a href="https://prefix.dev/" target="_blank" rel="noopener noreferrer">Pixi</a>.</p>
-<p>Pixi facilitates building Momentum in a virtual environment across different platforms (Windows, macOS ARM, Linux) using consistent command lines.</p>
+<p>Pixi facilitates building Momentum in a virtual environment across different platforms (Windows, macOS Intel/ARM, Linux) using consistent command lines.</p>
 <p>For those interested, you can examine the <code>pixi.toml</code> file to see how dependencies are specified and to explore the available Pixi tasks for Momentum.</p>
 <div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>If you choose not to use Pixi, you will need to manually install all dependencies using platform-specific package managers. These typically install dependencies into the system directory. Ensure you have the appropriate package managers installed for your OS: <a href="https://brew.sh/" target="_blank" rel="noopener noreferrer">Homebrew</a> for macOS, <a href="https://vcpkg.io/en/" target="_blank" rel="noopener noreferrer">Vcpkg</a> for Windows, and apt for Ubuntu/Debian. After installation, refer to <code>pixi.toml</code> for guidance on what and how to install.</p></div></div>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="running-custom-commands-in-shell">Running Custom Commands in Shell<a href="#running-custom-commands-in-shell" class="hash-link" aria-label="Direct link to Running Custom Commands in Shell" title="Direct link to Running Custom Commands in Shell">​</a></h2>
