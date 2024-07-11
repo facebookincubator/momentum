@@ -40,8 +40,8 @@ rerun::Position3D toRerunPosition3D(const Eigen::MatrixBase<Derived>& vec3) {
 }
 
 template <typename Derived>
-rerun::HalfSizes3D toRerunHalfSizes3D(const Eigen::MatrixBase<Derived>& vec3) {
-  return rerun::HalfSizes3D(vec3[0], vec3[1], vec3[2]);
+rerun::HalfSize3D toRerunHalfSizes3D(const Eigen::MatrixBase<Derived>& vec3) {
+  return rerun::HalfSize3D(vec3[0], vec3[1], vec3[2]);
 }
 
 // Creates a ground plane as line strips in momentum coordinate (Y-up)
@@ -295,7 +295,7 @@ void logBvh(
 
   // Log BVH
   std::vector<rerun::Position3D> centers;
-  std::vector<rerun::HalfSizes3D> halfSizes;
+  std::vector<rerun::HalfSize3D> halfSizes;
   centers.reserve(bvs.size());
   halfSizes.reserve(bvs.size());
   for (const auto& bv : bvs) {
@@ -321,7 +321,7 @@ void logCollisionGeometry(
 
   std::vector<rerun::Position3D> centers;
   std::vector<rerun::Rotation3D> rotations;
-  std::vector<rerun::HalfSizes3D> halfSizes;
+  std::vector<rerun::HalfSize3D> halfSizes;
 
   centers.reserve(collisionGeometry.size());
   rotations.reserve(collisionGeometry.size());
