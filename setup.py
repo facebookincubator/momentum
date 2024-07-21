@@ -46,6 +46,7 @@ class CMakeBuild(build_ext):
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
             "-DBUILD_SHARED_LIBS=OFF",
+            "-DMOMENTUM_ENABLE_SIMD=OFF",
             "-DMOMENTUM_BUILD_PYMOMENTUM=ON",
             "-DMOMENTUM_BUILD_TESTING=ON",  # TODO: OFF when pym.geometry doesn't depend on testing
             "-DMOMENTUM_BUILD_EXAMPLES=OFF",
