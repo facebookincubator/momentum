@@ -460,7 +460,8 @@ template <typename MatrixDerived, typename QuaternionDerived, typename T>
 }
 
 // define a parameter set
-using ParameterSet = std::bitset<1024>; // at most 1024 parameters per frame
+constexpr size_t kMaxModelParams = 1024; // at most 1024 parameters per frame
+using ParameterSet = std::bitset<kMaxModelParams>;
 
 /// @brief A utility struct that facilitates the deduction of a `gsl::span` type from a given type.
 ///

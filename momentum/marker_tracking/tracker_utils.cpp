@@ -92,6 +92,10 @@ Character createLocatorCharacter(const Character& sourceCharacter, const std::st
           static_cast<int>(id) * kParametersPerJoint + static_cast<int>(j),
           static_cast<int>(newTransform.name.size()),
           1.0f);
+      MT_CHECK(
+          newTransform.name.size() < kMaxModelParams,
+          "Number of model parameters reached the {} limit.",
+          kMaxModelParams);
       locatorSet.set(newTransform.name.size());
       newTransform.name.push_back(jname);
 
