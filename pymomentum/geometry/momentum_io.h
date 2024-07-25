@@ -48,6 +48,12 @@ void saveFBXCharacterToFile(
     std::optional<const Eigen::MatrixXf> motion,
     std::optional<const Eigen::VectorXf> offsets);
 
+void saveFBXCharacterToFileWithJointParams(
+    const std::string& path,
+    const momentum::Character& character,
+    const float fps,
+    std::optional<const Eigen::MatrixXf> jointParams);
+
 std::tuple<momentum::Character, RowMatrixf, Eigen::VectorXf, float>
 loadCharacterWithMotion(const std::string& gltfFilename);
 

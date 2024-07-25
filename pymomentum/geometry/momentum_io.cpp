@@ -166,6 +166,23 @@ void saveFBXCharacterToFile(
   }
 }
 
+void saveFBXCharacterToFileWithJointParams(
+    const std::string& path,
+    const momentum::Character& character,
+    const float fps,
+    std::optional<const Eigen::MatrixXf> jointParams) {
+  if (jointParams.has_value()) {
+    momentum::saveFbxWithJointParams(
+        path,
+        character,
+        jointParams.value().transpose(),
+        fps,
+        true /*saveMesh*/);
+  } else {
+    momentum::saveFbxModel(path, character);
+  }
+}
+
 std::tuple<momentum::Character, RowMatrixf, Eigen::VectorXf, float>
 loadCharacterWithMotion(const std::string& gltfFilename) {
   const auto [character, motion, identity, fps] =

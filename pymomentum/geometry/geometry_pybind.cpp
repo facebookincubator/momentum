@@ -519,6 +519,21 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
           py::arg("fps") = 120.f,
           py::arg("motion") = std::optional<const Eigen::MatrixXf>{},
           py::arg("offsets") = std::optional<const Eigen::VectorXf>{})
+      .def_static(
+          "save_fbx_with_joint_params",
+          &saveFBXCharacterToFileWithJointParams,
+          py::call_guard<py::gil_scoped_release>(),
+          R"(Save a character to an fbx file with joint params.
+
+:parameter path: An .fbx export filename.
+:parameter character: A Character to be saved to the output file.
+:parameter fps: Frequency in frames per second
+:parameter joint_params: [Optional] 2D pose matrix in [n_frames x n_parameters]
+      )",
+          py::arg("path"),
+          py::arg("character"),
+          py::arg("fps") = 120.f,
+          py::arg("joint_params") = std::optional<const Eigen::MatrixXf>{})
       .def(
           "simplify",
           [](const momentum::Character& character,

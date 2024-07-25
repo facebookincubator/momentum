@@ -27,6 +27,13 @@ void saveFbx(
     double framerate = 120.0,
     bool saveMesh = false);
 
+void saveFbxWithJointParams(
+    const filesystem::path& filename,
+    const Character& character,
+    const MatrixXf& jointParams = MatrixXf(),
+    double framerate = 120.0,
+    bool saveMesh = false);
+
 // A shorthand of saveFbx() to save both the skeleton and mesh as a model but without any animation
 void saveFbxModel(const filesystem::path& filename, const Character& character);
 
