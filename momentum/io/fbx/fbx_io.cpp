@@ -480,7 +480,8 @@ void createAnimationCurves(
     ::fbxsdk::FbxScene* scene,
     const std::vector<::fbxsdk::FbxNode*>& skeletonNodes,
     const std::vector<VectorXf>& jointValues,
-    const double framerate) {
+    const double framerate,
+    const bool skipActiveJointParamCheck) {
   // set the framerate
   setFrameRate(scene, framerate);
 
@@ -499,39 +500,39 @@ void createAnimationCurves(
     const size_t jointIndex = i * kParametersPerJoint;
     const size_t index = i * 9;
     skeletonNodes[i]->LclTranslation.GetCurveNode(true);
-    if (aj[jointIndex + 0]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 0]) {
       animCurves[index + 0] = skeletonNodes[i]->LclTranslation.GetCurve(
           animBaseLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
       animCurvesIndex.push_back(index + 0);
     }
-    if (aj[jointIndex + 1]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 1]) {
       animCurves[index + 1] = skeletonNodes[i]->LclTranslation.GetCurve(
           animBaseLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
       animCurvesIndex.push_back(index + 1);
     }
-    if (aj[jointIndex + 2]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 2]) {
       animCurves[index + 2] = skeletonNodes[i]->LclTranslation.GetCurve(
           animBaseLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
       animCurvesIndex.push_back(index + 2);
     }
     skeletonNodes[i]->LclRotation.GetCurveNode(true);
-    if (aj[jointIndex + 3]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 3]) {
       animCurves[index + 3] =
           skeletonNodes[i]->LclRotation.GetCurve(animBaseLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
       animCurvesIndex.push_back(index + 3);
     }
-    if (aj[jointIndex + 4]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 4]) {
       animCurves[index + 4] =
           skeletonNodes[i]->LclRotation.GetCurve(animBaseLayer, FBXSDK_CURVENODE_COMPONENT_Y, true);
       animCurvesIndex.push_back(index + 4);
     }
-    if (aj[jointIndex + 5]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 5]) {
       animCurves[index + 5] =
           skeletonNodes[i]->LclRotation.GetCurve(animBaseLayer, FBXSDK_CURVENODE_COMPONENT_Z, true);
       animCurvesIndex.push_back(index + 5);
     }
     skeletonNodes[i]->LclScaling.GetCurveNode(true);
-    if (aj[jointIndex + 6]) {
+    if (skipActiveJointParamCheck || aj[jointIndex + 6]) {
       animCurves[index + 6] =
           skeletonNodes[i]->LclScaling.GetCurve(animBaseLayer, FBXSDK_CURVENODE_COMPONENT_X, true);
       animCurvesIndex.push_back(index + 6);
@@ -552,7 +553,7 @@ void createAnimationCurves(
     const size_t jointOffset = ai % 9;
     const size_t parameterIndex =
         jointIndex * kParametersPerJoint + std::min(jointOffset, size_t(6));
-    if (aj[parameterIndex] == 0)
+    if (!skipActiveJointParamCheck && aj[parameterIndex] == 0)
       continue;
 
     animCurves[ai]->KeyModifyBegin();
@@ -594,7 +595,8 @@ void saveFbxCommon(
     const Character& character,
     const std::vector<VectorXf>& jointValues,
     const double framerate,
-    const bool saveMesh) {
+    const bool saveMesh,
+    const bool skipActiveJointParamCheck) {
   // ---------------------------------------------
   // initialize FBX SDK and prepare for export
   // ---------------------------------------------
@@ -815,7 +817,8 @@ void saveFbxCommon(
   if (!jointValues.empty() &&
       gsl::narrow<size_t>(jointValues[0].rows()) ==
           character.parameterTransform.numJointParameters()) {
-    createAnimationCurves(character, scene, skeletonNodes, jointValues, framerate);
+    createAnimationCurves(
+        character, scene, skeletonNodes, jointValues, framerate, skipActiveJointParamCheck);
   } else if (!jointValues.empty()) {
     MT_LOGE(
         "Rows of joint values {} do not match joint parameter dimension {} so not saving any motion.",
@@ -861,7 +864,7 @@ void saveFbx(
     jointValues[f] = state.skeletonState.jointParameters.v;
   }
   // Call the helper function to save FBX file with joint values
-  saveFbxCommon(filename, character, jointValues, framerate, saveMesh);
+  saveFbxCommon(filename, character, jointValues, framerate, saveMesh, false);
 }
 
 void saveFbxWithJointParams(
@@ -876,8 +879,10 @@ void saveFbxWithJointParams(
     // set the current pose
     jointValues[f] = jointParams.col(f);
   }
-  // Call the helper function to save FBX file with joint values
-  saveFbxCommon(filename, character, jointValues, framerate, saveMesh);
+  // Call the helper function to save FBX file with joint values.
+  // Set skipActiveJointParamCheck=true to skip the active joint param check as the joint params are
+  // passed in directly from user.
+  saveFbxCommon(filename, character, jointValues, framerate, saveMesh, true);
 }
 
 void saveFbxModel(const filesystem::path& filename, const Character& character) {
