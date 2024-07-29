@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A highly optimized error function for point-plane errors.  
+<p>A highly optimized error function for "point-to-plane" (signed) distance errors.  
  <a href="classmomentum_1_1SimdNormalErrorFunction.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="simd__normal__error__function_8h_source.html">simd_normal_error_function.h</a>&gt;</code></p>
@@ -119,7 +119,8 @@ Static Protected Attributes</h2></td></tr>
 <tr class="separator:acefdd38d0cd48ee5d1a3c835d14311ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A highly optimized error function for point-plane errors. </p>
+<div class="textblock"><p>A highly optimized error function for "point-to-plane" (signed) distance errors. </p>
+<p>See NormalErrorFunction for detailed explanation.</p>
 <p>This function should primarily be used when dealing with a large number of constraints. For smaller numbers of constraints, consider using the generic NormalErrorFunction.</p>
 <dl class="section warning"><dt>Warning</dt><dd>Due to the multi-threaded evaluation of the error/gradient, the functions are non-deterministic, which may cause numerical inconsistencies. As a result, slightly different results may occur on multiple calls with the same data. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>

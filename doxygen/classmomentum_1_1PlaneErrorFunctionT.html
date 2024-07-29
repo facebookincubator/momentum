@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The PlaneErrorFunction computes the 3D positional errors from a list of Constraints.  
+<p>The PlaneErrorFunction computes the point-on-plane error or point-in-half-plane error.  
  <a href="classmomentum_1_1PlaneErrorFunctionT.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="plane__error__function_8h_source.html">plane_error_function.h</a>&gt;</code></p>
@@ -213,8 +213,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class momentum::PlaneErrorFunctionT&lt; T &gt;</h3>
 
-<p>The PlaneErrorFunction computes the 3D positional errors from a list of Constraints. </p>
-<p>Each constraint specifies a locator on the skeleton (parent joint and offset), and its target 3D position (usually but not enforced) in the world space. </p>
+<p>The PlaneErrorFunction computes the point-on-plane error or point-in-half-plane error. </p>
+<p>For point-on-plane error (above = false), it computes the signed distance of a point to a plane using the plane equation. For half-plane error (above = true), the error is zero when the distance is greater than zero (ie. the point being above). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aefee2e7f417dacca0b5aa074633f6ef5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aefee2e7f417dacca0b5aa074633f6ef5">&#9670;&nbsp;</a></span>PlaneErrorFunctionT() <span class="overload">[1/2]</span></h2>
