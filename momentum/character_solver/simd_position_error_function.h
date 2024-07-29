@@ -57,7 +57,7 @@ struct SimdPositionConstraints final {
   int numJoints;
 };
 
-/// A highly optimized error function for point-plane errors.
+/// A highly optimized error function for 3d position errors.
 ///
 /// This class is best used when dealing with a large number of constraints. For fewer constraints,
 /// consider using the generic PositionErrorFunction instead.

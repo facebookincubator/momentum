@@ -59,7 +59,8 @@ struct SimdNormalConstraints {
   int numJoints;
 };
 
-/// A highly optimized error function for point-plane errors.
+/// A highly optimized error function for "point-to-plane" (signed) distance errors. See
+/// NormalErrorFunction for detailed explanation.
 ///
 /// This function should primarily be used when dealing with a large number of constraints. For
 /// smaller numbers of constraints, consider using the generic NormalErrorFunction.

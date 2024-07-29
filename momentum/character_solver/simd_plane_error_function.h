@@ -59,7 +59,7 @@ struct SimdPlaneConstraints final {
   int numJoints;
 };
 
-/// A highly optimized error function for point-plane errors.
+/// A highly optimized error function for "point-on-plane" or "point-in-half-plane" errors.
 ///
 /// This function is recommended for use only when dealing with a large number of constraints. For a
 /// smaller number of constraints, consider using the generic PlaneErrorFunction.

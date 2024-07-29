@@ -13,7 +13,7 @@
 namespace momentum {
 
 /// Function which computes a new set of model parameters such that the character pose is a rigidly
-/// transformed version of the original pose.  While there is technically a closed for solution
+/// transformed version of the original pose.  While there is technically a closed form solution
 /// for any given skeleton, this is complicated in momentum because different
 /// characters attach the rigid parameters to different joints, so a fully general solution uses IK.
 /// However, getting it right requires dealing with local minima issues in Euler angles and other

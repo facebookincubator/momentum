@@ -30,7 +30,7 @@ struct PositionDataT : ConstraintData {
 
 /// The PositionErrorFunction computes the 3D positional errors from a list of Constraints.
 /// Each constraint specifies a locator on the skeleton (parent joint and offset), and its target 3D
-/// position (usually but not enforced) in the world space.
+/// position.
 template <typename T>
 class PositionErrorFunctionT : public ConstraintErrorFunctionT<T, PositionDataT<T>> {
  public:

@@ -11,11 +11,12 @@
 
 namespace momentum {
 
+/// Point-on-plane or Point-in-half-plane constraint data.
+/// The constraint uses the plane equation: x.dot(normal) - d = 0; use -d instead of +d to be
+/// backwards compatible with previous implementation.
 template <typename T>
 struct PlaneDataT : ConstraintData {
   Vector3<T> offset;
-  /// plane equation: x.dot(normal) - d = 0; use minus to be compatible with previous
-  /// implementation.
   Vector3<T> normal;
   T d;
 
@@ -38,9 +39,10 @@ std::vector<PlaneDataT<T>> createFloorConstraints(
     const T& floorOffset,
     float weight);
 
-/// The PlaneErrorFunction computes the 3D positional errors from a list of Constraints.
-/// Each constraint specifies a locator on the skeleton (parent joint and offset), and its target 3D
-/// position (usually but not enforced) in the world space.
+/// The PlaneErrorFunction computes the point-on-plane error or point-in-half-plane error.
+/// For point-on-plane error (above = false), it computes the signed distance of a point to a plane
+/// using the plane equation. For half-plane error (above = true), the error is zero when the
+/// distance is greater than zero (ie. the point being above).
 template <typename T>
 class PlaneErrorFunctionT : public ConstraintErrorFunctionT<T, PlaneDataT<T>, 1> {
  public:
