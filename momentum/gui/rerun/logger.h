@@ -21,7 +21,11 @@
 
 namespace momentum {
 
-void logMesh(const rerun::RecordingStream& rec, const std::string& streamName, const Mesh& mesh);
+void logMesh(
+    const rerun::RecordingStream& rec,
+    const std::string& streamName,
+    const Mesh& mesh,
+    std::optional<rerun::Color> color);
 
 void logMarkers(
     const rerun::RecordingStream& rec,
@@ -58,7 +62,8 @@ void logCharacter(
     const rerun::RecordingStream& rec,
     const std::string& charStreamName,
     const Character& character,
-    const CharacterState& characterState);
+    const CharacterState& characterState,
+    const rerun::Color& color = rerun::Color(200, 200, 200));
 
 // Separate logs for world parameters vs pose parameters because they are in different scale
 void logModelParams(

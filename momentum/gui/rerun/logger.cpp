@@ -69,14 +69,18 @@ createGroundPlane(float from, float to, size_t n, float height) {
 
 } // namespace
 
-void logMesh(const rerun::RecordingStream& rec, const std::string& streamName, const Mesh& mesh) {
-  if (mesh.colors.empty()) {
+void logMesh(
+    const rerun::RecordingStream& rec,
+    const std::string& streamName,
+    const Mesh& mesh,
+    std::optional<rerun::Color> color) {
+  if (color.has_value()) {
     rec.log(
         streamName,
         rerun::Mesh3D(mesh.vertices)
             .with_vertex_normals(mesh.normals)
             .with_triangle_indices(mesh.faces)
-            .with_vertex_colors(rerun::Color(200, 200, 200)));
+            .with_vertex_colors(color.value()));
   } else {
     rec.log(
         streamName,
@@ -108,7 +112,7 @@ void logMarkers(
   // TODO: make radius and color configurable
   rec.log(
       streamName,
-      rerun::Points3D(points3d).with_radii(1.0f).with_colors(kPurple).with_labels(labels));
+      rerun::Points3D(points3d).with_radii(0.5f).with_colors(kPurple).with_labels(labels));
 }
 
 void logLocators(
@@ -145,7 +149,7 @@ void logLocators(
   // TODO: make radius and color configurable
   rec.log(
       streamName,
-      rerun::Points3D(points3d).with_radii(1.0f).with_colors(colors).with_labels(labels));
+      rerun::Points3D(points3d).with_radii(0.5f).with_colors(colors).with_labels(labels));
 }
 
 void logMarkerLocatorCorrespondence(
@@ -355,9 +359,10 @@ void logCharacter(
     const rerun::RecordingStream& rec,
     const std::string& charStreamName,
     const Character& character,
-    const CharacterState& characterState) {
+    const CharacterState& characterState,
+    const rerun::Color& color) {
   if (characterState.meshState != nullptr) {
-    logMesh(rec, charStreamName + "/mesh", *characterState.meshState);
+    logMesh(rec, charStreamName + "/mesh", *characterState.meshState, color);
   }
   if (!character.locators.empty()) {
     logLocators(rec, charStreamName + "/locators", character.locators, characterState.locatorState);
