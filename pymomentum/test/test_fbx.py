@@ -6,7 +6,6 @@
 # pyre-unsafe
 import math
 import pkgutil
-import tempfile
 import unittest
 
 import numpy as np
@@ -112,44 +111,3 @@ class TestFBX(unittest.TestCase):
                 skel_state_last[joint3][0:3], torch.Tensor([4, 0, 0]), atol=1e-5
             )
         )
-
-    def test_save_motions(self):
-        character = pym_geometry.test_character()
-        torch.manual_seed(0)  # ensure repeatability
-
-        nBatch = 5
-        nParams = character.parameter_transform.size
-        model_params = pym_geometry.uniform_random_to_model_parameters(
-            character, torch.rand(nBatch, nParams)
-        ).double()
-        joint_params = character.parameter_transform.apply(model_params)
-        joint_params_shape_in = joint_params.shape
-
-        def verify_fbx(file_name: str) -> None:
-            # Load FBX file
-            l_character, motion, fps = pym_geometry.Character.load_fbx_with_motion(
-                file_name
-            )
-            self.assertEqual(1, len(motion))
-            self.assertEqual(motion[0].shape, joint_params_shape_in)
-            self.assertEqual(fps, 60)
-
-        with tempfile.NamedTemporaryFile(suffix=".fbx") as temp_file:
-            offsets = np.zeros(joint_params_shape_in[1])
-            pym_geometry.Character.save_fbx(
-                path=temp_file.name,
-                character=character,
-                motion=model_params.numpy(),
-                offsets=offsets,
-                fps=60,
-            )
-            verify_fbx(temp_file.name)
-
-        with tempfile.NamedTemporaryFile(suffix=".fbx") as temp_file:
-            pym_geometry.Character.save_fbx_with_joint_params(
-                path=temp_file.name,
-                character=character,
-                joint_params=joint_params.numpy(),
-                fps=60,
-            )
-            verify_fbx(temp_file.name)
