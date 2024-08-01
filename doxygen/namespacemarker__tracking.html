@@ -85,6 +85,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for pose tracking given a calibrated body and locators.  <a href="structmarker__tracking_1_1TrackingConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for refining an already tracked motion, eg.  <a href="structmarker__tracking_1_1RefineConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -96,6 +99,8 @@ Functions</h2></td></tr>
 <tr class="separator:af76b4c67cb16c1345d40231eb7323bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a655fe0732f1832bec28475a147235de2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a655fe0732f1832bec28475a147235de2">addTrackingOptions</a> (CLI::App &amp;app, std::shared_ptr&lt; <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &gt; config)</td></tr>
 <tr class="separator:a655fe0732f1832bec28475a147235de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef1ddacb07ee8f4eebfb61a3138a9f4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#aef1ddacb07ee8f4eebfb61a3138a9f4b">addRefineOptions</a> (CLI::App &amp;app, std::shared_ptr&lt; <a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a> &gt; config)</td></tr>
+<tr class="separator:aef1ddacb07ee8f4eebfb61a3138a9f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6344fa834f5be11d42e6cfc196a32c84"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; momentum::Character, <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">momentum::ModelParameters</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a6344fa834f5be11d42e6cfc196a32c84">loadCalibratedModel</a> (const std::string &amp;modelFile)</td></tr>
 <tr class="separator:a6344fa834f5be11d42e6cfc196a32c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa00ba0ac486ef654a56c00d301691f9"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; momentum::Character, <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">momentum::ModelParameters</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#afa00ba0ac486ef654a56c00d301691f9">loadCharacterWithIdentity</a> (const <a class="el" href="structmarker__tracking_1_1ModelOptions.html">ModelOptions</a> &amp;modelFiles)</td></tr>
@@ -104,17 +109,19 @@ Functions</h2></td></tr>
 <tr class="separator:ab04a8d96caa14b705367cd1aa2cba994"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2319eea226792eb07a095a516535f90f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a2319eea226792eb07a095a516535f90f">saveMotion</a> (const std::string &amp;outFile, const momentum::Character &amp;character, const <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">momentum::ModelParameters</a> &amp;identity, Eigen::MatrixXf &amp;finalMotion, gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, double fps, bool saveMarkerMesh=true)</td></tr>
 <tr class="separator:a2319eea226792eb07a095a516535f90f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35bb788dd9f4ee1aa8ec63036d567611"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a35bb788dd9f4ee1aa8ec63036d567611">trackSequence</a> (const gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; markerData, const Character &amp;character, const <a class="el" href="namespacemomentum.html#aadb2e10e938b6dde5b7faf1dfb44ce7e">ParameterSet</a> &amp;globalParams, const <a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a> &amp;initialMotion, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;config, const size_t frameStride)</td></tr>
-<tr class="separator:a35bb788dd9f4ee1aa8ec63036d567611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac439774ac139c492870339a82aa3422f"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#ac439774ac139c492870339a82aa3422f">trackSequence</a> (const gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; markerData, const Character &amp;character, const <a class="el" href="namespacemomentum.html#aadb2e10e938b6dde5b7faf1dfb44ce7e">ParameterSet</a> &amp;globalParams, const <a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a> &amp;initialMotion, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;config, float regularizer, const size_t frameStride)</td></tr>
+<tr class="separator:ac439774ac139c492870339a82aa3422f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fd25b81cf56d491eea88b0a4b520728"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a5fd25b81cf56d491eea88b0a4b520728">trackPosesPerframe</a> (const gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; markerData, const Character &amp;character, const <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">ModelParameters</a> &amp;globalParams, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;config, const size_t frameStride)</td></tr>
 <tr class="separator:a5fd25b81cf56d491eea88b0a4b520728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56fbcbe13071041ce9af73d7c1ddf031"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a56fbcbe13071041ce9af73d7c1ddf031">calibrateModel</a> (const gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; markerData, const <a class="el" href="structmarker__tracking_1_1CalibrationConfig.html">CalibrationConfig</a> &amp;config, Character &amp;character, <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">ModelParameters</a> &amp;identity)</td></tr>
 <tr class="separator:a56fbcbe13071041ce9af73d7c1ddf031"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11303c5b1c2d0afebd148debfa97df09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a11303c5b1c2d0afebd148debfa97df09">calibrateLocators</a> (const gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; markerData, const <a class="el" href="structmarker__tracking_1_1CalibrationConfig.html">CalibrationConfig</a> &amp;config, const <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">ModelParameters</a> &amp;identity, Character &amp;character)</td></tr>
 <tr class="separator:a11303c5b1c2d0afebd148debfa97df09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc3d9b4814986396674face247ba32c8"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#abc3d9b4814986396674face247ba32c8">trackSequence</a> (gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, const momentum::Character &amp;character, const <a class="el" href="namespacemomentum.html#aadb2e10e938b6dde5b7faf1dfb44ce7e">momentum::ParameterSet</a> &amp;globalParams, const Eigen::MatrixXf &amp;initialMotion, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;config, size_t frameStride=1)</td></tr>
-<tr class="memdesc:abc3d9b4814986396674face247ba32c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use multiple frames to solve for global parameters such as body proportions and/or marker offsets together with the motion.  <a href="namespacemarker__tracking.html#abc3d9b4814986396674face247ba32c8">More...</a><br /></td></tr>
-<tr class="separator:abc3d9b4814986396674face247ba32c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29453f924bea76493daa000892bcc4fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a29453f924bea76493daa000892bcc4fa">refineMotion</a> (gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, const <a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a> &amp;motion, const <a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a> &amp;config, momentum::Character &amp;character)</td></tr>
+<tr class="separator:a29453f924bea76493daa000892bcc4fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac57f1d9d6b056bd4934856a783be25"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#a4ac57f1d9d6b056bd4934856a783be25">trackSequence</a> (gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, const momentum::Character &amp;character, const <a class="el" href="namespacemomentum.html#aadb2e10e938b6dde5b7faf1dfb44ce7e">momentum::ParameterSet</a> &amp;globalParams, const Eigen::MatrixXf &amp;initialMotion, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;config, float regularizer=0.0, size_t frameStride=1)</td></tr>
+<tr class="memdesc:a4ac57f1d9d6b056bd4934856a783be25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use multiple frames to solve for global parameters such as body proportions and/or marker offsets together with the motion.  <a href="namespacemarker__tracking.html#a4ac57f1d9d6b056bd4934856a783be25">More...</a><br /></td></tr>
+<tr class="separator:a4ac57f1d9d6b056bd4934856a783be25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace0203e1eb5c36c4fc70d62e27501c98"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#ace0203e1eb5c36c4fc70d62e27501c98">trackPosesPerframe</a> (gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, const momentum::Character &amp;character, const <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">momentum::ModelParameters</a> &amp;globalParams, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;config, size_t frameStride=1)</td></tr>
 <tr class="memdesc:ace0203e1eb5c36c4fc70d62e27501c98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track poses per-frame given a calibrated character.  <a href="namespacemarker__tracking.html#ace0203e1eb5c36c4fc70d62e27501c98">More...</a><br /></td></tr>
 <tr class="separator:ace0203e1eb5c36c4fc70d62e27501c98"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,6 +131,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ac091cd2b79a32df8f01525e0d0fcec1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#ac091cd2b79a32df8f01525e0d0fcec1f">calibrateLocators</a> (gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, const <a class="el" href="structmarker__tracking_1_1CalibrationConfig.html">CalibrationConfig</a> &amp;config, const <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">momentum::ModelParameters</a> &amp;identity, momentum::Character &amp;character)</td></tr>
 <tr class="memdesc:ac091cd2b79a32df8f01525e0d0fcec1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrate locator offsets of a character from input identity and marker data.  <a href="namespacemarker__tracking.html#ac091cd2b79a32df8f01525e0d0fcec1f">More...</a><br /></td></tr>
 <tr class="separator:ac091cd2b79a32df8f01525e0d0fcec1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd3fe4fefcb653a2848f3fc8b004683a"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#afd3fe4fefcb653a2848f3fc8b004683a">refineMotion</a> (gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; markerData, const Eigen::MatrixXf &amp;motion, const <a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a> &amp;config, momentum::Character &amp;character)</td></tr>
+<tr class="separator:afd3fe4fefcb653a2848f3fc8b004683a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2e5376ebc143a9b399444ae5e35cf1c"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXf&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemarker__tracking.html#aa2e5376ebc143a9b399444ae5e35cf1c">processMarkers</a> (momentum::Character &amp;character, <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">momentum::ModelParameters</a> &amp;identity, const std::vector&lt; std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt; &amp;markerData, const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;trackingConfig, const <a class="el" href="structmarker__tracking_1_1CalibrationConfig.html">CalibrationConfig</a> &amp;calibrationConfig, bool calibrate=true, size_t firstFrame=0, size_t maxFrames=0)</td></tr>
 <tr class="memdesc:aa2e5376ebc143a9b399444ae5e35cf1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes marker data for a character model.  <a href="namespacemarker__tracking.html#aa2e5376ebc143a9b399444ae5e35cf1c">More...</a><br /></td></tr>
 <tr class="separator:aa2e5376ebc143a9b399444ae5e35cf1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,6 +238,34 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structmarker__tracking_1_1ModelOptions.html">ModelOptions</a> &gt;&#160;</td>
           <td class="paramname"><em>modelOptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef1ddacb07ee8f4eebfb61a3138a9f4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef1ddacb07ee8f4eebfb61a3138a9f4b">&#9670;&nbsp;</a></span>addRefineOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void marker_tracking::addRefineOptions </td>
+          <td>(</td>
+          <td class="paramtype">CLI::App &amp;&#160;</td>
+          <td class="paramname"><em>app</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a> &gt;&#160;</td>
+          <td class="paramname"><em>config</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -960,6 +997,86 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afd3fe4fefcb653a2848f3fc8b004683a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd3fe4fefcb653a2848f3fc8b004683a">&#9670;&nbsp;</a></span>refineMotion() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::MatrixXf marker_tracking::refineMotion </td>
+          <td>(</td>
+          <td class="paramtype">gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt;&#160;</td>
+          <td class="paramname"><em>markerData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::MatrixXf &amp;&#160;</td>
+          <td class="paramname"><em>motion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">momentum::Character &amp;&#160;</td>
+          <td class="paramname"><em>character</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29453f924bea76493daa000892bcc4fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29453f924bea76493daa000892bcc4fa">&#9670;&nbsp;</a></span>refineMotion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a> marker_tracking::refineMotion </td>
+          <td>(</td>
+          <td class="paramtype">gsl::span&lt; const std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">momentum::Marker</a> &gt;&gt;&#160;</td>
+          <td class="paramname"><em>markerData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a> &amp;&#160;</td>
+          <td class="paramname"><em>motion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">momentum::Character &amp;&#160;</td>
+          <td class="paramname"><em>character</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa15e1418b17225aa702f55cdc2bfcc84"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa15e1418b17225aa702f55cdc2bfcc84">&#9670;&nbsp;</a></span>removeIdentity()</h2>
 
@@ -1215,8 +1332,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a35bb788dd9f4ee1aa8ec63036d567611"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35bb788dd9f4ee1aa8ec63036d567611">&#9670;&nbsp;</a></span>trackSequence() <span class="overload">[1/2]</span></h2>
+<a id="ac439774ac139c492870339a82aa3422f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac439774ac139c492870339a82aa3422f">&#9670;&nbsp;</a></span>trackSequence() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1254,6 +1371,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>regularizer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const size_t&#160;</td>
           <td class="paramname"><em>frameStride</em>&#160;</td>
         </tr>
@@ -1267,8 +1390,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abc3d9b4814986396674face247ba32c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc3d9b4814986396674face247ba32c8">&#9670;&nbsp;</a></span>trackSequence() <span class="overload">[2/2]</span></h2>
+<a id="a4ac57f1d9d6b056bd4934856a783be25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac57f1d9d6b056bd4934856a783be25">&#9670;&nbsp;</a></span>trackSequence() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1302,6 +1425,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>regularizer</em> = <code>0.0</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

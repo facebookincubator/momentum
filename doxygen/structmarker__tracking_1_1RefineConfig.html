@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Momentum: marker_tracking::TrackingConfig Struct Reference</title>
+<title>Momentum: marker_tracking::RefineConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,41 +62,51 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacemarker__tracking.html">marker_tracking</a></li><li class="navelem"><a class="el" href="structmarker__tracking_1_1TrackingConfig.html">TrackingConfig</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacemarker__tracking.html">marker_tracking</a></li><li class="navelem"><a class="el" href="structmarker__tracking_1_1RefineConfig.html">RefineConfig</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="structmarker__tracking_1_1TrackingConfig-members.html">List of all members</a>  </div>
+<a href="structmarker__tracking_1_1RefineConfig-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">marker_tracking::TrackingConfig Struct Reference</div>  </div>
+<div class="title">marker_tracking::RefineConfig Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Configuration for pose tracking given a calibrated body and locators.  
- <a href="structmarker__tracking_1_1TrackingConfig.html#details">More...</a></p>
+<p>Configuration for refining an already tracked motion, eg.  
+ <a href="structmarker__tracking_1_1RefineConfig.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="marker__tracker_8h_source.html">marker_tracker.h</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for marker_tracking::TrackingConfig:</div>
+Inheritance diagram for marker_tracking::RefineConfig:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="structmarker__tracking_1_1TrackingConfig.png" usemap="#marker_5Ftracking::TrackingConfig_map" alt=""/>
-  <map id="marker_5Ftracking::TrackingConfig_map" name="marker_5Ftracking::TrackingConfig_map">
+  <img src="structmarker__tracking_1_1RefineConfig.png" usemap="#marker_5Ftracking::RefineConfig_map" alt=""/>
+  <map id="marker_5Ftracking::RefineConfig_map" name="marker_5Ftracking::RefineConfig_map">
+<area href="structmarker__tracking_1_1TrackingConfig.html" title="Configuration for pose tracking given a calibrated body and locators." alt="marker_tracking::TrackingConfig" shape="rect" coords="0,56,195,80"/>
 <area href="structmarker__tracking_1_1BaseConfig.html" title="Common configuration for a tracking problem." alt="marker_tracking::BaseConfig" shape="rect" coords="0,0,195,24"/>
-<area href="structmarker__tracking_1_1RefineConfig.html" title="Configuration for refining an already tracked motion, eg." alt="marker_tracking::RefineConfig" shape="rect" coords="0,112,195,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aef19b103bb4e460d3788ca39e1cf2295"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1TrackingConfig.html#aef19b103bb4e460d3788ca39e1cf2295">smoothing</a> = 0</td></tr>
-<tr class="memdesc:aef19b103bb4e460d3788ca39e1cf2295"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weight for the smoothness error function.  <a href="structmarker__tracking_1_1TrackingConfig.html#aef19b103bb4e460d3788ca39e1cf2295">More...</a><br /></td></tr>
-<tr class="separator:aef19b103bb4e460d3788ca39e1cf2295"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72ceab3872c6b8560b3f6bec93fb3077"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1TrackingConfig.html#a72ceab3872c6b8560b3f6bec93fb3077">collisionErrorWeight</a> = 0.0</td></tr>
-<tr class="memdesc:a72ceab3872c6b8560b3f6bec93fb3077"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weight for the collision error function.  <a href="structmarker__tracking_1_1TrackingConfig.html#a72ceab3872c6b8560b3f6bec93fb3077">More...</a><br /></td></tr>
-<tr class="separator:a72ceab3872c6b8560b3f6bec93fb3077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f5465fdd66686858497c8eb53ac243e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1RefineConfig.html#a8f5465fdd66686858497c8eb53ac243e">regularizer</a> = 0.0</td></tr>
+<tr class="memdesc:a8f5465fdd66686858497c8eb53ac243e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimize changes to calibration parameters when in calibration mode, by regularizing towards the input value with this regularizer weight.  <a href="structmarker__tracking_1_1RefineConfig.html#a8f5465fdd66686858497c8eb53ac243e">More...</a><br /></td></tr>
+<tr class="separator:a8f5465fdd66686858497c8eb53ac243e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a761988119bc242cfd5f2ad9389617947"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1RefineConfig.html#a761988119bc242cfd5f2ad9389617947">calibId</a> = false</td></tr>
+<tr class="memdesc:a761988119bc242cfd5f2ad9389617947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrate identity parameters when refining the motion.  <a href="structmarker__tracking_1_1RefineConfig.html#a761988119bc242cfd5f2ad9389617947">More...</a><br /></td></tr>
+<tr class="separator:a761988119bc242cfd5f2ad9389617947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e9b5399dcf88a18eb98ba651d08f44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1RefineConfig.html#a17e9b5399dcf88a18eb98ba651d08f44">calibLocators</a> = false</td></tr>
+<tr class="memdesc:a17e9b5399dcf88a18eb98ba651d08f44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrate locators when refining the motion.  <a href="structmarker__tracking_1_1RefineConfig.html#a17e9b5399dcf88a18eb98ba651d08f44">More...</a><br /></td></tr>
+<tr class="separator:a17e9b5399dcf88a18eb98ba651d08f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_structmarker__tracking_1_1TrackingConfig"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structmarker__tracking_1_1TrackingConfig')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structmarker__tracking_1_1TrackingConfig.html">marker_tracking::TrackingConfig</a></td></tr>
+<tr class="memitem:aef19b103bb4e460d3788ca39e1cf2295 inherit pub_attribs_structmarker__tracking_1_1TrackingConfig"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1TrackingConfig.html#aef19b103bb4e460d3788ca39e1cf2295">smoothing</a> = 0</td></tr>
+<tr class="memdesc:aef19b103bb4e460d3788ca39e1cf2295 inherit pub_attribs_structmarker__tracking_1_1TrackingConfig"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weight for the smoothness error function.  <a href="structmarker__tracking_1_1TrackingConfig.html#aef19b103bb4e460d3788ca39e1cf2295">More...</a><br /></td></tr>
+<tr class="separator:aef19b103bb4e460d3788ca39e1cf2295 inherit pub_attribs_structmarker__tracking_1_1TrackingConfig"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72ceab3872c6b8560b3f6bec93fb3077 inherit pub_attribs_structmarker__tracking_1_1TrackingConfig"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1TrackingConfig.html#a72ceab3872c6b8560b3f6bec93fb3077">collisionErrorWeight</a> = 0.0</td></tr>
+<tr class="memdesc:a72ceab3872c6b8560b3f6bec93fb3077 inherit pub_attribs_structmarker__tracking_1_1TrackingConfig"><td class="mdescLeft">&#160;</td><td class="mdescRight">The weight for the collision error function.  <a href="structmarker__tracking_1_1TrackingConfig.html#a72ceab3872c6b8560b3f6bec93fb3077">More...</a><br /></td></tr>
+<tr class="separator:a72ceab3872c6b8560b3f6bec93fb3077 inherit pub_attribs_structmarker__tracking_1_1TrackingConfig"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structmarker__tracking_1_1BaseConfig"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structmarker__tracking_1_1BaseConfig')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structmarker__tracking_1_1BaseConfig.html">marker_tracking::BaseConfig</a></td></tr>
 <tr class="memitem:af38bea2a8084ae207bd0394c4e8d9243 inherit pub_attribs_structmarker__tracking_1_1BaseConfig"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmarker__tracking_1_1BaseConfig.html#af38bea2a8084ae207bd0394c4e8d9243">minVisPercent</a> = 0.f</td></tr>
 <tr class="memdesc:af38bea2a8084ae207bd0394c4e8d9243 inherit pub_attribs_structmarker__tracking_1_1BaseConfig"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum percentage of visible markers in a frame to consider for tracking.  <a href="structmarker__tracking_1_1BaseConfig.html#af38bea2a8084ae207bd0394c4e8d9243">More...</a><br /></td></tr>
@@ -112,37 +122,54 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a681e7053affe5f986497da1781fcf9b2 inherit pub_attribs_structmarker__tracking_1_1BaseConfig"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration for pose tracking given a calibrated body and locators. </p>
+<div class="textblock"><p>Configuration for refining an already tracked motion, eg. </p>
+<p>add smoothing and/or collision handling; improve residuals with extra dofs etc. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a72ceab3872c6b8560b3f6bec93fb3077"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72ceab3872c6b8560b3f6bec93fb3077">&#9670;&nbsp;</a></span>collisionErrorWeight</h2>
+<a id="a761988119bc242cfd5f2ad9389617947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a761988119bc242cfd5f2ad9389617947">&#9670;&nbsp;</a></span>calibId</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float marker_tracking::TrackingConfig::collisionErrorWeight = 0.0</td>
+          <td class="memname">bool marker_tracking::RefineConfig::calibId = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The weight for the collision error function. </p>
+<p>Calibrate identity parameters when refining the motion. </p>
 
 </div>
 </div>
-<a id="aef19b103bb4e460d3788ca39e1cf2295"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef19b103bb4e460d3788ca39e1cf2295">&#9670;&nbsp;</a></span>smoothing</h2>
+<a id="a17e9b5399dcf88a18eb98ba651d08f44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e9b5399dcf88a18eb98ba651d08f44">&#9670;&nbsp;</a></span>calibLocators</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float marker_tracking::TrackingConfig::smoothing = 0</td>
+          <td class="memname">bool marker_tracking::RefineConfig::calibLocators = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The weight for the smoothness error function. </p>
+<p>Calibrate locators when refining the motion. </p>
+
+</div>
+</div>
+<a id="a8f5465fdd66686858497c8eb53ac243e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f5465fdd66686858497c8eb53ac243e">&#9670;&nbsp;</a></span>regularizer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float marker_tracking::RefineConfig::regularizer = 0.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Minimize changes to calibration parameters when in calibration mode, by regularizing towards the input value with this regularizer weight. </p>
 
 </div>
 </div>
