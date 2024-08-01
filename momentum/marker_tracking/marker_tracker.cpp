@@ -459,4 +459,41 @@ void calibrateLocators(
   }
 }
 
+MatrixXf refineMotion(
+    gsl::span<const std::vector<momentum::Marker>> markerData,
+    const MatrixXf& motion,
+    const RefineConfig& config,
+    momentum::Character& character) {
+  MatrixXf newMotion;
+  const ParameterSet idParamSet = character.parameterTransform.getScalingParameters();
+
+  // use sequenceSolve to smooth out the input motion
+  if (!config.calibLocators) {
+    newMotion = trackSequence(
+        markerData, character, config.calibId ? idParamSet : ParameterSet(), motion, config);
+  } else {
+    // create a solving character with markers as bones
+    Character solvingCharacter = createLocatorCharacter(character, "locator_");
+    const ParameterTransform& transformExtended = solvingCharacter.parameterTransform;
+    const ParameterSet locatorSet = transformExtended.parameterSets.find("locators")->second;
+    ParameterSet calibrationSet = locatorSet;
+    if (config.calibId) {
+      calibrationSet |= transformExtended.getScalingParameters();
+    }
+
+    const auto numParams = character.parameterTransform.numAllModelParameters();
+    const auto numParamsExtended = transformExtended.numAllModelParameters();
+    MatrixXf motionExtended(numParamsExtended, markerData.size());
+    motionExtended.setZero();
+    motionExtended.topRows(numParams) = motion;
+    newMotion = trackSequence(markerData, solvingCharacter, calibrationSet, motionExtended, config);
+
+    std::tie(std::ignore, character.locators) =
+        extractIdAndLocatorsFromParams(newMotion.col(0), solvingCharacter, character);
+    newMotion.conservativeResize(numParams, Eigen::NoChange_t::NoChange);
+  }
+
+  return newMotion;
+}
+
 } // namespace marker_tracking

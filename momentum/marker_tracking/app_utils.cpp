@@ -110,6 +110,18 @@ void addTrackingOptions(CLI::App& app, std::shared_ptr<TrackingConfig> config) {
   minVisPercentOption->default_val(config->minVisPercent)->check(CLI::Range(0.0, 1.0));
 }
 
+void addRefineOptions(CLI::App& app, std::shared_ptr<RefineConfig> config) {
+  addTrackingOptions(app, config);
+
+  auto* calibIdOption =
+      app.add_option("--calib-id", config->calibId, "Calibrate identity parameters");
+  calibIdOption->default_val(config->calibId);
+
+  auto* calibLocatorsOption =
+      app.add_option("--calib-locators", config->calibLocators, "Calibrate locator offsets");
+  calibLocatorsOption->default_val(config->calibLocators);
+}
+
 std::tuple<momentum::Character, momentum::ModelParameters> loadCalibratedModel(
     const std::string& modelFile) {
   auto [c, m, id, fps] = loadCharacterWithMotion(modelFile);

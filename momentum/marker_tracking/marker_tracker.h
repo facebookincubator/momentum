@@ -47,6 +47,15 @@ struct TrackingConfig : public BaseConfig {
   float collisionErrorWeight = 0.0;
 };
 
+/// Configuration for refining an already tracked motion, eg. add smoothing and/or collision
+/// handling; improve residuals with extra dofs etc.
+struct RefineConfig : public TrackingConfig {
+  /// Calibrate identity parameters when refining the motion.
+  bool calibId = false;
+  /// Calibrate locators when refining the motion.
+  bool calibLocators = false;
+};
+
 /// Use multiple frames to solve for global parameters such as body proportions and/or marker
 /// offsets together with the motion. It can also be used to smooth out a motion with or without
 /// solving for global parameters, for example to fill gaps when there are missing markers.
@@ -116,4 +125,11 @@ void calibrateLocators(
     const CalibrationConfig& config,
     const momentum::ModelParameters& identity,
     momentum::Character& character);
+
+Eigen::MatrixXf refineMotion(
+    gsl::span<const std::vector<momentum::Marker>> markerData,
+    const Eigen::MatrixXf& motion,
+    const RefineConfig& config,
+    momentum::Character& character);
+
 } // namespace marker_tracking

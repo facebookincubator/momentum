@@ -30,6 +30,7 @@ void addIOOptions(CLI::App& app, std::shared_ptr<IOOptions> ioOptions);
 void addModelOptions(CLI::App& app, std::shared_ptr<ModelOptions> modelOptions);
 void addCalibrationOptions(CLI::App& app, std::shared_ptr<CalibrationConfig> config);
 void addTrackingOptions(CLI::App& app, std::shared_ptr<TrackingConfig> config);
+void addRefineOptions(CLI::App& app, std::shared_ptr<RefineConfig> config);
 
 std::tuple<momentum::Character, momentum::ModelParameters> loadCalibratedModel(
     const std::string& modelFile);
