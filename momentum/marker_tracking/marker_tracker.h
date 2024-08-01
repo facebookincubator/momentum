@@ -50,6 +50,9 @@ struct TrackingConfig : public BaseConfig {
 /// Configuration for refining an already tracked motion, eg. add smoothing and/or collision
 /// handling; improve residuals with extra dofs etc.
 struct RefineConfig : public TrackingConfig {
+  /// Minimize changes to calibration parameters when in calibration mode, by regularizing towards
+  /// the input value with this regularizer weight.
+  float regularizer = 0.0;
   /// Calibrate identity parameters when refining the motion.
   bool calibId = false;
   /// Calibrate locators when refining the motion.
@@ -78,6 +81,7 @@ Eigen::MatrixXf trackSequence(
     const momentum::ParameterSet& globalParams,
     const Eigen::MatrixXf& initialMotion,
     const TrackingConfig& config,
+    float regularizer = 0.0,
     size_t frameStride = 1);
 
 /// Track poses per-frame given a calibrated character.

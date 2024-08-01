@@ -113,6 +113,12 @@ void addTrackingOptions(CLI::App& app, std::shared_ptr<TrackingConfig> config) {
 void addRefineOptions(CLI::App& app, std::shared_ptr<RefineConfig> config) {
   addTrackingOptions(app, config);
 
+  auto* regOption = app.add_option(
+      "--regularizer",
+      config->regularizer,
+      "Regularize time-invariant parameters to prevent large change");
+  regOption->default_val(config->regularizer)->check(CLI::NonNegativeNumber);
+
   auto* calibIdOption =
       app.add_option("--calib-id", config->calibId, "Calibrate identity parameters");
   calibIdOption->default_val(config->calibId);

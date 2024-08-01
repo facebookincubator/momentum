@@ -34,6 +34,7 @@ Eigen::MatrixXf trackSequence(
     const ParameterSet& globalParams,
     const MatrixXf& initialMotion,
     const TrackingConfig& config,
+    float regularizer,
     const size_t frameStride) {
   // sanity checks
   const size_t numFrames = markerData.size();
@@ -115,6 +116,22 @@ Eigen::MatrixXf trackSequence(
   auto smoothConstrFunc = std::make_shared<ModelParametersSequenceErrorFunction>(character);
   smoothConstrFunc->setWeight(config.smoothing);
   solverFunc.addSequenceErrorFunction(kAllFrames, smoothConstrFunc);
+
+  // minimize the change to global params
+  if (globalParams.count() > 0 && regularizer != 0) {
+    auto regularizerFunc = std::make_shared<ModelParametersErrorFunction>(character);
+    Eigen::VectorXf universalMask(pt.numAllModelParameters());
+    for (size_t i = 0; i < universalMask.size(); ++i) {
+      if (globalParams.test(i)) {
+        universalMask[i] = regularizer;
+      } else {
+        universalMask[i] = 0.0;
+      }
+    }
+    regularizerFunc->setTargetParameters(initialMotion.col(0), universalMask);
+    // Sufficient to add to the first frame since it won't change.
+    solverFunc.addErrorFunction(0, regularizerFunc);
+  }
 
   // solver configration
   SequenceSolverOptions solverOptions;
@@ -367,6 +384,7 @@ void calibrateModel(
         calibBodySet, // only solve for identity and not markers
         motion.topRows(transform.numAllModelParameters()),
         trackingConfig,
+        0.0 /*regularizer*/, // allow large change at initialization without any regularization
         frameStride);
   }
 
@@ -380,6 +398,7 @@ void calibrateModel(
         locatorSet | calibBodySetExtended,
         motion,
         trackingConfig,
+        0.0, // TODO: use a small regularization to prevent too large a change
         frameStride); // still solving a subset
     // extract solving results to identity and character so we can pass them to trackPosesPerframe
     // below.
@@ -394,11 +413,12 @@ void calibrateModel(
         trackPosesPerframe(markerData, character, initPose, trackingConfig, frameStride);
   }
 
-  // Finally, fine tune marker offsets with fix identity
+  // Finally, fine tune marker offsets with fix identity.
   MT_LOGI_IF(config.debug, "Fine-tune marker offsets");
 
-  motion =
-      trackSequence(markerData, solvingCharacter, locatorSet, motion, trackingConfig, frameStride);
+  // TODO: use a larger regularizer to prevent too large a change.
+  motion = trackSequence(
+      markerData, solvingCharacter, locatorSet, motion, trackingConfig, 0.0, frameStride);
   std::tie(identity.v, character.locators) =
       extractIdAndLocatorsFromParams(motion.col(0), solvingCharacter, character);
 
@@ -451,8 +471,9 @@ void calibrateLocators(
     motion.topRows(transform.numAllModelParameters()) =
         trackPosesPerframe(markerData, character, identity, trackingConfig, frameStride);
     // Solve for both markers and poses.
+    // TODO: add a small regularization to prevent too large a change
     motion = trackSequence(
-        markerData, solvingCharacter, locatorSet, motion, trackingConfig, frameStride);
+        markerData, solvingCharacter, locatorSet, motion, trackingConfig, 0.0, frameStride);
     // Extract solved locators
     fullParams.pose = motion.col(0);
     character.locators = extractLocatorsFromCharacter(solvingCharacter, fullParams);
@@ -470,7 +491,12 @@ MatrixXf refineMotion(
   // use sequenceSolve to smooth out the input motion
   if (!config.calibLocators) {
     newMotion = trackSequence(
-        markerData, character, config.calibId ? idParamSet : ParameterSet(), motion, config);
+        markerData,
+        character,
+        config.calibId ? idParamSet : ParameterSet(),
+        motion,
+        config,
+        config.regularizer);
   } else {
     // create a solving character with markers as bones
     Character solvingCharacter = createLocatorCharacter(character, "locator_");
@@ -486,7 +512,8 @@ MatrixXf refineMotion(
     MatrixXf motionExtended(numParamsExtended, markerData.size());
     motionExtended.setZero();
     motionExtended.topRows(numParams) = motion;
-    newMotion = trackSequence(markerData, solvingCharacter, calibrationSet, motionExtended, config);
+    newMotion = trackSequence(
+        markerData, solvingCharacter, calibrationSet, motionExtended, config, config.regularizer);
 
     std::tie(std::ignore, character.locators) =
         extractIdAndLocatorsFromParams(newMotion.col(0), solvingCharacter, character);
