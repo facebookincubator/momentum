@@ -13,6 +13,11 @@
 #include <optional>
 #include <string>
 
+// Forward declarations
+namespace momentum {
+struct FBXCoordSystemInfo;
+} // namespace momentum
+
 namespace pymomentum {
 
 // We need to wrap around momentum io functions because the motion matrix in
@@ -46,13 +51,15 @@ void saveFBXCharacterToFile(
     const momentum::Character& character,
     const float fps,
     std::optional<const Eigen::MatrixXf> motion,
-    std::optional<const Eigen::VectorXf> offsets);
+    std::optional<const Eigen::VectorXf> offsets,
+    std::optional<const momentum::FBXCoordSystemInfo> coordSystemInfo);
 
 void saveFBXCharacterToFileWithJointParams(
     const std::string& path,
     const momentum::Character& character,
     const float fps,
-    std::optional<const Eigen::MatrixXf> jointParams);
+    std::optional<const Eigen::MatrixXf> jointParams,
+    std::optional<const momentum::FBXCoordSystemInfo> coordSystemInfo);
 
 std::tuple<momentum::Character, RowMatrixf, Eigen::VectorXf, float>
 loadCharacterWithMotion(const std::string& gltfFilename);

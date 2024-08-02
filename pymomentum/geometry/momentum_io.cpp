@@ -152,7 +152,8 @@ void saveFBXCharacterToFile(
     const momentum::Character& character,
     const float fps,
     std::optional<const Eigen::MatrixXf> motion,
-    std::optional<const Eigen::VectorXf> offsets) {
+    std::optional<const Eigen::VectorXf> offsets,
+    std::optional<const momentum::FBXCoordSystemInfo> coordSystemInfo) {
   if (motion.has_value() && offsets.has_value()) {
     momentum::saveFbx(
         path,
@@ -160,7 +161,8 @@ void saveFBXCharacterToFile(
         motion.value().transpose(),
         offsets.value(),
         fps,
-        true /*saveMesh*/);
+        true, /*saveMesh*/
+        coordSystemInfo.value());
   } else {
     momentum::saveFbxModel(path, character);
   }
@@ -170,14 +172,16 @@ void saveFBXCharacterToFileWithJointParams(
     const std::string& path,
     const momentum::Character& character,
     const float fps,
-    std::optional<const Eigen::MatrixXf> jointParams) {
+    std::optional<const Eigen::MatrixXf> jointParams,
+    std::optional<const momentum::FBXCoordSystemInfo> coordSystemInfo) {
   if (jointParams.has_value()) {
     momentum::saveFbxWithJointParams(
         path,
         character,
         jointParams.value().transpose(),
         fps,
-        true /*saveMesh*/);
+        true, /*saveMesh*/
+        coordSystemInfo.value());
   } else {
     momentum::saveFbxModel(path, character);
   }

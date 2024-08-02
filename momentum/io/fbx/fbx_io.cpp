@@ -596,7 +596,8 @@ void saveFbxCommon(
     const std::vector<VectorXf>& jointValues,
     const double framerate,
     const bool saveMesh,
-    const bool skipActiveJointParamCheck) {
+    const bool skipActiveJointParamCheck,
+    const FBXCoordSystemInfo& coordSystemInfo) {
   // ---------------------------------------------
   // initialize FBX SDK and prepare for export
   // ---------------------------------------------
@@ -630,7 +631,10 @@ void saveFbxCommon(
   ::fbxsdk::FbxNode* root = scene->GetRootNode();
 
   // set the coordinate system
-  ::fbxsdk::FbxAxisSystem axis = ::fbxsdk::FbxAxisSystem(::fbxsdk::FbxAxisSystem::eMayaYUp);
+  ::fbxsdk::FbxAxisSystem axis = ::fbxsdk::FbxAxisSystem(
+      static_cast<::fbxsdk::FbxAxisSystem::EUpVector>(coordSystemInfo.upVector),
+      static_cast<::fbxsdk::FbxAxisSystem::EFrontVector>(coordSystemInfo.frontVector),
+      static_cast<::fbxsdk::FbxAxisSystem::ECoordSystem>(coordSystemInfo.coordSystem));
   axis.ConvertScene(scene);
 
   // ---------------------------------------------
@@ -846,7 +850,8 @@ void saveFbx(
     const MatrixXf& poses, // model parameters
     const VectorXf& identity,
     const double framerate,
-    const bool saveMesh) {
+    const bool saveMesh,
+    const FBXCoordSystemInfo& coordSystemInfo) {
   CharacterParameters params;
   if (identity.size() == character.parameterTransform.numJointParameters()) {
     params.offsets = identity;
@@ -864,7 +869,7 @@ void saveFbx(
     jointValues[f] = state.skeletonState.jointParameters.v;
   }
   // Call the helper function to save FBX file with joint values
-  saveFbxCommon(filename, character, jointValues, framerate, saveMesh, false);
+  saveFbxCommon(filename, character, jointValues, framerate, saveMesh, false, coordSystemInfo);
 }
 
 void saveFbxWithJointParams(
@@ -872,7 +877,8 @@ void saveFbxWithJointParams(
     const Character& character,
     const MatrixXf& jointParams,
     const double framerate,
-    const bool saveMesh) {
+    const bool saveMesh,
+    const FBXCoordSystemInfo& coordSystemInfo) {
   // first assign joint params to joint values
   std::vector<VectorXf> jointValues(jointParams.cols());
   for (Eigen::Index f = 0; f < jointParams.cols(); f++) {
@@ -882,11 +888,14 @@ void saveFbxWithJointParams(
   // Call the helper function to save FBX file with joint values.
   // Set skipActiveJointParamCheck=true to skip the active joint param check as the joint params are
   // passed in directly from user.
-  saveFbxCommon(filename, character, jointValues, framerate, saveMesh, true);
+  saveFbxCommon(filename, character, jointValues, framerate, saveMesh, true, coordSystemInfo);
 }
 
-void saveFbxModel(const filesystem::path& filename, const Character& character) {
-  saveFbx(filename, character, MatrixXf(), VectorXf(), 120.0, true);
+void saveFbxModel(
+    const filesystem::path& filename,
+    const Character& character,
+    const FBXCoordSystemInfo& coordSystemInfo) {
+  saveFbx(filename, character, MatrixXf(), VectorXf(), 120.0, true, coordSystemInfo);
 }
 
 } // namespace momentum

@@ -33,7 +33,8 @@ void saveFbx(
     const MatrixXf& poses,
     const VectorXf& identity,
     double framerate,
-    bool saveMesh) {
+    bool saveMesh,
+    const FBXCoordSystemInfo& coordSystemInfo) {
   throw std::runtime_error("FbxSDK is not supported on your platform.");
 }
 
@@ -42,11 +43,15 @@ void saveFbxWithJointParams(
     const Character& character,
     const MatrixXf& jointParams,
     double framerate,
-    bool saveMesh) {
+    bool saveMesh,
+    const FBXCoordSystemInfo& coordSystemInfo) {
   throw std::runtime_error("FbxSDK is not supported on your platform.");
 }
 
-void saveFbxModel(const filesystem::path& filename, const Character& character) {
+void saveFbxModel(
+    const filesystem::path& filename,
+    const Character& character,
+    const FBXCoordSystemInfo& coordSystemInfo) {
   throw std::runtime_error("FbxSDK is not supported on your platform.");
 }
 

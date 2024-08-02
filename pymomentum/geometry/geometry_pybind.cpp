@@ -26,6 +26,7 @@
 #include <momentum/character/skeleton.h>
 #include <momentum/character/skeleton_state.h>
 #include <momentum/character/skin_weights.h>
+#include <momentum/io/fbx/fbx_io.h>
 #include <momentum/io/shape/blend_shape_io.h>
 #include <momentum/math/mesh.h>
 #include <momentum/math/mppca.h>
@@ -58,6 +59,22 @@ PYBIND11_MODULE(geometry, m) {
 
   m.attr("PARAMETERS_PER_JOINT") = mm::kParametersPerJoint;
 
+  py::enum_<mm::FBXUpVector>(m, "FBXUpVector", R"(FBXUpVector.)")
+      .value("XAxis", mm::FBXUpVector::XAxis)
+      .value("YAxis", mm::FBXUpVector::YAxis)
+      .value("ZAxis", mm::FBXUpVector::ZAxis)
+      .export_values();
+
+  py::enum_<mm::FBXFrontVector>(m, "FBXFrontVector", R"(FBXFrontVector.)")
+      .value("ParityEven", mm::FBXFrontVector::ParityEven)
+      .value("ParityOdd", mm::FBXFrontVector::ParityOdd)
+      .export_values();
+
+  py::enum_<mm::FBXCoordSystem>(m, "FBXCoordSystem", R"(FBXCoordSystem.)")
+      .value("RightHanded", mm::FBXCoordSystem::RightHanded)
+      .value("LeftHanded", mm::FBXCoordSystem::LeftHanded)
+      .export_values();
+
   // We need to forward-declare classes so that if we refer to them they get
   // typed correctly; otherwise we end up with "momentum::Locator" in the
   // docstrings/type descriptors.
@@ -81,6 +98,8 @@ PYBIND11_MODULE(geometry, m) {
   auto markerClass = py::class_<mm::Marker>(m, "Marker");
   auto markerSequenceClass =
       py::class_<mm::MarkerSequence>(m, "MarkerSequence");
+  auto fbxCoordSystemInfoClass =
+      py::class_<mm::FBXCoordSystemInfo>(m, "FBXCoordSystemInfo");
 
   // =====================================================
   // momentum::Character
@@ -125,6 +144,7 @@ PYBIND11_MODULE(geometry, m) {
   // - save_gltf_from_skel_states(path, character, fps, skel_states,
   // joint_params, markers)
   // - save_fbx(path, character, fps, motion, offsets)
+  // - save_fbx_with_joint_params(path, character, fps, joint_params)
   // =====================================================
   characterClass
       .def(
@@ -513,12 +533,15 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
 :parameter fps: Frequency in frames per second
 :parameter motion: [Optional] 2D pose matrix in [n_frames x n_parameters]
 :parameter offsets: [Optional] Offset array in [(n_joints x n_parameters_per_joint)]
+:parameter coord_system_info: [Optional] FBX coordinate system info
       )",
           py::arg("path"),
           py::arg("character"),
           py::arg("fps") = 120.f,
           py::arg("motion") = std::optional<const Eigen::MatrixXf>{},
-          py::arg("offsets") = std::optional<const Eigen::VectorXf>{})
+          py::arg("offsets") = std::optional<const Eigen::VectorXf>{},
+          py::arg("coord_system_info") =
+              std::optional<mm::FBXCoordSystemInfo>{})
       .def_static(
           "save_fbx_with_joint_params",
           &saveFBXCharacterToFileWithJointParams,
@@ -529,11 +552,14 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
 :parameter character: A Character to be saved to the output file.
 :parameter fps: Frequency in frames per second
 :parameter joint_params: [Optional] 2D pose matrix in [n_frames x n_parameters]
+:parameter coord_system_info: [Optional] FBX coordinate system info
       )",
           py::arg("path"),
           py::arg("character"),
           py::arg("fps") = 120.f,
-          py::arg("joint_params") = std::optional<const Eigen::MatrixXf>{})
+          py::arg("joint_params") = std::optional<const Eigen::MatrixXf>{},
+          py::arg("coord_system_info") =
+              std::optional<mm::FBXCoordSystemInfo>{})
       .def(
           "simplify",
           [](const momentum::Character& character,
@@ -1338,6 +1364,44 @@ The resulting tensors are as follows:
           &mm::MarkerSequence::frames,
           "Marker data in [nframes][nMarkers]")
       .def_readwrite("fps", &mm::MarkerSequence::fps, "Frame rate");
+
+  // =====================================================
+  // momentum::FBXCoordSystemInfo
+  // - upVector
+  // - frontVector
+  // - coordSystem
+
+  // =====================================================
+
+  fbxCoordSystemInfoClass
+      .def(
+          py::init([](const momentum::FBXUpVector upVector,
+                      const momentum::FBXFrontVector frontVector,
+                      const momentum::FBXCoordSystem coordSystem) {
+            return momentum::FBXCoordSystemInfo{
+                upVector, frontVector, coordSystem};
+          }),
+          py::arg("upVector"),
+          py::arg("frontVector"),
+          py::arg("coordSystem"))
+      .def_property_readonly(
+          "upVector",
+          [](const mm::FBXCoordSystemInfo& coordSystemInfo) {
+            return coordSystemInfo.upVector;
+          },
+          "Returns the up vector.")
+      .def_property_readonly(
+          "frontVector",
+          [](const mm::FBXCoordSystemInfo& coordSystemInfo) {
+            return coordSystemInfo.frontVector;
+          },
+          "Returns the front vector.")
+      .def_property_readonly(
+          "coordSystem",
+          [](const mm::FBXCoordSystemInfo& coordSystemInfo) {
+            return coordSystemInfo.coordSystem;
+          },
+          "Returns the coordinate system.");
 
   // loadMotion(gltfFilename)
   m.def(
