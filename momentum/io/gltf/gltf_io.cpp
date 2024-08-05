@@ -750,7 +750,7 @@ std::tuple<MotionParameters, IdentityParameters, float> loadMotion(fx::gltf::Doc
   // parse motion data
   try {
     // load motion
-    auto& def = getMomentumExtension(model.extensionsAndExtras);
+    const auto& def = getMomentumExtension(model.extensionsAndExtras);
     const float fps = def.value("fps", 120.0f);
     const auto& [motion, identity] = getMotionFromModel(model);
     return {motion, identity, fps};
