@@ -41,6 +41,48 @@ namespace momentum {
 
 namespace {
 
+[[nodiscard]] ::fbxsdk::FbxAxisSystem::EUpVector toFbx(const FBXUpVector upVector) {
+  switch (upVector) {
+    case FBXUpVector::XAxis:
+      return ::fbxsdk::FbxAxisSystem::EUpVector::eXAxis;
+    case FBXUpVector::YAxis:
+      return ::fbxsdk::FbxAxisSystem::EUpVector::eYAxis;
+    case FBXUpVector::ZAxis:
+      return ::fbxsdk::FbxAxisSystem::EUpVector::eZAxis;
+    default:
+      throw std::runtime_error("Unsupported up vector");
+  }
+}
+
+[[nodiscard]] ::fbxsdk::FbxAxisSystem::EFrontVector toFbx(const FBXFrontVector frontVector) {
+  switch (frontVector) {
+    case FBXFrontVector::ParityEven:
+      return ::fbxsdk::FbxAxisSystem::EFrontVector::eParityEven;
+    case FBXFrontVector::ParityOdd:
+      return ::fbxsdk::FbxAxisSystem::EFrontVector::eParityOdd;
+    default:
+      throw std::runtime_error("Unsupported front vector");
+  }
+}
+
+[[nodiscard]] ::fbxsdk::FbxAxisSystem::ECoordSystem toFbx(const FBXCoordSystem coordSystem) {
+  switch (coordSystem) {
+    case FBXCoordSystem::RightHanded:
+      return ::fbxsdk::FbxAxisSystem::ECoordSystem::eRightHanded;
+    case FBXCoordSystem::LeftHanded:
+      return ::fbxsdk::FbxAxisSystem::ECoordSystem::eLeftHanded;
+    default:
+      throw std::runtime_error("Unsupported coordinate system");
+  }
+}
+
+[[nodiscard]] ::fbxsdk::FbxAxisSystem toFbx(const FBXCoordSystemInfo& coordSystemInfo) {
+  return {
+      toFbx(coordSystemInfo.upVector),
+      toFbx(coordSystemInfo.frontVector),
+      toFbx(coordSystemInfo.coordSystem)};
+}
+
 Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
   Character result;
 
@@ -631,10 +673,7 @@ void saveFbxCommon(
   ::fbxsdk::FbxNode* root = scene->GetRootNode();
 
   // set the coordinate system
-  ::fbxsdk::FbxAxisSystem axis = ::fbxsdk::FbxAxisSystem(
-      static_cast<::fbxsdk::FbxAxisSystem::EUpVector>(coordSystemInfo.upVector),
-      static_cast<::fbxsdk::FbxAxisSystem::EFrontVector>(coordSystemInfo.frontVector),
-      static_cast<::fbxsdk::FbxAxisSystem::ECoordSystem>(coordSystemInfo.coordSystem));
+  ::fbxsdk::FbxAxisSystem axis = toFbx(coordSystemInfo);
   axis.ConvertScene(scene);
 
   // ---------------------------------------------
