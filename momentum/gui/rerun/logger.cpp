@@ -159,6 +159,10 @@ void logMarkerLocatorCorrespondence(
     const LocatorState& locatorState,
     gsl::span<const Marker> markers,
     const float kPositionErrorThreshold) {
+  if (locatorLookup.empty()) {
+    // No correspondence provided.
+    return;
+  }
   std::vector<std::string> labels;
   std::vector<std::vector<std::array<float, 3>>> lines;
   std::vector<rerun::components::Color> colors;
