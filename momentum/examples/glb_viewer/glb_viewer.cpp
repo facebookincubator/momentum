@@ -89,37 +89,29 @@ int main(int argc, char* argv[]) {
     // Create and draw ground plane
     logGround(rec, "world/ground_plane", -200.f, 200, 15, 0.0);
 
-    const auto [character, motion, offsets, fps] = loadCharacterWithMotion(options->glbFile);
+    const auto [character, motion, offsets, cFps] = loadCharacterWithMotion(options->glbFile);
     const size_t nFrames = motion.cols();
-
-    // Validate frame range
-    size_t firstFrame = 0;
-    if (options->firstFrame >= nFrames) {
-      MT_LOGE(
-          "Requested first frame {} is larger than the total number of frames {}; argument ignored.",
-          options->firstFrame,
-          nFrames);
-    } else {
-      firstFrame = options->firstFrame;
-    }
-    size_t lastFrame =
-        options->maxFrames > 0 ? firstFrame + options->maxFrames * options->stride : nFrames;
-    if (lastFrame > nFrames) {
-      lastFrame = nFrames;
-    }
+    const auto kHasCharacterMotion = nFrames > 0;
+    auto fps = cFps;
 
     const std::vector<std::string> modelParamNames = character.parameterTransform.name;
     const std::vector<std::string> jointNames = character.skeleton.getJointNames();
 
-    if (options->logParams) {
+    if (options->logParams && kHasCharacterMotion) {
       logModelParamNames(rec, "world_params", "model_params", modelParamNames);
     }
-    if (options->logJoints) {
+    if (options->logJoints && kHasCharacterMotion) {
       logJointParamNames(rec, "world_params", "joint_params", jointNames);
     }
 
     const auto markers = loadMarkerSequence(options->glbFile);
     const size_t nMarkerFrames = markers.frames.size();
+    if (!kHasCharacterMotion) {
+      MT_LOGE("No character motion in the file. Using fps from the marker sequence.");
+      fps = markers.fps;
+    } else if (nMarkerFrames != nFrames) {
+      MT_LOGW("Has {} marker frames but {} motion frames.", nMarkerFrames, nFrames);
+    }
     std::string markerStreamName;
     if (!markers.name.empty()) {
       markerStreamName = "world/markers/" + markers.name;
@@ -130,6 +122,21 @@ int main(int argc, char* argv[]) {
     for (size_t i = 0; i < character.locators.size(); i++) {
       locatorLookup[character.locators[i].name] = i;
     }
+
+    // Validate frame range
+    size_t firstFrame = 0;
+    if ((options->firstFrame >= nFrames) && (options->firstFrame >= nMarkerFrames)) {
+      MT_LOGW(
+          "Requested first frame {} is larger than the total number of frames and marker frames{}; argument ignored.",
+          options->firstFrame,
+          nFrames);
+    } else {
+      firstFrame = options->firstFrame;
+    }
+
+    size_t lastFrame = std::max(nFrames, nMarkerFrames);
+    lastFrame = options->maxFrames > 0 ? options->firstFrame + options->maxFrames * options->stride
+                                       : lastFrame;
 
     CharacterState charState;
     CharacterParameters charParams;
