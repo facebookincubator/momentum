@@ -21,11 +21,13 @@
 
 namespace momentum {
 
+/// @param[in] (Optional) The color to use for the mesh. If not provided, the colors stored in the
+/// mesh are used.
 void logMesh(
     const rerun::RecordingStream& rec,
     const std::string& streamName,
     const Mesh& mesh,
-    std::optional<rerun::Color> color);
+    std::optional<rerun::Color> color = std::nullopt);
 
 void logMarkers(
     const rerun::RecordingStream& rec,
