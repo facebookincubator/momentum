@@ -117,6 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab79a2f79db44367c9836545a090da916"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac26631f78fe4d34c06f4c17f73d0f84f"><td class="memItemLeft" align="right" valign="top">Eigen::VectorX&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SequenceSolverFunctionT.html#ac26631f78fe4d34c06f4c17f73d0f84f">getJoinedParameterVector</a> () const</td></tr>
 <tr class="separator:ac26631f78fe4d34c06f4c17f73d0f84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67b6330a2ae93c1b15885b14638cfbe4"><td class="memItemLeft" align="right" valign="top">Eigen::VectorX&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SequenceSolverFunctionT.html#a67b6330a2ae93c1b15885b14638cfbe4">getJoinedParameterVectorFromFrameParameters</a> (gsl::span&lt; const <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt;&gt; frameParameters) const</td></tr>
+<tr class="memdesc:a67b6330a2ae93c1b15885b14638cfbe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a joined parameter vector from a span of frame parameters.  <a href="classmomentum_1_1SequenceSolverFunctionT.html#a67b6330a2ae93c1b15885b14638cfbe4">More...</a><br /></td></tr>
+<tr class="separator:a67b6330a2ae93c1b15885b14638cfbe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c3560897a67a20305975404698ff366"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SequenceSolverFunctionT.html#a5c3560897a67a20305975404698ff366">setJoinedParameterVector</a> (const Eigen::VectorX&lt; T &gt; &amp;joinedParameters)</td></tr>
 <tr class="separator:a5c3560897a67a20305975404698ff366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classmomentum_1_1SolverFunctionT"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classmomentum_1_1SolverFunctionT')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classmomentum_1_1SolverFunctionT.html">momentum::SolverFunctionT&lt; T &gt;</a></td></tr>
@@ -431,6 +434,35 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67b6330a2ae93c1b15885b14638cfbe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67b6330a2ae93c1b15885b14638cfbe4">&#9670;&nbsp;</a></span>getJoinedParameterVectorFromFrameParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorX&lt; T &gt; <a class="el" href="classmomentum_1_1SequenceSolverFunctionT.html">momentum::SequenceSolverFunctionT</a>&lt; T &gt;::getJoinedParameterVectorFromFrameParameters </td>
+          <td>(</td>
+          <td class="paramtype">gsl::span&lt; const <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt;&gt;&#160;</td>
+          <td class="paramname"><em>frameParameters</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a joined parameter vector from a span of frame parameters. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frameParameters</td><td>A span of frame parameters, where each element is a ModelParametersT&lt;T&gt; object representing the parameters for a single frame.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An Eigen::VectorX&lt;T&gt; object containing the joined parameter vector of all frames. </dd></dl>
 
 </div>
 </div>
