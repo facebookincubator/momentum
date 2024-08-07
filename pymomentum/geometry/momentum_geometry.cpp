@@ -454,7 +454,7 @@ at::Tensor uniformRandomToModelParameters(
 
   if (unifNoise.size(1) != nModelParam) {
     std::ostringstream oss;
-    oss << "In uniformRandomToModelParameters(), wxpected array with size [nBatch, nModelParameters] with nModelParameters="
+    oss << "In uniformRandomToModelParameters(), expected array with size [nBatch, nModelParameters] with nModelParameters="
         << nModelParam << "; got array with size "
         << formatTensorSizes(unifNoise);
     throw std::runtime_error(oss.str());

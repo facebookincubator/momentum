@@ -373,7 +373,7 @@ at::Tensor computeVertexNormals(
     at::Tensor vertex_positions,
     at::Tensor triangles) {
   // vertex_positions shape: [..., n_vertices, 3]
-  // triangles shape: [n_traingles, 3]
+  // triangles shape: [n_triangles, 3]
   if (vertex_positions.ndimension() < 2) {
     std::ostringstream oss;
     oss << "In compute_vertex_normals, expected vertex_positions to have at least two dimensions, got " +

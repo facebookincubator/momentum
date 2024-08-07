@@ -8,7 +8,6 @@
 #include "pymomentum/tensor_momentum/tensor_transforms.h"
 
 #include "pymomentum/tensor_momentum/tensor_quaternion.h"
-#include "pymomentum/tensor_utility/autograd_utility.h"
 #include "pymomentum/tensor_utility/tensor_utility.h"
 
 #include <ATen/Functions.h>

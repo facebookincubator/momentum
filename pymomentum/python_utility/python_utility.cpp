@@ -119,7 +119,7 @@ nlohmann::json from_msgpack(const pybind11::bytes& bytes) {
 }
 
 pybind11::bytes to_msgpack(const nlohmann::json& j) {
-  // Use of Vector of char because pyind11::bytes would like to receive
+  // Use of Vector of char because pybind11::bytes would like to receive
   // const char* for initialization of bytes.
   std::string buffer;
   nlohmann::json::to_msgpack(j, buffer);

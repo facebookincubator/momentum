@@ -172,7 +172,7 @@ momentum::Character replaceRestMesh(
     RowMatrixf positions);
 
 /// Matches the locator names from the available locators in the character
-/// object and returns parents andoffsets for the each of the locator names
+/// object and returns parents and offsets for the each of the locator names
 /// @param[in] character A momentum character object with locators
 /// @param[in] names A vector of locator names
 /// @return A tuple of (locator_parents, locator_offsets)

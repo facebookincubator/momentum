@@ -112,7 +112,7 @@ void computeSkelStateBackward(
 
     // For each joint i, we want to find all the parameters k that affect
     // the skeleton state T_i (which transforms from the local space of joint
-    // i to worldspace).  For each such parameter, we add in the derivatives,
+    // i to world space).  For each such parameter, we add in the derivatives,
     //   dLoss/dTheta_k += dLoss/dT_i * dT_i/dTheta_k
     // where Theta_k is the kth joint parameter.
     // Note that each Theta_k only affects a single _local_ transform (by
@@ -195,7 +195,7 @@ void computeLocalSkelStateBackward(
 
     // For each joint i, we want to find all the parameters k that affect
     // the skeleton state T_i (which transforms from the local space of joint
-    // i to worldspace).  For each such parameter, we add in the derivatives,
+    // i to world space).  For each such parameter, we add in the derivatives,
     //   dLoss/dTheta_k += dLoss/dT_i * dT_i/dTheta_k
     // where Theta_k is the kth joint parameter.
     // Note that each Theta_k only affects a single _local_ transform (by
