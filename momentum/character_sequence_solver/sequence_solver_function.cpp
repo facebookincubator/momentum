@@ -109,25 +109,34 @@ ModelParametersT<T> SequenceSolverFunctionT<T>::getUniversalParameters() const {
 }
 
 template <typename T>
-Eigen::VectorX<T> SequenceSolverFunctionT<T>::getJoinedParameterVector() const {
+Eigen::VectorX<T> SequenceSolverFunctionT<T>::getJoinedParameterVectorFromFrameParameters(
+    gsl::span<const ModelParametersT<T>> frameParameters) const {
+  MT_CHECK(frameParameters.size() == frameParameters_.size());
   const auto nFrames = getNumFrames();
 
   Eigen::VectorX<T> res = Eigen::VectorX<T>::Zero(this->numParameters_);
-  for (size_t f = 0; f < frameParameters_.size(); f++) {
+  for (size_t f = 0; f < frameParameters.size(); f++) {
+    MT_CHECK(frameParameters[f].size() == parameterTransform_->numAllModelParameters());
+
     // Fill in all the per-frame parameters:
     for (size_t k = 0; k < perFrameParameterIndices_.size(); ++k) {
       res(perFrameParameterIndices_.size() * f + k) =
-          frameParameters_[f](perFrameParameterIndices_[k]);
+          frameParameters[f](perFrameParameterIndices_[k]);
     }
   }
 
   // Then take the universal parameters from the first frame:
   for (size_t k = 0; k < universalParameterIndices_.size(); ++k) {
     res(perFrameParameterIndices_.size() * nFrames + k) =
-        frameParameters_[0](universalParameterIndices_[k]);
+        frameParameters[0](universalParameterIndices_[k]);
   }
 
   return res;
+}
+
+template <typename T>
+Eigen::VectorX<T> SequenceSolverFunctionT<T>::getJoinedParameterVector() const {
+  return this->getJoinedParameterVectorFromFrameParameters(frameParameters_);
 }
 
 template <typename T>

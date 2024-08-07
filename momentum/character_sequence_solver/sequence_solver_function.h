@@ -66,6 +66,16 @@ class SequenceSolverFunctionT : public SolverFunctionT<T> {
   void setFrameParameters(size_t frame, const ModelParametersT<T>& parameters);
   ModelParametersT<T> getUniversalParameters() const;
   Eigen::VectorX<T> getJoinedParameterVector() const;
+
+  /// Returns a joined parameter vector from a span of frame parameters.
+  ///
+  /// @param frameParameters A span of frame parameters, where each element is a ModelParametersT<T>
+  /// object representing the parameters for a single frame.
+  ///
+  /// @return An Eigen::VectorX<T> object containing the joined parameter vector of all frames.
+  Eigen::VectorX<T> getJoinedParameterVectorFromFrameParameters(
+      gsl::span<const ModelParametersT<T>> frameParameters) const;
+
   void setJoinedParameterVector(const Eigen::VectorX<T>& joinedParameters);
 
  private:
