@@ -162,7 +162,8 @@ void saveFBXCharacterToFile(
         offsets.value(),
         fps,
         true, /*saveMesh*/
-        coordSystemInfo.value());
+        coordSystemInfo.has_value() ? coordSystemInfo.value()
+                                    : momentum::FBXCoordSystemInfo());
   } else {
     momentum::saveFbxModel(path, character);
   }
@@ -181,7 +182,8 @@ void saveFBXCharacterToFileWithJointParams(
         jointParams.value().transpose(),
         fps,
         true, /*saveMesh*/
-        coordSystemInfo.value());
+        coordSystemInfo.has_value() ? coordSystemInfo.value()
+                                    : momentum::FBXCoordSystemInfo());
   } else {
     momentum::saveFbxModel(path, character);
   }
