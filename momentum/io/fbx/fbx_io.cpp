@@ -902,13 +902,27 @@ void saveFbx(
 
   // first convert model parameters to joint values
   CharacterState state;
-  MatrixXf jointValues(state.skeletonState.jointParameters.v.size(), poses.cols());
-  for (Eigen::Index f = 0; f < poses.cols(); f++) {
-    // set the current pose
-    params.pose = poses.col(f);
+  MatrixXf jointValues;
+  if (poses.cols() > 0) {
+    // Set the initial pose to initialize the state
+    params.pose = poses.col(0);
     state.set(params, character, false, false, false);
-    jointValues.col(f) = state.skeletonState.jointParameters.v;
+
+    // Resize the jointValues matrix based on the size of joint parameters and number of poses
+    jointValues.resize(state.skeletonState.jointParameters.v.size(), poses.cols());
+
+    // Store the joint parameters for the initial pose
+    jointValues.col(0) = state.skeletonState.jointParameters.v;
+
+    // Iterate through each subsequent pose
+    for (Eigen::Index f = 1; f < poses.cols(); f++) {
+      // set the current pose
+      params.pose = poses.col(f);
+      state.set(params, character, false, false, false);
+      jointValues.col(f) = state.skeletonState.jointParameters.v;
+    }
   }
+
   // Call the helper function to save FBX file with joint values
   saveFbxCommon(filename, character, jointValues, framerate, saveMesh, false, coordSystemInfo);
 }
