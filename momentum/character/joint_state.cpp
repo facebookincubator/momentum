@@ -27,16 +27,9 @@ void JointStateT<T>::set(
     bool computeDeriv) noexcept {
   derivDirty = !computeDeriv;
 
-  Eigen::Quaternion<T> parentRotation;
-  Eigen::Vector3<T> parentTranslation;
-  T parentScale = 1;
+  TransformT<T> parent;
   if (parentState != nullptr) {
-    parentRotation = parentState->rotation;
-    parentTranslation = parentState->translation;
-    parentScale = parentState->scale;
-  } else {
-    parentRotation.setIdentity();
-    parentTranslation.setZero();
+    parent = parentState->transform;
   }
 
   // calculate state based on parameters and parent transform
@@ -49,31 +42,35 @@ void JointStateT<T>::set(
   }
 
   // do the translations
-  localTranslation.noalias() = joint.translationOffset + parameters.template head<3>();
+  localTransform.translation.noalias() = joint.translationOffset + parameters.template head<3>();
 
   // apply pre-rotation
-  localRotation = joint.preRotation;
+  localTransform.rotation = joint.preRotation;
 
   // do the rotations
   for (int index = 2; index >= 0; --index) {
     if (computeDeriv) {
-      rotationAxis.col(index).noalias() = (parentRotation * localRotation) * RotationAxis<T>[index];
+      rotationAxis.col(index).noalias() =
+          (parent.rotation * localTransform.rotation) * RotationAxis<T>[index];
     }
-    localRotation *=
+    localTransform.rotation *=
         Eigen::Quaternion<T>(Eigen::AngleAxis<T>((T)parameters[3 + index], RotationAxis<T>[index]));
   }
 
   // perform scale if necessary
-  localScale = std::exp2((T)parameters[6]);
+  localTransform.scale = std::exp2((T)parameters[6]);
 
   // set global transformation
-  translation = parentTranslation;
-  translation.noalias() += parentRotation * (localTranslation * parentScale);
-  rotation = parentRotation * localRotation;
-  scale = parentScale * localScale;
+  transform = parent * localTransform;
 
-  transformation.translation() = translation;
-  transformation.linear().noalias() = rotation.toRotationMatrix() * scale;
+  // TODO: Remove
+  localTranslation = localTransform.translation;
+  localRotation = localTransform.rotation;
+  localScale = localTransform.scale;
+  translation = transform.translation;
+  rotation = transform.rotation;
+  scale = transform.scale;
+  transformation = transform.toAffine3();
 }
 
 template <typename T>
@@ -98,15 +95,17 @@ Eigen::Vector3<T> JointStateT<T>::getScaleDerivative(const Eigen::Vector3<T>& re
 template <typename T>
 template <typename T2>
 void JointStateT<T>::set(const JointStateT<T2>& rhs) {
+  // TODO: Remove
   localRotation = rhs.localRotation.template cast<T>();
   localTranslation = rhs.localTranslation.template cast<T>();
   localScale = (T)rhs.localScale;
-
   rotation = rhs.rotation.template cast<T>();
   translation = rhs.translation.template cast<T>();
   scale = (T)rhs.scale;
-
   transformation = rhs.transformation.template cast<T>();
+
+  localTransform = rhs.localTransform.template cast<T>();
+  transform = rhs.transform.template cast<T>();
 
   translationAxis = rhs.translationAxis.template cast<T>();
   rotationAxis = rhs.rotationAxis.template cast<T>();

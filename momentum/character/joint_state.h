@@ -9,6 +9,7 @@
 
 #include <momentum/character/joint.h>
 #include <momentum/character/types.h>
+#include <momentum/math/transform.h>
 #include <momentum/math/types.h>
 
 namespace momentum {
@@ -24,30 +25,65 @@ struct JointStateT {
 
   // local joint transformation as defined by parameters
   /// Local rotation matrix
-  Eigen::Quaternion<T> localRotation;
+  Eigen::Quaternion<T> localRotation; // TODO: Remove
   /// Local translation offset
-  Eigen::Vector3<T> localTranslation;
+  Eigen::Vector3<T> localTranslation; // TODO: Remove
   /// Local scaling (affects descendants)
-  T localScale;
+  T localScale; // TODO: Remove
 
   // joint transformation from local to global space
   /// Rotation matrix from local to global space
-  Eigen::Quaternion<T> rotation;
+  Eigen::Quaternion<T> rotation; // TODO: Remove
   /// Translation offset from local to global space
-  Eigen::Vector3<T> translation;
+  Eigen::Vector3<T> translation; // TODO: Remove
   /// Scaling from local to global space
-  T scale;
+  T scale; // TODO: Remove
 
   /// Local to global complete matrix
-  Affine3 transformation;
+  Affine3 transformation; // TODO: Remove
+
+  /// Local joint transformation as defined by parameters
+  TransformT<T> localTransform;
+
+  /// Joint transformation from local to global space
+  TransformT<T> transform;
 
   /// Columns contain the three translation axes for this joint in global space
   Eigen::Matrix3<T> translationAxis;
+
   /// Columns contain the three rotation axes for this joint in global space
   Eigen::Matrix3<T> rotationAxis;
 
   /// Indicate whether translationAxis and rotationAxis are up-to-date with other transformations
   bool derivDirty = true;
+
+  // TODO: Remove
+  explicit JointStateT(
+      const Eigen::Quaternion<T>& localRotation = Eigen::Quaternion<T>(),
+      const Eigen::Vector3<T>& localTranslation = Eigen::Vector3<T>(),
+      const T& localScale = T(),
+      const Eigen::Quaternion<T>& rotation = Eigen::Quaternion<T>(),
+      const Eigen::Vector3<T>& translation = Eigen::Vector3<T>(),
+      const T& scale = T(),
+      const Affine3& transformation = Affine3(),
+      const Eigen::Matrix3<T>& translationAxis = Eigen::Matrix3<T>(),
+      const Eigen::Matrix3<T>& rotationAxis = Eigen::Matrix3<T>())
+      : localRotation(localRotation),
+        localTranslation(localTranslation),
+        localScale(localScale),
+        rotation(rotation),
+        translation(translation),
+        scale(scale),
+        transformation(transformation),
+        translationAxis(translationAxis),
+        rotationAxis(rotationAxis) {
+    localTransform.rotation = localRotation;
+    localTransform.translation = localTranslation;
+    localTransform.scale = localScale;
+    transform.rotation = rotation;
+    transform.translation = translation;
+    transform.scale = scale;
+  }
 
   /// Recursively update all the transformations from the root to leaves
   void set(
