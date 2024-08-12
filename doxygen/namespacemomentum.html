@@ -114,6 +114,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SimdGeneralizedLossT.html">SimdGeneralizedLossT</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SIMD version of the generalized loss function.  <a href="classmomentum_1_1SimdGeneralizedLossT.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1DeduceSpanType.html">DeduceSpanType</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A utility struct that facilitates the deduction of a <code>gsl::span</code> type from a given type.  <a href="structmomentum_1_1DeduceSpanType.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -388,6 +390,13 @@ Typedefs</h2></td></tr>
 <tr class="separator:afc082f44e99ecd9f189566f6e47192fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afad3af6ee3e3c1eeb1221cd98011157b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#afad3af6ee3e3c1eeb1221cd98011157b">Vector3dP</a> = <a class="el" href="namespacemomentum.html#af3a3b5f2df84c8acf8d37df7f2eb9ee6">Vector3P</a>&lt; double &gt;</td></tr>
 <tr class="separator:afad3af6ee3e3c1eeb1221cd98011157b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ae7e4e6c3d921a5197e36e87fea1c1b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a4ae7e4e6c3d921a5197e36e87fea1c1b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a4ae7e4e6c3d921a5197e36e87fea1c1b">TransformListT</a> = std::vector&lt; <a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt; &gt;</td></tr>
+<tr class="separator:a4ae7e4e6c3d921a5197e36e87fea1c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e607caaed9a68c7421442b7b48cdc50"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a8e607caaed9a68c7421442b7b48cdc50">Transform</a> = <a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; float &gt;</td></tr>
+<tr class="separator:a8e607caaed9a68c7421442b7b48cdc50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83bdc3c6cdc0296829edbce2737ddc09"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a83bdc3c6cdc0296829edbce2737ddc09">TransformList</a> = <a class="el" href="namespacemomentum.html#a4ae7e4e6c3d921a5197e36e87fea1c1b">TransformListT</a>&lt; float &gt;</td></tr>
+<tr class="separator:a83bdc3c6cdc0296829edbce2737ddc09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80fc6fdaeb4dd52b910a6f8434b94e5c"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a80fc6fdaeb4dd52b910a6f8434b94e5c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a80fc6fdaeb4dd52b910a6f8434b94e5c">Map</a> = Eigen::Map&lt; T &gt;</td></tr>
 <tr class="separator:a80fc6fdaeb4dd52b910a6f8434b94e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1243,6 +1252,8 @@ Functions</h2></td></tr>
 <tr class="separator:a72f89b67681e36a73a615ebbcc04971f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e27c8a95baaa20b070592a086d05228"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a5e27c8a95baaa20b070592a086d05228">MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT</a> (Mppca)</td></tr>
 <tr class="separator:a5e27c8a95baaa20b070592a086d05228"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c05a0a469e6050a162bcaf3277fcfa1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a9c05a0a469e6050a162bcaf3277fcfa1">MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT</a> (<a class="el" href="namespacemomentum.html#a8e607caaed9a68c7421442b7b48cdc50">Transform</a>)</td></tr>
+<tr class="separator:a9c05a0a469e6050a162bcaf3277fcfa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37f4cc310014e28fc1989b404e1cf431"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a37f4cc310014e28fc1989b404e1cf431">MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS</a> (LowRankCovarianceMatrix)</td></tr>
 <tr class="separator:a37f4cc310014e28fc1989b404e1cf431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0edb68f3252b6ed2c941de5854d5a5f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0edb68f3252b6ed2c941de5854d5a5f5">MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS</a> (GeneralizedLoss)</td></tr>
@@ -5145,6 +5156,20 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a8e607caaed9a68c7421442b7b48cdc50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e607caaed9a68c7421442b7b48cdc50">&#9670;&nbsp;</a></span>Transform</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacemomentum.html#a8e607caaed9a68c7421442b7b48cdc50">momentum::Transform</a> = typedef <a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt;float&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a72995f508ccba8e3b0c5de349e57f94a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72995f508ccba8e3b0c5de349e57f94a">&#9670;&nbsp;</a></span>TransformationList</h2>
 
@@ -5169,6 +5194,36 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="namespacemomentum.html#ae81421d9a4068480fa02fcd0ed88bebe">momentum::TransformationListT</a> = typedef std::vector&lt;<a class="el" href="namespacemomentum.html#a5a118b8e5da2f6b4eae3f4a2bf98d5ca">Affine3</a>&lt;T&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83bdc3c6cdc0296829edbce2737ddc09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83bdc3c6cdc0296829edbce2737ddc09">&#9670;&nbsp;</a></span>TransformList</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacemomentum.html#a83bdc3c6cdc0296829edbce2737ddc09">momentum::TransformList</a> = typedef <a class="el" href="namespacemomentum.html#a4ae7e4e6c3d921a5197e36e87fea1c1b">TransformListT</a>&lt;float&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ae7e4e6c3d921a5197e36e87fea1c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ae7e4e6c3d921a5197e36e87fea1c1b">&#9670;&nbsp;</a></span>TransformListT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacemomentum.html#a4ae7e4e6c3d921a5197e36e87fea1c1b">momentum::TransformListT</a> = typedef std::vector&lt;<a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt;T&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -10835,7 +10890,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="af4e0a0041faf3143e7871754b66a9b63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4e0a0041faf3143e7871754b66a9b63">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[1/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af4e0a0041faf3143e7871754b66a9b63">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[1/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10853,7 +10908,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="abfd8422e13edefc716b83a06911c894f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfd8422e13edefc716b83a06911c894f">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[2/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abfd8422e13edefc716b83a06911c894f">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[2/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10871,7 +10926,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a808a37db6979b0cc6a6261b70291dd7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a808a37db6979b0cc6a6261b70291dd7b">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[3/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a808a37db6979b0cc6a6261b70291dd7b">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[3/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10889,7 +10944,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a7a03d5796c2cf7932922b6f98955475c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a03d5796c2cf7932922b6f98955475c">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[4/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a03d5796c2cf7932922b6f98955475c">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[4/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10907,7 +10962,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ae454500b821dc1fade62a011a3f7c5d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae454500b821dc1fade62a011a3f7c5d8">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[5/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae454500b821dc1fade62a011a3f7c5d8">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[5/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10925,7 +10980,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="abff16df74903afdd3b26caefef7e13e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abff16df74903afdd3b26caefef7e13e5">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[6/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abff16df74903afdd3b26caefef7e13e5">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[6/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10943,7 +10998,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a11785fdaac2f4079aa9dd85784013ece"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11785fdaac2f4079aa9dd85784013ece">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[7/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a11785fdaac2f4079aa9dd85784013ece">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[7/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10961,7 +11016,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a4a37f6336416bd43592b2c94845ac265"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a37f6336416bd43592b2c94845ac265">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[8/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a37f6336416bd43592b2c94845ac265">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[8/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10979,7 +11034,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a72f89b67681e36a73a615ebbcc04971f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72f89b67681e36a73a615ebbcc04971f">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[9/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a72f89b67681e36a73a615ebbcc04971f">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[9/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -10997,7 +11052,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a5e27c8a95baaa20b070592a086d05228"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e27c8a95baaa20b070592a086d05228">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[10/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e27c8a95baaa20b070592a086d05228">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[10/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11015,7 +11070,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a9c48401768338baf61c7672a3b68d544"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c48401768338baf61c7672a3b68d544">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[11/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c48401768338baf61c7672a3b68d544">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[11/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11033,7 +11088,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a8e86db190f0103bcdfec155eb9ccb74b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e86db190f0103bcdfec155eb9ccb74b">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[12/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e86db190f0103bcdfec155eb9ccb74b">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[12/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11051,7 +11106,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a477e8abf1bd8dc7b4bf878c007f86199"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a477e8abf1bd8dc7b4bf878c007f86199">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[13/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a477e8abf1bd8dc7b4bf878c007f86199">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[13/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11069,7 +11124,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a0f9ea6072e653dc17959a91f04ec7fb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f9ea6072e653dc17959a91f04ec7fb7">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[14/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f9ea6072e653dc17959a91f04ec7fb7">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[14/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11087,7 +11142,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a6fc9f6c0b6ff7db2697a48aa46fec2f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6fc9f6c0b6ff7db2697a48aa46fec2f6">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[15/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fc9f6c0b6ff7db2697a48aa46fec2f6">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[15/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11105,7 +11160,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a59e8380d9ff4c0e612fb54274790cb43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59e8380d9ff4c0e612fb54274790cb43">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[16/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a59e8380d9ff4c0e612fb54274790cb43">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[16/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11123,7 +11178,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="abd753202ef6eb59e764ef0e0c49e4e6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd753202ef6eb59e764ef0e0c49e4e6d">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[17/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abd753202ef6eb59e764ef0e0c49e4e6d">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[17/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11141,7 +11196,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a1e8a6bacf25800502625e22d52d653d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e8a6bacf25800502625e22d52d653d1">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[18/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e8a6bacf25800502625e22d52d653d1">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[18/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11159,7 +11214,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a7de7fae28189048f863523ed5203590f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7de7fae28189048f863523ed5203590f">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[19/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7de7fae28189048f863523ed5203590f">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[19/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11177,7 +11232,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="aef9035a15b9ccabeb5e30a8bb3dd2803"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef9035a15b9ccabeb5e30a8bb3dd2803">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[20/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aef9035a15b9ccabeb5e30a8bb3dd2803">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[20/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11195,7 +11250,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a969dd95f362d9a6364e098b1ad18b59d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a969dd95f362d9a6364e098b1ad18b59d">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[21/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a969dd95f362d9a6364e098b1ad18b59d">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[21/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11213,7 +11268,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ab9f0727e882836842142ca81b2673c42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9f0727e882836842142ca81b2673c42">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[22/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9f0727e882836842142ca81b2673c42">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[22/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11230,8 +11285,26 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a9c05a0a469e6050a162bcaf3277fcfa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c05a0a469e6050a162bcaf3277fcfa1">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[23/24]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacemomentum.html#a8e607caaed9a68c7421442b7b48cdc50">Transform</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a672050bb1a5ced73cbaab447e6cc40ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a672050bb1a5ced73cbaab447e6cc40ec">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[23/23]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a672050bb1a5ced73cbaab447e6cc40ec">&#9670;&nbsp;</a></span>MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT() <span class="overload">[24/24]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
