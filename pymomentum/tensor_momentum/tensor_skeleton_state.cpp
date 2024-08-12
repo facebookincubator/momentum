@@ -38,10 +38,10 @@ namespace {
 template <typename T>
 struct Transform {
   template <typename T2>
-  explicit Transform(const momentum::AffineTransform3<T2>& t)
-      : translation(t.translation().template cast<T>()),
-        rotation(t.quaternion().normalized().template cast<T>()),
-        scale(t.scale()) {}
+  explicit Transform(const momentum::TransformT<T2>& t)
+      : translation(t.translation.template cast<T>()),
+        rotation(t.rotation.normalized().template cast<T>()),
+        scale(t.scale) {}
   Transform() {}
 
   Eigen::Vector3<T> translation = Eigen::Vector3<T>::Zero();
@@ -127,14 +127,13 @@ void computeSkelStateBackward(
     // reusing the transform from k->world (this is just the skeleton state of
     // k's parent) as well as the accumulated transform from i to k (which we
     // will store in accumTransform).
-    momentum::AffineTransform3<T> accumTransform;
+    momentum::TransformT<T> accumTransform;
     size_t curJoint = iJoint;
     while (curJoint != momentum::kInvalidIndex) {
       const auto& joint = skeleton.joints[curJoint];
-      const momentum::AffineTransform3<T> parentXF =
-          (joint.parent == kInvalidIndex)
-          ? momentum::AffineTransform3<T>()
-          : skelState.jointState[joint.parent].localToWorldXF();
+      const momentum::TransformT<T> parentXF = (joint.parent == kInvalidIndex)
+          ? momentum::TransformT<T>()
+          : skelState.jointState[joint.parent].transform;
 
       for (int d = 0; d < momentum::kParametersPerJoint; ++d) {
         Eigen::VectorX<JetType> jointParams_cur =
@@ -161,7 +160,7 @@ void computeSkelStateBackward(
       }
 
       accumTransform =
-          skelState.jointState[curJoint].localToParentXF() * accumTransform;
+          skelState.jointState[curJoint].localTransform * accumTransform;
       curJoint = joint.parent;
     }
   }

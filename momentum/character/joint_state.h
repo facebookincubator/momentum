@@ -42,10 +42,11 @@ struct JointStateT {
   /// Local to global complete matrix
   Affine3 transformation; // TODO: Remove
 
-  /// Local joint transformation as defined by parameters
+  /// Relative transformation from the parent joint to this joint, which is defined by the
+  /// joint parameters
   TransformT<T> localTransform;
 
-  /// Joint transformation from local to global space
+  /// Global transformation of this joint
   TransformT<T> transform;
 
   /// Columns contain the three translation axes for this joint in global space
@@ -105,16 +106,6 @@ struct JointStateT {
 
   /// The derivative of a global vector ref wrt the scaling parameter of the global transformation.
   [[nodiscard]] Eigen::Vector3<T> getScaleDerivative(const Eigen::Vector3<T>& ref) const noexcept;
-
-  /// An Affine3 transformation from the local space to the parent space
-  [[nodiscard]] AffineTransform3<T> localToParentXF() const {
-    return createAffineTransform3(localTranslation, localRotation, localScale);
-  }
-
-  /// An Affine3 transformation from the local space to the world space
-  [[nodiscard]] AffineTransform3<T> localToWorldXF() const {
-    return createAffineTransform3(translation, rotation, scale);
-  }
 
   template <typename T2>
   void set(const JointStateT<T2>& rhs);

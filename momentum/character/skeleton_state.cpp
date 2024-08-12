@@ -122,7 +122,7 @@ AffineTransform3ListT<T> SkeletonStateT<T>::toTransforms() const {
   AffineTransform3ListT<T> result;
   result.reserve(jointState.size());
   for (const auto& js : jointState) {
-    result.push_back(js.localToWorldXF());
+    result.push_back(js.transform.toAffineTransform3());
   }
   return result;
 }
@@ -192,11 +192,13 @@ AffineTransform3<T> transformAtoB(
     if (ancestorB != kInvalidIndex && (ancestorA == kInvalidIndex || ancestorA < ancestorB)) {
       // parentB can't possible be a parent of parentA, so move parentB up one level in the
       // hierarchy.
-      B_to_ancestorB = skelState.jointState[ancestorB].localToParentXF() * B_to_ancestorB;
+      B_to_ancestorB =
+          skelState.jointState[ancestorB].localTransform.toAffineTransform3() * B_to_ancestorB;
       ancestorB = referenceSkeleton.joints[ancestorB].parent;
     } else if (
         ancestorA != kInvalidIndex && (ancestorB == kInvalidIndex || ancestorB < ancestorA)) {
-      A_to_ancestorA = skelState.jointState[ancestorA].localToParentXF() * A_to_ancestorA;
+      A_to_ancestorA =
+          skelState.jointState[ancestorA].localTransform.toAffineTransform3() * A_to_ancestorA;
       ancestorA = referenceSkeleton.joints[ancestorA].parent;
     } else {
       // Reached a common ancestor of A and B so we can stop.

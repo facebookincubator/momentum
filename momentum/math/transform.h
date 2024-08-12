@@ -88,6 +88,10 @@ struct TransformT {
 
   [[nodiscard]] Affine3<T> toAffine3() const;
 
+  [[nodiscard]] AffineTransform3<T> toAffineTransform3() const {
+    return createAffineTransform3(translation, rotation, scale);
+  }
+
   /// Returns 4x4 matrix representation of the transform.
   [[nodiscard]] Matrix4<T> toMatrix() const {
     Matrix4<T> out = Matrix4<T>::Zero();
