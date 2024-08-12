@@ -61,7 +61,7 @@ struct SkeletonStateT {
   // compare to skeleton states with each other, returning all kinds of similarity measures
   static StateSimilarity compare(const SkeletonStateT<T>& state1, const SkeletonStateT<T>& state2);
 
-  AffineTransform3ListT<T> toTransforms() const;
+  TransformListT<T> toTransforms() const;
 
   template <typename T2>
   SkeletonStateT<T2> cast() const {
@@ -84,7 +84,7 @@ struct SkeletonStateT {
 // but computed in a much more numerically stable manner as it doesn't
 // involve passing through world space on the way.
 template <typename T>
-AffineTransform3<T> transformAtoB(
+TransformT<T> transformAtoB(
     size_t jointA,
     size_t jointB,
     const Skeleton& referenceSkeleton,

@@ -118,11 +118,11 @@ void SkeletonStateT<T>::set(const Skeleton& referenceSkeleton, bool computeDeriv
 }
 
 template <typename T>
-AffineTransform3ListT<T> SkeletonStateT<T>::toTransforms() const {
-  AffineTransform3ListT<T> result;
+TransformListT<T> SkeletonStateT<T>::toTransforms() const {
+  TransformListT<T> result;
   result.reserve(jointState.size());
   for (const auto& js : jointState) {
-    result.push_back(js.transform.toAffineTransform3());
+    result.push_back(js.transform);
   }
   return result;
 }
@@ -175,7 +175,7 @@ StateSimilarity SkeletonStateT<T>::compare(
 // It turns out because the body is topologically sorted, there is a pretty simple algorithm for
 // computing the common ancestor.
 template <typename T>
-AffineTransform3<T> transformAtoB(
+TransformT<T> transformAtoB(
     size_t jointA,
     size_t jointB,
     const Skeleton& referenceSkeleton,
@@ -183,8 +183,8 @@ AffineTransform3<T> transformAtoB(
   size_t ancestorA = jointA;
   size_t ancestorB = jointB;
 
-  AffineTransform3<T> B_to_ancestorB;
-  AffineTransform3<T> A_to_ancestorA;
+  TransformT<T> B_to_ancestorB;
+  TransformT<T> A_to_ancestorA;
 
   while (true) {
     // Note that we treat kInvalidIndex as if it is the _lowest_ index, as the world is the
@@ -192,13 +192,11 @@ AffineTransform3<T> transformAtoB(
     if (ancestorB != kInvalidIndex && (ancestorA == kInvalidIndex || ancestorA < ancestorB)) {
       // parentB can't possible be a parent of parentA, so move parentB up one level in the
       // hierarchy.
-      B_to_ancestorB =
-          skelState.jointState[ancestorB].localTransform.toAffineTransform3() * B_to_ancestorB;
+      B_to_ancestorB = skelState.jointState[ancestorB].localTransform * B_to_ancestorB;
       ancestorB = referenceSkeleton.joints[ancestorB].parent;
     } else if (
         ancestorA != kInvalidIndex && (ancestorB == kInvalidIndex || ancestorB < ancestorA)) {
-      A_to_ancestorA =
-          skelState.jointState[ancestorA].localTransform.toAffineTransform3() * A_to_ancestorA;
+      A_to_ancestorA = skelState.jointState[ancestorA].localTransform * A_to_ancestorA;
       ancestorA = referenceSkeleton.joints[ancestorA].parent;
     } else {
       // Reached a common ancestor of A and B so we can stop.
@@ -222,12 +220,12 @@ template void SkeletonStateT<double>::set(const SkeletonStateT<double>&);
 template SkeletonStateT<float>::SkeletonStateT(const SkeletonStateT<double>&);
 template SkeletonStateT<double>::SkeletonStateT(const SkeletonStateT<float>&);
 
-template AffineTransform3<float> transformAtoB(
+template TransformT<float> transformAtoB(
     size_t jointA,
     size_t jointB,
     const Skeleton& referenceSkeleton,
     const SkeletonStateT<float>& skelState);
-template AffineTransform3<double> transformAtoB(
+template TransformT<double> transformAtoB(
     size_t jointA,
     size_t jointB,
     const Skeleton& referenceSkeleton,

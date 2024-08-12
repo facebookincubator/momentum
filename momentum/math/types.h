@@ -437,10 +437,6 @@ using AffineTransform3 = Sim3<T>;
 using AffineTransform3f = AffineTransform3<float>;
 using AffineTransform3d = AffineTransform3<double>;
 
-// Structure describing a the state of all joints in a skeleton
-template <typename T>
-using AffineTransform3ListT = std::vector<AffineTransform3<T>>;
-
 template <typename Derived>
 [[nodiscard]] Affine3<typename Derived::Scalar> toAffine3(const Sophus::Sim3Base<Derived>& x) {
   using T = typename Derived::Scalar;

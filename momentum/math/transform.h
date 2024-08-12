@@ -54,6 +54,13 @@ struct TransformT {
     // Empty
   }
 
+  explicit TransformT(const Matrix4<T>& other)
+      : rotation(other.template topLeftCorner<3, 3>()),
+        translation(other.template topRightCorner<3, 1>()) {
+    scale = rotation.norm();
+    rotation.coeffs() /= scale;
+  }
+
   TransformT<T>& operator=(const Affine3<T>& other) {
     translation = other.translation();
     rotation = other.linear();

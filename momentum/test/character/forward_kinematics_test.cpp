@@ -142,12 +142,14 @@ TYPED_TEST(Momentum_ForwardKinematicsTest, RelativeTransform) {
 
   for (size_t iJoint = 0; iJoint < skeleton.joints.size(); ++iJoint) {
     // A-to-world:
-    EXPECT_TRUE(toAffine3(transformAtoB<T>(iJoint, kInvalidIndex, skeleton, state))
+    EXPECT_TRUE(transformAtoB<T>(iJoint, kInvalidIndex, skeleton, state)
+                    .toAffine3()
                     .isApprox(state.jointState[iJoint].transformation, Eps<T>(1e-8f, 1e-8)));
 
     // world-to-B:
     EXPECT_TRUE(
-        toAffine3(transformAtoB<T>(kInvalidIndex, iJoint, skeleton, state))
+        transformAtoB<T>(kInvalidIndex, iJoint, skeleton, state)
+            .toAffine3()
             .isApprox(state.jointState[iJoint].transformation.inverse(), Eps<T>(1e-8f, 1e-8)));
   }
 
@@ -155,7 +157,7 @@ TYPED_TEST(Momentum_ForwardKinematicsTest, RelativeTransform) {
     for (size_t jointB = 0; jointB < skeleton.joints.size(); ++jointB) {
       const Affine3<T> AtoB = state.jointState[jointB].transformation.inverse() *
           state.jointState[jointA].transformation;
-      const Affine3<T> AtoB2 = toAffine3(transformAtoB<T>(jointA, jointB, skeleton, state));
+      const Affine3<T> AtoB2 = transformAtoB<T>(jointA, jointB, skeleton, state).toAffine3();
       EXPECT_TRUE(AtoB.isApprox(AtoB2, Eps<T>(1e-7f, 1e-8)));
     }
   }

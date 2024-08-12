@@ -49,7 +49,7 @@ void StateErrorFunctionT<T>::setTargetState(const SkeletonStateT<T>& target) {
 }
 
 template <typename T>
-void StateErrorFunctionT<T>::setTargetState(AffineTransform3ListT<T> target) {
+void StateErrorFunctionT<T>::setTargetState(TransformListT<T> target) {
   MT_CHECK(target.size() == this->skeleton_.joints.size());
   this->targetState_ = std::move(target);
 }
@@ -117,13 +117,13 @@ double StateErrorFunctionT<T>::getError(
     // Note: |R0 - RT|² is a valid norm on SO3, it doesn't have the same slope as the squared angle
     // difference
     //       but it's derivative doesn't have a singularity at the minimum, so is more stable
-    const Eigen::Quaternion<T>& target = targetState_[i].quaternion().normalized();
+    const Eigen::Quaternion<T>& target = targetState_[i].rotation.normalized();
     const Eigen::Quaternion<T>& rot = state.jointState[i].rotation;
     const Eigen::Matrix3<T> rotDiff = rot.toRotationMatrix() - target.toRotationMatrix();
     error += rotDiff.squaredNorm() * kOrientationWeight * rotWgt_ * targetRotationWeights_[i];
 
     // calculate position error
-    const Eigen::Vector3<T> diff = state.jointState[i].translation - targetState_[i].translation();
+    const Eigen::Vector3<T> diff = state.jointState[i].translation - targetState_[i].translation;
     error += diff.squaredNorm() * kPositionWeight * posWgt_ * targetPositionWeights_[i];
   }
 
@@ -168,14 +168,14 @@ double StateErrorFunctionT<T>::getGradient(
     }
 
     // calculate orientation gradient
-    const Eigen::Quaternion<T>& target = targetState_[i].quaternion().normalized();
+    const Eigen::Quaternion<T>& target = targetState_[i].rotation.normalized();
     const Eigen::Quaternion<T>& rot = state.jointState[i].rotation;
     const Eigen::Matrix3<T> rotDiff = rot.toRotationMatrix() - target.toRotationMatrix();
     const T rwgt = kOrientationWeight * rotWgt_ * this->weight_ * targetRotationWeights_[i];
     error += rotDiff.squaredNorm() * rwgt;
 
     // calculate position gradient
-    const Eigen::Vector3<T> diff = state.jointState[i].translation - targetState_[i].translation();
+    const Eigen::Vector3<T> diff = state.jointState[i].translation - targetState_[i].translation;
     const T pwgt = kPositionWeight * posWgt_ * this->weight_ * targetPositionWeights_[i];
     error += diff.squaredNorm() * pwgt;
 
@@ -295,10 +295,10 @@ double StateErrorFunctionT<T>::getJacobian(
     offset += 12;
 
     // calculate translation gradient
-    const auto transDiff = (state.jointState[i].translation - targetState_[i].translation()).eval();
+    const auto transDiff = (state.jointState[i].translation - targetState_[i].translation).eval();
 
     // calculate orientation gradient
-    const Eigen::Quaternion<T>& target = targetState_[i].quaternion().normalized();
+    const Eigen::Quaternion<T>& target = targetState_[i].rotation.normalized();
     const Eigen::Quaternion<T>& rot = state.jointState[i].rotation;
     const Eigen::Matrix3<T> rotDiff = rot.toRotationMatrix() - target.toRotationMatrix();
     const T rwgt = kOrientationWeight * rotWgt_ * this->weight_ * targetRotationWeights_[i];

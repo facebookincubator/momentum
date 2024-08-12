@@ -39,7 +39,7 @@ class StateErrorFunctionT : public SkeletonErrorFunctionT<T> {
   void reset();
   void setTargetState(const SkeletonStateT<T>* target);
   void setTargetState(const SkeletonStateT<T>& target);
-  void setTargetState(AffineTransform3ListT<T> target);
+  void setTargetState(TransformListT<T> target);
   void setTargetWeight(const Eigen::VectorX<T>& weights);
   void setTargetWeights(const Eigen::VectorX<T>& posWeight, const Eigen::VectorX<T>& rotWeight);
   void setWeights(const float posWeight, const float rotationWeight) {
@@ -48,7 +48,7 @@ class StateErrorFunctionT : public SkeletonErrorFunctionT<T> {
   }
   void setTargetParameters(const Eigen::VectorX<T>& params, const Eigen::VectorX<T>& weights);
 
-  const AffineTransform3ListT<T>& getTargetState() const {
+  [[nodiscard]] const TransformListT<T>& getTargetState() const {
     return this->targetState_;
   }
 
@@ -68,7 +68,7 @@ class StateErrorFunctionT : public SkeletonErrorFunctionT<T> {
  private:
   Eigen::VectorX<T> targetParameterWeights_;
   Eigen::VectorX<T> targetParameters_;
-  AffineTransform3ListT<T> targetState_;
+  TransformListT<T> targetState_;
   Eigen::VectorX<T> targetPositionWeights_;
   Eigen::VectorX<T> targetRotationWeights_;
 

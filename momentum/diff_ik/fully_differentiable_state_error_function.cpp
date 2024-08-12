@@ -52,13 +52,13 @@ void FullyDifferentiableStateErrorFunctionT<T>::getInputImp(
   } else if (name == "targetRotationWeights") {
     result = this->getRotationWeights();
   } else if (name == "targetState") {
-    const AffineTransform3ListT<T>& targetState = this->getTargetState();
+    const TransformListT<T>& targetState = this->getTargetState();
 
     for (size_t iJoint = 0; iJoint < this->skeleton_.joints.size(); ++iJoint) {
-      result.template segment<3>(8 * iJoint + 0) = targetState[iJoint].translation();
+      result.template segment<3>(8 * iJoint + 0) = targetState[iJoint].translation;
       result.template segment<4>(8 * iJoint + 3) =
-          targetState[iJoint].quaternion().normalized().coeffs();
-      result(8 * iJoint + 7) = targetState[iJoint].scale();
+          targetState[iJoint].rotation.normalized().coeffs();
+      result(8 * iJoint + 7) = targetState[iJoint].scale;
     }
   } else {
     throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
@@ -74,13 +74,13 @@ void FullyDifferentiableStateErrorFunctionT<T>::setInputImp(
   } else if (name == "targetRotationWeights") {
     this->setTargetWeights(this->getPositionWeights(), value);
   } else if (name == "targetState") {
-    AffineTransform3ListT<T> transforms(this->skeleton_.joints.size());
+    TransformListT<T> transforms(this->skeleton_.joints.size());
     for (size_t iJoint = 0; iJoint < this->skeleton_.joints.size(); ++iJoint) {
       const Eigen::Vector3<T> pos = value.template segment<3>(8 * iJoint + 0);
       const Eigen::Quaternion<T> rot =
           Eigen::Quaternion<T>(value.template segment<4>(8 * iJoint + 3)).normalized();
       const T scale = value(8 * iJoint + 7);
-      transforms[iJoint] = createAffineTransform3(pos, rot, scale);
+      transforms[iJoint] = TransformT<T>(pos, rot, scale);
     }
     this->setTargetState(transforms);
   } else {
@@ -185,8 +185,8 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
       result(iJoint) = calculateGradient_dot<JetType>(
                            state,
                            iJoint,
-                           targetState[iJoint].translation().template cast<JetType>(),
-                           targetState[iJoint].quaternion().normalized().template cast<JetType>(),
+                           targetState[iJoint].translation.template cast<JetType>(),
+                           targetState[iJoint].rotation.normalized().template cast<JetType>(),
                            JetType(targetPositionWeights[iJoint], 0),
                            JetType(targetRotationWeights[iJoint]),
                            inputVec)
@@ -200,8 +200,8 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
       result(iJoint) = calculateGradient_dot<JetType>(
                            state,
                            iJoint,
-                           targetState[iJoint].translation().template cast<JetType>(),
-                           targetState[iJoint].quaternion().normalized().template cast<JetType>(),
+                           targetState[iJoint].translation.template cast<JetType>(),
+                           targetState[iJoint].rotation.normalized().template cast<JetType>(),
                            JetType(targetPositionWeights[iJoint]),
                            JetType(targetRotationWeights[iJoint], 0),
                            inputVec)
@@ -217,8 +217,8 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
             calculateGradient_dot<JetType>(
                 state,
                 iJoint,
-                buildJetVec<T, 3>(targetState[iJoint].translation()),
-                targetState[iJoint].quaternion().normalized().template cast<JetType>(),
+                buildJetVec<T, 3>(targetState[iJoint].translation),
+                targetState[iJoint].rotation.normalized().template cast<JetType>(),
                 JetType(targetPositionWeights[iJoint]),
                 JetType(targetRotationWeights[iJoint]),
                 inputVec)
@@ -230,9 +230,9 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
             calculateGradient_dot<JetType>(
                 state,
                 iJoint,
-                targetState[iJoint].translation().template cast<JetType>(),
+                targetState[iJoint].translation.template cast<JetType>(),
                 Eigen::Quaternion<JetType>(
-                    buildJetVec<T, 4>(targetState[iJoint].quaternion().normalized().coeffs()))
+                    buildJetVec<T, 4>(targetState[iJoint].rotation.normalized().coeffs()))
                     .normalized(),
                 JetType(targetPositionWeights[iJoint]),
                 JetType(targetRotationWeights[iJoint]),
