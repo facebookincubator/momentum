@@ -28,6 +28,14 @@ struct TransformT {
     // Empty
   }
 
+  template <typename T2>
+  explicit TransformT(const TransformT<T2>& other)
+      : rotation(other.rotation.template cast<T>()),
+        translation(other.translation.template cast<T>()),
+        scale(other.scale) {
+    // Empty
+  }
+
   explicit TransformT(
       const Vector3<T>& translation_in,
       const Quaternion<T>& rotation_in = Quaternion<T>::Identity(),

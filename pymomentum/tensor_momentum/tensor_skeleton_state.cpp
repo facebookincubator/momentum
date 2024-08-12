@@ -36,34 +36,10 @@ namespace pymomentum {
 namespace {
 
 template <typename T>
-struct Transform {
-  template <typename T2>
-  explicit Transform(const momentum::TransformT<T2>& t)
-      : translation(t.translation.template cast<T>()),
-        rotation(t.rotation.normalized().template cast<T>()),
-        scale(t.scale) {}
-  Transform() {}
-
-  Eigen::Vector3<T> translation = Eigen::Vector3<T>::Zero();
-  Eigen::Quaternion<T> rotation = Eigen::Quaternion<T>::Identity();
-  T scale{1};
-};
-
-template <typename T>
-Transform<T> operator*(const Transform<T>& left, const Transform<T>& right) {
-  Transform<T> result;
-  result.translation =
-      left.rotation * (left.scale * right.translation) + left.translation;
-  result.rotation = left.rotation * right.rotation;
-  result.scale = left.scale * right.scale;
-  return result;
-}
-
-template <typename T>
-Transform<T> computeLocalTransform(
+momentum::TransformT<T> computeLocalTransform(
     const momentum::Joint& joint,
     Eigen::Ref<const Eigen::Matrix<T, Eigen::Dynamic, 1>> parameters) {
-  Transform<T> result;
+  momentum::TransformT<T> result;
 
   result.translation =
       joint.translationOffset.cast<T>() + parameters.template segment<3>(0);
@@ -143,9 +119,10 @@ void computeSkelStateBackward(
                 .template cast<JetType>();
         jointParams_cur(d).v[0] = 1;
 
-        const Transform<JetType> joint_fullXF = Transform<JetType>(parentXF) *
+        const momentum::TransformT<JetType> joint_fullXF =
+            momentum::TransformT<JetType>(parentXF) *
             computeLocalTransform<JetType>(joint, jointParams_cur) *
-            Transform<JetType>(accumTransform);
+            momentum::TransformT<JetType>(accumTransform);
 
         dLoss_dJointParameters(curJoint * momentum::kParametersPerJoint + d) +=
             joint_fullXF.translation
@@ -219,7 +196,7 @@ void computeLocalSkelStateBackward(
               .template cast<JetType>();
       jointParams_cur(d).v[0] = 1;
 
-      const Transform<JetType> joint_fullXF =
+      const momentum::TransformT<JetType> joint_fullXF =
           computeLocalTransform<JetType>(joint, jointParams_cur);
 
       dLoss_dJointParameters(iJoint * momentum::kParametersPerJoint + d) +=
