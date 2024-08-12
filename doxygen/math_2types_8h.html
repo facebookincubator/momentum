@@ -81,9 +81,6 @@ $(function() {
 <code>#include &lt;Eigen/Core&gt;</code><br />
 <code>#include &lt;Eigen/Geometry&gt;</code><br />
 <code>#include &lt;Eigen/Sparse&gt;</code><br />
-<code>#include &lt;sophus/se3.hpp&gt;</code><br />
-<code>#include &lt;sophus/sim3.hpp&gt;</code><br />
-<code>#include &lt;sophus/so3.hpp&gt;</code><br />
 <code>#include &lt;gsl/gsl&gt;</code><br />
 </div>
 <p><a href="math_2types_8h_source.html">Go to the source code of this file.</a></p>
@@ -655,62 +652,11 @@ Typedefs</h2></td></tr>
 <tr class="separator:ae44eae7ec69b0121f83966c726299d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a807f9a4a2f54d5a6a2d0310ad0df82b8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a807f9a4a2f54d5a6a2d0310ad0df82b8">momentum::ColorArray</a> = Matrix3Xb</td></tr>
 <tr class="separator:a807f9a4a2f54d5a6a2d0310ad0df82b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e328fe0bb043e1f728d8a65cd1581c5"><td class="memTemplParams" colspan="2">template&lt;typename T , int Options = 0&gt; </td></tr>
-<tr class="memitem:a6e328fe0bb043e1f728d8a65cd1581c5"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a6e328fe0bb043e1f728d8a65cd1581c5">momentum::SO3</a> = ::Sophus::SO3&lt; T, Options &gt;</td></tr>
-<tr class="separator:a6e328fe0bb043e1f728d8a65cd1581c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96a9e6102fce21fbc76b5a6b2e06ef2b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a96a9e6102fce21fbc76b5a6b2e06ef2b">momentum::SO3f</a> = SO3&lt; float &gt;</td></tr>
-<tr class="separator:a96a9e6102fce21fbc76b5a6b2e06ef2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0749f1220dc52912488a9b0f587439dc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0749f1220dc52912488a9b0f587439dc">momentum::SO3d</a> = SO3&lt; double &gt;</td></tr>
-<tr class="separator:a0749f1220dc52912488a9b0f587439dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cf1818dd5e0ec50f791787ec2cbdf10"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5cf1818dd5e0ec50f791787ec2cbdf10"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a5cf1818dd5e0ec50f791787ec2cbdf10">momentum::Rotation3</a> = SO3&lt; T &gt;</td></tr>
-<tr class="separator:a5cf1818dd5e0ec50f791787ec2cbdf10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accd12f6e6f2ffd610685d19c838abf05"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#accd12f6e6f2ffd610685d19c838abf05">momentum::Rotation3f</a> = Rotation3&lt; float &gt;</td></tr>
-<tr class="separator:accd12f6e6f2ffd610685d19c838abf05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f85071065b909c7461f690308205628"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a9f85071065b909c7461f690308205628">momentum::Rotation3d</a> = Rotation3&lt; double &gt;</td></tr>
-<tr class="separator:a9f85071065b909c7461f690308205628"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d364d7ba72b56859983514cd37b2ccc"><td class="memTemplParams" colspan="2">template&lt;typename T , int Options = 0&gt; </td></tr>
-<tr class="memitem:a4d364d7ba72b56859983514cd37b2ccc"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a4d364d7ba72b56859983514cd37b2ccc">momentum::SE3</a> = ::Sophus::SE3&lt; T, Options &gt;</td></tr>
-<tr class="separator:a4d364d7ba72b56859983514cd37b2ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac56fa89a0e665dea21d484ea65fb175b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ac56fa89a0e665dea21d484ea65fb175b">momentum::SE3f</a> = SE3&lt; float &gt;</td></tr>
-<tr class="separator:ac56fa89a0e665dea21d484ea65fb175b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af44bdb9644c612533f4ae2b8b592073e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af44bdb9644c612533f4ae2b8b592073e">momentum::SE3d</a> = SE3&lt; double &gt;</td></tr>
-<tr class="separator:af44bdb9644c612533f4ae2b8b592073e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0822dfa5848fd56ce986691a2c95e301"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a0822dfa5848fd56ce986691a2c95e301"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0822dfa5848fd56ce986691a2c95e301">momentum::RigidTransform3</a> = SE3&lt; T &gt;</td></tr>
-<tr class="separator:a0822dfa5848fd56ce986691a2c95e301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad449606867e01f411359f262a5b4084d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ad449606867e01f411359f262a5b4084d">momentum::RigidTransform3f</a> = RigidTransform3&lt; float &gt;</td></tr>
-<tr class="separator:ad449606867e01f411359f262a5b4084d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade636b3b03c4d0abc02b6efc74cad505"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ade636b3b03c4d0abc02b6efc74cad505">momentum::RigidTransform3d</a> = RigidTransform3&lt; double &gt;</td></tr>
-<tr class="separator:ade636b3b03c4d0abc02b6efc74cad505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34745e39b8c374c70fdef7df5c0079ba"><td class="memTemplParams" colspan="2">template&lt;typename T , int Options = 0&gt; </td></tr>
-<tr class="memitem:a34745e39b8c374c70fdef7df5c0079ba"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a34745e39b8c374c70fdef7df5c0079ba">momentum::Sim3</a> = ::Sophus::Sim3&lt; T, Options &gt;</td></tr>
-<tr class="separator:a34745e39b8c374c70fdef7df5c0079ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12ba988c5fa6c1c4bbd3720739518d07"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a12ba988c5fa6c1c4bbd3720739518d07">momentum::Sim3f</a> = Sim3&lt; float &gt;</td></tr>
-<tr class="separator:a12ba988c5fa6c1c4bbd3720739518d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bed3b58052287d372eaf062fcc4123e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1bed3b58052287d372eaf062fcc4123e">momentum::Sim3d</a> = Sim3&lt; double &gt;</td></tr>
-<tr class="separator:a1bed3b58052287d372eaf062fcc4123e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8d44b2f28de1f7ca15f2dcd9caff936"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad8d44b2f28de1f7ca15f2dcd9caff936"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ad8d44b2f28de1f7ca15f2dcd9caff936">momentum::AffineTransform3</a> = Sim3&lt; T &gt;</td></tr>
-<tr class="separator:ad8d44b2f28de1f7ca15f2dcd9caff936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3139399d1223c688cc02786293268cb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab3139399d1223c688cc02786293268cb">momentum::AffineTransform3f</a> = AffineTransform3&lt; float &gt;</td></tr>
-<tr class="separator:ab3139399d1223c688cc02786293268cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39fb799a1825bcfe43d38f88eafe7d22"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a39fb799a1825bcfe43d38f88eafe7d22">momentum::AffineTransform3d</a> = AffineTransform3&lt; double &gt;</td></tr>
-<tr class="separator:a39fb799a1825bcfe43d38f88eafe7d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae749038bfb864a9626e9f1a56c4a9a54"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ae749038bfb864a9626e9f1a56c4a9a54"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ae749038bfb864a9626e9f1a56c4a9a54">momentum::AffineTransform3ListT</a> = std::vector&lt; AffineTransform3&lt; T &gt; &gt;</td></tr>
-<tr class="separator:ae749038bfb864a9626e9f1a56c4a9a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadb2e10e938b6dde5b7faf1dfb44ce7e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aadb2e10e938b6dde5b7faf1dfb44ce7e">momentum::ParameterSet</a> = std::bitset&lt; kMaxModelParams &gt;</td></tr>
 <tr class="separator:aadb2e10e938b6dde5b7faf1dfb44ce7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4960ff73ef93895c55d248c0ee757d51"><td class="memTemplParams" colspan="2">template&lt;typename Derived &gt; </td></tr>
-<tr class="memitem:a4960ff73ef93895c55d248c0ee757d51"><td class="memTemplItemLeft" align="right" valign="top">Affine3&lt; typename Derived::Scalar &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a4960ff73ef93895c55d248c0ee757d51">momentum::toAffine3</a> (const Sophus::Sim3Base&lt; Derived &gt; &amp;x)</td></tr>
-<tr class="separator:a4960ff73ef93895c55d248c0ee757d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f24be9bd97ffd8ca5a8275ad8115b30"><td class="memTemplParams" colspan="2">template&lt;typename MatrixDerived , typename QuaternionDerived , typename T &gt; </td></tr>
-<tr class="memitem:a6f24be9bd97ffd8ca5a8275ad8115b30"><td class="memTemplItemLeft" align="right" valign="top">AffineTransform3&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a6f24be9bd97ffd8ca5a8275ad8115b30">momentum::createAffineTransform3</a> (const Eigen::MatrixBase&lt; MatrixDerived &gt; &amp;pos, const Eigen::QuaternionBase&lt; QuaternionDerived &gt; &amp;quat, T scale)</td></tr>
-<tr class="separator:a6f24be9bd97ffd8ca5a8275ad8115b30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af10c5c4656b2ebacd4a92b55679e9e58"><td class="memTemplParams" colspan="2">template&lt;typename OtherScalar , template&lt; typename... &gt; class ContainerType, typename ObjectType &gt; </td></tr>
 <tr class="memitem:af10c5c4656b2ebacd4a92b55679e9e58"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af10c5c4656b2ebacd4a92b55679e9e58">momentum::cast</a> (const ContainerType&lt; ObjectType &gt; &amp;originalContainer)</td></tr>
 <tr class="memdesc:af10c5c4656b2ebacd4a92b55679e9e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts the scalar type of objects in a container that support the <code>cast&lt;&gt;()</code> method.  <a href="namespacemomentum.html#af10c5c4656b2ebacd4a92b55679e9e58">More...</a><br /></td></tr>

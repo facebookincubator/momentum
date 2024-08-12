@@ -102,12 +102,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e650d19c6f1fc871b3a666f054f0fb9"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a3e650d19c6f1fc871b3a666f054f0fb9">getScaleDerivative</a> (const Eigen::Vector3&lt; T &gt; &amp;ref) const noexcept</td></tr>
 <tr class="memdesc:a3e650d19c6f1fc871b3a666f054f0fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The derivative of a global vector ref wrt the scaling parameter of the global transformation.  <a href="structmomentum_1_1JointStateT.html#a3e650d19c6f1fc871b3a666f054f0fb9">More...</a><br /></td></tr>
 <tr class="separator:a3e650d19c6f1fc871b3a666f054f0fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07319e230db12cadb74215d2e3d3c763"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#ad8d44b2f28de1f7ca15f2dcd9caff936">AffineTransform3</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a07319e230db12cadb74215d2e3d3c763">localToParentXF</a> () const</td></tr>
-<tr class="memdesc:a07319e230db12cadb74215d2e3d3c763"><td class="mdescLeft">&#160;</td><td class="mdescRight">An Affine3 transformation from the local space to the parent space.  <a href="structmomentum_1_1JointStateT.html#a07319e230db12cadb74215d2e3d3c763">More...</a><br /></td></tr>
-<tr class="separator:a07319e230db12cadb74215d2e3d3c763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f357b128e53e250602595e8ab8ec6b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#ad8d44b2f28de1f7ca15f2dcd9caff936">AffineTransform3</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a6f357b128e53e250602595e8ab8ec6b6">localToWorldXF</a> () const</td></tr>
-<tr class="memdesc:a6f357b128e53e250602595e8ab8ec6b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">An Affine3 transformation from the local space to the world space.  <a href="structmomentum_1_1JointStateT.html#a6f357b128e53e250602595e8ab8ec6b6">More...</a><br /></td></tr>
-<tr class="separator:a6f357b128e53e250602595e8ab8ec6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac38cd1a0cc77c113cb7ed45eb8cc220"><td class="memTemplParams" colspan="2">template&lt;typename T2 &gt; </td></tr>
 <tr class="memitem:aac38cd1a0cc77c113cb7ed45eb8cc220"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#aac38cd1a0cc77c113cb7ed45eb8cc220">set</a> (const <a class="el" href="structmomentum_1_1JointStateT.html">JointStateT</a>&lt; T2 &gt; &amp;rhs)</td></tr>
 <tr class="separator:aac38cd1a0cc77c113cb7ed45eb8cc220"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,10 +130,10 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ad8fc503cd6b04bc5c5f633ad3f1d0339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Local to global complete matrix.  <a href="structmomentum_1_1JointStateT.html#ad8fc503cd6b04bc5c5f633ad3f1d0339">More...</a><br /></td></tr>
 <tr class="separator:ad8fc503cd6b04bc5c5f633ad3f1d0339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13bbf4421722969c75b02b1f52173310"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a13bbf4421722969c75b02b1f52173310">localTransform</a></td></tr>
-<tr class="memdesc:a13bbf4421722969c75b02b1f52173310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Local joint transformation as defined by parameters.  <a href="structmomentum_1_1JointStateT.html#a13bbf4421722969c75b02b1f52173310">More...</a><br /></td></tr>
+<tr class="memdesc:a13bbf4421722969c75b02b1f52173310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relative transformation from the parent joint to this joint, which is defined by the joint parameters.  <a href="structmomentum_1_1JointStateT.html#a13bbf4421722969c75b02b1f52173310">More...</a><br /></td></tr>
 <tr class="separator:a13bbf4421722969c75b02b1f52173310"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a4cc644cb9318738ff92a2f52f44fa9c3">transform</a></td></tr>
-<tr class="memdesc:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joint transformation from local to global space.  <a href="structmomentum_1_1JointStateT.html#a4cc644cb9318738ff92a2f52f44fa9c3">More...</a><br /></td></tr>
+<tr class="memdesc:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global transformation of this joint.  <a href="structmomentum_1_1JointStateT.html#a4cc644cb9318738ff92a2f52f44fa9c3">More...</a><br /></td></tr>
 <tr class="separator:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fc4d988e3e75108dd05377648c46d28"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28">translationAxis</a></td></tr>
 <tr class="memdesc:a6fc4d988e3e75108dd05377648c46d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Columns contain the three translation axes for this joint in global space.  <a href="structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28">More...</a><br /></td></tr>
@@ -340,64 +334,6 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a07319e230db12cadb74215d2e3d3c763"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07319e230db12cadb74215d2e3d3c763">&#9670;&nbsp;</a></span>localToParentXF()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacemomentum.html#ad8d44b2f28de1f7ca15f2dcd9caff936">AffineTransform3</a>&lt;T&gt; <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::localToParentXF </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>An Affine3 transformation from the local space to the parent space. </p>
-
-</div>
-</div>
-<a id="a6f357b128e53e250602595e8ab8ec6b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f357b128e53e250602595e8ab8ec6b6">&#9670;&nbsp;</a></span>localToWorldXF()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacemomentum.html#ad8d44b2f28de1f7ca15f2dcd9caff936">AffineTransform3</a>&lt;T&gt; <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::localToWorldXF </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>An Affine3 transformation from the local space to the world space. </p>
-
-</div>
-</div>
 <a id="aac38cd1a0cc77c113cb7ed45eb8cc220"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac38cd1a0cc77c113cb7ed45eb8cc220">&#9670;&nbsp;</a></span>set() <span class="overload">[1/2]</span></h2>
 
@@ -541,7 +477,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Local joint transformation as defined by parameters. </p>
+<p>Relative transformation from the parent joint to this joint, which is defined by the joint parameters. </p>
 
 </div>
 </div>
@@ -631,7 +567,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Joint transformation from local to global space. </p>
+<p>Global transformation of this joint. </p>
 
 </div>
 </div>

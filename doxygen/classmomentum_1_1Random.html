@@ -523,7 +523,7 @@ template&lt;typename T &gt; </div>
 <div class="line"><span class="keyword">auto</span> r3 = rand.uniform(0, 10);    <span class="comment">// random int in [0, 10]</span></div>
 <div class="line"><span class="keyword">auto</span> r4 = rand.uniform(<a class="code" href="namespacemomentum.html#a3119903c0b5dd1fa5d0e9ae5076f382b">Vector2f</a>(0, 1), <a class="code" href="namespacemomentum.html#a3119903c0b5dd1fa5d0e9ae5076f382b">Vector2f</a>(2, 3)); <span class="comment">// random Vector2f in ([0, 2], [1, 3))</span></div>
 <div class="ttc" id="aclassmomentum_1_1Random_html_abc59fcca0436df2129eb9929c9a49507"><div class="ttname"><a href="classmomentum_1_1Random.html#abc59fcca0436df2129eb9929c9a49507">momentum::Random::Random</a></div><div class="ttdeci">Random(uint32_t seed=std::random_device{}())</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> random-inl.h:201</div></div>
-<div class="ttc" id="anamespacemomentum_html_a3119903c0b5dd1fa5d0e9ae5076f382b"><div class="ttname"><a href="namespacemomentum.html#a3119903c0b5dd1fa5d0e9ae5076f382b">momentum::Vector2f</a></div><div class="ttdeci">Vector2&lt; float &gt; Vector2f</div><div class="ttdef"><b>Definition:</b> types.h:245</div></div>
+<div class="ttc" id="anamespacemomentum_html_a3119903c0b5dd1fa5d0e9ae5076f382b"><div class="ttname"><a href="namespacemomentum.html#a3119903c0b5dd1fa5d0e9ae5076f382b">momentum::Vector2f</a></div><div class="ttdeci">Vector2&lt; float &gt; Vector2f</div><div class="ttdef"><b>Definition:</b> types.h:242</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The random number type to be generated </td></tr>
@@ -587,7 +587,7 @@ template&lt;typename DynamicMatrix &gt; </div>
 <div class="fragment"><div class="line"><a class="code" href="classmomentum_1_1Random.html#abc59fcca0436df2129eb9929c9a49507">Random</a> rand;</div>
 <div class="line"><span class="keyword">auto</span> r0 = rand.uniform&lt;<a class="code" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a>&gt;(2, 3, 0, 1); <span class="comment">// random MatrixXf of dimension 2x3 where each</span></div>
 <div class="line">element is in [0, 1)</div>
-<div class="ttc" id="anamespacemomentum_html_a946ab1953d1fb51ba0a9d204ed46b68e"><div class="ttname"><a href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">momentum::MatrixXf</a></div><div class="ttdeci">MatrixX&lt; float &gt; MatrixXf</div><div class="ttdef"><b>Definition:</b> types.h:87</div></div>
+<div class="ttc" id="anamespacemomentum_html_a946ab1953d1fb51ba0a9d204ed46b68e"><div class="ttname"><a href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">momentum::MatrixXf</a></div><div class="ttdeci">MatrixX&lt; float &gt; MatrixXf</div><div class="ttdef"><b>Definition:</b> types.h:84</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">DynamicMatrix</td><td>The random matrix type to be generated </td></tr>
@@ -647,7 +647,7 @@ template&lt;typename DynamicVector &gt; </div>
 <div class="fragment"><div class="line"><a class="code" href="classmomentum_1_1Random.html#abc59fcca0436df2129eb9929c9a49507">Random</a> rand;</div>
 <div class="line"><span class="keyword">auto</span> r0 = rand.uniform&lt;<a class="code" href="namespacemomentum.html#a954f7505066845a67c868e1ae88a5b1e">VectorXf</a>&gt;(2, 0, 1); <span class="comment">// random VectorXf of dimension 2 where each</span></div>
 <div class="line">element is in [0, 1)</div>
-<div class="ttc" id="anamespacemomentum_html_a954f7505066845a67c868e1ae88a5b1e"><div class="ttname"><a href="namespacemomentum.html#a954f7505066845a67c868e1ae88a5b1e">momentum::VectorXf</a></div><div class="ttdeci">VectorX&lt; float &gt; VectorXf</div><div class="ttdef"><b>Definition:</b> types.h:204</div></div>
+<div class="ttc" id="anamespacemomentum_html_a954f7505066845a67c868e1ae88a5b1e"><div class="ttname"><a href="namespacemomentum.html#a954f7505066845a67c868e1ae88a5b1e">momentum::VectorXf</a></div><div class="ttdeci">VectorX&lt; float &gt; VectorXf</div><div class="ttdef"><b>Definition:</b> types.h:201</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">DynamicVector</td><td>The random vector type to be generated </td></tr>
