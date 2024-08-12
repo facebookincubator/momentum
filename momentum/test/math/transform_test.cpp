@@ -60,8 +60,8 @@ TYPED_TEST(TransformTest, Multiplication) {
     const TransformT<T> trans2 = generateRandomTransform<T>(iTest > 1, iTest > 10, iTest > 50);
 
     const TransformT<T> tmp = trans1 * trans2;
-    const Affine3<T> res1 = tmp.matrix();
-    const Affine3<T> res2 = trans1.matrix() * trans2.matrix();
+    const Affine3<T> res1 = tmp.toAffine3();
+    const Affine3<T> res2 = trans1.toAffine3() * trans2.toAffine3();
 
     EXPECT_LE(
         (res1.matrix() - res2.matrix()).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-5f, 1e-13));
@@ -74,8 +74,8 @@ TYPED_TEST(TransformTest, Inverse) {
   for (size_t iTest = 0; iTest < 100; ++iTest) {
     const TransformT<T> trans1 = generateRandomTransform<T>(iTest > 1, iTest > 10, iTest > 50);
 
-    const Affine3<T> res1 = trans1.inverse().matrix();
-    const Affine3<T> res2 = trans1.matrix().inverse();
+    const Affine3<T> res1 = trans1.inverse().toAffine3();
+    const Affine3<T> res2 = trans1.toAffine3().inverse();
 
     EXPECT_LE(
         (res1.matrix() - res2.matrix()).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-4f, 5e-14));
@@ -90,7 +90,7 @@ TYPED_TEST(TransformTest, TransformPoint) {
     const auto randomPoint = uniform<Vector3<T>>(-10, 10);
 
     const Eigen::Vector3<T> res1 = trans1.transformPoint(randomPoint);
-    const Eigen::Vector3<T> res2 = trans1.matrix() * randomPoint;
+    const Eigen::Vector3<T> res2 = trans1.toAffine3() * randomPoint;
 
     EXPECT_LE((res1 - res2).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-5f, 5e-14));
   }
@@ -104,7 +104,7 @@ TYPED_TEST(TransformTest, TransformVec) {
     const Eigen::Vector3<T> randomVec = uniform<Vector3<T>>(-1, 1).normalized();
 
     const Eigen::Vector3<T> res1 = trans1.rotate(randomVec);
-    const Eigen::Vector3<T> res2 = trans1.matrix().rotation() * randomVec;
+    const Eigen::Vector3<T> res2 = trans1.toAffine3().rotation() * randomVec;
 
     EXPECT_LE((res1 - res2).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-6f, 5e-15));
   }

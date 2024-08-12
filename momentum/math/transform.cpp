@@ -25,9 +25,10 @@ TransformT<T> TransformT<T>::makeScale(const T& scale_in) {
 }
 
 template <typename T>
-Affine3<T> TransformT<T>::matrix() const {
-  Affine3<T> xf = Affine3<T>::Identity();
-  xf.linear() = scale * rotation.toRotationMatrix();
+Affine3<T> TransformT<T>::toAffine3() const {
+  Affine3<T> xf;
+  xf.makeAffine();
+  xf.linear().noalias() = rotation.toRotationMatrix() * scale;
   xf.translation() = translation;
   return xf;
 }
@@ -53,20 +54,7 @@ TransformT<T> TransformT<T>::inverse() const {
   return TransformT<T>(-invScale * (invRot * translation), invRot, invScale);
 }
 
-template <typename T>
-TransformT<T> operator*(const TransformT<T>& lhs, const TransformT<T>& rhs) {
-  // [ s_1*R_1 t_1 ] * [ s_2*R_2 t_2 ] = [ s_1*s_2*R_1*R_2  s_1*R_1*t_2 + t_1 ]
-  // [     0    1  ]   [     0    1  ]   [        0                     1     ]
-  const Vector3<T> trans = lhs.translation + lhs.rotation * (lhs.scale * rhs.translation).eval();
-  const Quaternion<T> rot = lhs.rotation * rhs.rotation;
-  const T scale = lhs.scale * rhs.scale;
-  return TransformT<T>(trans, rot, scale);
-}
-
 template struct TransformT<float>;
 template struct TransformT<double>;
-
-template TransformT<float> operator*(const TransformT<float>& lhs, const TransformT<float>& rhs);
-template TransformT<double> operator*(const TransformT<double>& lhs, const TransformT<double>& rhs);
 
 } // namespace momentum
