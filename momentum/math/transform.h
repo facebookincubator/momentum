@@ -16,37 +16,35 @@ namespace momentum {
 
 template <typename T>
 struct TransformT {
-  Eigen::Quaternion<T> rotation;
-  Eigen::Vector3<T> translation;
+  Quaternion<T> rotation;
+  Vector3<T> translation;
   T scale;
 
-  using Affine3 = Eigen::Transform<T, 3, Eigen::Affine>;
+  [[nodiscard]] static TransformT<T> makeRotation(const Quaternion<T>& rotation_in);
+  [[nodiscard]] static TransformT<T> makeTranslation(const Vector3<T>& translation_in);
+  [[nodiscard]] static TransformT<T> makeScale(const T& scale_in);
 
-  TransformT()
-      : rotation(Eigen::Quaternion<T>::Identity()),
-        translation(Eigen::Vector3<T>::Zero()),
-        scale(1) {}
+  TransformT() : rotation(Quaternion<T>::Identity()), translation(Vector3<T>::Zero()), scale(1) {
+    // Empty
+  }
 
   explicit TransformT(
-      const Eigen::Vector3<T>& translation_in,
-      const Eigen::Quaternion<T>& rotation_in,
-      const T scale_in) // NOLINT(facebook-hte-ConstantArgumentPassByValue)
-      : rotation(rotation_in), translation(translation_in), scale(scale_in) {}
+      const Vector3<T>& translation_in,
+      const Quaternion<T>& rotation_in,
+      const T& scale_in)
+      : rotation(rotation_in), translation(translation_in), scale(scale_in) {
+    // Empty
+  }
 
-  static TransformT<T> makeRotation(const Eigen::Quaternion<T>& rotation_in);
-  static TransformT<T> makeTranslation(const Eigen::Vector3<T>& translation_in);
-  // NOLINTNEXTLINE(facebook-hte-ConstantArgumentPassByValue)
-  static TransformT<T> makeScale(T scale_in);
+  [[nodiscard]] Affine3<T> matrix() const;
 
-  Affine3 matrix() const;
+  [[nodiscard]] Vector3<T> transformPoint(const Vector3<T>& pt) const;
+  [[nodiscard]] Vector3<T> rotate(const Vector3<T>& vec) const;
 
-  Eigen::Vector3<T> transformPoint(const Eigen::Vector3<T>& pt) const;
-  Eigen::Vector3<T> rotate(const Eigen::Vector3<T>& vec) const;
-
-  TransformT<T> inverse() const;
+  [[nodiscard]] TransformT<T> inverse() const;
 
   template <typename T2>
-  TransformT<T2> cast() const {
+  [[nodiscard]] TransformT<T2> cast() const {
     return TransformT<T2>(
         this->translation.template cast<T2>(),
         this->rotation.template cast<T2>(),
