@@ -24,7 +24,7 @@ var searchData=
   ['jointstatelist_455',['JointStateList',['../namespacemomentum.html#aa52a8becf3a530c31a11bcf971a4080d',1,'momentum']]],
   ['jointstatelistd_456',['JointStateListd',['../namespacemomentum.html#a083698b5295aa1f5ec67500d348f2161',1,'momentum']]],
   ['jointstatelistt_457',['JointStateListT',['../namespacemomentum.html#affeb9cb3eed14cf0194496fe7d9d29e1',1,'momentum']]],
-  ['jointstatet_458',['JointStateT',['../structmomentum_1_1JointStateT.html',1,'momentum']]],
+  ['jointstatet_458',['JointStateT',['../structmomentum_1_1JointStateT.html#a75bbdecafb7616f0579b77f51e01b543',1,'momentum::JointStateT::JointStateT()'],['../structmomentum_1_1JointStateT.html',1,'momentum::JointStateT&lt; T &gt;']]],
   ['jointt_459',['JointT',['../structmomentum_1_1JointT.html',1,'momentum']]],
   ['jointvector_460',['JointVector',['../namespacemomentum.html#a2906dd1530aa7b5e2adda24c6c29c6f1',1,'momentum']]],
   ['jointvectort_461',['JointVectorT',['../namespacemomentum.html#aff9bae09081ac758b3db8ef03961cc3b',1,'momentum']]]

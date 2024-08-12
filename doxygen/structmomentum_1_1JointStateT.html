@@ -88,6 +88,8 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a75bbdecafb7616f0579b77f51e01b543"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a75bbdecafb7616f0579b77f51e01b543">JointStateT</a> (const Eigen::Quaternion&lt; T &gt; &amp;<a class="el" href="structmomentum_1_1JointStateT.html#ab803eff5248d0f6331258f7e98de46c5">localRotation</a>=Eigen::Quaternion&lt; T &gt;(), const Eigen::Vector3&lt; T &gt; &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a62b7524ccbf4bd7eced30155f55ef368">localTranslation</a>=Eigen::Vector3&lt; T &gt;(), const T &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a45ad0bd14b6792ddf9c1082eb486cfd0">localScale</a>=T(), const Eigen::Quaternion&lt; T &gt; &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a9254e2fb816991c995779db1674f52b0">rotation</a>=Eigen::Quaternion&lt; T &gt;(), const Eigen::Vector3&lt; T &gt; &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a32317d119359cfc0af8211121e65ed2d">translation</a>=Eigen::Vector3&lt; T &gt;(), const T &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a10e6a9b15958c771b2ea36cb32721bf6">scale</a>=T(), const <a class="el" href="structmomentum_1_1JointStateT.html#acad541805e3010d6dbc47735a4189912">Affine3</a> &amp;<a class="el" href="structmomentum_1_1JointStateT.html#ad8fc503cd6b04bc5c5f633ad3f1d0339">transformation</a>=<a class="el" href="structmomentum_1_1JointStateT.html#acad541805e3010d6dbc47735a4189912">Affine3</a>(), const Eigen::Matrix3&lt; T &gt; &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28">translationAxis</a>=Eigen::Matrix3&lt; T &gt;(), const Eigen::Matrix3&lt; T &gt; &amp;<a class="el" href="structmomentum_1_1JointStateT.html#a5cdabaf17a87d75dc9946b719d6922f6">rotationAxis</a>=Eigen::Matrix3&lt; T &gt;())</td></tr>
+<tr class="separator:a75bbdecafb7616f0579b77f51e01b543"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46e18e8c61215bcfc965ab865a5f075"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#ab46e18e8c61215bcfc965ab865a5f075">set</a> (const <a class="el" href="structmomentum_1_1JointT.html">JointT</a>&lt; T &gt; &amp;joint, const <a class="el" href="namespacemomentum.html#aff9bae09081ac758b3db8ef03961cc3b">JointVectorT</a>&lt; T &gt; &amp;parameters, const <a class="el" href="structmomentum_1_1JointStateT.html">JointStateT</a>&lt; T &gt; *parentState=nullptr, bool computeDeriv=true) noexcept</td></tr>
 <tr class="memdesc:ab46e18e8c61215bcfc965ab865a5f075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively update all the transformations from the root to leaves.  <a href="structmomentum_1_1JointStateT.html#ab46e18e8c61215bcfc965ab865a5f075">More...</a><br /></td></tr>
 <tr class="separator:ab46e18e8c61215bcfc965ab865a5f075"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +135,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad8fc503cd6b04bc5c5f633ad3f1d0339"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1JointStateT.html#acad541805e3010d6dbc47735a4189912">Affine3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#ad8fc503cd6b04bc5c5f633ad3f1d0339">transformation</a></td></tr>
 <tr class="memdesc:ad8fc503cd6b04bc5c5f633ad3f1d0339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Local to global complete matrix.  <a href="structmomentum_1_1JointStateT.html#ad8fc503cd6b04bc5c5f633ad3f1d0339">More...</a><br /></td></tr>
 <tr class="separator:ad8fc503cd6b04bc5c5f633ad3f1d0339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13bbf4421722969c75b02b1f52173310"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a13bbf4421722969c75b02b1f52173310">localTransform</a></td></tr>
+<tr class="memdesc:a13bbf4421722969c75b02b1f52173310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Local joint transformation as defined by parameters.  <a href="structmomentum_1_1JointStateT.html#a13bbf4421722969c75b02b1f52173310">More...</a><br /></td></tr>
+<tr class="separator:a13bbf4421722969c75b02b1f52173310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a4cc644cb9318738ff92a2f52f44fa9c3">transform</a></td></tr>
+<tr class="memdesc:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joint transformation from local to global space.  <a href="structmomentum_1_1JointStateT.html#a4cc644cb9318738ff92a2f52f44fa9c3">More...</a><br /></td></tr>
+<tr class="separator:a4cc644cb9318738ff92a2f52f44fa9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fc4d988e3e75108dd05377648c46d28"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28">translationAxis</a></td></tr>
 <tr class="memdesc:a6fc4d988e3e75108dd05377648c46d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Columns contain the three translation axes for this joint in global space.  <a href="structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28">More...</a><br /></td></tr>
 <tr class="separator:a6fc4d988e3e75108dd05377648c46d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +170,87 @@ template&lt;typename T &gt; </div>
           <td class="memname">using <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::<a class="el" href="structmomentum_1_1JointStateT.html#acad541805e3010d6dbc47735a4189912">Affine3</a> =  Eigen::Transform&lt;T, 3, Eigen::Affine&gt;</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a75bbdecafb7616f0579b77f51e01b543"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75bbdecafb7616f0579b77f51e01b543">&#9670;&nbsp;</a></span>JointStateT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::<a class="el" href="structmomentum_1_1JointStateT.html">JointStateT</a> </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Quaternion&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>localRotation</em> = <code>Eigen::Quaternion&lt;T&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>localTranslation</em> = <code>Eigen::Vector3&lt;T&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>localScale</em> = <code>T()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Quaternion&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rotation</em> = <code>Eigen::Quaternion&lt;T&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>translation</em> = <code>Eigen::Vector3&lt;T&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>scale</em> = <code>T()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structmomentum_1_1JointStateT.html#acad541805e3010d6dbc47735a4189912">Affine3</a> &amp;&#160;</td>
+          <td class="paramname"><em>transformation</em> = <code><a class="el" href="structmomentum_1_1JointStateT.html#acad541805e3010d6dbc47735a4189912">Affine3</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix3&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>translationAxis</em> = <code>Eigen::Matrix3&lt;T&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Matrix3&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rotationAxis</em> = <code>Eigen::Matrix3&lt;T&gt;()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -438,6 +527,24 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a13bbf4421722969c75b02b1f52173310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13bbf4421722969c75b02b1f52173310">&#9670;&nbsp;</a></span>localTransform</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt;T&gt; <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::localTransform</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Local joint transformation as defined by parameters. </p>
+
+</div>
+</div>
 <a id="a62b7524ccbf4bd7eced30155f55ef368"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a62b7524ccbf4bd7eced30155f55ef368">&#9670;&nbsp;</a></span>localTranslation</h2>
 
@@ -507,6 +614,24 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Scaling from local to global space. </p>
+
+</div>
+</div>
+<a id="a4cc644cb9318738ff92a2f52f44fa9c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc644cb9318738ff92a2f52f44fa9c3">&#9670;&nbsp;</a></span>transform</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt;T&gt; <a class="el" href="structmomentum_1_1JointStateT.html">momentum::JointStateT</a>&lt; T &gt;::transform</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Joint transformation from local to global space. </p>
 
 </div>
 </div>
