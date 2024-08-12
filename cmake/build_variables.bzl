@@ -62,6 +62,7 @@ math_public_headers = [
     "math/mppca.h",
     "math/random-inl.h",
     "math/random.h",
+    "math/transform.h",
     "math/types.h",
     "math/utility.h",
 ]
@@ -72,6 +73,7 @@ math_sources = [
     "math/mesh.cpp",
     "math/mppca.cpp",
     "math/online_householder_qr.cpp",
+    "math/transform.cpp",
     "math/utility.cpp",
 ]
 
@@ -80,6 +82,7 @@ math_test_sources = [
     "test/math/generalized_loss_test.cpp",
     "test/math/mesh_test.cpp",
     "test/math/random_test.cpp",
+    "test/math/transform_test.cpp",
     "test/math/utility_test.cpp",
 ]
 
