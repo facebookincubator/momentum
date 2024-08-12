@@ -297,15 +297,16 @@ TYPED_TEST(TransformPoseTest, ValidateTransformSimple) {
   ModelParametersT<T> randomParams_init =
       VectorX<T>::Random(character.parameterTransform.numAllModelParameters());
 
-  std::vector<RigidTransform3<T>> transforms;
+  std::vector<TransformT<T>> transforms;
   transforms.emplace_back(
-      momentum::Rotation3<T>::exp(M_PI * Eigen::Vector3<T>::UnitY()), Eigen::Vector3<T>::Zero());
+      Vector3<T>::Zero(), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitY())));
   transforms.emplace_back(
-      momentum::Rotation3<T>::exp(M_PI * Eigen::Vector3<T>::UnitX()), Eigen::Vector3<T>(5, 15, 3));
+      Vector3<T>(5, 15, 3), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitX())));
   transforms.emplace_back(
-      momentum::Rotation3<T>::exp(M_PI / 2 * Eigen::Vector3<T>::UnitZ()) *
-          momentum::Rotation3<T>::exp(M_PI / 4 * Eigen::Vector3<T>::UnitX()),
-      Eigen::Vector3<T>(205, -15, -304));
+      Vector3<T>(205, -15, -304),
+      Quaternion<T>(
+          AngleAxis<T>(M_PI / 2, Vector3<T>::UnitZ()) *
+          AngleAxis<T>(M_PI / 4, Vector3<T>::UnitX())));
 
   const std::vector<ModelParametersT<T>> modelParams_final = transformPose(
       character,
@@ -320,12 +321,10 @@ TYPED_TEST(TransformPoseTest, ValidateTransformSimple) {
         castedCharacterParameterTransform.apply(modelParams_final[iTransform]), character.skeleton);
 
     for (size_t iJoint = 0; iJoint < skelState_init.jointState.size(); ++iJoint) {
-      const momentum::Affine3<T> targetTransform = momentum::Affine3<T>(transform.matrix()) *
-          skelState_init.jointState[iJoint].transformation;
-      const momentum::Affine3<T> actualTransform =
-          skelState_final.jointState[iJoint].transformation;
+      const TransformT<T> targetTransform = transform * skelState_init.jointState[iJoint].transform;
+      const TransformT<T> actualTransform = skelState_final.jointState[iJoint].transform;
 
-      EXPECT_LE((targetTransform.matrix() - actualTransform.matrix()).norm(), 5e-4);
+      EXPECT_LE((targetTransform.toMatrix() - actualTransform.toMatrix()).norm(), 5e-4);
     }
   }
 }
@@ -342,16 +341,16 @@ TYPED_TEST(TransformPoseTest, ValidateTransformDividedRoot) {
   ModelParametersT<T> randomParams_init =
       VectorX<T>::Random(character.parameterTransform.numAllModelParameters());
 
-  std::vector<RigidTransform3<T>> transforms;
+  std::vector<TransformT<T>> transforms;
   transforms.emplace_back(
-      momentum::Rotation3<T>::exp(M_PI * Eigen::Vector3<T>::UnitY()), Eigen::Vector3<T>::Zero());
+      Vector3<T>::Zero(), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitY())));
   transforms.emplace_back(
-      momentum::Rotation3<T>::exp(M_PI * Eigen::Vector3<T>::UnitX()), Eigen::Vector3<T>(5, 15, 3));
-
+      Vector3<T>(5, 15, 3), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitX())));
   transforms.emplace_back(
-      momentum::Rotation3<T>::exp(M_PI / 2 * Eigen::Vector3<T>::UnitZ()) *
-          momentum::Rotation3<T>::exp(M_PI / 4 * Eigen::Vector3<T>::UnitX()),
-      Eigen::Vector3<T>(205, -15, -304));
+      Vector3<T>(205, -15, -304),
+      Quaternion<T>(
+          AngleAxis<T>(M_PI / 2, Vector3<T>::UnitZ()) *
+          AngleAxis<T>(M_PI / 4, Vector3<T>::UnitX())));
 
   const std::vector<ModelParametersT<T>> modelParams_final = transformPose(
       character,
@@ -369,12 +368,10 @@ TYPED_TEST(TransformPoseTest, ValidateTransformDividedRoot) {
     // the transform:
     const auto expectedError = T(10) * std::sqrt(std::numeric_limits<T>::epsilon());
     for (size_t iJoint = 1; iJoint < skelState_init.jointState.size(); ++iJoint) {
-      const momentum::Affine3<T> targetTransform = momentum::Affine3<T>(transform.matrix()) *
-          skelState_init.jointState[iJoint].transformation;
-      const momentum::Affine3<T> actualTransform =
-          skelState_final.jointState[iJoint].transformation;
+      const TransformT<T> targetTransform = transform * skelState_init.jointState[iJoint].transform;
+      const TransformT<T> actualTransform = skelState_final.jointState[iJoint].transform;
 
-      EXPECT_LE((targetTransform.matrix() - actualTransform.matrix()).norm(), expectedError);
+      EXPECT_LE((targetTransform.toMatrix() - actualTransform.toMatrix()).norm(), expectedError);
     }
   }
 }

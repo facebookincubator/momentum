@@ -24,7 +24,6 @@ find_dependency(fx-gltf CONFIG)
 find_dependency(nlohmann_json CONFIG)
 find_dependency(openfbx CONFIG)
 find_dependency(re2 MODULE)
-find_dependency(Sophus CONFIG)
 find_dependency(spdlog CONFIG)
 
 list(REMOVE_AT CMAKE_MODULE_PATH -1)

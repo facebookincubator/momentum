@@ -52,7 +52,6 @@ find_package(fx-gltf CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(openfbx CONFIG REQUIRED)
 find_package(re2 MODULE REQUIRED)
-find_package(Sophus CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 if(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK)
   find_package(rerun_sdk CONFIG REQUIRED)
@@ -132,7 +131,6 @@ mt_library(
     online_qr
     Eigen3::Eigen
     Microsoft.GSL::GSL
-    Sophus::Sophus
 )
 
 mt_library(

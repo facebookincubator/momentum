@@ -22,6 +22,6 @@ template <typename T>
 std::vector<ModelParametersT<T>> transformPose(
     const Character& character,
     const std::vector<ModelParametersT<T>>& modelParameters,
-    const std::vector<RigidTransform3<T>>& transforms);
+    const std::vector<TransformT<T>>& transforms);
 
 } // namespace momentum

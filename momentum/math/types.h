@@ -26,9 +26,6 @@
 #pragma warning(pop)
 #endif
 
-#include <sophus/se3.hpp>
-#include <sophus/sim3.hpp>
-#include <sophus/so3.hpp>
 #include <gsl/gsl>
 
 //------------------------------------------------------------------------------
@@ -399,61 +396,6 @@ using VertexArray = Matrix3Xf;
 using NormalArray = Matrix3Xf;
 using TriangleArray = Matrix3Xi;
 using ColorArray = Matrix3Xb;
-
-// SO(3) represents the rotation in 3D.
-template <typename T, int Options = 0>
-using SO3 = ::Sophus::SO3<T, Options>;
-using SO3f = SO3<float>;
-using SO3d = SO3<double>;
-
-// Aliases of SO3
-template <typename T>
-using Rotation3 = SO3<T>;
-using Rotation3f = Rotation3<float>;
-using Rotation3d = Rotation3<double>;
-
-// SE(3) represents the rigid transform, which consists of rotation and translation in 3D.
-template <typename T, int Options = 0>
-using SE3 = ::Sophus::SE3<T, Options>;
-using SE3f = SE3<float>;
-using SE3d = SE3<double>;
-
-// Aliases of SE3
-template <typename T>
-using RigidTransform3 = SE3<T>;
-using RigidTransform3f = RigidTransform3<float>;
-using RigidTransform3d = RigidTransform3<double>;
-
-// Sim(3) represents the affine transform, which consists of rotation, translation, and uniform
-// scaling in 3D.
-template <typename T, int Options = 0>
-using Sim3 = ::Sophus::Sim3<T, Options>;
-using Sim3f = Sim3<float>;
-using Sim3d = Sim3<double>;
-
-// Aliases of Sim3
-template <typename T>
-using AffineTransform3 = Sim3<T>;
-using AffineTransform3f = AffineTransform3<float>;
-using AffineTransform3d = AffineTransform3<double>;
-
-template <typename Derived>
-[[nodiscard]] Affine3<typename Derived::Scalar> toAffine3(const Sophus::Sim3Base<Derived>& x) {
-  using T = typename Derived::Scalar;
-  Affine3<T> out = Affine3<T>::Identity();
-  out.linear().noalias() = x.scale() * x.rotationMatrix();
-  out.translation() = x.translation();
-  return out;
-}
-
-template <typename MatrixDerived, typename QuaternionDerived, typename T>
-[[nodiscard]] AffineTransform3<T> createAffineTransform3(
-    const Eigen::MatrixBase<MatrixDerived>& pos,
-    const Eigen::QuaternionBase<QuaternionDerived>& quat,
-    T scale) {
-  return AffineTransform3<T>(
-      Sophus::RxSO3<T>(scale, Sophus::SO3<typename QuaternionDerived::Scalar>(quat)), pos);
-}
 
 // define a parameter set
 constexpr size_t kMaxModelParams = 2048; // at most 2048 parameters per frame

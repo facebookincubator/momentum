@@ -81,7 +81,7 @@ template <typename T>
 std::vector<ModelParametersT<T>> transformPose(
     const Character& character,
     const std::vector<ModelParametersT<T>>& modelParameters,
-    const std::vector<RigidTransform3<T>>& transforms) {
+    const std::vector<TransformT<T>>& transforms) {
   MT_CHECK(modelParameters.size() == transforms.size(), "Mismatched transforms and parameters");
 
   // Applies a transform to a character by solving for the new set of model
@@ -128,14 +128,14 @@ std::vector<ModelParametersT<T>> transformPose(
       return;
     }
 
-    const RigidTransform3<T>& transform = transforms[iFrame];
+    const TransformT<T>& transform = transforms[iFrame];
 
     const momentum::SkeletonStateT<T> skelStateFull(
         parameterTransformFull.apply(fullParams_init), character.skeleton, false);
     const Eigen::Vector3<T> worldFromRootTranslationTarget =
         transform * skelStateFull.jointState[rootJointFull].translation;
     const Eigen::Quaternion<T> worldFromRootRotationTarget =
-        transform.unit_quaternion() * skelStateFull.jointState[rootJointFull].rotation;
+        transform.rotation * skelStateFull.jointState[rootJointFull].rotation;
 
     momentum::PositionErrorFunctionT<T> positionError(characterSimplified);
     positionError.addConstraint(PositionDataT<T>(
@@ -166,7 +166,7 @@ std::vector<ModelParametersT<T>> transformPose(
     solverOptions.regularization = std::numeric_limits<T>::epsilon();
     solverOptions.useBlockJtJ = true;
 
-    // Start with a fresh RNG for each solve to ensure repeatibility.
+    // Start with a fresh RNG for each solve to ensure repeatability.
     momentum::Random<> rng;
 
     // The momentum solver has a lot of local minima issues related to the use
@@ -224,11 +224,11 @@ std::vector<ModelParametersT<T>> transformPose(
 template std::vector<ModelParametersT<float>> transformPose(
     const Character& characterFull,
     const std::vector<ModelParametersT<float>>& modelParametersFull,
-    const std::vector<RigidTransform3<float>>& transforms);
+    const std::vector<TransformT<float>>& transforms);
 
 template std::vector<ModelParametersT<double>> transformPose(
     const Character& characterFull,
     const std::vector<ModelParametersT<double>>& modelParametersFull,
-    const std::vector<RigidTransform3<double>>& transforms);
+    const std::vector<TransformT<double>>& transforms);
 
 } // namespace momentum
