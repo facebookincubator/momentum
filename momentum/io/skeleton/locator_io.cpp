@@ -191,7 +191,7 @@ LocatorList loadLocatorsFromBuffer(
       continue;
 
     if (haveGlobal)
-      l.offset = state.jointState[l.parent].transformation.inverse() * (global);
+      l.offset = state.jointState[l.parent].transform.inverse() * (global);
     l.limitOrigin = l.offset;
     res.push_back(l);
   }

@@ -53,7 +53,7 @@ void jointParametersToPositions(
     const int parent = parents[i];
     const Eigen::Vector3<T> offset = offsets.template segment<3>(3 * i);
     const Eigen::Vector3<T> p_world =
-        skelState.jointState[parent].transformation * offset;
+        skelState.jointState[parent].transform * offset;
     positions.template segment<3>(3 * i) = p_world;
   }
 }
@@ -82,13 +82,12 @@ void d_jointParametersToPositions(
         dLoss_dPositions.template segment<3>(3 * i);
 
     const int parent = parents[i];
-    const Eigen::Vector3<T> p_world =
-        skelState.jointState[parent].transformation *
+    const Eigen::Vector3<T> p_world = skelState.jointState[parent].transform *
         offsets.template segment<3>(3 * i);
 
     for (int k = 0; k < 3; ++k) {
       dLoss_offsets(3 * i + k) =
-          (skelState.jointState[parent].transformation.linear() *
+          (skelState.jointState[parent].transform.toLinear() *
            Eigen::Vector3<T>::Unit(k))
               .dot(dLoss_dPosition);
     }
@@ -100,7 +99,7 @@ void d_jointParametersToPositions(
       assert(jointIndex < skeleton.joints.size());
 
       const auto& jointState = skelState.jointState[jointIndex];
-      const Eigen::Vector3<T> posd = p_world - jointState.translation;
+      const Eigen::Vector3<T> posd = p_world - jointState.translation();
       const size_t paramIdx = jointIndex * momentum::kParametersPerJoint;
 
       // calculate derivatives based on active joints

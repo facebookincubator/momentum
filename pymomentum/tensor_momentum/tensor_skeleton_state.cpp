@@ -275,10 +275,10 @@ variable_list JointParametersToSkeletonStateFunction<T>::forward(
     auto result_cur = toEigenMap<T>(result.select(0, iBatch));
     for (int64_t iJoint = 0; iJoint < nJoints; ++iJoint) {
       result_cur.template segment<3>(8 * iJoint + 0) =
-          skelState.jointState[iJoint].translation;
+          skelState.jointState[iJoint].translation();
       result_cur.template segment<4>(8 * iJoint + 3) =
-          skelState.jointState[iJoint].rotation.coeffs();
-      result_cur(8 * iJoint + 7) = skelState.jointState[iJoint].scale;
+          skelState.jointState[iJoint].rotation().coeffs();
+      result_cur(8 * iJoint + 7) = skelState.jointState[iJoint].scale();
     }
   });
 
@@ -421,10 +421,10 @@ variable_list JointParametersToLocalSkeletonStateFunction<T>::forward(
     auto result_cur = toEigenMap<T>(result.select(0, iBatch));
     for (int64_t iJoint = 0; iJoint < nJoints; ++iJoint) {
       result_cur.template segment<3>(8 * iJoint + 0) =
-          skelState.jointState[iJoint].localTranslation;
+          skelState.jointState[iJoint].localTranslation();
       result_cur.template segment<4>(8 * iJoint + 3) =
-          skelState.jointState[iJoint].localRotation.coeffs();
-      result_cur(8 * iJoint + 7) = skelState.jointState[iJoint].localScale;
+          skelState.jointState[iJoint].localRotation().coeffs();
+      result_cur(8 * iJoint + 7) = skelState.jointState[iJoint].localScale();
     }
   });
 

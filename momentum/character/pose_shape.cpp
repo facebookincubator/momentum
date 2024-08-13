@@ -25,12 +25,12 @@ std::vector<Vector3f> PoseShape::compute(const SkeletonState& state) const {
   VectorXf coefficients(shapeVectors.cols());
 
   // calculate base transform
-  const Quaternionf base = baseRot * state.jointState[baseJoint].rotation.inverse();
+  const Quaternionf base = baseRot * state.jointState[baseJoint].rotation().inverse();
 
   // set up pose shape coefficients
   for (size_t i = 0; i < jointMap.size(); i++) {
     const auto& jid = jointMap[i];
-    coefficients.segment<4>(i * 4) = (base * state.jointState[jid].rotation).coeffs();
+    coefficients.segment<4>(i * 4) = (base * state.jointState[jid].rotation()).coeffs();
   }
 
   // use the coefficients to calculate the new base shape

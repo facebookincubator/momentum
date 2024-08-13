@@ -38,8 +38,7 @@ void PositionConstraintStateT<T>::update(
     const size_t& parentId = constraint.parent;
 
     // transform each locator by its parents transformation and store it in the locator state
-    position[constraintID] =
-        jointState[parentId].transformation * constraint.offset.template cast<T>();
+    position[constraintID] = jointState[parentId].transform * constraint.offset.template cast<T>();
   }
 }
 
@@ -192,7 +191,7 @@ T FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionJacobian(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -321,7 +320,7 @@ T FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionGradient(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -377,7 +376,7 @@ JetType FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionGradient_
   JetType result;
 
   const Eigen::Vector3<JetType> pos =
-      state.jointState[constrParent].transformation.template cast<T>() * constr_offset;
+      state.jointState[constrParent].transform.toAffine3().template cast<T>() * constr_offset;
 
   // calculate the difference between target and position and error
   const Eigen::Vector3<JetType> diff = pos - constr_target;
@@ -391,7 +390,7 @@ JetType FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionGradient_
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<JetType> posd = pos - jointState.translation;
+    const Eigen::Vector3<JetType> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {

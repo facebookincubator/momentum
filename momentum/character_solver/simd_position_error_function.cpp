@@ -139,7 +139,7 @@ double SimdPositionErrorFunction::getError(
           drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
           drjit::load<FloatP>(&constraints_->offsetY[constraintOffsetIndex]),
           drjit::load<FloatP>(&constraints_->offsetZ[constraintOffsetIndex])};
-      const Vector3fP pos_world = jointState.transformation * offset;
+      const Vector3fP pos_world = jointState.transform * offset;
 
       // Calculate distance of point to target: dist = pos - target
       const Vector3fP target{
@@ -198,7 +198,7 @@ double SimdPositionErrorFunction::getGradient(
               drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetY[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetZ[constraintOffsetIndex])};
-          const Vector3fP pos_world = jointState_cons.transformation * offset;
+          const Vector3fP pos_world = jointState_cons.transform * offset;
 
           // Calculate distance of point to target: dist = pos - target
           const Vector3fP target{
@@ -229,7 +229,7 @@ double SimdPositionErrorFunction::getGradient(
 
             // Calculate difference between constraint position and joint center: posd = pos -
             // jointState.translation
-            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation);
+            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation());
 
             // Calculate derivatives based on active joints
             for (size_t d = 0; d < 3; ++d) {
@@ -352,7 +352,7 @@ double SimdPositionErrorFunction::getJacobian(
               drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetY[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetZ[constraintOffsetIndex])};
-          const Vector3fP pos_world = jointState_cons.transformation * offset;
+          const Vector3fP pos_world = jointState_cons.transform * offset;
 
           // Calculate distance of point to target: dist = pos - target
           const Vector3fP target{
@@ -396,7 +396,7 @@ double SimdPositionErrorFunction::getJacobian(
 
             // Calculate difference between constraint position and joint center: posd = pos -
             // jointState.translation
-            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation);
+            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation());
 
             // Calculate derivatives based on active joints
             for (size_t d = 0; d < 3; ++d) {
@@ -560,7 +560,7 @@ double SimdPositionErrorFunctionAVX::getError(
   // loop over all joints, as these are our base units
   for (int jointId = 0; jointId < constraints_->numJoints; jointId++) {
     // pre-load some joint specific values
-    const auto& transformation = state.jointState[jointId].transformation;
+    const auto transformation = state.jointState[jointId].transform.toAffine3();
 
     __m256 posx;
     __m256 posy;
@@ -637,7 +637,7 @@ double SimdPositionErrorFunctionAVX::getGradient(
         auto& grad_local = std::get<1>(error_grad_local);
 
         // pre-load some joint specific values
-        const auto& transformation = state.jointState[jointId].transformation;
+        const auto transformation = state.jointState[jointId].transform.toAffine3();
 
         __m256 posx;
         __m256 posy;
@@ -704,12 +704,9 @@ double SimdPositionErrorFunctionAVX::getGradient(
 
             // calculate difference between constraint position and joint center : posd = pos -
             // jointState.translation
-            const __m256 posdx =
-                _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.translation.x()));
-            const __m256 posdy =
-                _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.translation.y()));
-            const __m256 posdz =
-                _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.translation.z()));
+            const __m256 posdx = _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.x()));
+            const __m256 posdy = _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.y()));
+            const __m256 posdz = _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.z()));
 
             // calculate derivatives based on active joints
             for (size_t d = 0; d < 3; d++) {
@@ -833,7 +830,7 @@ double SimdPositionErrorFunctionAVX::getJacobian(
         const auto offset = jacobianOffset_[jointId] + addressOffset;
 
         // pre-load some joint specific values
-        const auto& transformation = state.jointState[jointId].transformation;
+        const auto transformation = state.jointState[jointId].transform.toAffine3();
 
         __m256 posx;
         __m256 posy;
@@ -901,12 +898,9 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
             // calculate difference between constraint position and joint center :          posd =
             // pos - jointState.translation
-            const __m256 posdx =
-                _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.translation.x()));
-            const __m256 posdy =
-                _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.translation.y()));
-            const __m256 posdz =
-                _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.translation.z()));
+            const __m256 posdx = _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.x()));
+            const __m256 posdy = _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.y()));
+            const __m256 posdz = _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.z()));
 
             // calculate derivatives based on active joints
             for (size_t d = 0; d < 3; d++) {

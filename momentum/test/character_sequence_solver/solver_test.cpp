@@ -85,12 +85,12 @@ MultiPoseTestProblem<T>::MultiPoseTestProblem(
     for (size_t iJoint = 0; iJoint < skelState_cur.jointState.size(); ++iJoint) {
       positionErrors[iFrame]->addConstraint(PositionDataT<T>(
           Eigen::Vector3<T>::Zero(),
-          skelState_cur.jointState[iJoint].translation.template cast<T>(),
+          skelState_cur.jointState[iJoint].translation().template cast<T>(),
           iJoint,
           1.0));
       orientErrors[iFrame]->addConstraint(OrientationDataT<T>(
           Eigen::Quaternion<T>::Identity(),
-          skelState_cur.jointState[iJoint].rotation.template cast<T>(),
+          skelState_cur.jointState[iJoint].rotation().template cast<T>(),
           iJoint,
           1.0));
     }

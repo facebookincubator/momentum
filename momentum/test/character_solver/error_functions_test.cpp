@@ -313,8 +313,9 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, TestSkinningErrorFunction) {
   SkeletonStateT<T> bindState(transform.apply(parameters), skeleton);
   SkeletonStateT<T> state(transform.apply(parameters), skeleton);
   TransformationListT<T> bindpose;
-  for (const auto& js : bindState.jointState)
-    bindpose.push_back(js.transformation.inverse());
+  for (const auto& js : bindState.jointState) {
+    bindpose.push_back(js.transform.toAffine3().inverse());
+  }
 
   {
     SCOPED_TRACE("Skinning mesh constraint test");
@@ -329,7 +330,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, TestSkinningErrorFunction) {
           continue;
         const auto parent = skin.index(vi, si);
         cl.push_back(PositionDataT<T>(
-            (target - bindState.jointState[parent].translation),
+            (target - bindState.jointState[parent].translation()),
             target,
             parent,
             skin.weight(vi, si)));
@@ -357,7 +358,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, TestSkinningErrorFunction) {
           if (skin.weight(vi, si) == 0.0)
             continue;
           const auto parent = skin.index(vi, si);
-          const Vector3<T> offset = state.jointState[parent].transformation.inverse() * v[vi];
+          const Vector3<T> offset = state.jointState[parent].transform.inverse() * v[vi];
           cl.push_back(PositionDataT<T>(offset, target, parent, skin.weight(vi, si)));
         }
         errorFunction.setConstraints(cl);

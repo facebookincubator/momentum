@@ -44,7 +44,7 @@ std::vector<Vector3<T>> applySSD(
   // first create a list of transformations from bindpose to final output pose
   std::vector<Matrix4<T>> transformations(state.jointState.size());
   for (size_t i = 0; i < state.jointState.size(); i++) {
-    transformations[i] = (state.jointState[i].transformation * inverseBindPose[i]).matrix();
+    transformations[i] = (state.jointState[i].transform * inverseBindPose[i]).matrix();
   }
 
   // go over all vertices and perform transformation
@@ -137,7 +137,7 @@ void applySSD(
   // first create a list of transformations from bindpose to final output pose
   std::vector<Eigen::Matrix4<T>> transformations(inverseBindPose.size());
   for (size_t i = 0; i < inverseBindPose.size(); i++) {
-    transformations[i].noalias() = (jointState[i].transformation * inverseBindPose[i]).matrix();
+    transformations[i].noalias() = (jointState[i].transform * inverseBindPose[i]).matrix();
   }
 
   // go over all vertices and perform transformation
@@ -212,7 +212,7 @@ Affine3f getInverseSSDTransformation(
 
     auto jointIndex = skin.index(index, j);
     const auto transformation =
-        state.jointState[jointIndex].transformation * inverseBindPose[jointIndex];
+        state.jointState[jointIndex].transform * inverseBindPose[jointIndex];
 
     // add up transforms
     transform.matrix().noalias() += transformation.matrix() * weight;
@@ -259,7 +259,7 @@ std::vector<Vector3f> applyInverseSSD(
   // first create a list of transformations from bindpose to final output pose
   TransformationList transformations(state.jointState.size());
   for (size_t i = 0; i < state.jointState.size(); i++) {
-    transformations[i] = state.jointState[i].transformation * inverseBindPose[i];
+    transformations[i] = state.jointState[i].transform * inverseBindPose[i];
   }
 
   // go over all vertices and perform transformation

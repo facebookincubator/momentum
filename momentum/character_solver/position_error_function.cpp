@@ -26,7 +26,7 @@ void PositionErrorFunctionT<T>::evalFunction(
   MT_PROFILE_EVENT("Position: evalFunction");
 
   const PositionDataT<T>& constr = this->constraints_[constrIndex];
-  Vector3<T> vec = state.transformation * constr.offset;
+  Vector3<T> vec = state.transform * constr.offset;
   f = vec - constr.target;
   if (v) {
     v->get().at(0) = std::move(vec);

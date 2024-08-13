@@ -92,46 +92,36 @@ void saveGLTFCharacterToFileFromSkelStates(
       jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 5));
       jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 6));
 
-      Eigen::Quaternionf localRotation{
+      const Eigen::Quaternionf localRotation{
           joint_params[iFrame].coeff(iJoint, 3),
           joint_params[iFrame].coeff(iJoint, 4),
           joint_params[iFrame].coeff(iJoint, 5),
           joint_params[iFrame].coeff(iJoint, 6),
       };
-      Eigen::Vector3f localTranslation{
+      const Eigen::Vector3f localTranslation{
           joint_params[iFrame].coeff(iJoint, 0),
           joint_params[iFrame].coeff(iJoint, 1),
           joint_params[iFrame].coeff(iJoint, 2),
       };
-      float localScale = 1.0;
-      Eigen::Quaternionf rotation{
+      const float localScale = 1.0;
+      const Eigen::Quaternionf rotation{
           skel_states[iFrame].coeff(iJoint, 3),
           skel_states[iFrame].coeff(iJoint, 4),
           skel_states[iFrame].coeff(iJoint, 5),
           skel_states[iFrame].coeff(iJoint, 6),
       };
-      Eigen::Vector3f translation{
+      const Eigen::Vector3f translation{
           skel_states[iFrame].coeff(iJoint, 0),
           skel_states[iFrame].coeff(iJoint, 1),
           skel_states[iFrame].coeff(iJoint, 2),
       };
-      float scale = skel_states[iFrame].coeff(iJoint, 7);
-      Eigen::Transform<float, 3, Eigen::Affine> transformation =
-          Eigen::Transform<float, 3, Eigen::Affine>::Identity();
-      Eigen::Matrix3<float> translationAxis = Eigen::Matrix3<float>::Identity();
-      Eigen::Matrix3<float> rotationAxis = Eigen::Matrix3<float>::Identity();
+      const float scale = skel_states[iFrame].coeff(iJoint, 7);
 
       momentum::JointState jointState{
-          localRotation,
-          localTranslation,
-          localScale,
-          rotation,
-          translation,
-          scale,
-          transformation,
-          translationAxis,
-          rotationAxis,
-      };
+          momentum::Transform(localTranslation, localRotation, localScale),
+          momentum::Transform(translation, rotation, scale),
+          Eigen::Matrix3f::Identity(),
+          Eigen::Matrix3f::Identity()};
       jointStateList.push_back(jointState);
     }
     momentum::JointParameters jointParams = Eigen::Map<Eigen::VectorXf>(

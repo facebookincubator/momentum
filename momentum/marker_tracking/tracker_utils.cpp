@@ -159,13 +159,13 @@ LocatorList extractLocatorsFromCharacter(
     const size_t jointId = locators[i].parent;
 
     // get global locator position
-    const Vector3f pos = state.jointState[jointId].transformation * locators[i].offset;
+    const Vector3f pos = state.jointState[jointId].transform * locators[i].offset;
 
     // change attachment to original joint
     result[i].parent = skeleton.joints[jointId].parent;
 
     // calculate new offset
-    const Vector3f offset = state.jointState[result[i].parent].transformation.inverse() * pos;
+    const Vector3f offset = state.jointState[result[i].parent].transform.inverse() * pos;
 
     // change offset to current state
     result[i].offset = offset;
@@ -246,7 +246,7 @@ std::vector<std::vector<Marker>> extractMarkersFromMotion(
 
     std::vector<Marker>& markers = result.at(iFrame);
     for (const auto& loc : character.locators) {
-      const Vector3d pos = (states.at(loc.parent).transformation * loc.offset).cast<double>();
+      const Vector3d pos = (states.at(loc.parent).transform * loc.offset).cast<double>();
       markers.emplace_back(Marker{loc.name, pos, false});
     }
   }

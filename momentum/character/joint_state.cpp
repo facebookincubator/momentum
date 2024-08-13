@@ -35,7 +35,7 @@ void JointStateT<T>::set(
   // calculate state based on parameters and parent transform
   if (computeDeriv) {
     if (parentState != nullptr) {
-      translationAxis = parentState->transformation.linear();
+      translationAxis = parentState->transform.toLinear(); // TODO: linear() or rotation()
     } else {
       translationAxis.setIdentity();
     }
@@ -62,15 +62,6 @@ void JointStateT<T>::set(
 
   // set global transformation
   transform = parent * localTransform;
-
-  // TODO: Remove
-  localTranslation = localTransform.translation;
-  localRotation = localTransform.rotation;
-  localScale = localTransform.scale;
-  translation = transform.translation;
-  rotation = transform.rotation;
-  scale = transform.scale;
-  transformation = transform.toAffine3();
 }
 
 template <typename T>
@@ -95,15 +86,6 @@ Eigen::Vector3<T> JointStateT<T>::getScaleDerivative(const Eigen::Vector3<T>& re
 template <typename T>
 template <typename T2>
 void JointStateT<T>::set(const JointStateT<T2>& rhs) {
-  // TODO: Remove
-  localRotation = rhs.localRotation.template cast<T>();
-  localTranslation = rhs.localTranslation.template cast<T>();
-  localScale = (T)rhs.localScale;
-  rotation = rhs.rotation.template cast<T>();
-  translation = rhs.translation.template cast<T>();
-  scale = (T)rhs.scale;
-  transformation = rhs.transformation.template cast<T>();
-
   localTransform = rhs.localTransform.template cast<T>();
   transform = rhs.transform.template cast<T>();
 

@@ -23,25 +23,6 @@ template <typename T>
 struct JointStateT {
   using Affine3 = Eigen::Transform<T, 3, Eigen::Affine>;
 
-  // local joint transformation as defined by parameters
-  /// Local rotation matrix
-  Eigen::Quaternion<T> localRotation; // TODO: Remove
-  /// Local translation offset
-  Eigen::Vector3<T> localTranslation; // TODO: Remove
-  /// Local scaling (affects descendants)
-  T localScale; // TODO: Remove
-
-  // joint transformation from local to global space
-  /// Rotation matrix from local to global space
-  Eigen::Quaternion<T> rotation; // TODO: Remove
-  /// Translation offset from local to global space
-  Eigen::Vector3<T> translation; // TODO: Remove
-  /// Scaling from local to global space
-  T scale; // TODO: Remove
-
-  /// Local to global complete matrix
-  Affine3 transformation; // TODO: Remove
-
   /// Relative transformation from the parent joint to this joint, which is defined by the
   /// joint parameters
   TransformT<T> localTransform;
@@ -57,34 +38,6 @@ struct JointStateT {
 
   /// Indicate whether translationAxis and rotationAxis are up-to-date with other transformations
   bool derivDirty = true;
-
-  // TODO: Remove
-  explicit JointStateT(
-      const Eigen::Quaternion<T>& localRotation = Eigen::Quaternion<T>(),
-      const Eigen::Vector3<T>& localTranslation = Eigen::Vector3<T>(),
-      const T& localScale = T(),
-      const Eigen::Quaternion<T>& rotation = Eigen::Quaternion<T>(),
-      const Eigen::Vector3<T>& translation = Eigen::Vector3<T>(),
-      const T& scale = T(),
-      const Affine3& transformation = Affine3(),
-      const Eigen::Matrix3<T>& translationAxis = Eigen::Matrix3<T>(),
-      const Eigen::Matrix3<T>& rotationAxis = Eigen::Matrix3<T>())
-      : localRotation(localRotation),
-        localTranslation(localTranslation),
-        localScale(localScale),
-        rotation(rotation),
-        translation(translation),
-        scale(scale),
-        transformation(transformation),
-        translationAxis(translationAxis),
-        rotationAxis(rotationAxis) {
-    localTransform.rotation = localRotation;
-    localTransform.translation = localTranslation;
-    localTransform.scale = localScale;
-    transform.rotation = rotation;
-    transform.translation = translation;
-    transform.scale = scale;
-  }
 
   /// Recursively update all the transformations from the root to leaves
   void set(
@@ -109,6 +62,119 @@ struct JointStateT {
 
   template <typename T2>
   void set(const JointStateT<T2>& rhs);
+
+  /// Local rotation matrix
+  [[nodiscard]] const Quaternion<T>& localRotation() const {
+    return localTransform.rotation;
+  }
+
+  Quaternion<T>& localRotation() {
+    return localTransform.rotation;
+  }
+
+  /// Local translation offset
+  [[nodiscard]] const Vector3<T>& localTranslation() const {
+    return localTransform.translation;
+  }
+
+  Vector3<T>& localTranslation() {
+    return localTransform.translation;
+  }
+
+  /// Local scaling (affects descendants)
+  [[nodiscard]] const T& localScale() const {
+    return localTransform.scale;
+  }
+
+  T& localScale() {
+    return localTransform.scale;
+  }
+
+  /// Rotation matrix from local to global space
+  [[nodiscard]] const Quaternion<T>& rotation() const {
+    return transform.rotation;
+  }
+
+  Quaternion<T>& rotation() {
+    return transform.rotation;
+  }
+
+  /// Translation offset from local to global space
+  [[nodiscard]] const Vector3<T>& translation() const {
+    return transform.translation;
+  }
+
+  Vector3<T>& translation() {
+    return transform.translation;
+  }
+
+  /// Return the X component of the global transform
+  [[nodiscard]] const T& x() const {
+    return transform.translation.x();
+  }
+
+  T& x() {
+    return transform.translation.x();
+  }
+
+  /// Return the Y component of the global transform
+  [[nodiscard]] const T& y() const {
+    return transform.translation.y();
+  }
+
+  T& y() {
+    return transform.translation.y();
+  }
+
+  /// Return the Z component of the global transform
+  [[nodiscard]] const T& z() const {
+    return transform.translation.z();
+  }
+
+  T& z() {
+    return transform.translation.z();
+  }
+
+  [[nodiscard]] const T& quatW() const {
+    return transform.rotation.w();
+  }
+
+  T& quatW() {
+    return transform.rotation.w();
+  }
+
+  [[nodiscard]] const T& quatX() const {
+    return transform.rotation.x();
+  }
+
+  T& quatX() {
+    return transform.rotation.x();
+  }
+
+  [[nodiscard]] const T& quatY() const {
+    return transform.rotation.y();
+  }
+
+  T& quatY() {
+    return transform.rotation.y();
+  }
+
+  [[nodiscard]] const T& quatZ() const {
+    return transform.rotation.z();
+  }
+
+  T& quatZ() {
+    return transform.rotation.z();
+  }
+
+  /// Scaling from local to global space
+  [[nodiscard]] const T& scale() const {
+    return transform.scale;
+  }
+
+  T& scale() {
+    return transform.scale;
+  }
 
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
