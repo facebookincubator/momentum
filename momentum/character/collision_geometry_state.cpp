@@ -26,7 +26,7 @@ void CollisionGeometryStateT<T>::update(
   for (size_t i = 0; i < numElements; ++i) {
     const auto& tc = collisionGeometry[i];
     const auto& js = skeletonState.jointState[tc.parent];
-    const Affine3<T> transform = js.transformation * tc.transformation.cast<T>();
+    const Affine3<T> transform = js.transform * tc.transformation.cast<T>();
     origin[i] = transform.translation();
     direction[i].noalias() = transform.linear().col(0) * tc.length;
     radius[i].noalias() = tc.radius.cast<T>() * js.scale();

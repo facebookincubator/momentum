@@ -339,7 +339,7 @@ void logCollisionGeometry(
     const auto& js = skeletonState.jointState.at(cg.parent);
 
     const float halfX = 0.5f * cg.length;
-    const Affine3f tf = js.transformation * cg.transformation * Translation3f(halfX, 0, 0);
+    const Affine3f tf = js.transform * cg.transformation * Translation3f(halfX, 0, 0);
     const Quaternionf q(tf.linear());
 
     centers.push_back(toRerunPosition3D(tf.translation()));

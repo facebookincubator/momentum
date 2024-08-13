@@ -118,7 +118,6 @@ void saveGLTFCharacterToFileFromSkelStates(
       const float scale = skel_states[iFrame].coeff(iJoint, 7);
 
       momentum::JointState jointState{
-          Eigen::Affine3f::Identity(),
           momentum::Transform(localTranslation, localRotation, localScale),
           momentum::Transform(translation, rotation, scale),
           Eigen::Matrix3f::Identity(),

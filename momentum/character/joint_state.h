@@ -23,9 +23,6 @@ template <typename T>
 struct JointStateT {
   using Affine3 = Eigen::Transform<T, 3, Eigen::Affine>;
 
-  /// Local to global complete matrix
-  Affine3 transformation; // TODO: Remove
-
   /// Relative transformation from the parent joint to this joint, which is defined by the
   /// joint parameters
   TransformT<T> localTransform;

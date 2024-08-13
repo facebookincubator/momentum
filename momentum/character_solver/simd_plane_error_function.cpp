@@ -143,7 +143,7 @@ double SimdPlaneErrorFunction::getError(
           drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
           drjit::load<FloatP>(&constraints_->offsetY[constraintOffsetIndex]),
           drjit::load<FloatP>(&constraints_->offsetZ[constraintOffsetIndex])};
-      const Vector3fP pos_world = jointState.transformation * offset;
+      const Vector3fP pos_world = jointState.transform * offset;
 
       // Calculate distance of point to plane: dist = pos.dot(normal) - target
       const Vector3fP normal{
@@ -202,7 +202,7 @@ double SimdPlaneErrorFunction::getGradient(
               drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetY[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetZ[constraintOffsetIndex])};
-          const Vector3fP pos_world = jointState_cons.transformation * offset;
+          const Vector3fP pos_world = jointState_cons.transform * offset;
 
           // Calculate distance of point to plane: dist = pos.dot(normal) - target
           const Vector3fP normal{
@@ -358,7 +358,7 @@ double SimdPlaneErrorFunction::getJacobian(
               drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetY[constraintOffsetIndex]),
               drjit::load<FloatP>(&constraints_->offsetZ[constraintOffsetIndex])};
-          const Vector3fP pos_world = jointState_cons.transformation * offset;
+          const Vector3fP pos_world = jointState_cons.transform * offset;
 
           // Calculate distance of point to plane: dist = pos.dot(normal) - target
           const Vector3fP normal{
@@ -508,7 +508,7 @@ double SimdPlaneErrorFunctionAVX::getError(
   // loop over all joints, as these are our base units
   for (int jointId = 0; jointId < constraints_->numJoints; jointId++) {
     // pre-load some joint specific values
-    const auto& transformation = state.jointState[jointId].transformation;
+    const auto transformation = state.jointState[jointId].transform.toAffine3();
 
     __m256 posx;
     __m256 posy;
@@ -587,7 +587,7 @@ double SimdPlaneErrorFunctionAVX::getGradient(
         auto& grad_local = std::get<1>(error_grad_local);
 
         // pre-load some joint specific values
-        const auto& transformation = state.jointState[jointId].transformation;
+        const auto transformation = state.jointState[jointId].transform.toAffine3();
 
         __m256 posx;
         __m256 posy;
@@ -806,7 +806,7 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
         const auto offset = jacobianOffset_[jointId] + addressOffset;
 
         // pre-load some joint specific values
-        const auto& transformation = state.jointState[jointId].transformation;
+        const auto transformation = state.jointState[jointId].transform.toAffine3();
 
         __m256 posx;
         __m256 posy;

@@ -166,7 +166,7 @@ class SkinningWeightIteratorT {
               parentBone,
               w,
               T(w) *
-                  (skelState.jointState[parentBone].transformation *
+                  (skelState.jointState[parentBone].transform *
                    (character.inverseBindPose[parentBone].template cast<T>() *
                     restMesh.vertices[vertexIndex]))};
         }
@@ -302,7 +302,7 @@ void VertexErrorFunctionT<T>::calculateDWorldPos(
     const auto parentBone = skinWeights.index(constr.vertexIndex, i);
     if (w > 0) {
       d_worldPos += w *
-          (state.jointState[parentBone].transformation.linear() *
+          (state.jointState[parentBone].transform.toLinear() *
            (character_.inverseBindPose[parentBone].linear().template cast<T>() * d_restPos));
     }
   }
@@ -614,7 +614,7 @@ double VertexErrorFunctionT<T>::calculateNormalGradient(
         const auto parentBone = skinWeights.index(constr.vertexIndex, jWeight);
         if (w > 0) {
           d_worldPos += w *
-              (state.jointState[parentBone].transformation.linear() *
+              (state.jointState[parentBone].transform.toLinear() *
                (character_.inverseBindPose[parentBone].linear().template cast<T>() * d_restPos));
         }
       }
@@ -722,7 +722,7 @@ double VertexErrorFunctionT<T>::calculateNormalJacobian(
       const auto parentBone = skinWeights.index(constr.vertexIndex, i);
       if (w > 0) {
         d_worldPos += w *
-            (state.jointState[parentBone].transformation.linear() *
+            (state.jointState[parentBone].transform.toLinear() *
              (character_.inverseBindPose[parentBone].linear().template cast<T>() * d_restPos));
       }
     }

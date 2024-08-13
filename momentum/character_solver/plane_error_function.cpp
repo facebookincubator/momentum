@@ -61,7 +61,7 @@ void PlaneErrorFunctionT<T>::evalFunction(
   MT_PROFILE_EVENT("Plane: evalFunction");
 
   const PlaneDataT<T>& constr = this->constraints_[constrIndex];
-  Vector3<T> vec = state.transformation * constr.offset;
+  Vector3<T> vec = state.transform * constr.offset;
   T val = vec.dot(constr.normal) - constr.d;
   if (halfPlane_ && val > T(0)) {
     val = T(0);

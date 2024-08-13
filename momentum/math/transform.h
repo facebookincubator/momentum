@@ -123,6 +123,7 @@ struct TransformT {
   }
 
   [[nodiscard]] Vector3<T> transformPoint(const Vector3<T>& pt) const;
+
   [[nodiscard]] Vector3<T> rotate(const Vector3<T>& vec) const;
 
   [[nodiscard]] TransformT<T> inverse() const;
@@ -134,6 +135,8 @@ struct TransformT {
         this->rotation.template cast<T2>(),
         static_cast<T2>(this->scale));
   }
+
+  // TODO: Add isApprox()
 };
 
 template <typename T>
