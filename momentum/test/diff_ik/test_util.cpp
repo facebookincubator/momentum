@@ -17,7 +17,7 @@ using namespace Eigen;
 ModelParameters randomBodyParameters(
     const ParameterTransform& bodyParamTransform,
     std::mt19937& rng) {
-  std::uniform_real_distribution<float> unifRot(-M_PI / 4.0, M_PI / 4.0);
+  std::uniform_real_distribution<float> unifRot(-pi() / 4.0, pi() / 4.0);
   std::uniform_real_distribution<float> unifTrans(-5.0, 5.0);
   std::uniform_real_distribution<float> unifScale(-0.5, 0.5);
 

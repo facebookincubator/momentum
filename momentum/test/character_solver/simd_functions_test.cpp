@@ -206,7 +206,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, SimdCollisionErrorFunctionIsSame) {
 
   const size_t nBendTests = 8;
   for (size_t iBendAmount = 4; iBendAmount < nBendTests; ++iBendAmount) {
-    const T bendAmount = iBendAmount * (M_PI / nBendTests);
+    const T bendAmount = iBendAmount * (pi<T>() / nBendTests);
 
     auto mp = ModelParametersT<T>::Zero(transform.numAllModelParameters());
     for (auto jParam = 0; jParam < transform.numAllModelParameters(); ++jParam) {
@@ -248,9 +248,9 @@ TEST(Momentum_ErrorFunctions, DISABLED_SimdCollisionErrorFunctionIsFaster) {
   for (size_t iTest = 0; iTest < nBendTests; ++iTest) {
     // The higher the total bend, the more joints will actually be in contact,
     // and we'll converge to the limit of how fast the actual Jacobian computation is.
-    const float totalBendAmount = iTest * 4.0f * M_PI / nBendTests;
+    const float totalBendAmount = iTest * 4.0f * pi() / nBendTests;
     const float bendAmountPerJoint = totalBendAmount / nJoints;
-    MT_LOGI("Total bend: {} degrees.\n", totalBendAmount * 180 / M_PI);
+    MT_LOGI("Total bend: {} degrees.\n", totalBendAmount * 180 / pi());
     // SCOPED_TRACE(::testing::Message() << "Total bend: " << totalBendAmount);
 
     auto mp = ModelParameters::Zero(transform.numAllModelParameters());

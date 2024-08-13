@@ -299,14 +299,14 @@ TYPED_TEST(TransformPoseTest, ValidateTransformSimple) {
 
   std::vector<TransformT<T>> transforms;
   transforms.emplace_back(
-      Vector3<T>::Zero(), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitY())));
+      Vector3<T>::Zero(), Quaternion<T>(AngleAxis<T>(pi<T>(), Vector3<T>::UnitY())));
   transforms.emplace_back(
-      Vector3<T>(5, 15, 3), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitX())));
+      Vector3<T>(5, 15, 3), Quaternion<T>(AngleAxis<T>(pi<T>(), Vector3<T>::UnitX())));
   transforms.emplace_back(
       Vector3<T>(205, -15, -304),
       Quaternion<T>(
-          AngleAxis<T>(M_PI / 2, Vector3<T>::UnitZ()) *
-          AngleAxis<T>(M_PI / 4, Vector3<T>::UnitX())));
+          AngleAxis<T>(pi<T>() / 2, Vector3<T>::UnitZ()) *
+          AngleAxis<T>(pi<T>() / 4, Vector3<T>::UnitX())));
 
   const std::vector<ModelParametersT<T>> modelParams_final = transformPose(
       character,
@@ -343,14 +343,14 @@ TYPED_TEST(TransformPoseTest, ValidateTransformDividedRoot) {
 
   std::vector<TransformT<T>> transforms;
   transforms.emplace_back(
-      Vector3<T>::Zero(), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitY())));
+      Vector3<T>::Zero(), Quaternion<T>(AngleAxis<T>(pi<T>(), Vector3<T>::UnitY())));
   transforms.emplace_back(
-      Vector3<T>(5, 15, 3), Quaternion<T>(AngleAxis<T>(M_PI, Vector3<T>::UnitX())));
+      Vector3<T>(5, 15, 3), Quaternion<T>(AngleAxis<T>(pi<T>(), Vector3<T>::UnitX())));
   transforms.emplace_back(
       Vector3<T>(205, -15, -304),
       Quaternion<T>(
-          AngleAxis<T>(M_PI / 2, Vector3<T>::UnitZ()) *
-          AngleAxis<T>(M_PI / 4, Vector3<T>::UnitX())));
+          AngleAxis<T>(pi<T>() / 2, Vector3<T>::UnitZ()) *
+          AngleAxis<T>(pi<T>() / 4, Vector3<T>::UnitX())));
 
   const std::vector<ModelParametersT<T>> modelParams_final = transformPose(
       character,

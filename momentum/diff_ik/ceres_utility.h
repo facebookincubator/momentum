@@ -28,7 +28,7 @@ Eigen::Matrix<T, 3, 1> getScaleDerivative(
     const JointStateT<T2>& js,
     const Eigen::Matrix<T, 3, 1>& ref) {
   (void)js;
-  return ref * static_cast<T>(M_LN2);
+  return ref * ln2<T2>();
 }
 
 template <typename T, int N>
