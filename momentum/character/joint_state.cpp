@@ -64,12 +64,6 @@ void JointStateT<T>::set(
   transform = parent * localTransform;
 
   // TODO: Remove
-  localTranslation = localTransform.translation;
-  localRotation = localTransform.rotation;
-  localScale = localTransform.scale;
-  translation = transform.translation;
-  rotation = transform.rotation;
-  scale = transform.scale;
   transformation = transform.toAffine3();
 }
 
@@ -96,12 +90,6 @@ template <typename T>
 template <typename T2>
 void JointStateT<T>::set(const JointStateT<T2>& rhs) {
   // TODO: Remove
-  localRotation = rhs.localRotation.template cast<T>();
-  localTranslation = rhs.localTranslation.template cast<T>();
-  localScale = (T)rhs.localScale;
-  rotation = rhs.rotation.template cast<T>();
-  translation = rhs.translation.template cast<T>();
-  scale = (T)rhs.scale;
   transformation = rhs.transformation.template cast<T>();
 
   localTransform = rhs.localTransform.template cast<T>();

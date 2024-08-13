@@ -241,11 +241,12 @@ CharacterT<T> CharacterT<T>::simplifySkeleton(const std::vector<bool>& enabledJo
         currentParent = lastJoint[sIndex];
       }
       // calculate the new offset of the joint in the new parent space
-      if (sIndex != kInvalidIndex)
+      if (sIndex != kInvalidIndex) {
         offset = referenceState.jointState[sIndex].transformation.inverse() *
-            referenceState.jointState[aIndex].translation;
-      else
-        offset = referenceState.jointState[aIndex].translation;
+            referenceState.jointState[aIndex].translation();
+      } else {
+        offset = referenceState.jointState[aIndex].translation();
+      }
     }
 
     // is joint enabled?

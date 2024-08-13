@@ -100,7 +100,7 @@ void d_jointParametersToPositions(
       assert(jointIndex < skeleton.joints.size());
 
       const auto& jointState = skelState.jointState[jointIndex];
-      const Eigen::Vector3<T> posd = p_world - jointState.translation;
+      const Eigen::Vector3<T> posd = p_world - jointState.translation();
       const size_t paramIdx = jointIndex * momentum::kParametersPerJoint;
 
       // calculate derivatives based on active joints

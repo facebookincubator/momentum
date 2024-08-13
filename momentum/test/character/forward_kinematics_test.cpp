@@ -62,16 +62,16 @@ TYPED_TEST(Momentum_ForwardKinematicsTest, Kinematics) {
       for (size_t i = 0; i < state.jointState.size(); i++) {
         auto& js = state.jointState[i];
         const Vector3<T> pos = skeleton.joints[i].translationOffset.cast<T>();
-        EXPECT_TRUE(js.localRotation.coeffs() == Quaternion<T>::Identity().coeffs());
-        EXPECT_TRUE(js.localTranslation.isApprox(pos, Eps<T>(1e-6f, 5e-7)));
-        EXPECT_TRUE(js.localScale == 1.0);
+        EXPECT_TRUE(js.localRotation().coeffs() == Quaternion<T>::Identity().coeffs());
+        EXPECT_TRUE(js.localTranslation().isApprox(pos, Eps<T>(1e-6f, 5e-7)));
+        EXPECT_TRUE(js.localScale() == 1.0);
 
         EXPECT_TRUE(js.translationAxis == Matrix3<T>::Identity());
         EXPECT_TRUE(js.rotationAxis == Matrix3<T>::Identity());
 
-        EXPECT_TRUE(js.rotation.coeffs() == Quaternion<T>::Identity().coeffs());
+        EXPECT_TRUE(js.rotation().coeffs() == Quaternion<T>::Identity().coeffs());
         // TODO: Add test for js.translation
-        EXPECT_TRUE(js.scale == 1.0);
+        EXPECT_TRUE(js.scale() == 1.0);
       }
     }
 

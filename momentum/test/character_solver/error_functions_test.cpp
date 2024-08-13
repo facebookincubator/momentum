@@ -329,7 +329,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, TestSkinningErrorFunction) {
           continue;
         const auto parent = skin.index(vi, si);
         cl.push_back(PositionDataT<T>(
-            (target - bindState.jointState[parent].translation),
+            (target - bindState.jointState[parent].translation()),
             target,
             parent,
             skin.weight(vi, si)));

@@ -104,14 +104,14 @@ JetType FullyDifferentiableStateErrorFunctionT<T>::calculateGradient_dot(
   JetType result;
 
   // calculate orientation gradient
-  const Eigen::Quaternion<T>& rot = state.jointState[iJoint].rotation;
+  const Eigen::Quaternion<T>& rot = state.jointState[iJoint].rotation();
   const Eigen::Matrix3<JetType> rotDiff =
       rot.toRotationMatrix() - targetRotation.toRotationMatrix();
   const JetType rwgt = StateErrorFunctionT<T>::kOrientationWeight * this->getRotationWeight() *
       this->weight_ * targetRotationWeight;
 
   // calculate position gradient
-  const Eigen::Vector3<JetType> diff = state.jointState[iJoint].translation - targetTranslation;
+  const Eigen::Vector3<JetType> diff = state.jointState[iJoint].translation() - targetTranslation;
   const JetType pwgt = StateErrorFunctionT<T>::kPositionWeight * this->getPositionWeight() *
       this->weight_ * targetPositionWeight;
 
@@ -125,7 +125,7 @@ JetType FullyDifferentiableStateErrorFunctionT<T>::calculateGradient_dot(
 
     // precalculate some more data for position gradient
     const Eigen::Vector3<T> posd =
-        state.jointState[iJoint].translation - state.jointState[jointIndex].translation;
+        state.jointState[iJoint].translation() - state.jointState[jointIndex].translation();
 
     for (size_t d = 0; d < 3; d++) {
       // position gradient

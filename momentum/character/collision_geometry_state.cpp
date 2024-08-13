@@ -29,7 +29,7 @@ void CollisionGeometryStateT<T>::update(
     const Affine3<T> transform = js.transformation * tc.transformation.cast<T>();
     origin[i] = transform.translation();
     direction[i].noalias() = transform.linear().col(0) * tc.length;
-    radius[i].noalias() = tc.radius.cast<T>() * js.scale;
+    radius[i].noalias() = tc.radius.cast<T>() * js.scale();
     delta[i] = radius[i][1] - radius[i][0];
   }
 }

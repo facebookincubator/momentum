@@ -64,7 +64,7 @@ double FullyDifferentiableOrientationErrorFunctionT<T>::getError(
     // Note: |R0 - RT|² is a valid norm on SO3, it doesn't have the same slope as the squared
     // angle difference
     //       but it's derivative doesn't have a singularity at the minimum, so is more stable
-    const Eigen::Quaternion<T> rot = state.jointState[ct.parent].rotation * ct.offset;
+    const Eigen::Quaternion<T> rot = state.jointState[ct.parent].rotation() * ct.offset;
     const Eigen::Matrix3<T> rotDiff = rot.toRotationMatrix() - ct.target.toRotationMatrix();
     error += ct.weight * rotDiff.squaredNorm() * kOrientationWeight;
   }
@@ -139,7 +139,7 @@ T FullyDifferentiableOrientationErrorFunctionT<T>::calculateOrientationJacobian(
   const auto& parameterTransform = this->parameterTransform_;
 
   // calculate orientation error
-  const Eigen::Quaternion<T> rot = state.jointState[constr.parent].rotation * constr.offset;
+  const Eigen::Quaternion<T> rot = state.jointState[constr.parent].rotation() * constr.offset;
   const Eigen::Quaternion<T>& target = constr.target;
   const Eigen::Matrix3<T> rotDiff = rot.toRotationMatrix() - target.toRotationMatrix();
   const T wgt = kOrientationWeight * constr.weight * this->weight_;
@@ -250,7 +250,7 @@ T FullyDifferentiableOrientationErrorFunctionT<T>::calculateOrientationGradient(
   const auto& parameterTransform = this->parameterTransform_;
 
   // calculate orientation error
-  const Eigen::Quaternion<T> rot = state.jointState[constr.parent].rotation * constr.offset;
+  const Eigen::Quaternion<T> rot = state.jointState[constr.parent].rotation() * constr.offset;
   const Eigen::Matrix3<T> rotDiff = rot.toRotationMatrix() - constr.target.toRotationMatrix();
   const T wgt = kOrientationWeight * constr.weight;
 
@@ -298,7 +298,8 @@ JetType FullyDifferentiableOrientationErrorFunctionT<T>::calculateOrientationGra
 
   // calculate orientation error
   const Eigen::Quaternion<JetType> rot =
-      (state.jointState[constrParent].rotation.template cast<JetType>() * constrOrientationOffset);
+      (state.jointState[constrParent].rotation().template cast<JetType>() *
+       constrOrientationOffset);
   const Eigen::Matrix3<JetType> rotDiff =
       rot.toRotationMatrix() - constrOrientationTarget.toRotationMatrix();
   const JetType wgt = this->weight_ * this->kOrientationWeight * constrWeight;

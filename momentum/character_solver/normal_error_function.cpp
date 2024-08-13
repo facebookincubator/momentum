@@ -25,7 +25,7 @@ void NormalErrorFunctionT<T>::evalFunction(
 
   const NormalDataT<T>& constr = this->constraints_[constrIndex];
   Vector3<T> point = state.transformation * constr.localPoint;
-  Vector3<T> normal = state.rotation * constr.localNormal;
+  Vector3<T> normal = state.rotation() * constr.localNormal;
   const Vector3<T> dist = point - constr.globalPoint;
 
   f[0] = normal.dot(dist);

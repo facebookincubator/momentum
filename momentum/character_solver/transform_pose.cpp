@@ -133,9 +133,9 @@ std::vector<ModelParametersT<T>> transformPose(
     const momentum::SkeletonStateT<T> skelStateFull(
         parameterTransformFull.apply(fullParams_init), character.skeleton, false);
     const Eigen::Vector3<T> worldFromRootTranslationTarget =
-        transform * skelStateFull.jointState[rootJointFull].translation;
+        transform * skelStateFull.jointState[rootJointFull].translation();
     const Eigen::Quaternion<T> worldFromRootRotationTarget =
-        transform.rotation * skelStateFull.jointState[rootJointFull].rotation;
+        transform.rotation * skelStateFull.jointState[rootJointFull].rotation();
 
     momentum::PositionErrorFunctionT<T> positionError(characterSimplified);
     positionError.addConstraint(PositionDataT<T>(
@@ -199,7 +199,7 @@ std::vector<ModelParametersT<T>> transformPose(
           parameterTransformSimplified.apply(solvedParametersSimplified),
           characterSimplified.skeleton,
           false);
-      if ((skelStateSimplified.jointState[rootJointSimplified].rotation.toRotationMatrix() -
+      if ((skelStateSimplified.jointState[rootJointSimplified].rotation().toRotationMatrix() -
            worldFromRootRotationTarget.toRotationMatrix())
               .norm() < 1e-3) {
         break;

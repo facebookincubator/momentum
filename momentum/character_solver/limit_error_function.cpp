@@ -269,7 +269,7 @@ double LimitErrorFunctionT<T>::getGradient(
 
           const auto& jointState = state.jointState[jointIndex];
           const size_t paramIndex = jointIndex * kParametersPerJoint;
-          const Eigen::Vector3<T> posd = position - jointState.translation;
+          const Eigen::Vector3<T> posd = position - jointState.translation();
 
           // calculate derivatives based on active joints
           for (size_t d = 0; d < 3; d++) {
@@ -475,7 +475,7 @@ double LimitErrorFunctionT<T>::getJacobian(
 
           const auto& jointState = state.jointState[jointIndex];
           const size_t paramIndex = jointIndex * kParametersPerJoint;
-          const Eigen::Vector3<T> posd = position - jointState.translation;
+          const Eigen::Vector3<T> posd = position - jointState.translation();
 
           // calculate derivatives based on active joints
           for (size_t d = 0; d < 3; d++) {
