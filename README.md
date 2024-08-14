@@ -122,9 +122,7 @@ Momentum uses the `build/` directory for CMake builds, `.pixi/` for the Pixi vir
 
 ## 📖 Documentation
 
-The full documentation for Momentum can be found on our [website][docs].
-
-[docs]: https://facebookincubator.github.io/momentum
+The full documentation for Momentum can be found on our [website][https://facebookincubator.github.io/momentum] and the C++ API documentation is available [here][https://facebookincubator.github.io/momentum/doxygen/index.html].
 
 ## Contributing
 
