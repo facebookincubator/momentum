@@ -335,7 +335,7 @@ double VertexErrorFunctionT<T>::calculatePositionGradient(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -441,7 +441,7 @@ double VertexErrorFunctionT<T>::calculatePositionJacobian(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -556,7 +556,7 @@ double VertexErrorFunctionT<T>::calculateNormalGradient(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -571,7 +571,7 @@ double VertexErrorFunctionT<T>::calculateNormalGradient(
       if (this->activeJointParams_[paramIndex + 3 + d]) {
         // Gradient wrt rotation:
         const Eigen::Vector3<T> cross =
-            -sourceNormal.cross(constr.targetPosition - jointState.translation);
+            -sourceNormal.cross(constr.targetPosition - jointState.translation());
         const T diff_src = jointState.rotationAxis.col(d).dot(cross);
         const T diff_tgt = targetNormal.dot(jointState.getRotationDerivative(d, posd));
 
@@ -665,7 +665,7 @@ double VertexErrorFunctionT<T>::calculateNormalJacobian(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -680,7 +680,7 @@ double VertexErrorFunctionT<T>::calculateNormalJacobian(
       if (this->activeJointParams_[paramIndex + 3 + d]) {
         // Jacobian wrt rotation:
         const Eigen::Vector3<T> cross =
-            -sourceNormal.cross(constr.targetPosition - jointState.translation);
+            -sourceNormal.cross(constr.targetPosition - jointState.translation());
         const T diff_src = jointState.rotationAxis.col(d).dot(cross);
         const T diff_tgt = targetNormal.dot(jointState.getRotationDerivative(d, posd));
 

@@ -141,7 +141,7 @@ double SimdNormalErrorFunction::getError(
     const size_t constraintCount = constraints_->constraintCount[jointId];
     MT_CHECK(jointId < static_cast<int>(state.jointState.size()));
     const auto& jointState = state.jointState[jointId];
-    const Eigen::Matrix3f jointRotMat = jointState.rotation.toRotationMatrix();
+    const Eigen::Matrix3f jointRotMat = jointState.rotation().toRotationMatrix();
 
     for (uint32_t index = 0; index < constraintCount; index += kSimdPacketSize) {
       const auto constraintOffsetIndex = jointId * SimdNormalConstraints::kMaxConstraints + index;
@@ -184,7 +184,7 @@ double SimdNormalErrorFunction::getGradient(
   auto error = drjit::zeros<DoubleP>(); // use double to prevent rounding errors
   for (int jointId = 0; jointId < constraints_->numJoints; jointId++) {
     const size_t constraintCount = constraints_->constraintCount[jointId];
-    const Eigen::Matrix3f jointRotMat = state.jointState[jointId].rotation.toRotationMatrix();
+    const Eigen::Matrix3f jointRotMat = state.jointState[jointId].rotation().toRotationMatrix();
     const auto& jointState_cons = state.jointState[jointId];
 
     for (uint32_t index = 0; index < constraintCount; index += kSimdPacketSize) {
@@ -220,7 +220,7 @@ double SimdNormalErrorFunction::getGradient(
         const auto& jointState = state.jointState[jointIndex];
 
         const size_t paramIndex = jointIndex * kParametersPerJoint;
-        const Vector3fP posd = momentum::operator-(pos_world, jointState.translation);
+        const Vector3fP posd = momentum::operator-(pos_world, jointState.translation());
 
         // calculate derivatives based on active joints
         for (size_t d = 0; d < 3; d++) {
@@ -240,7 +240,7 @@ double SimdNormalErrorFunction::getGradient(
           if (this->activeJointParams_[paramIndex + 3 + d]) {
             // calculate joint gradient
             const auto crossProd =
-                cross(normal_world, momentum::operator-(target, jointState.translation));
+                cross(normal_world, momentum::operator-(target, jointState.translation()));
             const FloatP val =
                 -dist * momentum::dot(jointState.rotationAxis.col(d), crossProd) * wgt;
             // explicitly multiply with the parameter transform to generate parameter space
@@ -323,7 +323,7 @@ double SimdNormalErrorFunction::getJacobian(
       [&](const size_t jointId) {
         const size_t constraintCount = constraints_->constraintCount[jointId];
         const auto& jointState_cons = state.jointState[jointId];
-        const Eigen::Matrix3f jointRotMat = jointState_cons.rotation.toRotationMatrix();
+        const Eigen::Matrix3f jointRotMat = jointState_cons.rotation().toRotationMatrix();
         auto jointError = drjit::zeros<DoubleP>(); // use double to prevent rounding errors
 
         for (uint32_t index = 0; index < constraintCount; index += kSimdPacketSize) {
@@ -375,7 +375,7 @@ double SimdNormalErrorFunction::getJacobian(
               }
             }
 
-            const Vector3fP tgtd = momentum::operator-(target, jointState.translation);
+            const Vector3fP tgtd = momentum::operator-(target, jointState.translation());
             for (size_t d = 0; d < 3; ++d) {
               if (this->activeJointParams_[paramIndex + 3 + d]) {
                 const Vector3fP crossProd = cross(normal_world, tgtd);
@@ -390,7 +390,7 @@ double SimdNormalErrorFunction::getJacobian(
             }
 
             if (this->activeJointParams_[paramIndex + 6]) {
-              const Vector3fP posd = momentum::operator-(pos_world, jointState.translation);
+              const Vector3fP posd = momentum::operator-(pos_world, jointState.translation());
               const FloatP jc = dot(normal_world, posd) * (ln2() * wgt);
               jacobian_jointParams_to_modelParams(
                   jc,
@@ -576,21 +576,15 @@ double SimdNormalErrorFunctionAVX::getJacobian(
 
             // calculate difference between constraint position and joint center :          posd =
             // pos - jointState.translation
-            const __m256 posdx =
-                _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.translation.x()));
-            const __m256 posdy =
-                _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.translation.y()));
-            const __m256 posdz =
-                _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.translation.z()));
+            const __m256 posdx = _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.x()));
+            const __m256 posdy = _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.y()));
+            const __m256 posdz = _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.z()));
 
             // calculate difference between target position and joint center :              tgtd =
             // tgt - jointState.translation
-            const __m256 tgtdx =
-                _mm256_sub_ps(tgtx, _mm256_broadcast_ss(&jointState.translation.x()));
-            const __m256 tgtdy =
-                _mm256_sub_ps(tgty, _mm256_broadcast_ss(&jointState.translation.y()));
-            const __m256 tgtdz =
-                _mm256_sub_ps(tgtz, _mm256_broadcast_ss(&jointState.translation.z()));
+            const __m256 tgtdx = _mm256_sub_ps(tgtx, _mm256_broadcast_ss(&jointState.x()));
+            const __m256 tgtdy = _mm256_sub_ps(tgty, _mm256_broadcast_ss(&jointState.y()));
+            const __m256 tgtdz = _mm256_sub_ps(tgtz, _mm256_broadcast_ss(&jointState.z()));
 
             // calculate derivatives based on active joints
             for (size_t d = 0; d < 3; d++) {

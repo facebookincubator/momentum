@@ -192,7 +192,7 @@ T FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionJacobian(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -321,7 +321,7 @@ T FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionGradient(
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<T> posd = pos - jointState.translation;
+    const Eigen::Vector3<T> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
@@ -391,7 +391,7 @@ JetType FullyDifferentiablePositionErrorFunctionT<T>::calculatePositionGradient_
 
     const auto& jointState = state.jointState[jointIndex];
     const size_t paramIndex = jointIndex * kParametersPerJoint;
-    const Eigen::Vector3<JetType> posd = pos - jointState.translation;
+    const Eigen::Vector3<JetType> posd = pos - jointState.translation();
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {

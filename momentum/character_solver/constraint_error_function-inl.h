@@ -107,7 +107,7 @@ double ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::getJacobianFo
 
       Eigen::Vector3<T> offset;
       if (jVec < NumPos) {
-        offset.noalias() = v[jVec] - jntState.translation;
+        offset.noalias() = v[jVec] - jntState.translation();
       } else {
         offset = v[jVec];
       }
@@ -227,7 +227,7 @@ double ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::getGradientFo
 
       Eigen::Vector3<T> offset;
       if (jVec < NumPos) {
-        offset.noalias() = v[jVec] - jntState.translation;
+        offset.noalias() = v[jVec] - jntState.translation();
       } else {
         offset = v[jVec];
       }

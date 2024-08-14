@@ -226,7 +226,7 @@ double CollisionErrorFunctionStatelessT<T>::getGradient(
     while (jointIndex != kInvalidIndex && jointIndex != gsl::narrow_cast<size_t>(pr[2])) {
       const auto& jointState = state.jointState[jointIndex];
       const size_t paramIndex = jointIndex * kParametersPerJoint;
-      const Vector3<T> posd = position_i - jointState.translation;
+      const Vector3<T> posd = position_i - jointState.translation();
 
       // calculate derivatives based on active joints
       for (size_t d = 0; d < 3; d++) {
@@ -279,7 +279,7 @@ double CollisionErrorFunctionStatelessT<T>::getGradient(
     while (jointIndex != kInvalidIndex && jointIndex != gsl::narrow_cast<size_t>(pr[2])) {
       const auto& jointState = state.jointState[jointIndex];
       const size_t paramIndex = jointIndex * kParametersPerJoint;
-      const Vector3<T> posd = position_j - jointState.translation;
+      const Vector3<T> posd = position_j - jointState.translation();
 
       // calculate derivatives based on active joints
       for (size_t d = 0; d < 3; d++) {
@@ -422,7 +422,7 @@ double CollisionErrorFunctionStatelessT<T>::getJacobian(
     while (jointIndex != kInvalidIndex && jointIndex != gsl::narrow_cast<size_t>(pr[2])) {
       const auto& jointState = state.jointState[jointIndex];
       const size_t paramIndex = jointIndex * kParametersPerJoint;
-      const Vector3<T> posd = position_i - jointState.translation;
+      const Vector3<T> posd = position_i - jointState.translation();
 
       // calculate derivatives based on active joints
       for (size_t d = 0; d < 3; d++) {
@@ -475,7 +475,7 @@ double CollisionErrorFunctionStatelessT<T>::getJacobian(
     while (jointIndex != kInvalidIndex && jointIndex != gsl::narrow_cast<size_t>(pr[2])) {
       const auto& jointState = state.jointState[jointIndex];
       const size_t paramIndex = jointIndex * kParametersPerJoint;
-      const Vector3<T> posd = position_j - jointState.translation;
+      const Vector3<T> posd = position_j - jointState.translation();
 
       // calculate derivatives based on active joints
       for (size_t d = 0; d < 3; d++) {

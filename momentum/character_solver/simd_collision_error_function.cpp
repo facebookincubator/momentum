@@ -351,7 +351,7 @@ double SimdCollisionErrorFunctionT<T>::getGradient(
         while (jointIndex != kInvalidIndex && jointIndex != commonAncestor) {
           const auto& jointState = state.jointState[jointIndex];
           const size_t paramIndex = jointIndex * kParametersPerJoint;
-          const Vector3<T> posd = position_ik - jointState.translation;
+          const Vector3<T> posd = position_ik - jointState.translation();
 
           // calculate derivatives based on active joints
           for (size_t d = 0; d < 3; d++) {
@@ -406,7 +406,7 @@ double SimdCollisionErrorFunctionT<T>::getGradient(
         while (jointIndex != kInvalidIndex && jointIndex != commonAncestor) {
           const auto& jointState = state.jointState[jointIndex];
           const size_t paramIndex = jointIndex * kParametersPerJoint;
-          const Vector3<T> posd = position_jk - jointState.translation;
+          const Vector3<T> posd = position_jk - jointState.translation();
 
           // calculate derivatives based on active joints
           for (size_t d = 0; d < 3; d++) {
@@ -545,7 +545,7 @@ double SimdCollisionErrorFunctionT<T>::getJacobian(
           const auto& jointState = state.jointState[jointIndex];
           const size_t paramIndex = jointIndex * kParametersPerJoint;
           const Eigen::Vector3<T> posd =
-              extractSingleElement(position_i, k) - jointState.translation;
+              extractSingleElement(position_i, k) - jointState.translation();
 
           // calculate derivatives based on active joints
           for (size_t d = 0; d < 3; d++) {
@@ -600,7 +600,7 @@ double SimdCollisionErrorFunctionT<T>::getJacobian(
         while (jointIndex != kInvalidIndex && jointIndex != commonAncestor) {
           const auto& jointState = state.jointState[jointIndex];
           const size_t paramIndex = jointIndex * kParametersPerJoint;
-          const Vector3<T> posd = extractSingleElement(position_j, k) - jointState.translation;
+          const Vector3<T> posd = extractSingleElement(position_j, k) - jointState.translation();
 
           // calculate derivatives based on active joints
           for (size_t d = 0; d < 3; d++) {

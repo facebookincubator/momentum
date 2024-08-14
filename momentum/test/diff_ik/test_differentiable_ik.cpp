@@ -89,7 +89,7 @@ TEST(DifferentiableIK, Basic) {
     for (size_t iJoint = 0; iJoint < skelState_target.jointState.size(); ++iJoint) {
       positionError->addConstraint(PositionConstraintT<T>(
           Eigen::Vector3<T>::Zero(),
-          skelState_target.jointState[iJoint].translation.cast<T>() +
+          skelState_target.jointState[iJoint].translation().cast<T>() +
               4.0 * randomVec(rng, 3).cast<T>(),
           iJoint,
           1.f));
@@ -105,7 +105,7 @@ TEST(DifferentiableIK, Basic) {
     for (size_t iJoint = 0; iJoint < skelState_target.jointState.size(); ++iJoint) {
       rotationError->addConstraint(OrientationConstraintT<T>(
           Eigen::Quaternion<T>::Identity(),
-          skelState_target.jointState[iJoint].rotation.cast<T>(),
+          skelState_target.jointState[iJoint].rotation().cast<T>(),
           iJoint,
           1.0));
     }

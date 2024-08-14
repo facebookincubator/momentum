@@ -150,11 +150,11 @@ StateSimilarity SkeletonStateT<T>::compare(
   // calculate position error and orientation error in global coordinates per joint
   for (size_t i = 0; i < state1.jointState.size(); i++) {
     result.positionError[i] =
-        (state1.jointState[i].translation - state2.jointState[i].translation).norm();
+        (state1.jointState[i].translation() - state2.jointState[i].translation()).norm();
     const double dot = std::min(
         std::max(
-            state1.jointState[i].rotation.normalized().dot(
-                state2.jointState[i].rotation.normalized()),
+            state1.jointState[i].rotation().normalized().dot(
+                state2.jointState[i].rotation().normalized()),
             T(-1.0)),
         T(1.0));
     const double sgn = dot < 0.0 ? -1.0 : 1.0;
