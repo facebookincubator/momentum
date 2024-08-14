@@ -74,7 +74,7 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
           {
             href: 'pathname:///doxygen/index.html',
             position: 'left',
-            label: 'API',
+            label: 'C++ API',
           },
           {
             href: 'https://github.com/facebookincubator/momentum',
