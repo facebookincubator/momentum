@@ -26,7 +26,7 @@ void OrientationErrorFunctionT<T>::evalFunction(
   MT_PROFILE_EVENT("Orientation: evalFunction");
 
   const OrientationDataT<T>& constr = this->constraints_[constrIndex];
-  Matrix3<T> vec = state.rotation * constr.offset.toRotationMatrix();
+  Matrix3<T> vec = state.rotation() * constr.offset.toRotationMatrix();
   Matrix3<T> val = vec - constr.target.toRotationMatrix();
   f = Eigen::Map<Vector<T, 9>>(val.data(), val.size());
 

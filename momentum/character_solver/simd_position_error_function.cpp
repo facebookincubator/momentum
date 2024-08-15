@@ -229,7 +229,7 @@ double SimdPositionErrorFunction::getGradient(
 
             // Calculate difference between constraint position and joint center: posd = pos -
             // jointState.translation
-            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation);
+            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation());
 
             // Calculate derivatives based on active joints
             for (size_t d = 0; d < 3; ++d) {
@@ -396,7 +396,7 @@ double SimdPositionErrorFunction::getJacobian(
 
             // Calculate difference between constraint position and joint center: posd = pos -
             // jointState.translation
-            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation);
+            const Vector3fP posd = momentum::operator-(pos_world, jointState.translation());
 
             // Calculate derivatives based on active joints
             for (size_t d = 0; d < 3; ++d) {
@@ -704,12 +704,9 @@ double SimdPositionErrorFunctionAVX::getGradient(
 
             // calculate difference between constraint position and joint center : posd = pos -
             // jointState.translation
-            const __m256 posdx =
-                _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.translation.x()));
-            const __m256 posdy =
-                _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.translation.y()));
-            const __m256 posdz =
-                _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.translation.z()));
+            const __m256 posdx = _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.x()));
+            const __m256 posdy = _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.y()));
+            const __m256 posdz = _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.z()));
 
             // calculate derivatives based on active joints
             for (size_t d = 0; d < 3; d++) {
@@ -901,12 +898,9 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
             // calculate difference between constraint position and joint center :          posd =
             // pos - jointState.translation
-            const __m256 posdx =
-                _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.translation.x()));
-            const __m256 posdy =
-                _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.translation.y()));
-            const __m256 posdz =
-                _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.translation.z()));
+            const __m256 posdx = _mm256_sub_ps(posx, _mm256_broadcast_ss(&jointState.x()));
+            const __m256 posdy = _mm256_sub_ps(posy, _mm256_broadcast_ss(&jointState.y()));
+            const __m256 posdz = _mm256_sub_ps(posz, _mm256_broadcast_ss(&jointState.z()));
 
             // calculate derivatives based on active joints
             for (size_t d = 0; d < 3; d++) {

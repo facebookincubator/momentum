@@ -367,21 +367,21 @@ void addSkeletonStatesToModel(
   bool foundAnyChannel = false;
   for (Eigen::Index i = 0; i < static_cast<Eigen::Index>(numFrames); i++) {
     for (size_t j = 0; j < numJoints; j++) {
-      auto localT = skeletonStates[i].jointState[j].localTranslation.cast<float>();
+      auto localT = skeletonStates[i].jointState[j].localTranslation().cast<float>();
       if (!(localT - character.skeleton.joints[j].translationOffset).isZero(1e-5f)) {
         useChannel[j][0] = true;
         foundAnyChannel = true;
       }
       translation[j][i] = fromMomentumVec3f(localT);
 
-      auto localR = skeletonStates[i].jointState[j].localRotation.cast<float>();
+      auto localR = skeletonStates[i].jointState[j].localRotation().cast<float>();
       rotation[j][i] = {localR.x(), localR.y(), localR.z(), localR.w()};
       if (!(localR.coeffs() - character.skeleton.joints[j].preRotation.coeffs()).isZero(1e-5f)) {
         useChannel[j][1] = true;
         foundAnyChannel = true;
       }
 
-      float localScale = skeletonStates[i].jointState[j].localScale;
+      float localScale = skeletonStates[i].jointState[j].localScale();
       scale[j][i] = Vector3f::Ones() * localScale;
       if (fabs(localScale - 1.0f) > 1e-5f) {
         useChannel[j][2] = true;

@@ -68,14 +68,14 @@ double StateSequenceErrorFunctionT<T>::getError(
     // Note: |R0 - RT|² is a valid norm on SO3, it doesn't have the same slope as the squared angle
     // difference
     //       but it's derivative doesn't have a singularity at the minimum, so is more stable
-    const Eigen::Quaternion<T>& prevRot = prevState.jointState[i].rotation;
-    const Eigen::Quaternion<T>& nextRot = nextState.jointState[i].rotation;
+    const Eigen::Quaternion<T>& prevRot = prevState.jointState[i].rotation();
+    const Eigen::Quaternion<T>& nextRot = nextState.jointState[i].rotation();
     const Eigen::Matrix3<T> rotDiff = nextRot.toRotationMatrix() - prevRot.toRotationMatrix();
     error += rotDiff.squaredNorm() * kOrientationWeight * rotWgt_ * targetRotationWeights_[i];
 
     // calculate position error
     const Eigen::Vector3<T> diff =
-        nextState.jointState[i].translation - prevState.jointState[i].translation;
+        nextState.jointState[i].translation() - prevState.jointState[i].translation();
     error += diff.squaredNorm() * kPositionWeight * posWgt_ * targetPositionWeights_[i];
   }
 
@@ -108,22 +108,22 @@ double StateSequenceErrorFunctionT<T>::getGradient(
     }
 
     // calculate orientation gradient
-    const Eigen::Quaternion<T>& prevRot = prevState.jointState[i].rotation;
-    const Eigen::Quaternion<T>& nextRot = nextState.jointState[i].rotation;
+    const Eigen::Quaternion<T>& prevRot = prevState.jointState[i].rotation();
+    const Eigen::Quaternion<T>& nextRot = nextState.jointState[i].rotation();
     const Eigen::Matrix3<T> rotDiff = nextRot.toRotationMatrix() - prevRot.toRotationMatrix();
     const T rwgt = kOrientationWeight * rotWgt_ * this->weight_ * targetRotationWeights_[i];
     error += rotDiff.squaredNorm() * rwgt;
 
     // calculate position gradient
     const Eigen::Vector3<T> diff =
-        nextState.jointState[i].translation - prevState.jointState[i].translation;
+        nextState.jointState[i].translation() - prevState.jointState[i].translation();
     const T pwgt = kPositionWeight * posWgt_ * this->weight_ * targetPositionWeights_[i];
     error += diff.squaredNorm() * pwgt;
 
     auto addGradient = [&](const SkeletonStateT<T>& state,
                            T sign,
                            Eigen::Ref<Eigen::VectorX<T>> grad) {
-      const Eigen::Quaternion<T>& rot = state.jointState[i].rotation;
+      const Eigen::Quaternion<T>& rot = state.jointState[i].rotation();
 
       // loop over all joints the constraint is attached to and calculate gradient
       size_t jointIndex = i;
@@ -135,7 +135,7 @@ double StateSequenceErrorFunctionT<T>::getGradient(
 
         // precalculate some more data for position gradient
         const Eigen::Vector3<T> posd =
-            state.jointState[i].translation - state.jointState[jointIndex].translation;
+            state.jointState[i].translation() - state.jointState[jointIndex].translation();
 
         for (size_t d = 0; d < 3; d++) {
           // position gradient
@@ -232,11 +232,11 @@ double StateSequenceErrorFunctionT<T>::getJacobian(
 
     // calculate translation gradient
     const auto transDiff =
-        (nextState.jointState[i].translation - prevState.jointState[i].translation).eval();
+        (nextState.jointState[i].translation() - prevState.jointState[i].translation()).eval();
 
     // calculate orientation gradient
-    const Eigen::Quaternion<T>& prevRot = prevState.jointState[i].rotation;
-    const Eigen::Quaternion<T>& nextRot = nextState.jointState[i].rotation;
+    const Eigen::Quaternion<T>& prevRot = prevState.jointState[i].rotation();
+    const Eigen::Quaternion<T>& nextRot = nextState.jointState[i].rotation();
     const Eigen::Matrix3<T> rotDiff = nextRot.toRotationMatrix() - prevRot.toRotationMatrix();
     const T rwgt = kOrientationWeight * rotWgt_ * this->weight_ * targetRotationWeights_[i];
     error += rotDiff.squaredNorm() * rwgt;
@@ -254,7 +254,7 @@ double StateSequenceErrorFunctionT<T>::getJacobian(
         Map<const Eigen::VectorX<T>>(rotDiff.data(), rotDiff.size()) * awgt;
 
     auto addJacobian = [&](const SkeletonStateT<T>& state, T sign, Ref<Eigen::MatrixX<T>> jac) {
-      const Eigen::Quaternion<T>& rot = state.jointState[i].rotation;
+      const Eigen::Quaternion<T>& rot = state.jointState[i].rotation();
 
       // loop over all joints the constraint is attached to and calculate jacobian
       size_t jointIndex = i;
@@ -266,7 +266,7 @@ double StateSequenceErrorFunctionT<T>::getJacobian(
         const size_t paramIndex = jointIndex * kParametersPerJoint;
 
         // precalculate some more data for position gradient
-        const Eigen::Vector3<T> posd = state.jointState[i].translation - jointState.translation;
+        const Eigen::Vector3<T> posd = state.jointState[i].translation() - jointState.translation();
 
         // calculate derivatives based on active joints
         for (size_t d = 0; d < 3; d++) {

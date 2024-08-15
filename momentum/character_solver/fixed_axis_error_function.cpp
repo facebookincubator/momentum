@@ -24,7 +24,7 @@ void FixedAxisDiffErrorFunctionT<T>::evalFunction(
   MT_PROFILE_EVENT("FixedAxis Diff: evalFunction");
 
   const FixedAxisDataT<T>& constr = this->constraints_[constrIndex];
-  Vector3<T> vec = state.rotation * constr.localAxis;
+  Vector3<T> vec = state.rotation() * constr.localAxis;
   f = vec - constr.globalAxis;
   if (v) {
     v->get().at(0) = std::move(vec);
@@ -44,7 +44,7 @@ void FixedAxisCosErrorFunctionT<T>::evalFunction(
   MT_PROFILE_EVENT("FixedAxis Cos: evalFunction");
 
   const FixedAxisDataT<T>& constr = this->constraints_[constrIndex];
-  Vector3<T> vec = state.rotation * constr.localAxis;
+  Vector3<T> vec = state.rotation() * constr.localAxis;
   f[0] = 1 - vec.dot(constr.globalAxis);
   if (v) {
     v->get().at(0) = std::move(vec);
@@ -64,7 +64,7 @@ void FixedAxisAngleErrorFunctionT<T>::evalFunction(
   MT_PROFILE_EVENT("FixedAxis Angle: evalFunction");
 
   const FixedAxisDataT<T>& constr = this->constraints_[constrIndex];
-  Vector3<T> vec = state.rotation * constr.localAxis;
+  Vector3<T> vec = state.rotation() * constr.localAxis;
   const T dot = vec.dot(constr.globalAxis);
   f[0] = std::acos(std::clamp(dot, -T(1), T(1)));
   if (v) {
