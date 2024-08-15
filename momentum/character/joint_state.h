@@ -34,10 +34,10 @@ struct JointStateT {
   TransformT<T> transform;
 
   /// Columns contain the three translation axes for this joint in global space
-  Eigen::Matrix3<T> translationAxis;
+  Matrix3<T> translationAxis;
 
   /// Columns contain the three rotation axes for this joint in global space
-  Eigen::Matrix3<T> rotationAxis;
+  Matrix3<T> rotationAxis;
 
   /// Indicate whether translationAxis and rotationAxis are up-to-date with other transformations
   bool derivDirty = true;
@@ -53,15 +53,14 @@ struct JointStateT {
   // possible as this is part of many inner loops.
   /// The derivative of a global vector ref wrt the rotation parameters of the global
   /// transformation.
-  [[nodiscard]] Eigen::Vector3<T> getRotationDerivative(size_t index, const Eigen::Vector3<T>& ref)
-      const;
+  [[nodiscard]] Vector3<T> getRotationDerivative(size_t index, const Vector3<T>& ref) const;
 
   /// The derivative of any global vector wrt the translation parameters of the global
   /// transformation.
-  [[nodiscard]] Eigen::Vector3<T> getTranslationDerivative(size_t index) const;
+  [[nodiscard]] Vector3<T> getTranslationDerivative(size_t index) const;
 
   /// The derivative of a global vector ref wrt the scaling parameter of the global transformation.
-  [[nodiscard]] Eigen::Vector3<T> getScaleDerivative(const Eigen::Vector3<T>& ref) const noexcept;
+  [[nodiscard]] Vector3<T> getScaleDerivative(const Vector3<T>& ref) const noexcept;
 
   template <typename T2>
   void set(const JointStateT<T2>& rhs);
