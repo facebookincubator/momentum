@@ -54,7 +54,7 @@ void JointStateT<T>::set(
           (parent.rotation * localTransform.rotation) * RotationAxis<T>[index];
     }
     localTransform.rotation *=
-        Eigen::Quaternion<T>(Eigen::AngleAxis<T>((T)parameters[3 + index], RotationAxis<T>[index]));
+        Quaternion<T>(AngleAxis<T>((T)parameters[3 + index], RotationAxis<T>[index]));
   }
 
   // perform scale if necessary
@@ -68,21 +68,19 @@ void JointStateT<T>::set(
 }
 
 template <typename T>
-Eigen::Vector3<T> JointStateT<T>::getRotationDerivative(
-    const size_t index,
-    const Eigen::Vector3<T>& ref) const {
+Vector3<T> JointStateT<T>::getRotationDerivative(const size_t index, const Vector3<T>& ref) const {
   MT_CHECK(!derivDirty, "Derivatives haven't been computed yet.");
   return rotationAxis.col(index).cross(ref);
 }
 
 template <typename T>
-Eigen::Vector3<T> JointStateT<T>::getTranslationDerivative(const size_t index) const {
+Vector3<T> JointStateT<T>::getTranslationDerivative(const size_t index) const {
   MT_CHECK(!derivDirty, "Derivatives haven't been computed yet.");
   return translationAxis.col(index);
 }
 
 template <typename T>
-Eigen::Vector3<T> JointStateT<T>::getScaleDerivative(const Eigen::Vector3<T>& ref) const noexcept {
+Vector3<T> JointStateT<T>::getScaleDerivative(const Vector3<T>& ref) const noexcept {
   return ref * ln2<T>();
 }
 
