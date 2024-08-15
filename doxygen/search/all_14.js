@@ -56,7 +56,7 @@ var searchData=
   ['translation3_1157',['Translation3',['../namespacemomentum.html#aa00b831eb0bdd5ed03022a3782f57ef9',1,'momentum']]],
   ['translation3d_1158',['Translation3d',['../namespacemomentum.html#a64206d2e4b9a058c2172eabec725d36e',1,'momentum']]],
   ['translation3f_1159',['Translation3f',['../namespacemomentum.html#a7c19feed451f45c7d73191bbb1d22923',1,'momentum']]],
-  ['translationaxis_1160',['translationAxis',['../structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28',1,'momentum::JointStateT']]],
+  ['translationaxis_1160',['translationAxis',['../structmomentum_1_1JointStateT.html#a4c15d91005423d2a77a2dc9babdb1314',1,'momentum::JointStateT']]],
   ['translationoffset_1161',['translationOffset',['../structmomentum_1_1JointT.html#adab9620ecbbbfd7ae31b8243583b37c9',1,'momentum::JointT']]],
   ['transpose_5ftimes_1162',['transpose_times',['../classmomentum_1_1ColumnIndexedMatrix.html#aac2dadc13abe4dbdcb4416ba62e87e78',1,'momentum::ColumnIndexedMatrix']]],
   ['trianglearray_1163',['TriangleArray',['../namespacemomentum.html#ae44eae7ec69b0121f83966c726299d93',1,'momentum']]],

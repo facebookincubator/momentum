@@ -6,7 +6,7 @@ var searchData=
   ['regularization_2307',['regularization',['../structmomentum_1_1GaussNewtonSolverOptions.html#ac647dc9073e45a673fb491dad377cede',1,'momentum::GaussNewtonSolverOptions::regularization()'],['../structmomentum_1_1SubsetGaussNewtonSolverOptions.html#a7be264908aaba843bb9fe36e2ec33ae9',1,'momentum::SubsetGaussNewtonSolverOptions::regularization()'],['../structmomentum_1_1GaussNewtonSolverQROptions.html#af207ca625c834af3fbe435f6febafe23',1,'momentum::GaussNewtonSolverQROptions::regularization()'],['../structmomentum_1_1MultiposeSolverOptions.html#aa070d9ffcca3f3d36361893532b54388',1,'momentum::MultiposeSolverOptions::regularization()'],['../structmomentum_1_1SequenceSolverOptions.html#a8a4a990e2fa5b28ccace18814556b09e',1,'momentum::SequenceSolverOptions::regularization()']]],
   ['regularizer_2308',['regularizer',['../structmarker__tracking_1_1RefineConfig.html#a8f5465fdd66686858497c8eb53ac243e',1,'marker_tracking::RefineConfig']]],
   ['rotation_2309',['rotation',['../structmomentum_1_1TransformT.html#ab95039e987a72c96d1ff1b94cb1d8732',1,'momentum::TransformT']]],
-  ['rotationaxis_2310',['rotationAxis',['../structmomentum_1_1JointStateT.html#a5cdabaf17a87d75dc9946b719d6922f6',1,'momentum::JointStateT']]],
+  ['rotationaxis_2310',['rotationAxis',['../structmomentum_1_1JointStateT.html#a4b62cc0d1c0ad0a377abea09b5f04ed1',1,'momentum::JointStateT']]],
   ['rotationaxis_2311',['RotationAxis',['../namespacemomentum.html#a4c2dff8b4bd7cf99552fa58ac91e6189',1,'momentum']]],
   ['rpre_2312',['Rpre',['../structmomentum_1_1MppcaT.html#a8ee1332c8b619072dfeac359e872b7a6',1,'momentum::MppcaT']]]
 ];

@@ -15,7 +15,7 @@ var searchData=
   ['transform_2336',['transform',['../structmomentum_1_1InverseParameterTransformT.html#abdb7f8980230d04671d661273e7dba10',1,'momentum::InverseParameterTransformT::transform()'],['../structmomentum_1_1JointStateT.html#a4cc644cb9318738ff92a2f52f44fa9c3',1,'momentum::JointStateT::transform()'],['../structmomentum_1_1ParameterTransformT.html#ae17cb127a8b2332ae0217a767d10a979',1,'momentum::ParameterTransformT::transform()']]],
   ['transformation_2337',['transformation',['../structmomentum_1_1TaperedCapsuleT.html#a6cdaf83b8147469dbc01c15c517bee2d',1,'momentum::TaperedCapsuleT::transformation()'],['../structmomentum_1_1JointStateT.html#ad8fc503cd6b04bc5c5f633ad3f1d0339',1,'momentum::JointStateT::transformation()']]],
   ['translation_2338',['translation',['../structmomentum_1_1TransformT.html#a57f3a3cff77dd69f77a5136dfe73b412',1,'momentum::TransformT']]],
-  ['translationaxis_2339',['translationAxis',['../structmomentum_1_1JointStateT.html#a6fc4d988e3e75108dd05377648c46d28',1,'momentum::JointStateT']]],
+  ['translationaxis_2339',['translationAxis',['../structmomentum_1_1JointStateT.html#a4c15d91005423d2a77a2dc9babdb1314',1,'momentum::JointStateT']]],
   ['translationoffset_2340',['translationOffset',['../structmomentum_1_1JointT.html#adab9620ecbbbfd7ae31b8243583b37c9',1,'momentum::JointT']]],
   ['trustregionradius_5f_2341',['trustRegionRadius_',['../structmomentum_1_1TrustRegionQROptions.html#abec36009808d5d1813fd0c3ab56bb8ed',1,'momentum::TrustRegionQROptions']]],
   ['type_2342',['type',['../structmomentum_1_1ParameterLimit.html#a03795c44fff5f3fcc3df755ec1b9b0c2',1,'momentum::ParameterLimit']]]
