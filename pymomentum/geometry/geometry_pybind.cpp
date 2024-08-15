@@ -7,7 +7,6 @@
 
 #include "pymomentum/geometry/momentum_geometry.h"
 #include "pymomentum/geometry/momentum_io.h"
-#include "pymomentum/python_utility/python_utility.h"
 #include "pymomentum/tensor_momentum/tensor_blend_shape.h"
 #include "pymomentum/tensor_momentum/tensor_joint_parameters_to_positions.h"
 #include "pymomentum/tensor_momentum/tensor_kd_tree.h"
