@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      Eigen::Vector3&lt;T&gt; offset;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordflow">if</span> (jVec &lt; NumPos) {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        offset.noalias() = v[jVec] - jntState.translation;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        offset.noalias() = v[jVec] - jntState.translation();</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        offset = v[jVec];</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      }</div>
@@ -299,7 +299,7 @@ $(function() {
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      Eigen::Vector3&lt;T&gt; offset;</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <span class="keywordflow">if</span> (jVec &lt; NumPos) {</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        offset.noalias() = v[jVec] - jntState.translation;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        offset.noalias() = v[jVec] - jntState.translation();</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        offset = v[jVec];</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      }</div>
@@ -405,7 +405,7 @@ $(function() {
 <div class="ttc" id="anamespacemomentum_html_a45e7bad11d6956c9cd6651e17c98772d"><div class="ttname"><a href="namespacemomentum.html#a45e7bad11d6956c9cd6651e17c98772d">momentum::Ref</a></div><div class="ttdeci">Eigen::Ref&lt; T &gt; Ref</div><div class="ttdef"><b>Definition:</b> types.h:47</div></div>
 <div class="ttc" id="anamespacemomentum_html_aa919dbc1dfafb5813e8cb4f4db695022"><div class="ttname"><a href="namespacemomentum.html#aa919dbc1dfafb5813e8cb4f4db695022">momentum::kParametersPerJoint</a></div><div class="ttdeci">constexpr size_t kParametersPerJoint</div><div class="ttdef"><b>Definition:</b> types.h:24</div></div>
 <div class="ttc" id="anamespacemomentum_html_ac966fa038c85b7384ba387e6a6334b40"><div class="ttname"><a href="namespacemomentum.html#ac966fa038c85b7384ba387e6a6334b40">momentum::kInvalidIndex</a></div><div class="ttdeci">constexpr size_t kInvalidIndex</div><div class="ttdef"><b>Definition:</b> types.h:193</div></div>
-<div class="ttc" id="anamespacemomentum_html_affeb9cb3eed14cf0194496fe7d9d29e1"><div class="ttname"><a href="namespacemomentum.html#affeb9cb3eed14cf0194496fe7d9d29e1">momentum::JointStateListT</a></div><div class="ttdeci">std::vector&lt; JointStateT&lt; T &gt; &gt; JointStateListT</div><div class="ttdoc">Structure describing the state of all joints in a skeleton.</div><div class="ttdef"><b>Definition:</b> joint_state.h:118</div></div>
+<div class="ttc" id="anamespacemomentum_html_affeb9cb3eed14cf0194496fe7d9d29e1"><div class="ttname"><a href="namespacemomentum.html#affeb9cb3eed14cf0194496fe7d9d29e1">momentum::JointStateListT</a></div><div class="ttdeci">std::vector&lt; JointStateT&lt; T &gt; &gt; JointStateListT</div><div class="ttdoc">Structure describing the state of all joints in a skeleton.</div><div class="ttdef"><b>Definition:</b> joint_state.h:187</div></div>
 <div class="ttc" id="aprofile_8h_html"><div class="ttname"><a href="profile_8h.html">profile.h</a></div></div>
 <div class="ttc" id="aprofile_8h_html_a6edc78f1defd74999db6eb22373d24df"><div class="ttname"><a href="profile_8h.html#a6edc78f1defd74999db6eb22373d24df">MT_PROFILE_EVENT</a></div><div class="ttdeci">#define MT_PROFILE_EVENT(NAME)</div><div class="ttdef"><b>Definition:</b> profile.h:31</div></div>
 <div class="ttc" id="astructmomentum_1_1ModelParametersT_html"><div class="ttname"><a href="structmomentum_1_1ModelParametersT.html">momentum::ModelParametersT</a></div><div class="ttdef"><b>Definition:</b> types.h:103</div></div>
