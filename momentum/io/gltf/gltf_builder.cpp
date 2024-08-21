@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#include "momentum/io/gltf/gltf_builder.hpp"
+#include "momentum/io/gltf/gltf_builder.h"
 
 #include "momentum/character/character.h"
 #include "momentum/character/character_state.h"
@@ -15,9 +15,9 @@
 #include "momentum/common/filesystem.h"
 #include "momentum/common/log.h"
 #include "momentum/io/gltf/gltf_io.h"
-#include "momentum/io/gltf/utils/accessor_utils.hpp"
-#include "momentum/io/gltf/utils/coordinate_utils.hpp"
-#include "momentum/io/gltf/utils/json_utils.hpp"
+#include "momentum/io/gltf/utils/accessor_utils.h"
+#include "momentum/io/gltf/utils/coordinate_utils.h"
+#include "momentum/io/gltf/utils/json_utils.h"
 #include "momentum/io/skeleton/locator_io.h"
 #include "momentum/io/skeleton/parameter_transform_io.h"
 #include "momentum/io/skeleton/parameters_io.h"

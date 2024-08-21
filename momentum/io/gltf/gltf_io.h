@@ -10,7 +10,7 @@
 #include <momentum/character/marker.h>
 #include <momentum/character/types.h>
 #include <momentum/common/filesystem.h>
-#include <momentum/io/gltf/gltf_file_format.hpp>
+#include <momentum/io/gltf/gltf_file_format.h>
 #include <momentum/math/types.h>
 
 #include <fx/gltf.h>
