@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#include "momentum/io/gltf/utils/json_utils.hpp"
+#include "momentum/io/gltf/utils/json_utils.h"
 
 #include "momentum/character/character.h"
 #include "momentum/common/log.h"

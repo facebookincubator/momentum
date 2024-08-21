@@ -11,7 +11,7 @@
 #include "momentum/character/inverse_parameter_transform.h"
 #include "momentum/io/character_io.h"
 #include "momentum/io/fbx/fbx_io.h"
-#include "momentum/io/gltf/gltf_builder.hpp"
+#include "momentum/io/gltf/gltf_builder.h"
 #include "momentum/io/gltf/gltf_io.h"
 #include "momentum/io/skeleton/locator_io.h"
 #include "momentum/marker_tracking/marker_tracker.h"

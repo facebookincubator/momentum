@@ -10,17 +10,15 @@
 #include <momentum/character/marker.h>
 #include <momentum/character/skeleton.h>
 #include <momentum/common/filesystem.h>
-#include <momentum/io/gltf/gltf_file_format.hpp>
+#include <momentum/io/gltf/gltf_file_format.h>
 #include <momentum/io/gltf/gltf_io.h>
 #include <momentum/math/types.h>
 
 #include <fx/gltf.h>
 
-namespace fx {
-namespace gltf {
+namespace fx::gltf {
 struct Document;
-} // namespace gltf
-} // namespace fx
+} // namespace fx::gltf
 
 namespace momentum {
 

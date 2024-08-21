@@ -384,15 +384,15 @@ io_fbx_test_sources = [
 ]
 
 io_gltf_public_headers = [
-    "io/gltf/gltf_builder.hpp",
-    "io/gltf/gltf_file_format.hpp",
+    "io/gltf/gltf_builder.h",
+    "io/gltf/gltf_file_format.h",
     "io/gltf/gltf_io.h",
 ]
 
 io_gltf_private_headers = [
-    "io/gltf/utils/json_utils.hpp",
-    "io/gltf/utils/accessor_utils.hpp",
-    "io/gltf/utils/coordinate_utils.hpp",
+    "io/gltf/utils/json_utils.h",
+    "io/gltf/utils/accessor_utils.h",
+    "io/gltf/utils/coordinate_utils.h",
 ]
 
 io_gltf_sources = [
