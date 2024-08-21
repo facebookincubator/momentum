@@ -6,6 +6,7 @@
  */
 
 #include "momentum/math/transform.h"
+#include "momentum/math/random.h"
 
 namespace momentum {
 
@@ -22,6 +23,25 @@ TransformT<T> TransformT<T>::makeTranslation(const Vector3<T>& translation_in) {
 template <typename T>
 TransformT<T> TransformT<T>::makeScale(const T& scale_in) {
   return TransformT<T>(Vector3<T>::Zero(), Quaternion<T>::Identity(), scale_in);
+}
+
+template <typename T>
+TransformT<T> TransformT<T>::makeRandom(bool translation, bool rotation, bool scale) {
+  TransformT<T> result;
+
+  if (translation) {
+    result.translation.setRandom();
+  }
+
+  if (rotation) {
+    result.rotation = Quaternion<T>::UnitRandom();
+  }
+
+  if (scale) {
+    result.scale = uniform<T>(0.1, 2);
+  }
+
+  return result;
 }
 
 template <typename T>

@@ -24,6 +24,17 @@ struct TransformT {
   [[nodiscard]] static TransformT<T> makeTranslation(const Vector3<T>& translation_in);
   [[nodiscard]] static TransformT<T> makeScale(const T& scale_in);
 
+  /// Create a random affine transform.
+  ///
+  /// @param[in] True to set translation to a random vector where each value is between -1 and 1.
+  /// Otherwise, the translation component will be zero.
+  /// @param[in] True to set rotation to a unit random quaternion. Otherwise, the rotation component
+  /// will be identity.
+  /// @param[in] True to set scale to a random value between 0.5 and 2.0. Otherwise, the scale
+  /// component will be 1.
+  [[nodiscard]] static TransformT<T>
+  makeRandom(bool translation = true, bool rotation = true, bool scale = true);
+
   TransformT() : rotation(Quaternion<T>::Identity()), translation(Vector3<T>::Zero()), scale(1) {
     // Empty
   }
