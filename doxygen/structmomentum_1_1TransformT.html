@@ -132,6 +132,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a80f53ce864995f042e2d3dd7321692f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af108aadd2043a3694dfdf42c5b3fc254"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1TransformT.html#af108aadd2043a3694dfdf42c5b3fc254">makeScale</a> (const T &amp;scale_in)</td></tr>
 <tr class="separator:af108aadd2043a3694dfdf42c5b3fc254"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be49de9b73be9be284c555a4b286677"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1TransformT.html#a3be49de9b73be9be284c555a4b286677">makeRandom</a> (bool <a class="el" href="structmomentum_1_1TransformT.html#a57f3a3cff77dd69f77a5136dfe73b412">translation</a>=true, bool <a class="el" href="structmomentum_1_1TransformT.html#ab95039e987a72c96d1ff1b94cb1d8732">rotation</a>=true, bool <a class="el" href="structmomentum_1_1TransformT.html#a35a9aadaa2f4d9ac2dd3e34521484185">scale</a>=true)</td></tr>
+<tr class="memdesc:a3be49de9b73be9be284c555a4b286677"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a random affine transform.  <a href="structmomentum_1_1TransformT.html#a3be49de9b73be9be284c555a4b286677">More...</a><br /></td></tr>
+<tr class="separator:a3be49de9b73be9be284c555a4b286677"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -359,6 +362,60 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3be49de9b73be9be284c555a4b286677"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be49de9b73be9be284c555a4b286677">&#9670;&nbsp;</a></span>makeRandom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt; <a class="el" href="structmomentum_1_1TransformT.html">momentum::TransformT</a>&lt; T &gt;::makeRandom </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>translation</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>rotation</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>scale</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create a random affine transform. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">True</td><td>to set translation to a random vector where each value is between -1 and 1. Otherwise, the translation component will be zero. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">True</td><td>to set rotation to a unit random quaternion. Otherwise, the rotation component will be identity. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">True</td><td>to set scale to a random value between 0.5 and 2.0. Otherwise, the scale component will be 1. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
