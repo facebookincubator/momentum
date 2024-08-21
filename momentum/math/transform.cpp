@@ -6,6 +6,8 @@
  */
 
 #include "momentum/math/transform.h"
+#include "momentum/common/checks.h"
+#include "momentum/math/constants.h"
 #include "momentum/math/random.h"
 
 namespace momentum {
@@ -41,6 +43,24 @@ TransformT<T> TransformT<T>::makeRandom(bool translation, bool rotation, bool sc
     result.scale = uniform<T>(0.1, 2);
   }
 
+  return result;
+}
+
+template <typename T>
+TransformT<T> TransformT<T>::fromAffine3(const Affine3<T>& other) {
+  return fromMatrix(other.matrix());
+}
+
+template <typename T>
+TransformT<T> TransformT<T>::fromMatrix(const Matrix4<T>& other) {
+  TransformT<T> result;
+  result.translation = other.template topRightCorner<3, 1>();
+  // Calculate the scale by taking the norm of the first column, assuming uniform scaling
+  const auto& scaledR = other.template topLeftCorner<3, 3>();
+  result.scale = scaledR.col(0).norm();
+  MT_CHECK(result.scale >= Eps<T>(), "Scale is too small: {}", result.scale);
+  MT_CHECK(result.scale < T(1) / Eps<T>(), "Inverse scale is too small: {}", result.scale);
+  result.rotation = scaledR / result.scale;
   return result;
 }
 

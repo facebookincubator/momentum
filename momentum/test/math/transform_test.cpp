@@ -81,3 +81,27 @@ TYPED_TEST(TransformTest, TransformVec) {
     EXPECT_LE((res1 - res2).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-6f, 5e-15));
   }
 }
+
+// This test is to make sure that the Eigen::Affine3f and momentum::Transformf are
+// intercompatible.
+TYPED_TEST(TransformTest, CompatibleWithEigenAffine) {
+  using T = typename TestFixture::Type;
+
+  for (size_t iTest = 0; iTest < 100; ++iTest) {
+    // const TransformT<T> tf1 = TransformT<T>::makeRandom(iTest > 1, iTest > 10, iTest > 50);
+    const TransformT<T> tf1 = TransformT<T>::makeRandom();
+    const Affine3<T> tf2 = tf1.toAffine3();
+    TransformT<T> tf3;
+    tf3 = tf2;
+    const Affine3<T> tf4 = tf3.toAffine3();
+
+    EXPECT_LE(
+        (tf1.toMatrix() - tf2.matrix()).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-4f, 5e-14));
+    EXPECT_LE(
+        (tf2.matrix() - tf3.toMatrix()).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-4f, 5e-14));
+    EXPECT_LE(
+        (tf3.toMatrix() - tf4.matrix()).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-4f, 5e-14));
+    EXPECT_LE(
+        (tf4.matrix() - tf1.toMatrix()).template lpNorm<Eigen::Infinity>(), Eps<T>(1e-4f, 5e-14));
+  }
+}

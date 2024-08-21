@@ -24,7 +24,7 @@ struct TransformT {
   [[nodiscard]] static TransformT<T> makeTranslation(const Vector3<T>& translation_in);
   [[nodiscard]] static TransformT<T> makeScale(const T& scale_in);
 
-  /// Create a random affine transform.
+  /// Creates a random affine transform.
   ///
   /// @param[in] True to set translation to a random vector where each value is between -1 and 1.
   /// Otherwise, the translation component will be zero.
@@ -34,6 +34,12 @@ struct TransformT {
   /// component will be 1.
   [[nodiscard]] static TransformT<T>
   makeRandom(bool translation = true, bool rotation = true, bool scale = true);
+
+  /// Creates a transform from Eigen's affine transform.
+  [[nodiscard]] static TransformT<T> fromAffine3(const Affine3<T>& other);
+
+  /// Creates a transform from a affine transform that is represented as a 4x4 matrix.
+  [[nodiscard]] static TransformT<T> fromMatrix(const Matrix4<T>& other);
 
   TransformT() : rotation(Quaternion<T>::Identity()), translation(Vector3<T>::Zero()), scale(1) {
     // Empty
@@ -65,26 +71,21 @@ struct TransformT {
     // Empty
   }
 
-  explicit TransformT(const Matrix4<T>& other)
-      : rotation(other.template topLeftCorner<3, 3>()),
-        translation(other.template topRightCorner<3, 1>()) {
-    scale = rotation.norm();
-    rotation.coeffs() /= scale;
+  explicit TransformT(const Affine3<T>& other) {
+    *this = fromAffine3(other);
+  }
+
+  explicit TransformT(const Matrix4<T>& other) {
+    *this = fromMatrix(other);
   }
 
   TransformT<T>& operator=(const Affine3<T>& other) {
-    translation = other.translation();
-    rotation = other.linear();
-    scale = rotation.norm();
-    rotation.coeffs() /= scale;
+    *this = fromAffine3(other);
     return *this;
   }
 
   TransformT<T>& operator=(const Matrix4<T>& other) {
-    translation = other.template topRightCorner<3, 1>();
-    rotation = other.template topLeftCorner<3, 3>();
-    scale = rotation.norm();
-    rotation.coeffs() /= scale;
+    *this = fromMatrix(other);
     return *this;
   }
 
