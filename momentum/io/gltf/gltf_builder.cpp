@@ -792,7 +792,10 @@ void GltfBuilder::setFps(float fps) {
   if (!def.contains(kFpsStr)) {
     def[kFpsStr] = fps;
   } else if (def[kFpsStr] != fps) {
-    // #TODO Warn here that fps doesn't match
+    MT_LOGW(
+        "Attempting to set FPS to {} but it already exists as {}. Ignoring the new FPS.",
+        fps,
+        def[kFpsStr].get<float>());
   }
 }
 
