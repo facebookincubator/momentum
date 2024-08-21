@@ -626,7 +626,7 @@ if(MOMENTUM_BUILD_TESTING)
   #     io_marker
   #     io_test_helper
   #   ENV
-  #     "TEST_C3D_PATH=${CMAKE_SOURCE_DIR}/momentum/test/resources"
+  #     "TEST_RESOURCES_PATH=${CMAKE_SOURCE_DIR}/momentum/test/resources"
   # )
 endif()
 
