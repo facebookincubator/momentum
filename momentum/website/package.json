@@ -19,18 +19,18 @@
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,jsx,ts,tsx,md,mdx}\""
   },
   "dependencies": {
-    "@algolia/client-search": "^4.23.3",
-    "@docusaurus/core": "^3.2.1",
-    "@docusaurus/preset-classic": "^3.2.1",
-    "@docusaurus/theme-classic": "^3.2.1",
+    "@algolia/client-search": "^5.1.1",
+    "@docusaurus/core": "^3.5.2",
+    "@docusaurus/preset-classic": "^3.5.2",
+    "@docusaurus/theme-classic": "^3.5.2",
     "@mdx-js/react": "^3.0.1",
     "clsx": "^2.1.1",
-    "docusaurus-plugin-internaldocs-fb": "^1.18.2",
-    "prism-react-renderer": "<2.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "docusaurus-plugin-internaldocs-fb": "^1.18.4",
+    "prism-react-renderer": "2.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-loadable": "^5.5.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4"
   },
   "browserslist": {
     "production": [
@@ -50,6 +50,6 @@
     "yarn": "^1.5"
   },
   "devDependencies": {
-    "yarn-audit-fix": "^10.0.7"
+    "yarn-audit-fix": "^10.0.9"
   }
 }
