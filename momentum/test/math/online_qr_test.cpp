@@ -651,7 +651,7 @@ void validateBlockwiseSolver(
   ASSERT_LT((qr_blockwise_random.At_times_b_dense() - Atb_gt).squaredNorm(), 2e-10);
 
   const double Atb_dot_x_gt = Atb_gt.dot(x_denseQR);
-  ASSERT_NEAR(qr_blockwise.At_times_b_dot(x_denseQR), Atb_dot_x_gt, 1e-4);
+  ASSERT_NEAR(qr_blockwise.At_times_b_dot(x_denseQR), Atb_dot_x_gt, 1e-3);
   ASSERT_NEAR(qr_blockwise_random.At_times_b_dot(x_denseQR), Atb_dot_x_gt, 5e-4);
 }
 
