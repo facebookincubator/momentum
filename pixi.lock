@@ -14,6 +14,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/anywidget-0.9.13-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/asttokens-2.4.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/attrs-23.2.0-pyh71513ae_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/auditwheel-6.1.0-pyha804496_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/aws-c-auth-0.7.18-he0b1f16_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/aws-c-cal-0.6.11-heb1d5e4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/aws-c-common-0.9.15-hd590300_0.conda
@@ -181,6 +182,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/ptyprocess-0.7.0-pyhd3deb0d_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/pure_eval-0.2.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/pyarrow-15.0.2-py312h3f82784_6_cpu.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/pyelftools-0.31-py312h7900ff3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pygments-2.18.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/python-3.12.3-hab00c5b_0_cpython.conda
@@ -937,6 +939,24 @@ packages:
   license_family: MIT
   size: 54582
   timestamp: 1704011393776
+- kind: conda
+  name: auditwheel
+  version: 6.1.0
+  build: pyha804496_0
+  subdir: noarch
+  noarch: python
+  url: https://conda.anaconda.org/conda-forge/noarch/auditwheel-6.1.0-pyha804496_0.conda
+  sha256: d4c6ef97d76c2a21e86ddd06a7fafbf2ef12823cef47831808f1019fb6a7fbb7
+  md5: d3cd954d39546bdf9b7859fbfc3fd098
+  depends:
+  - __linux
+  - packaging >=20.9
+  - pyelftools >=0.24
+  - python >=3.8
+  license: MIT
+  license_family: MIT
+  size: 40279
+  timestamp: 1723499857551
 - kind: conda
   name: aws-c-auth
   version: 0.7.18
@@ -10958,6 +10978,20 @@ packages:
   license_family: APACHE
   size: 3939611
   timestamp: 1714452954882
+- kind: conda
+  name: pyelftools
+  version: '0.31'
+  build: py312h7900ff3_0
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/pyelftools-0.31-py312h7900ff3_0.conda
+  sha256: 50a930ce69d4ecd8fefc347c737d9d0a0edecdf38fe6dd4ee2649ad498ce7ab7
+  md5: 2e475f78990ed86c1b0c0b60dea95d97
+  depends:
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  license: Unlicense
+  size: 338474
+  timestamp: 1710432216128
 - kind: conda
   name: pygments
   version: 2.18.0

@@ -66,6 +66,7 @@ install = { cmd = "cmake --build build -j --target install", depends_on = [
 
 [target.linux-64.build-dependencies]
 clang-format-18 = ">=18.1.2,<19"
+auditwheel = ">=6.1.0,<7"
 
 [target.linux-64.dependencies]
 pytorch = ">=2.1.2,<2.2"
