@@ -58,10 +58,10 @@ class CMakeBuild(build_ext):
             cmake_args += [item for item in os.environ["CMAKE_ARGS"].split(" ") if item]
 
         # Default to Ninja
-        if "CMAKE_GENERATOR" not in os.environ:
-            cmake_args += ["-G Ninja"]  # TODO: Select by platform
-        elif self.compiler.compiler_type == "msvc":
+        if self.compiler.compiler_type == "msvc":
             cmake_args += ["-G Visual Studio 17 2022"]
+        else:
+            cmake_args += ["-G Ninja"]
 
         if sys.platform.startswith("darwin"):
             # Cross-compile support for macOS - respect ARCHFLAGS if set
