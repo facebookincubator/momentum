@@ -75,6 +75,7 @@ sysroot_linux-64 = ">=2.28"
 [target.linux-64.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build_pymomentum = { cmd = "pip install -e ." }
+build_pymomentum_wheel = { cmd = "python setup.py bdist_wheel && WHEEL_FILE=$(ls dist/*.whl) && auditwheel repair $WHEEL_FILE -w repaired_wheel/" }
 test_pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomentum/test/test_fbx.py pymomentum/test/test_parameter_transform.py pymomentum/test/test_quaternion.py pymomentum/test/test_skel_state.py pymomentum/test/test_skeleton.py", env = { MOMENTUM_MODELS_PATH = "momentum/" } }
 
 #============
