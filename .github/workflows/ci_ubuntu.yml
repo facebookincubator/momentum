@@ -14,7 +14,7 @@ on:
 
 jobs:
   momentum:
-    name: momentum-ubuntu
+    name: momentum
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +36,7 @@ jobs:
           pixi run cmake --build momentum/examples/hello_world/build
 
   pymomentum:
-    name: pymomentum-ubuntu
+    name: pymomentum
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -51,7 +51,7 @@ jobs:
           pixi run test_pymomentum
 
   pymomentum_wheel:
-    name: pymomentum-wheel-ubuntu
+    name: pymomentum-wheel
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -60,16 +60,11 @@ jobs:
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
-      - name: Build PyMomentum
+      - name: Build wheel
         run: |
-          pixi shell
-      - name: Build the wheel
-        run: python setup.py bdist_wheel
-      - name: Install auditwheel
-        run: pip install auditwheel
-      - name: Repair the wheel with auditwheel
-        run: |
-          WHEEL_FILE=$(ls dist/*.whl)
-          auditwheel repair "$WHEEL_FILE" -w repaired_wheel/
-      - name: List repaired wheel
-        run: ls repaired_wheel/
+          pixi run build_pymomentum_wheel
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pymomentum-wheel
+          path: dist/*.whl
