@@ -63,5 +63,13 @@ jobs:
       - name: Build PyMomentum
         run: |
           pixi shell
-          python setup.py bdist_wheel
-          auditwheel repair dist/*
+      - name: Build the wheel
+        run: python setup.py bdist_wheel
+      - name: Install auditwheel
+        run: pip install auditwheel
+      - name: Repair the wheel with auditwheel
+        run: |
+          WHEEL_FILE=$(ls dist/*.whl)
+          auditwheel repair "$WHEEL_FILE" -w repaired_wheel/
+      - name: List repaired wheel
+        run: ls repaired_wheel/
