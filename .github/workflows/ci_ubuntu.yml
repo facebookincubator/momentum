@@ -47,5 +47,4 @@ jobs:
           cache: true
       - name: Build PyMomentum
         run: |
-          pixi run build_pymomentum
           pixi run test_pymomentum
