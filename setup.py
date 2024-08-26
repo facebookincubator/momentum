@@ -49,6 +49,7 @@ class CMakeBuild(build_ext):
             "-DMOMENTUM_BUILD_PYMOMENTUM=ON",
             "-DMOMENTUM_BUILD_TESTING=ON",  # TODO: OFF when pym.geometry doesn't depend on testing
             "-DMOMENTUM_BUILD_EXAMPLES=OFF",
+            "-DMOMENTUM_ENABLE_SIMD=ON",
             "-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON",
         ]
         build_args = ["--target", os.path.basename(ext.name)]
