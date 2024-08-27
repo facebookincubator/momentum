@@ -362,4 +362,9 @@ function(mt_python_binding)
   target_compile_features(${_ARG_NAME} PRIVATE cxx_std_17)
   target_link_libraries(${_ARG_NAME} PRIVATE ${_ARG_LINK_LIBRARIES})
   target_compile_options(${_ARG_NAME} PRIVATE ${_ARG_COMPILE_OPTIONS})
+
+  install(TARGETS ${_ARG_NAME}
+    RUNTIME DESTINATION ${Python3_SITEARCH}
+    LIBRARY DESTINATION ${Python3_SITEARCH}
+  )
 endfunction()

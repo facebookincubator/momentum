@@ -44,6 +44,7 @@ class CMakeBuild(build_ext):
         cmake_args = [
             f"-DCMAKE_BUILD_TYPE={cfg}",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
+            f"-DCMAKE_INSTALL_PREFIX={os.environ['CONDA_PREFIX']}",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
             "-DBUILD_SHARED_LIBS=OFF",
             "-DMOMENTUM_BUILD_PYMOMENTUM=ON",
@@ -76,6 +77,9 @@ class CMakeBuild(build_ext):
         )
         subprocess.check_call(
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
+        )
+        subprocess.check_call(
+            ["cmake", "--build", ".", "--target", "install"], cwd=self.build_temp
         )
 
         # After building, copy the shared library to pymomentum/
