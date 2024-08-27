@@ -139,7 +139,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-ng-14.1.0-hc0a3c3a_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libthrift-0.19.0-hb90f79a_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libtiff-4.6.0-h1dd3fc0_3.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libtorch-2.1.2-cpu_mkl_hff68eba_104.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libtorch-2.4.0-cpu_mkl_h0bb0d08_100.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libutf8proc-2.8.0-h166bdaf_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libuuid-2.38.1-h0b41bf4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libuv-1.48.0-hd590300_0.conda
@@ -185,7 +185,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/python-3.12.3-hab00c5b_0_cpython.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/python_abi-3.12-4_cp312.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/pytorch-2.1.2-cpu_mkl_py312he7b903e_104.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/pytorch-2.4.0-cpu_mkl_py312h3b258cc_100.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rdma-core-52.0-he02047a_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/re2-2023.09.01-h7f4b329_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8228510_1.conda
@@ -201,7 +201,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/spdlog-1.12.0-hd2e6256_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/suitesparse-7.7.0-hf4753ba_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.0-pypyh2585a3b_103.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.2-pypyh2585a3b_103.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/sysroot_linux-64-2.28-he073ed8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tbb-2021.12.0-h434a139_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
@@ -344,7 +344,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libssh2-1.11.0-hd019ec5_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libthrift-0.19.0-h064b379_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libtiff-4.6.0-h129831d_3.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/libtorch-2.1.2-cpu_mkl_h98970ff_104.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/libtorch-2.4.0-cpu_mkl_h3542c91_101.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libutf8proc-2.8.0-hb7f2c08_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libuv-1.48.0-h67532ce_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libwebp-base-1.4.0-h10d778d_0.conda
@@ -389,7 +389,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/python-3.12.3-h1411813_0_cpython.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/python_abi-3.12-4_cp312.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/pytorch-2.1.2-cpu_mkl_py312h6a8a110_104.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/pytorch-2.4.0-cpu_mkl_py312h0c6306f_101.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/re2-2023.09.01-hb168e87_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/readline-8.2-h9e318b2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/rerun-sdk-0.17.0-py312h0329a8d_0.conda
@@ -404,7 +404,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/spdlog-1.12.0-h8dd852c_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/suitesparse-7.7.0-hd2b2131_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.0-pypyh2585a3b_103.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.2-pypyh2585a3b_103.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/tapi-1100.0.11-h9ce4665_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-64/tbb-2021.12.0-h3c5361c_3.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/tk-8.6.13-h1abcd95_1.conda
@@ -546,7 +546,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libssh2-1.11.0-h7a5bd25_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libthrift-0.19.0-h026a170_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libtiff-4.6.0-h07db509_3.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libtorch-2.1.2-cpu_generic_h2535fca_4.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libtorch-2.4.0-cpu_generic_h4365fe2_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libutf8proc-2.8.0-h1a8c8d9_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libuv-1.48.0-h93a5062_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libwebp-base-1.4.0-h93a5062_0.conda
@@ -591,7 +591,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/python-3.12.3-h4a7b5fc_0_cpython.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/python_abi-3.12-4_cp312.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pytorch-2.1.2-cpu_generic_py312h92309b1_4.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pytorch-2.4.0-cpu_generic_py312h6bd8f41_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/re2-2023.09.01-h4cba328_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/readline-8.2-h92ec313_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/rerun-sdk-0.17.0-py312h5c2e7bc_0.conda
@@ -606,7 +606,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/spdlog-1.12.0-he64bfa9_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/suitesparse-7.7.0-hf6fcff2_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.0-pypyh2585a3b_103.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.2-pypyh2585a3b_103.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/tapi-1100.0.11-he4954df_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/tbb-2021.12.0-h420ef59_3.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/tk-8.6.13-h5083fa2_1.conda
@@ -8786,88 +8786,95 @@ packages:
   timestamp: 1711218639912
 - kind: conda
   name: libtorch
-  version: 2.1.2
-  build: cpu_generic_h2535fca_4
-  build_number: 4
+  version: 2.4.0
+  build: cpu_generic_h4365fe2_1
+  build_number: 1
   subdir: osx-arm64
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/libtorch-2.1.2-cpu_generic_h2535fca_4.conda
-  sha256: 1cb83b66ec8dc90414c3ff6b94699bd3417c29c441274a9284a22f12fc1f01b7
-  md5: c77cf1add5dd2cf368e170ccc56a02aa
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libtorch-2.4.0-cpu_generic_h4365fe2_1.conda
+  sha256: aa1814a1901b8fce03eb239246cc4b387b71d559af4b845e4e6e5995c4db324b
+  md5: ccf2e6edc9bf13647fec617acaa2da46
   depends:
   - __osx >=11.0
+  - libabseil * cxx17*
+  - libabseil >=20240116.2,<20240117.0a0
   - libcblas >=3.9.0,<4.0a0
-  - libcxx >=14
+  - libcxx >=17
   - liblapack >=3.9.0,<4.0a0
   - libprotobuf >=4.25.3,<4.25.4.0a0
   - libuv >=1.48.0,<2.0a0
-  - llvm-openmp >=16.0.6
-  - numpy >=1.26.4,<2.0a0
+  - llvm-openmp >=17.0.6
+  - numpy >=1.19,<3
   - python >=3.12,<3.13.0a0 *_cpython
   - python_abi 3.12.* *_cp312
-  - sleef >=3.5.1,<4.0a0
+  - sleef >=3.6.1,<4.0a0
   constrains:
-  - pytorch-cpu ==2.1.2
+  - pytorch-cpu ==2.4.0
+  - pytorch 2.4.0 cpu_generic_*_1
   - pytorch-gpu ==99999999
-  - pytorch 2.1.2 cpu_generic_*_4
   license: BSD-3-Clause
   license_family: BSD
-  size: 28217194
-  timestamp: 1715197699241
+  size: 28387906
+  timestamp: 1724566573753
 - kind: conda
   name: libtorch
-  version: 2.1.2
-  build: cpu_mkl_h98970ff_104
-  build_number: 104
-  subdir: osx-64
-  url: https://conda.anaconda.org/conda-forge/osx-64/libtorch-2.1.2-cpu_mkl_h98970ff_104.conda
-  sha256: fb265614fe52046a6b01319a1a7b3e9566104686d922b486c14e72ed9363ab4c
-  md5: e626e46dfdf1ab608a1d84a479732cca
-  depends:
-  - __osx >=10.13
-  - libcblas >=3.9.0,<4.0a0
-  - libcxx >=14
-  - libprotobuf >=4.25.3,<4.25.4.0a0
-  - libuv >=1.48.0,<2.0a0
-  - llvm-openmp >=16.0.6
-  - mkl >=2023.2.0,<2024.0a0
-  - numpy >=1.26.4,<2.0a0
-  - python_abi 3.12.* *_cp312
-  - sleef >=3.5.1,<4.0a0
-  constrains:
-  - pytorch 2.1.2 cpu_mkl_*_104
-  - pytorch-gpu ==99999999
-  - pytorch-cpu ==2.1.2
-  license: BSD-3-Clause
-  license_family: BSD
-  size: 42225797
-  timestamp: 1715204082039
-- kind: conda
-  name: libtorch
-  version: 2.1.2
-  build: cpu_mkl_hff68eba_104
-  build_number: 104
+  version: 2.4.0
+  build: cpu_mkl_h0bb0d08_100
+  build_number: 100
   subdir: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/libtorch-2.1.2-cpu_mkl_hff68eba_104.conda
-  sha256: a901f410aca331da3d18dda10335c3accc5e6a9d99520544390ac3aea214d126
-  md5: a47f9e37a5e5006a0be7e845b3bb4b3e
+  url: https://conda.anaconda.org/conda-forge/linux-64/libtorch-2.4.0-cpu_mkl_h0bb0d08_100.conda
+  sha256: ea2f93f55784e27747807ac6cf9b54f98bc28ee38fdf6f11a458f248baa5b220
+  md5: 6e7c6f99657f8da2610b45b3c98abf1c
   depends:
   - __glibc >=2.17,<3.0.a0
   - _openmp_mutex >=4.5
+  - libabseil * cxx17*
+  - libabseil >=20240116.2,<20240117.0a0
   - libcblas >=3.9.0,<4.0a0
   - libgcc-ng >=12
   - libprotobuf >=4.25.3,<4.25.4.0a0
   - libstdcxx-ng >=12
   - libuv >=1.48.0,<2.0a0
   - mkl >=2023.2.0,<2024.0a0
-  - sleef >=3.5.1,<4.0a0
+  - sleef >=3.6.1,<4.0a0
   constrains:
-  - pytorch-cpu ==2.1.2
+  - pytorch 2.4.0 cpu_mkl_*_100
+  - pytorch-cpu ==2.4.0
   - pytorch-gpu ==99999999
-  - pytorch 2.1.2 cpu_mkl_*_104
   license: BSD-3-Clause
   license_family: BSD
-  size: 47400297
-  timestamp: 1715189289361
+  size: 50832178
+  timestamp: 1724383165145
+- kind: conda
+  name: libtorch
+  version: 2.4.0
+  build: cpu_mkl_h3542c91_101
+  build_number: 101
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/libtorch-2.4.0-cpu_mkl_h3542c91_101.conda
+  sha256: 6c2d4dff35984f4af4b74d7f26457da17b1a3ac0cfbc9e0ad90df5baa8df7840
+  md5: 29dd55a44c723cc457f53b839f9edb66
+  depends:
+  - __osx >=10.13
+  - __osx >=10.15
+  - libabseil * cxx17*
+  - libabseil >=20240116.2,<20240117.0a0
+  - libcblas >=3.9.0,<4.0a0
+  - libcxx >=17
+  - libprotobuf >=4.25.3,<4.25.4.0a0
+  - libuv >=1.48.0,<2.0a0
+  - llvm-openmp >=17.0.6
+  - mkl >=2023.2.0,<2024.0a0
+  - numpy >=1.19,<3
+  - python_abi 3.12.* *_cp312
+  - sleef >=3.6.1,<4.0a0
+  constrains:
+  - pytorch-cpu ==2.4.0
+  - pytorch-gpu ==99999999
+  - pytorch 2.4.0 cpu_mkl_*_101
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 45438112
+  timestamp: 1724568845441
 - kind: conda
   name: libutf8proc
   version: 2.8.0
@@ -11166,112 +11173,119 @@ packages:
   timestamp: 1695147430513
 - kind: conda
   name: pytorch
-  version: 2.1.2
-  build: cpu_generic_py312h92309b1_4
-  build_number: 4
+  version: 2.4.0
+  build: cpu_generic_py312h6bd8f41_1
+  build_number: 1
   subdir: osx-arm64
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/pytorch-2.1.2-cpu_generic_py312h92309b1_4.conda
-  sha256: 633c4c403139a1500ae8b5a76c5cb7ae3d74eb6480d80909b42390d7392af926
-  md5: 191d1dbeedf592f67de56e04caa8db1f
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/pytorch-2.4.0-cpu_generic_py312h6bd8f41_1.conda
+  sha256: 5a53af2bc3d210050532b9c643c5a9322dc1f8e3ed9377b13c8fb44e200a00ae
+  md5: 08242ff357ae4c739701d0c8ef8dc48a
   depends:
   - __osx >=11.0
   - filelock
   - fsspec
   - jinja2
+  - libabseil * cxx17*
+  - libabseil >=20240116.2,<20240117.0a0
   - libcblas >=3.9.0,<4.0a0
-  - libcxx >=14
+  - libcxx >=17
   - liblapack >=3.9.0,<4.0a0
   - libprotobuf >=4.25.3,<4.25.4.0a0
-  - libtorch 2.1.2.*
+  - libtorch 2.4.0.*
   - libuv >=1.48.0,<2.0a0
-  - llvm-openmp >=16.0.6
+  - llvm-openmp >=17.0.6
   - networkx
   - nomkl
-  - numpy >=1.26.4,<2.0a0
+  - numpy >=1.19,<3
   - python >=3.12,<3.13.0a0
   - python >=3.12,<3.13.0a0 *_cpython
   - python_abi 3.12.* *_cp312
-  - sleef >=3.5.1,<4.0a0
-  - sympy
-  - typing_extensions
+  - sleef >=3.6.1,<4.0a0
+  - sympy >=1.13.1
+  - typing_extensions >=4.8.0
   constrains:
-  - pytorch-cpu ==2.1.2
+  - pytorch-cpu ==2.4.0
   - pytorch-gpu ==99999999
   license: BSD-3-Clause
   license_family: BSD
-  size: 49917323
-  timestamp: 1715198049689
+  size: 24720518
+  timestamp: 1724566921113
 - kind: conda
   name: pytorch
-  version: 2.1.2
-  build: cpu_mkl_py312h6a8a110_104
-  build_number: 104
+  version: 2.4.0
+  build: cpu_mkl_py312h0c6306f_101
+  build_number: 101
   subdir: osx-64
-  url: https://conda.anaconda.org/conda-forge/osx-64/pytorch-2.1.2-cpu_mkl_py312h6a8a110_104.conda
-  sha256: 7986e5b00736bfd739ea2ea1bbf5170709e0a71aa7568cb24857fbccf75ffad8
-  md5: 53fe4fe86a29017a741446adcda0c509
+  url: https://conda.anaconda.org/conda-forge/osx-64/pytorch-2.4.0-cpu_mkl_py312h0c6306f_101.conda
+  sha256: 5d29d9da01e3ad57c37bd58e2bd026e5ea2a38013a168018876f8fb3174714fd
+  md5: 48a6b72c4f484cef82889ad7485ec112
   depends:
   - __osx >=10.13
+  - __osx >=10.15
   - filelock
   - fsspec
   - jinja2
+  - libabseil * cxx17*
+  - libabseil >=20240116.2,<20240117.0a0
   - libcblas >=3.9.0,<4.0a0
-  - libcxx >=14
+  - libcxx >=17
   - libprotobuf >=4.25.3,<4.25.4.0a0
-  - libtorch 2.1.2.*
+  - libtorch 2.4.0.*
   - libuv >=1.48.0,<2.0a0
-  - llvm-openmp >=16.0.6
+  - llvm-openmp >=17.0.6
   - mkl >=2023.2.0,<2024.0a0
   - networkx
-  - numpy >=1.26.4,<2.0a0
+  - numpy >=1.19,<3
   - python >=3.12,<3.13.0a0
   - python_abi 3.12.* *_cp312
-  - sleef >=3.5.1,<4.0a0
-  - sympy
-  - typing_extensions
+  - sleef >=3.6.1,<4.0a0
+  - sympy >=1.13.1
+  - typing_extensions >=4.8.0
   constrains:
+  - pytorch-cpu ==2.4.0
   - pytorch-gpu ==99999999
-  - pytorch-cpu ==2.1.2
   license: BSD-3-Clause
   license_family: BSD
-  size: 64260868
-  timestamp: 1715204506841
+  size: 25232274
+  timestamp: 1724569203411
 - kind: conda
   name: pytorch
-  version: 2.1.2
-  build: cpu_mkl_py312he7b903e_104
-  build_number: 104
+  version: 2.4.0
+  build: cpu_mkl_py312h3b258cc_100
+  build_number: 100
   subdir: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/pytorch-2.1.2-cpu_mkl_py312he7b903e_104.conda
-  sha256: 844cf77b4eec16d63fd82171bb6f4c75dc2ae314d5d8dff22d6692177c33fe34
-  md5: a5cc49281c2e59c18bf0c75e23f3eabc
+  url: https://conda.anaconda.org/conda-forge/linux-64/pytorch-2.4.0-cpu_mkl_py312h3b258cc_100.conda
+  sha256: 9c086c5c95f7b6e0948ba5547352182ee2adf9a0693456a939d4ca711e5c4e2e
+  md5: 9090b9de6ee59871a619219dfc814ecd
   depends:
   - __glibc >=2.17,<3.0.a0
   - _openmp_mutex >=4.5
   - filelock
   - fsspec
   - jinja2
+  - libabseil * cxx17*
+  - libabseil >=20240116.2,<20240117.0a0
   - libcblas >=3.9.0,<4.0a0
   - libgcc-ng >=12
   - libprotobuf >=4.25.3,<4.25.4.0a0
   - libstdcxx-ng >=12
-  - libtorch 2.1.2.*
+  - libtorch 2.4.0.*
   - libuv >=1.48.0,<2.0a0
   - mkl >=2023.2.0,<2024.0a0
   - networkx
-  - numpy >=1.26.4,<2.0a0
+  - numpy >=1.19,<3
   - python >=3.12,<3.13.0a0
   - python_abi 3.12.* *_cp312
-  - sleef >=3.5.1,<4.0a0
-  - sympy
-  - typing_extensions
+  - sleef >=3.6.1,<4.0a0
+  - sympy >=1.13.1
+  - typing_extensions >=4.8.0
   constrains:
-  - pytorch-cpu ==2.1.2
+  - pytorch-cpu ==2.4.0
   - pytorch-gpu ==99999999
   license: BSD-3-Clause
   license_family: BSD
-  size: 21514221
-  timestamp: 1715193451210
+  size: 25837353
+  timestamp: 1724387474361
 - kind: conda
   name: pytorch-cuda
   version: '12.4'
@@ -12026,14 +12040,14 @@ packages:
   timestamp: 1715354989398
 - kind: conda
   name: sympy
-  version: 1.13.0
+  version: 1.13.2
   build: pypyh2585a3b_103
   build_number: 103
   subdir: noarch
   noarch: python
-  url: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.0-pypyh2585a3b_103.conda
-  sha256: dcb51a1e46a2777c76098b558bd05f107647ab0a03a1560445620ecb14a51c4f
-  md5: be7ad175eb670a83ff575f86e53c57fb
+  url: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.2-pypyh2585a3b_103.conda
+  sha256: ef2e841c53aff71fcbf5922883543374040a9799d064d152516b30ff6694e022
+  md5: 7327125b427c98b81564f164c4a75d4c
   depends:
   - __unix
   - gmpy2 >=2.0.8
@@ -12042,8 +12056,8 @@ packages:
   - python >=3.8
   license: BSD-3-Clause
   license_family: BSD
-  size: 4560711
-  timestamp: 1721004981671
+  size: 4568532
+  timestamp: 1723500430872
 - kind: conda
   name: sysroot_linux-64
   version: '2.28'

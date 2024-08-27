@@ -68,7 +68,7 @@ install = { cmd = "cmake --build build -j --target install", depends_on = [
 clang-format-18 = ">=18.1.2,<19"
 
 [target.linux-64.dependencies]
-pytorch = ">=2.1.2,<2.2"
+pytorch = ">=2.4.0,<2.5"
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
@@ -86,7 +86,7 @@ test_pymomentum = { cmd = "pytest pymomentum/test/test_closest_points.py pymomen
 clang-format-18 = ">=18.1.2,<19"
 
 [target.osx.dependencies]
-pytorch = ">=2.1.2,<2.2"
+pytorch = ">=2.4.0,<2.5"
 
 [target.osx.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
@@ -104,7 +104,7 @@ build_pymomentum = { cmd = "pip install -e ." }
 clang-format-18 = ">=18.1.2,<19"
 
 [target.osx-arm64.dependencies]
-pytorch = ">=2.1.2,<2.2"
+pytorch = ">=2.4.0,<2.5"
 
 [target.osx-arm64.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
