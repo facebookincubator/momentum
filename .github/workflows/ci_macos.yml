@@ -62,5 +62,6 @@ jobs:
         with:
           cache: true
       - name: Build PyMomentum
+        # TODO: Change to test_pymomentum once segfault on import is fixed
         run: |
           pixi run build_pymomentum
