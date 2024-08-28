@@ -310,6 +310,12 @@ If you want to translate/rotate/scale a character, you should preferentially use
             return result;
           },
           "Rebind the character's inverse bind pose from the resting skeleton pose.")
+      .def_property_readonly(
+          "bind_pose", &getBindPose, "Get the bind pose for skinning.")
+      .def_property_readonly(
+          "inverse_bind_pose",
+          &getInverseBindPose,
+          "Get the inverse bind pose for skinning.")
       .def(
           "find_locators",
           &getLocators,

@@ -205,4 +205,8 @@ using MatrixX7f = Eigen::Matrix<
 std::tuple<MatrixX7f, MatrixX7f> jointParameterLimits(
     const momentum::Character& character);
 
+pybind11::array_t<float> getBindPose(const momentum::Character& character);
+pybind11::array_t<float> getInverseBindPose(
+    const momentum::Character& character);
+
 } // namespace pymomentum

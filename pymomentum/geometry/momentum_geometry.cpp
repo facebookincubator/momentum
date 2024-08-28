@@ -1033,4 +1033,38 @@ std::tuple<MatrixX7f, MatrixX7f> jointParameterLimits(
   return {minLimits, maxLimits};
 }
 
+py::array_t<float> getBindPose(const momentum::Character& character) {
+  const auto& inverseBindPose = character.inverseBindPose;
+  py::array_t<float> result = py::array_t<float>(
+      std::vector<ssize_t>{(ssize_t)inverseBindPose.size(), 4, 4});
+  auto r = result.mutable_unchecked<3>(); // Will throw if ndim != 3 or
+                                          // flags.writable is false
+  for (py::ssize_t i = 0; i < inverseBindPose.size(); i++) {
+    const Eigen::Affine3f bindPose = inverseBindPose[i].inverse();
+    for (py::ssize_t j = 0; j < 4; j++) {
+      for (py::ssize_t k = 0; k < 4; k++) {
+        r(i, j, k) = bindPose(j, k);
+      }
+    }
+  }
+  return result;
+}
+
+py::array_t<float> getInverseBindPose(const momentum::Character& character) {
+  const auto& inverseBindPose = character.inverseBindPose;
+  py::array_t<float> result = py::array_t<float>(
+      std::vector<ssize_t>{(ssize_t)inverseBindPose.size(), 4, 4});
+  auto r = result.mutable_unchecked<3>(); // Will throw if ndim != 3 or
+                                          // flags.writable is false
+  for (py::ssize_t i = 0; i < inverseBindPose.size(); i++) {
+    for (py::ssize_t j = 0; j < 4; j++) {
+      for (py::ssize_t k = 0; k < 4; k++) {
+        r(i, j, k) = inverseBindPose[i](j, k);
+      }
+    }
+  }
+
+  return result;
+}
+
 } // namespace pymomentum
