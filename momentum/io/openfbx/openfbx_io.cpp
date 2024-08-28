@@ -85,6 +85,31 @@ const char* rotationOrderStr(ofbx::RotationOrder order) {
   }
 }
 
+const char* propertyTypeStr(ofbx::IElementProperty::Type type) {
+  switch (type) {
+    case ofbx::IElementProperty::LONG:
+      return "LONG";
+    case ofbx::IElementProperty::INTEGER:
+      return "INTEGER";
+    case ofbx::IElementProperty::STRING:
+      return "STRING";
+    case ofbx::IElementProperty::FLOAT:
+      return "FLOAT";
+    case ofbx::IElementProperty::DOUBLE:
+      return "DOUBLE";
+    case ofbx::IElementProperty::ARRAY_DOUBLE:
+      return "ARRAY_DOUBLE";
+    case ofbx::IElementProperty::ARRAY_INT:
+      return "ARRAY_INT";
+    case ofbx::IElementProperty::ARRAY_LONG:
+      return "ARRAY_LONG";
+    case ofbx::IElementProperty::ARRAY_FLOAT:
+      return "ARRAY_FLOAT";
+    default:
+      return "Unknown";
+  }
+}
+
 template <typename T>
 Eigen::Quaternion<T> computeEulerRotation(
     const Eigen::Matrix<T, 3, 1>& angles,
@@ -148,13 +173,17 @@ ofbx::IElement* resolveProperty(const ofbx::Object& object, const char* name) {
   ofbx::IElement* prop = props->getFirstChild();
   while (prop) {
     auto* firstProp = prop->getFirstProperty();
-    if (firstProp->getType() != ofbx::IElementProperty::STRING)
-      throw std::runtime_error("Expected string for first property value.");
+    if (firstProp->getType() != ofbx::IElementProperty::STRING) {
+      throw std::runtime_error(fmt::format(
+          "Expected string for first property value but got {}.",
+          propertyTypeStr(firstProp->getType())));
+    }
 
     // The Autodesk SDK appears to be case-insensitive wrt names, so we'll mirror that
     // behavior here.
-    if (firstProp != nullptr && equalsCaseInsensitive(firstProp->getValue(), name))
+    if (firstProp != nullptr && equalsCaseInsensitive(firstProp->getValue(), name)) {
       return prop;
+    }
     prop = prop->getSibling();
   }
   return nullptr;
@@ -175,20 +204,23 @@ const ofbx::IElementProperty* getElementProperty(const ofbx::IElement* element, 
 
 static double resolveDoubleProperty(const ofbx::Object& object, const char* name) {
   const ofbx::IElement* element = resolveProperty(object, name);
-  if (element == nullptr)
-    throw std::runtime_error(std::string("Unable to find property element in ") + object.name);
-
+  if (element == nullptr) {
+    throw std::runtime_error(fmt::format("Unable to find property element in {}", object.name));
+  }
   const ofbx::IElementProperty* x = getElementProperty(element, 4);
-  if (x == nullptr)
-    throw std::runtime_error(std::string("Unable to find property ") + name + " in " + object.name);
-
-  if (x->getType() == ofbx::IElementProperty::DOUBLE)
+  if (x == nullptr) {
+    throw std::runtime_error(fmt::format("Unable to find property {} in {}", name, object.name));
+  }
+  if (x->getType() == ofbx::IElementProperty::DOUBLE) {
     return x->getValue().toDouble();
-  else if (x->getType() == ofbx::IElementProperty::FLOAT)
+  } else if (x->getType() == ofbx::IElementProperty::FLOAT) {
     return x->getValue().toFloat();
-  else
-    throw std::runtime_error(
-        std::string("For property ") + name + "; expected float/double array.");
+  } else {
+    throw std::runtime_error(fmt::format(
+        "For property {}, expected float/double array but got {}.",
+        name,
+        propertyTypeStr(x->getType())));
+  }
 }
 
 template <typename VecArray, typename EltType>
@@ -231,16 +263,19 @@ VecArray extractPropertyArrayImp(const ofbx::IElementProperty* prop, const char*
 template <typename VecArray>
 VecArray extractPropertyVecArray(const ofbx::IElement* element, const char* what) {
   const auto* prop = element->getFirstProperty();
-  if (prop == nullptr)
-    throw std::runtime_error(std::string("For element ") + what + "; found no property.");
-
-  if (prop->getType() == ofbx::IElementProperty::ARRAY_DOUBLE)
+  if (prop == nullptr) {
+    throw std::runtime_error(fmt::format("For element {} found no property.", what));
+  }
+  if (prop->getType() == ofbx::IElementProperty::ARRAY_DOUBLE) {
     return extractPropertyArrayImp<VecArray, double>(prop, what);
-  else if (prop->getType() == ofbx::IElementProperty::ARRAY_FLOAT)
+  } else if (prop->getType() == ofbx::IElementProperty::ARRAY_FLOAT) {
     return extractPropertyArrayImp<VecArray, float>(prop, what);
-  else
-    throw std::runtime_error(
-        std::string("For property ") + what + "; expected float/double array.");
+  } else {
+    throw std::runtime_error(fmt::format(
+        "For property {} expected float/double array but got {}.",
+        what,
+        propertyTypeStr(prop->getType())));
+  }
 }
 
 template <typename T>
@@ -261,24 +296,27 @@ ofbx::IElementProperty::Type propertyArrayType<int>() {
 template <typename T>
 std::vector<T> extractPropertyArray(const ofbx::IElement* element, const char* what) {
   const auto* prop = element->getFirstProperty();
-  if (prop == nullptr)
-    throw std::runtime_error(std::string("For element ") + what + "; found no property.");
-
+  if (prop == nullptr) {
+    throw std::runtime_error(fmt::format("For element {} found no property.", what));
+  }
   if (prop->getType() == propertyArrayType<T>()) {
     std::vector<T> vals(prop->getCount());
     prop->getValues(&vals[0], (int)(sizeof(T) * vals.size()));
     return vals;
   } else {
-    throw std::runtime_error(
-        std::string("For property ") + what + "; expected " + typeid(T).name() + " array.");
+    throw std::runtime_error(fmt::format(
+        "For property {}, expected {} but got {}.",
+        what,
+        propertyTypeStr(propertyArrayType<T>()),
+        propertyTypeStr(prop->getType())));
   }
 }
 
 std::vector<double> extractPropertyFloatArray(const ofbx::IElement* element, const char* what) {
   const auto* prop = element->getFirstProperty();
-  if (prop == nullptr)
-    throw std::runtime_error(std::string("For element ") + what + "; found no property.");
-
+  if (prop == nullptr) {
+    throw std::runtime_error(fmt::format("For element {}, found no property.", what));
+  }
   if (prop->getType() == ofbx::IElementProperty::ARRAY_DOUBLE) {
     return extractPropertyArray<double>(element, what);
   } else if (prop->getType() == ofbx::IElementProperty::ARRAY_FLOAT) {
@@ -286,7 +324,10 @@ std::vector<double> extractPropertyFloatArray(const ofbx::IElement* element, con
     std::vector<double> result(res.begin(), res.end());
     return result;
   } else {
-    throw std::runtime_error(std::string("For property ") + what + "; expected float array.");
+    throw std::runtime_error(fmt::format(
+        "For property {}, expected float array but got {}.",
+        what,
+        propertyTypeStr(prop->getType())));
   }
 }
 
@@ -461,15 +502,17 @@ void parseSkinnedModel(
   const auto& geomElement = geometry->element;
 
   const auto* vertices_element = findChild(geomElement, "Vertices");
-  if (vertices_element == nullptr || !vertices_element->getFirstProperty())
+  if (vertices_element == nullptr || !vertices_element->getFirstProperty()) {
     throw std::runtime_error("No vertices found in mesh element.");
+  }
   const auto vertexPositions =
       extractPropertyVecArray<std::vector<Eigen::Vector3f>>(vertices_element, "Vertices");
   const auto nVerts = vertexPositions.size();
 
   const auto* polys_element = findChild(geomElement, "PolygonVertexIndex");
-  if (polys_element == nullptr || !polys_element->getFirstProperty())
+  if (polys_element == nullptr || !polys_element->getFirstProperty()) {
     throw std::runtime_error("No polygons found in mesh element.");
+  }
   const auto indices = extractPropertyArray<int>(polys_element, "PolygonVertexIndex");
 
   PolygonData faces;
@@ -497,10 +540,11 @@ void parseSkinnedModel(
       const auto* mapping_element = findChild(*layer_uv_element, "MappingInformationType");
       if (mapping_element != nullptr && mapping_element->getFirstProperty() != nullptr) {
         const ofbx::DataView& view = mapping_element->getFirstProperty()->getValue();
-        if (view == "ByPolygonVertex")
+        if (view == "ByPolygonVertex") {
           mapping = MAPPING_BY_POLY_VERTEX;
-        else if (view == "ByVertex" || view == "ByVertice")
+        } else if (view == "ByVertex" || view == "ByVertice") {
           mapping = MAPPING_BY_VERTEX;
+        }
       }
       if (mapping == MAPPING_UNKNOWN) {
         throw std::runtime_error(
@@ -534,17 +578,17 @@ void parseSkinnedModel(
         const auto textureIndices =
             extractPropertyArray<int>(indices_element, "PolygonVertexIndex");
 
-        if (textureIndices.size() != faces.indices.size())
+        if (textureIndices.size() != faces.indices.size()) {
           throw std::runtime_error("Mismatch between texture indices size and indices size.");
-
+        }
         std::copy(
             textureIndices.begin(), textureIndices.end(), std::back_inserter(faces.textureIndices));
       } else if (reference == REF_DIRECT) {
         // Direct means the UV array is already in order.
-        if (textureCoords.size() != faces.indices.size())
+        if (textureCoords.size() != faces.indices.size()) {
           throw std::runtime_error(
               "Mismatch between 'Direct' texture coord array size and vertex indices size.");
-
+        }
         faces.textureIndices.resize(faces.indices.size());
         std::iota(faces.textureIndices.begin(), faces.textureIndices.end(), 0);
       } else {
@@ -567,14 +611,14 @@ void parseSkinnedModel(
   MT_LOGW_IF(!errMsg.empty(), "Error reading polygon data from FBX file: {}", errMsg);
 
   const auto* fbxskin = geometry->getSkin();
-  if (fbxskin == nullptr)
+  if (fbxskin == nullptr) {
     throw std::runtime_error("No skin found for geometry.");
-
+  }
   // Need a fast map from an FbxNode to the bone index in our representation:
   std::unordered_map<const ofbx::Object*, size_t> boneMap;
-  for (size_t i = 0; i < boneFbxNodes.size(); ++i)
+  for (size_t i = 0; i < boneFbxNodes.size(); ++i) {
     boneMap.insert(std::make_pair(boneFbxNodes[i], i));
-
+  }
   // The weights in the FBX file are stored by bone rather than by
   // vertex; we will cache them all as (vertex, bone, weight) in
   // this array and then sort it to get them in vertex order.
@@ -618,24 +662,24 @@ void parseSkinnedModel(
     const auto skinningWeights = extractPropertyFloatArray(skinning_weights_element, "Weights");
 
     // iterate through all the vertices, which are affected by the bone
-    if (skinningIndices.size() != skinningWeights.size())
+    if (skinningIndices.size() != skinningWeights.size()) {
       throw std::runtime_error(fmt::format(
           "Mismatch between indices count ({}) and weight count ({}) in cluster {}",
           skinningIndices.size(),
           skinningWeights.size(),
           cluster->name));
-
+    }
     const auto numBoneVertexIndices = skinningIndices.size();
     for (size_t boneVIndex = 0; boneVIndex < numBoneVertexIndices; boneVIndex++) {
       const int boneVertexIndex = skinningIndices[boneVIndex];
-      if (boneVertexIndex < 0 || static_cast<size_t>(boneVertexIndex) >= nVerts)
+      if (boneVertexIndex < 0 || static_cast<size_t>(boneVertexIndex) >= nVerts) {
         throw std::runtime_error(
             fmt::format("Invalid vertex index ({}) in cluster {}", boneVertexIndex, cluster->name));
-
+      }
       const auto boneWeight = skinningWeights[boneVIndex];
-      if (boneWeight <= 0)
+      if (boneWeight <= 0) {
         continue;
-
+      }
       MT_LOGW_IF(
           boneWeight > 1.01,
           "{}: Bone weight of {} found; expected value between 0 and 1.",
@@ -685,8 +729,9 @@ void parseSkinnedModel(
     }
 
     auto vertWeightsBegin = weightItr;
-    while (weightItr != weights.end() && std::get<0>(*weightItr) == iVertex)
+    while (weightItr != weights.end() && std::get<0>(*weightItr) == iVertex) {
       ++weightItr;
+    }
     auto vertWeightsEnd = weightItr;
 
     for (auto itr = vertWeightsBegin; itr != vertWeightsEnd; ++itr) {
