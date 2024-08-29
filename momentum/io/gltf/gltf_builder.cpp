@@ -87,8 +87,9 @@ void setBufferView(
 // Use a flag to decide if we should save the vertex color. If a mesh only has default color, we may
 // not want to save it.
 size_t addMeshToModel(fx::gltf::Document& model, const Mesh& mesh, const bool addColor = false) {
-  if (mesh.vertices.size() == 0)
+  if (mesh.vertices.empty()) {
     return std::numeric_limits<size_t>::max();
+  }
 
   model.meshes.emplace_back();
   auto& m = model.meshes.back();
@@ -882,6 +883,25 @@ void GltfBuilder::addCharacter(
     parameterSetsToJson(character, def["parameterSet"]);
     poseConstraintsToJson(character, def["poseConstraints"]);
   }
+}
+
+void GltfBuilder::addMesh(const Mesh& mesh, const std::string& name, bool addColor) {
+  auto& model = impl_->document;
+  auto meshIdx = addMeshToModel(model, mesh, addColor);
+  if (meshIdx >= model.meshes.size()) {
+    MT_LOGW("Failed to add mesh");
+    return;
+  }
+
+  const auto nodeIndex = model.nodes.size();
+  model.nodes.emplace_back();
+  auto& node = model.nodes.back();
+  node.name = name;
+  node.translation = {0.0f, 0.0f, 0.0f};
+  node.mesh = meshIdx;
+
+  auto& scene = getDefaultScene(model);
+  scene.nodes.push_back(nodeIndex);
 }
 
 size_t GltfBuilder::getNumCharacters() {
