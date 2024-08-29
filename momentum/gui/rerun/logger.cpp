@@ -328,7 +328,7 @@ void logCollisionGeometry(
   // TODO: update collision geometry representation from box to capsule
 
   std::vector<rerun::Position3D> centers;
-  std::vector<rerun::Rotation3D> rotations;
+  std::vector<rerun::Quaternion> rotations;
   std::vector<rerun::HalfSize3D> halfSizes;
 
   centers.reserve(collisionGeometry.size());
@@ -352,7 +352,7 @@ void logCollisionGeometry(
   rec.log(
       streamName,
       rerun::Boxes3D::from_centers_and_half_sizes(centers, halfSizes)
-          .with_rotations(rotations)
+          .with_quaternions(rotations)
           .with_radii(0.1f)
           .with_colors(rerun::Color(128, 64, 64)));
 
