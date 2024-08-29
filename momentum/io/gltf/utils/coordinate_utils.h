@@ -34,17 +34,27 @@ namespace momentum {
 }
 
 inline void toMomentumVec3f(std::vector<Vector3f>& vec) {
-  if (vec.size() == 0)
+  if (vec.empty()) {
     return;
+  }
 
   Map<VectorXf>(&vec[0][0], vec.size() * 3) *= toCm();
 }
 
 inline void fromMomentumVec3f(std::vector<Vector3f>& vec) {
-  if (vec.empty())
+  if (vec.empty()) {
     return;
+  }
 
   Map<VectorXf>(&vec[0][0], vec.size() * 3) *= toM();
+}
+
+inline void fromMomentumVec3f(VectorXf& vec) {
+  if (vec.size() == 0) {
+    return;
+  }
+
+  vec *= toM();
 }
 
 } // namespace momentum

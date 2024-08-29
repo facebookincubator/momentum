@@ -566,6 +566,10 @@ c3d_viewer_sources = [
     "examples/c3d_viewer/c3d_viewer.cpp",
 ]
 
+animate_shapes_sources = [
+    "examples/animate_shapes/animate_shapes.cpp",
+]
+
 process_markers_app_sources = [
     "examples/process_markers_app/process_markers_app.cpp",
 ]
