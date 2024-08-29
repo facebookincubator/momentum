@@ -6,25 +6,36 @@ sidebar_position: 1
 
 This page guides you through the process of building Momentum and running the examples.
 
-## Installing Momentum
+## Installing Momentum and PyMomentum
 
 Momentum binary builds are available for Windows, macOS, and Linux via [Pixi](https://prefix.dev/) or the Conda package manager.
 
 ### Pixi
 
 ```
+# Momentum (C++)
+pixi add momentum-cpp
+
+# PyMomentum (Python)
+pixi add pymomentum
+
+# Both
 pixi add momentum
 ```
 
 ### Conda
 
 ```
+conda install conda-forge::momentum-cpp
+conda install conda-forge::pymomentum
 conda install conda-forge::momentum
 ```
 
 ### Micromamba
 
 ```
+micromamba install -c conda-forge momentum-cpp
+micromamba install -c conda-forge pymomentum
 micromamba install -c conda-forge momentum
 ```
 
