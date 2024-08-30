@@ -7,10 +7,10 @@
 
 #pragma once
 
+#include "momentum/common/exception.h"
+
 #include <fx/gltf.h>
 #include <gsl/span_ext>
-
-#include <stdexcept>
 
 namespace momentum {
 
@@ -107,7 +107,7 @@ std::vector<T> copyAlignedAccessorBuffer(const fx::gltf::Document& model, int32_
 // template to set accessor
 template <typename T>
 void setAccessorType(fx::gltf::Accessor& /* accessor */) {
-  throw std::runtime_error("Unsupported data type " + std::string(typeid(T).name()));
+  MT_THROW("Unsupported data type {}", typeid(T).name());
 }
 
 // create accessor buffer

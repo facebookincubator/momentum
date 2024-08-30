@@ -75,8 +75,7 @@ Eigen::Index FullyDifferentiablePositionErrorFunctionT<T>::getInputSize(
     return 3 * constraints_.size();
   }
 
-  throw std::runtime_error(
-      "Unknown input to FullyDifferentiablePositionErrorFunctionT<T>::getInput: " + name);
+  MT_THROW("Unknown input to FullyDifferentiablePositionErrorFunctionT<T>::getInput: {}", name);
 }
 
 template <typename T>
@@ -265,8 +264,7 @@ void FullyDifferentiablePositionErrorFunctionT<T>::getInputImp(
       value.template segment<3>(3 * i) = constraints_[i].target;
     }
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiablePositionErrorFunctionT<T>::getInput: " + name);
+    MT_THROW("Unknown input to FullyDifferentiablePositionErrorFunctionT<T>::getInput: {}", name);
   }
 }
 
@@ -296,8 +294,7 @@ void FullyDifferentiablePositionErrorFunctionT<T>::setInputImp(
       constraints_[i].target = value.template segment<3>(3 * i);
     }
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiablePositionErrorFunctionT<T>::getInput: " + name);
+    MT_THROW("Unknown input to FullyDifferentiablePositionErrorFunctionT<T>::getInput: {}", name);
   }
 }
 
@@ -481,8 +478,8 @@ Eigen::VectorX<T> FullyDifferentiablePositionErrorFunctionT<T>::d_gradient_d_inp
     }
     return result;
   } else {
-    throw std::runtime_error(
-        "Unknown input name in FullyDifferentiablePositionErrorFunctionT<T>::d_gradient_d_input_dot: " +
+    MT_THROW(
+        "Unknown input name in FullyDifferentiablePositionErrorFunctionT<T>::d_gradient_d_input_dot: {}",
         inputName);
   }
 }

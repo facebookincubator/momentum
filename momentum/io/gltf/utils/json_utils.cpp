@@ -14,8 +14,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include <stdexcept>
-
 namespace momentum {
 
 void parameterSetsToJson(const Character& character, nlohmann::json& j) {
@@ -103,9 +101,7 @@ ParameterTransform parameterTransformFromJson(const Character& character, const 
 
     // load all the parameter names
     auto parameterItr = j.find("parameters");
-    if (parameterItr == j.end()) {
-      throw std::runtime_error("No 'parameters' found in parameter transform.");
-    }
+    MT_THROW_IF(parameterItr == j.end(), "No 'parameters' found in parameter transform.");
 
     for (const auto& p : *parameterItr)
       pt.name.push_back(p.get<std::string>());
@@ -114,17 +110,14 @@ ParameterTransform parameterTransformFromJson(const Character& character, const 
     std::vector<Eigen::Triplet<float>> triplets;
 
     auto jointItr = j.find("joints");
-    if (jointItr == j.end()) {
-      throw std::runtime_error("No 'joints' found in parameter transform.");
-    }
+    MT_THROW_IF(jointItr == j.end(), "No 'joints' found in parameter transform.");
 
     for (const auto& joint : jointItr->items()) {
       const std::string jointName = joint.key();
 
       // get the right joint to modify
       const size_t jointIndex = character.skeleton.getJointIdByName(jointName);
-      if (jointIndex == kInvalidIndex)
-        throw std::runtime_error(std::string("Unknown joint name in expression : ") + jointName);
+      MT_THROW_IF(jointIndex == kInvalidIndex, "Unknown joint name in expression : {}", jointName);
 
       for (const auto& jointParameter : joint.value().items()) {
         const std::string jointParameterName = jointParameter.key();
@@ -139,9 +132,10 @@ ParameterTransform parameterTransformFromJson(const Character& character, const 
         }
 
         // if we didn't find a right name exit with an error
-        if (attributeIndex == kInvalidIndex)
-          throw std::runtime_error(
-              std::string("Unknown channel name in expression : ") + jointParameterName);
+        MT_THROW_IF(
+            attributeIndex == kInvalidIndex,
+            "Unknown channel name in expression : {}",
+            jointParameterName);
 
         // enable the attribute in the skeleton if we have a parameter controlling it
         pt.activeJointParams[jointIndex * kParametersPerJoint + attributeIndex] = 1;
@@ -154,9 +148,10 @@ ParameterTransform parameterTransformFromJson(const Character& character, const 
 
           auto parameterIndex = pt.getParameterIdByName(parameterName);
 
-          if (parameterIndex == kInvalidIndex)
-            throw std::runtime_error(
-                std::string("Unknown parameter name in expression : ") + parameterName);
+          MT_THROW_IF(
+              parameterIndex == kInvalidIndex,
+              "Unknown parameter name in expression : {}",
+              parameterName);
 
           // add triplet
           triplets.push_back(Eigen::Triplet<float>(
@@ -308,9 +303,7 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
       l.data.ellipsoid.ellipsoid.translation() /= toM();
       l.data.ellipsoid.ellipsoidInv = l.data.ellipsoid.ellipsoid.inverse();
     } else {
-      throw std::runtime_error(
-          "Unknown parameter limit type '" + type + "' from character name '" + character.name +
-          "'.");
+      MT_THROW("Unknown parameter limit type '{}' from character name '{}'.", type, character.name);
     }
     result.push_back(l);
   }

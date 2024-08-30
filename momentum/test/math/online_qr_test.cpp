@@ -8,6 +8,7 @@
 #include "momentum/math/online_householder_qr.h"
 
 #include "momentum/common/checks.h"
+#include "momentum/common/exception.h"
 #include "momentum/common/log.h"
 #include "momentum/math/fmt_eigen.h"
 
@@ -22,16 +23,12 @@ namespace {
 
 template <typename T>
 Eigen::MatrixX<T> stack(const std::vector<Eigen::MatrixX<T>>& mats) {
-  if (mats.empty()) {
-    throw std::runtime_error("Empty stack.");
-  }
+  MT_THROW_IF(mats.empty(), "Empty stack.");
 
   Eigen::Index nRows = 0;
   for (const auto& m : mats) {
     nRows += m.rows();
-    if (m.cols() != mats.front().cols()) {
-      throw std::runtime_error("Mismatch in col count.");
-    }
+    MT_THROW_IF(m.cols() != mats.front().cols(), "Mismatch in col count.");
   }
 
   Eigen::MatrixX<T> result(nRows, mats.front().cols());

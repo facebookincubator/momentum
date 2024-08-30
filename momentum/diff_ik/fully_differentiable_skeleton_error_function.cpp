@@ -7,6 +7,8 @@
 
 #include <momentum/diff_ik/fully_differentiable_skeleton_error_function.h>
 
+#include "momentum/common/exception.h"
+
 namespace momentum {
 
 template <typename T>
@@ -22,12 +24,13 @@ void FullyDifferentiableSkeletonErrorFunctionT<T>::getInput(
     const std::string& name,
     Eigen::Ref<Eigen::VectorX<T>> value) const {
   const auto expectedSize = getInputSize(name);
-  if (value.size() != expectedSize) {
-    std::ostringstream oss;
-    oss << "In " << this->name() << "::getInput(" << name << "): expected size " << expectedSize
-        << " but got " << value.size();
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      value.size() != expectedSize,
+      "In {}::getInput({}): expected size {} but got {}",
+      this->name(),
+      name,
+      expectedSize,
+      value.size());
 
   getInputImp(name, value);
 }
@@ -37,12 +40,13 @@ void FullyDifferentiableSkeletonErrorFunctionT<T>::setInput(
     const std::string& name,
     Eigen::Ref<const Eigen::VectorX<T>> value) {
   const auto expectedSize = getInputSize(name);
-  if (value.size() != expectedSize) {
-    std::ostringstream oss;
-    oss << "In " << this->name() << "::setInput(" << name << "): expected size " << expectedSize
-        << " but got " << value.size();
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      value.size() != expectedSize,
+      "In {}::setInput({}): expected size {} but got {}",
+      this->name(),
+      name,
+      expectedSize,
+      value.size());
 
   setInputImp(name, value);
 }

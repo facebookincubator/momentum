@@ -9,6 +9,7 @@
 
 #include "momentum/character/blend_shape.h"
 #include "momentum/character/blend_shape_base.h"
+#include "momentum/common/exception.h"
 #include "momentum/common/log.h"
 
 #include <gsl/gsl>
@@ -23,15 +24,13 @@ namespace {
 
 std::istringstream readOrThrow(const filesystem::path& filepath) {
   std::ifstream file(filepath, std::ios::binary | std::ios::ate);
-  if (!file)
-    throw std::runtime_error("Failed to open the file.");
+  MT_THROW_IF(!file, "Failed to open the file.");
 
   std::size_t size = static_cast<std::size_t>(file.tellg());
   file.seekg(0, std::ios::beg);
 
   std::string buffer(size, '\0');
-  if (!file.read(buffer.data(), size))
-    throw std::runtime_error("Failed to read the file.");
+  MT_THROW_IF(!file.read(buffer.data(), size), "Failed to read the file.");
 
   return std::istringstream(std::move(buffer));
 }

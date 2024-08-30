@@ -14,8 +14,6 @@
 #include "momentum/common/profile.h"
 #include "momentum/math/utility.h"
 
-#include <stdexcept>
-
 namespace momentum {
 
 constexpr float kPositionWeight = 1e-4f;
@@ -135,7 +133,7 @@ double LimitErrorFunctionT<T>::getError(
       }
       default:
         // should never get here
-        throw std::runtime_error("Unknown parameter type for joint limit");
+        MT_THROW("Unknown parameter type for joint limit");
         break;
     }
   }
@@ -317,7 +315,7 @@ double LimitErrorFunctionT<T>::getGradient(
       }
       default:
         // should never get here
-        throw std::runtime_error("Unknown parameter type for joint limit");
+        MT_THROW("Unknown parameter type for joint limit");
         break;
     }
   }
@@ -517,7 +515,7 @@ double LimitErrorFunctionT<T>::getJacobian(
       }
       default:
         // should never get here
-        throw std::runtime_error("Unknown parameter type for joint limit");
+        MT_THROW("Unknown parameter type for joint limit");
         break;
     }
   }
@@ -547,7 +545,7 @@ size_t LimitErrorFunctionT<T>::getJacobianSize() const {
         break;
       default:
         // should never get here
-        throw std::runtime_error("Unknown parameter type for joint limit");
+        MT_THROW("Unknown parameter type for joint limit");
         break;
     }
   }

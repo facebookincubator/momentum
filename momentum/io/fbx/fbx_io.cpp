@@ -11,6 +11,7 @@
 #include "momentum/character/character_state.h"
 #include "momentum/character/collision_geometry_state.h"
 #include "momentum/character/skin_weights.h"
+#include "momentum/common/exception.h"
 #include "momentum/common/filesystem.h"
 #include "momentum/common/log.h"
 #include "momentum/io/fbx/fbx_memory_stream.h"
@@ -23,7 +24,6 @@
 #include "momentum/math/utility.h"
 
 #include <fbxsdk/scene/geometry/fbxcluster.h>
-#include <fmt/format.h>
 
 // **FBX SDK**
 // They do the most awful things to isnan in here
@@ -34,7 +34,6 @@
 #undef isnan
 #endif
 
-#include <stdexcept>
 #include <variant>
 
 namespace momentum {
@@ -50,7 +49,7 @@ namespace {
     case FBXUpVector::ZAxis:
       return ::fbxsdk::FbxAxisSystem::EUpVector::eZAxis;
     default:
-      throw std::runtime_error("Unsupported up vector");
+      MT_THROW("Unsupported up vector");
   }
 }
 
@@ -61,7 +60,7 @@ namespace {
     case FBXFrontVector::ParityOdd:
       return ::fbxsdk::FbxAxisSystem::EFrontVector::eParityOdd;
     default:
-      throw std::runtime_error("Unsupported front vector");
+      MT_THROW("Unsupported front vector");
   }
 }
 
@@ -72,7 +71,7 @@ namespace {
     case FBXCoordSystem::LeftHanded:
       return ::fbxsdk::FbxAxisSystem::ECoordSystem::eLeftHanded;
     default:
-      throw std::runtime_error("Unsupported coordinate system");
+      MT_THROW("Unsupported coordinate system");
   }
 }
 
@@ -130,11 +129,10 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
           Vector3f(vec[0], vec[1], vec[2]) * toRad(), 0, 1, 2, EulerConvention::EXTRINSIC);
 
       vec = node->GetPostRotation(::fbxsdk::FbxNode::eSourcePivot);
-      if (Vector3d(vec[0], vec[1], vec[2]).norm() > 1e-8)
-        throw std::runtime_error(
-            std::string(
-                "Skeleton files with post-rotation are not supported. Found post rotation in joint ") +
-            joint.name);
+      MT_THROW_IF(
+          Vector3d(vec[0], vec[1], vec[2]).norm() > 1e-8,
+          "Skeleton files with post-rotation are not supported. Found post rotation in joint {}",
+          joint.name);
 
       // load offset
       ::fbxsdk::FbxDouble3 val;
@@ -148,11 +146,10 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
       // get rotation order
       ::fbxsdk::FbxEuler::EOrder order;
       node->GetRotationOrder(::fbxsdk::FbxNode::eSourcePivot, order);
-      if (order != ::fbxsdk::FbxEuler::EOrder::eOrderXYZ)
-        throw std::runtime_error(
-            std::string(
-                "Skeleton files with rotation orders other than XYZ are not supported. Found unsupported order in joint ") +
-            joint.name);
+      MT_THROW_IF(
+          order != ::fbxsdk::FbxEuler::EOrder::eOrderXYZ,
+          "Skeleton files with rotation orders other than XYZ are not supported. Found unsupported order in joint {}",
+          joint.name);
 
       // get the index of the new joint
       const size_t index = result.skeleton.joints.size();
@@ -399,11 +396,10 @@ Character loadFbxScene(const std::variant<filesystem::path, gsl::span<const std:
       },
       input);
 
-  if (!initialized) {
-    // should never get here
-    throw std::runtime_error(fmt::format(
-        "Unable to initialize fbx importer {}", importer->GetStatus().GetErrorString()));
-  }
+  // should never get here
+  MT_THROW_IF(
+      !initialized, "Unable to initialize fbx importer {}", importer->GetStatus().GetErrorString());
+
   auto* scene = ::fbxsdk::FbxScene::Create(manager, "myScene");
   importer->Import(scene);
   importer->Destroy();
@@ -653,10 +649,10 @@ void saveFbxCommon(
   // Initialize the exporter.
   bool lExportStatus = lExporter->Initialize(lFilename, -1, manager->GetIOSettings());
 
-  if (!lExportStatus) {
-    throw std::runtime_error(
-        std::string("Unable to initialize fbx exporter") + lExporter->GetStatus().GetErrorString());
-  }
+  MT_THROW_IF(
+      !lExportStatus,
+      "Unable to initialize fbx exporter {}",
+      lExporter->GetStatus().GetErrorString());
 
   // ---------------------------------------------
   // create the scene

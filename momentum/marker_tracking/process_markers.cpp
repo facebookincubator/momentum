@@ -16,9 +16,6 @@
 #include "momentum/marker_tracking/app_utils.h"
 #include "momentum/marker_tracking/tracker_utils.h"
 
-#include <fmt/format.h>
-
-#include <stdexcept>
 #include <tuple>
 
 namespace marker_tracking {
@@ -32,10 +29,11 @@ Eigen::MatrixXf processMarkers(
     bool calibrate,
     size_t firstFrame,
     size_t maxFrames) {
-  if (firstFrame > markerData.size()) {
-    throw std::runtime_error(
-        fmt::format("First frame {} can't exceed total frames {}", firstFrame, markerData.size()));
-  }
+  MT_THROW_IF(
+      firstFrame > markerData.size(),
+      "First frame {} can't exceed total frames {}",
+      firstFrame,
+      markerData.size());
   const size_t lastFrame =
       maxFrames > 0 ? std::min(firstFrame + maxFrames, markerData.size()) : markerData.size();
   const gsl::span<const std::vector<momentum::Marker>> inputData(

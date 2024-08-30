@@ -39,7 +39,7 @@ Eigen::Index FullyDifferentiableStateErrorFunctionT<T>::getInputSize(
   } else if (name == "targetState") {
     return 8 * this->skeleton_.joints.size();
   } else {
-    throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", name);
   }
 }
 
@@ -61,7 +61,7 @@ void FullyDifferentiableStateErrorFunctionT<T>::getInputImp(
       result(8 * iJoint + 7) = targetState[iJoint].scale;
     }
   } else {
-    throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", name);
   }
 }
 
@@ -84,7 +84,7 @@ void FullyDifferentiableStateErrorFunctionT<T>::setInputImp(
     }
     this->setTargetState(transforms);
   } else {
-    throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", name);
   }
 }
 
@@ -242,8 +242,7 @@ Eigen::VectorX<T> FullyDifferentiableStateErrorFunctionT<T>::d_gradient_d_input_
     }
     return result;
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiableMotionErrorFunctionT: " + inputName);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", inputName);
   }
 }
 

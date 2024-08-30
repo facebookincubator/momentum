@@ -7,9 +7,10 @@
 
 #pragma once
 
+#include <momentum/common/exception.h>
+
 #include <limits>
 #include <memory>
-#include <stdexcept>
 
 namespace momentum {
 
@@ -49,9 +50,7 @@ inline void aligned_free(void* ptr) {
 #endif
 
 inline constexpr std::size_t roundUpToAlignment(std::size_t value, std::size_t alignment) {
-  if (alignment == 0) {
-    throw std::invalid_argument("Alignment must be non-zero");
-  }
+  MT_THROW_IF_T(alignment == 0, std::invalid_argument, "Alignment must be non-zero");
   return ((value + alignment - 1) / alignment) * alignment;
 }
 
@@ -61,16 +60,12 @@ inline constexpr std::size_t roundUpToAlignment(std::size_t value, std::size_t a
 /// exceptions as `std::allocator<T>::allocate` does.
 template <typename T, std::size_t Alignment = alignof(T)>
 [[nodiscard]] T* alignedAlloc(std::size_t n) {
-  if (std::numeric_limits<std::size_t>::max() / sizeof(T) < n) {
-    throw std::bad_array_new_length();
-  }
+  MT_THROW_IF_T(std::numeric_limits<std::size_t>::max() / sizeof(T) < n, std::bad_array_new_length);
 
   const std::size_t size = roundUpToAlignment(n * sizeof(T), Alignment);
   void* ptr = aligned_malloc(size, Alignment);
 
-  if (ptr == nullptr) {
-    throw std::bad_alloc();
-  }
+  MT_THROW_IF_T(ptr == nullptr, std::bad_alloc);
 
   return static_cast<T*>(ptr);
 }

@@ -15,13 +15,11 @@
 #include "momentum/common/string.h"
 #include "momentum/math/utility.h"
 
-#include <fmt/format.h>
 #include <gsl/gsl>
 
 #include <charconv>
 #include <fstream>
 #include <optional>
-#include <stdexcept>
 #include <string_view>
 #include <type_traits>
 #include <unordered_set>
@@ -58,7 +56,7 @@ template <typename T>
   try {
     return from_chars_wrapping<T>(input, base);
   } catch (...) {
-    throw std::runtime_error("Error parsing string to number");
+    MT_THROW("Error parsing string to number");
   }
 }
 
@@ -90,8 +88,7 @@ LocatorList loadLocators(
     const Skeleton& skeleton,
     const ParameterTransform& parameterTransform) {
   std::ifstream instream(filename, std::ios::binary);
-  if (!instream.is_open())
-    throw std::runtime_error(fmt::format("Cannot find file {}", filename.string()));
+  MT_THROW_IF(!instream.is_open(), "Cannot find file {}", filename.string());
 
   instream.seekg(0, instream.end);
   auto length = instream.tellg();
@@ -197,8 +194,7 @@ LocatorList loadLocatorsFromBuffer(
   }
 
   std::string dup = firstDuplicate(res);
-  if (!dup.empty())
-    throw std::runtime_error(fmt::format("Duplicated locator {} found", dup));
+  MT_THROW_IF(!dup.empty(), "Duplicated locator {} found", dup);
 
   return res;
 }

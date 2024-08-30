@@ -28,10 +28,8 @@
 #include "momentum/math/mppca.h"
 #include "momentum/math/utility.h"
 
-#include <fmt/format.h>
 #include <fx/gltf.h>
 
-#include <exception>
 #include <variant>
 
 namespace {
@@ -791,16 +789,12 @@ void saveDocument(
         break;
     }
   } catch (const std::exception& e) {
-    std::stringstream ss;
-    ss << "Failed to save file to: " << filename << ". Error: " << e.what();
-    throw std::runtime_error(ss.str());
+    MT_THROW("Failed to save file to: {}. Error: {}", filename.string(), e.what());
   } catch (...) {
     std::rethrow_exception(std::current_exception());
   }
 
-  if (!filesystem::exists(filename)) {
-    throw std::runtime_error(fmt::format("Unable to save: {}", filename.string()));
-  }
+  MT_THROW_IF(!filesystem::exists(filename), "Unable to save: {}", filename.string());
 }
 
 } // namespace

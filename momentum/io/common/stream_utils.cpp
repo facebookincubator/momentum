@@ -7,6 +7,8 @@
 
 #include "momentum/io/common/stream_utils.h"
 
+#include "momentum/common/exception.h"
+
 namespace momentum {
 
 spanstreambuf::spanstreambuf(gsl::span<const std::byte> buffer) {
@@ -24,7 +26,7 @@ spanstreambuf::~spanstreambuf() {}
 std::streamsize spanstreambuf::xsputn(
     const spanstreambuf::char_type* /* s */,
     std::streamsize /* n */) {
-  throw std::runtime_error("spanstreambuf is not writable.");
+  MT_THROW("spanstreambuf is not writable.");
 }
 
 ispanstream::ispanstream(gsl::span<const std::byte> buffer) : std::istream(&sbuf_), sbuf_(buffer) {

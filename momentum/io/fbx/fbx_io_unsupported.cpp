@@ -8,22 +8,19 @@
 #include "momentum/io/fbx/fbx_io.h"
 
 #include "momentum/character/character.h"
+#include "momentum/common/exception.h"
 #include "momentum/io/skeleton/locator_io.h"
 #include "momentum/io/skeleton/parameter_transform_io.h"
-
-#include <stdexcept>
 
 namespace momentum {
 
 Character loadFbxCharacter(const filesystem::path& inputPath) {
-  throw std::runtime_error(
-      "FbxSDK is not supported on your platform. Please use loadOpenFbxCharacter instead.");
+  MT_THROW("FbxSDK is not supported on your platform. Please use loadOpenFbxCharacter instead.");
   return Character();
 }
 
 Character loadFbxCharacter(gsl::span<const std::byte> inputSpan) {
-  throw std::runtime_error(
-      "FbxSDK is not supported on your platform. Please use loadOpenFbxCharacter instead.");
+  MT_THROW("FbxSDK is not supported on your platform. Please use loadOpenFbxCharacter instead.");
   return Character();
 }
 
@@ -35,7 +32,7 @@ void saveFbx(
     double framerate,
     bool saveMesh,
     const FBXCoordSystemInfo& coordSystemInfo) {
-  throw std::runtime_error("FbxSDK is not supported on your platform.");
+  MT_THROW("FbxSDK is not supported on your platform.");
 }
 
 void saveFbxWithJointParams(
@@ -45,14 +42,14 @@ void saveFbxWithJointParams(
     double framerate,
     bool saveMesh,
     const FBXCoordSystemInfo& coordSystemInfo) {
-  throw std::runtime_error("FbxSDK is not supported on your platform.");
+  MT_THROW("FbxSDK is not supported on your platform.");
 }
 
 void saveFbxModel(
     const filesystem::path& filename,
     const Character& character,
     const FBXCoordSystemInfo& coordSystemInfo) {
-  throw std::runtime_error("FbxSDK is not supported on your platform.");
+  MT_THROW("FbxSDK is not supported on your platform.");
 }
 
 } // namespace momentum

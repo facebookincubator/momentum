@@ -37,7 +37,7 @@ Eigen::Index FullyDifferentiableMotionErrorFunctionT<T>::getInputSize(
   if (name == kTargetParameters || name == kTargetWeights) {
     return this->parameterTransform_.numAllModelParameters();
   } else {
-    throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", name);
   }
 }
 
@@ -60,7 +60,7 @@ void FullyDifferentiableMotionErrorFunctionT<T>::getInputImp(
       result = targetWeights;
     }
   } else {
-    throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", name);
   }
 }
 
@@ -73,7 +73,7 @@ void FullyDifferentiableMotionErrorFunctionT<T>::setInputImp(
   } else if (name == kTargetWeights) {
     this->setTargetParameters(this->getTargetParameters(), value);
   } else {
-    throw std::runtime_error("Unknown input to FullyDifferentiableMotionErrorFunctionT: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", name);
   }
 }
 
@@ -106,8 +106,7 @@ Eigen::VectorX<T> FullyDifferentiableMotionErrorFunctionT<T>::d_gradient_d_input
     return T(4) * this->weight_ * ModelParametersErrorFunctionT<T>::kMotionWeight *
         targetWeights.array() * (params.v - targetParameters.v).array() * inputVec.array();
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiableMotionErrorFunctionT: " + inputName);
+    MT_THROW("Unknown input to FullyDifferentiableMotionErrorFunctionT: {}", inputName);
   }
 }
 

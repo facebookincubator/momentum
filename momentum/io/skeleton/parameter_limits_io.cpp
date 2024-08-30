@@ -13,10 +13,7 @@
 #include "momentum/math/constants.h"
 #include "momentum/math/utility.h"
 
-#include <fmt/format.h>
 #include <re2/re2.h>
-
-#include <stdexcept>
 
 namespace momentum {
 
@@ -39,10 +36,10 @@ void parseMinmaxWithParameterIndex(
                                                                                                             // weight>
   std::array<std::string, 3> values;
   std::string valueX, valueY, weight;
-  if (!re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight)) {
-    throw std::runtime_error(
-        fmt::format("Unrecognized minmax limit token in parameter configuration : {}", valueStr));
-  }
+  MT_THROW_IF(
+      !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
+      "Unrecognized minmax limit token in parameter configuration : {}",
+      valueStr);
   p.data.minMax.parameterIndex = parameterIndex;
   p.data.minMax.limits = Vector2f(std::stof(valueX), std::stof(valueY));
   if (!weight.empty())
@@ -67,10 +64,10 @@ void parseMinmaxWithJointIndex(
                                                                                                             // <optional
                                                                                                             // weight>
   std::string valueX, valueY, weight;
-  if (!re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight)) {
-    throw std::runtime_error(
-        fmt::format("Unrecognized minmax limit token in parameter configuration : {}", valueStr));
-  }
+  MT_THROW_IF(
+      !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
+      "Unrecognized minmax limit token in parameter configuration : {}",
+      valueStr);
   p.data.minMaxJoint.jointIndex = jointIndex;
   p.data.minMaxJoint.jointParameter = jointParameter;
   p.data.minMaxJoint.limits = Vector2f(std::stof(valueX), std::stof(valueY));
@@ -96,10 +93,10 @@ void parseMinmaxPassive(
                                                                                                             // <optional
                                                                                                             // weight>
   std::string valueX, valueY, weight;
-  if (!re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight)) {
-    throw std::runtime_error(
-        fmt::format("Unrecognized minmax limit token in parameter configuration : {}", valueStr));
-  }
+  MT_THROW_IF(
+      !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
+      "Unrecognized minmax limit token in parameter configuration : {}",
+      valueStr);
   p.data.minMaxJoint.jointIndex = jointIndex;
   p.data.minMaxJoint.jointParameter = jointParameter;
   p.data.minMaxJoint.limits = Vector2f(std::stof(valueX), std::stof(valueY));
@@ -122,10 +119,10 @@ void parseLinear(
   std::array<std::string, 4> values;
   std::string name, scaleAndOffset, notUsed,
       weight; // TODO: Check if the second and third parameters are being correctly parsed
-  if (!re2::RE2::FullMatch(valueStr, linearRegex, &name, &scaleAndOffset, &notUsed, &weight)) {
-    throw std::runtime_error(
-        fmt::format("Unrecognized linear limit token in parameter configuration : {}", valueStr));
-  }
+  MT_THROW_IF(
+      !re2::RE2::FullMatch(valueStr, linearRegex, &name, &scaleAndOffset, &notUsed, &weight),
+      "Unrecognized linear limit token in parameter configuration : {}",
+      valueStr);
 
   int otherParameterIndex = -1;
   for (size_t d = 0; d < parameterTransform.name.size(); d++) {
@@ -134,10 +131,10 @@ void parseLinear(
       break;
     }
   }
-  if (otherParameterIndex == -1) {
-    throw std::runtime_error(fmt::format(
-        "Unrecognized parameter name for linear limit in parameter configuration : {}", valueStr));
-  }
+  MT_THROW_IF(
+      otherParameterIndex == -1,
+      "Unrecognized parameter name for linear limit in parameter configuration : {}",
+      valueStr);
 
   p.data.linear.referenceIndex = parameterIndex;
   p.data.linear.targetIndex = otherParameterIndex;
@@ -168,7 +165,8 @@ void parseEllipsoid(
   std::array<std::string, 14> values;
   std::string offsetX, offsetY, offsetZ, jointName, transX, transY, transZ, eulerZ, eulerY, eulerX,
       scaleX, scaleY, scaleZ, weight;
-  if (!re2::RE2::FullMatch(
+  MT_THROW_IF(
+      !re2::RE2::FullMatch(
           valueStr,
           ellipsoidRegex,
           &offsetX,
@@ -184,16 +182,15 @@ void parseEllipsoid(
           &scaleX,
           &scaleY,
           &scaleZ,
-          &weight)) {
-    throw std::runtime_error(fmt::format(
-        "Unrecognized ellipsoid limit token in parameter configuration : {}", valueStr));
-  }
+          &weight),
+      "Unrecognized ellipsoid limit token in parameter configuration : {}",
+      valueStr);
 
   const size_t ellipsoidJointIndex = skeleton.getJointIdByName(jointName);
-  if (ellipsoidJointIndex == kInvalidIndex) {
-    throw std::runtime_error(fmt::format(
-        "Unrecognized joint name for ellipsoid limit in parameter configuration : {}", valueStr));
-  }
+  MT_THROW_IF(
+      ellipsoidJointIndex == kInvalidIndex,
+      "Unrecognized joint name for ellipsoid limit in parameter configuration : {}",
+      valueStr);
 
   // parse ellipsoid number data
   p.data.ellipsoid.parent = jointIndex;
@@ -238,10 +235,10 @@ ParameterLimits parseParameterLimits(
     std::string parameterName;
     std::string type;
     std::string valueStr;
-    if (!re2::RE2::FullMatch(line, reg, &parameterName, &type, &valueStr)) {
-      throw std::runtime_error(
-          fmt::format("Could not parse limit line in parameter configuration : {}", line));
-    }
+    MT_THROW_IF(
+        !re2::RE2::FullMatch(line, reg, &parameterName, &type, &valueStr),
+        "Could not parse limit line in parameter configuration : {}",
+        line);
 
     int parameterIndex = -1;
     for (size_t d = 0; d < parameterTransform.name.size(); d++) {
@@ -283,8 +280,7 @@ ParameterLimits parseParameterLimits(
           "Deprecated parameter limit type: {} (typo). Please use 'ellipsoid' instead.", type);
       parseEllipsoid(pl, valueStr, skeleton, jointIndex);
     } else {
-      throw std::runtime_error(
-          fmt::format("Unexpected limit type '{}' in parameter configuration : {}", type, line));
+      MT_THROW("Unexpected limit type '{}' in parameter configuration : {}", type, line);
     }
   }
   return pl;

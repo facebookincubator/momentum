@@ -7,11 +7,11 @@
 
 #include "momentum/io/skeleton/mppca_io.h"
 
+#include "momentum/common/exception.h"
 #include "momentum/common/log.h"
 #include "momentum/math/mppca.h"
 
 #include <fstream>
-#include <stdexcept>
 
 namespace momentum {
 
@@ -28,9 +28,7 @@ std::shared_ptr<const Mppca> loadMppca(const gsl::span<const unsigned char> pose
 
 std::shared_ptr<const Mppca> loadMppca(const std::string& name) {
   std::ifstream data(name, std::ios::in | std::ios::binary);
-  if (!data.good()) {
-    throw std::runtime_error("Error loading Mppca model: could not open file '" + name + "'.");
-  }
+  MT_THROW_IF(!data.good(), "Error loading Mppca model: could not open file '{}'.", name);
 
   return loadMppca(data);
 }
@@ -40,9 +38,7 @@ std::shared_ptr<const Mppca> loadMppca(std::istream& inputStream) {
 
   // try to load file
   try {
-    if (!inputStream) {
-      throw std::runtime_error("Error loading Mppca model: empty input stream.");
-    }
+    MT_THROW_IF(!inputStream, "Error loading Mppca model: empty input stream.");
 
     // load dimensions
     uint64_t od;
@@ -80,9 +76,7 @@ std::shared_ptr<const Mppca> loadMppca(std::istream& inputStream) {
 
     return result;
   } catch (std::exception& e) {
-    std::ostringstream oss;
-    oss << "Error loading Mppca model: " << e.what();
-    throw std::runtime_error(oss.str());
+    MT_THROW("Error loading Mppca model: {}", e.what());
   }
   return result;
 }
