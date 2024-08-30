@@ -7,6 +7,8 @@
 
 #include "momentum/io/gltf/gltf_builder.h"
 
+#include "momentum/character/blend_shape.h"
+#include "momentum/character/blend_shape_skinning.h"
 #include "momentum/character/character.h"
 #include "momentum/character/character_state.h"
 #include "momentum/character/character_utility.h"
@@ -112,8 +114,9 @@ size_t addMeshToModel(fx::gltf::Document& model, const Mesh& mesh, const bool ad
 
   // need min/max for position accessor
   Box3f bbox;
-  for (const auto& v : verts)
+  for (const auto& v : verts) {
     bbox.extend(v);
+  }
   for (size_t d = 0; d < 3; d++) {
     model.accessors.at(prim.attributes["POSITION"]).min.emplace_back(bbox.min()[d]);
     model.accessors.at(prim.attributes["POSITION"]).max.emplace_back(bbox.max()[d]);
@@ -145,11 +148,114 @@ size_t addMeshToModel(fx::gltf::Document& model, const Mesh& mesh, const bool ad
         model, prim.attributes["TEXCOORD_0"], fx::gltf::BufferView::TargetType::ArrayBuffer);
   }
 
-  if (mesh.colors.size() == mesh.vertices.size() && addColor)
+  if (mesh.colors.size() == mesh.vertices.size() && addColor) {
     prim.attributes["COLOR_0"] =
         createAccessorBuffer<const Vector3b>(model, mesh.colors, true, true);
+    setBufferView(model, prim.attributes["COLOR_0"], fx::gltf::BufferView::TargetType::ArrayBuffer);
+  }
 
   return model.meshes.size() - 1;
+}
+
+void addMorphTargetsToModel(
+    fx::gltf::Document& model,
+    const BlendShape& shapes,
+    size_t numShapes,
+    size_t meshIndex) {
+  if (model.meshes.empty() || meshIndex == kInvalidIndex) {
+    MT_LOGW("No mesh is saved in the file when adding blendshapes");
+    return;
+  }
+
+  // assume there is only one primitive on the character mesh.
+  auto& prim = model.meshes.at(model.nodes.at(meshIndex).mesh).primitives.at(0);
+  size_t numShapesAdded = prim.targets.size();
+  if (numShapesAdded >= numShapes) {
+    // enough shapes already exist; nothing to be done.
+    return;
+  }
+
+  const MatrixXf& shapeVecs = shapes.getShapeVectors();
+  for (size_t iShape = numShapesAdded; iShape < numShapes; ++iShape) {
+    // make a copy so we can scale it
+    VectorXf deltas = shapeVecs.col(iShape);
+    fromMomentumVec3f(deltas);
+    prim.targets.emplace_back();
+    auto& attr = prim.targets.back();
+
+    gsl::span<const Eigen::Vector3f> span(
+        reinterpret_cast<Eigen::Vector3f*>(deltas.data()), static_cast<size_t>(deltas.size() / 3));
+    attr["POSITION"] = createAccessorBuffer<const Vector3f>(model, span, true);
+    setBufferView(model, attr["POSITION"], fx::gltf::BufferView::TargetType::ArrayBuffer);
+
+    // set bbox
+    Box3f bbox;
+    for (const Vector3f& v : span) {
+      bbox.extend(v);
+    }
+    for (size_t d = 0; d < 3; ++d) {
+      model.accessors.at(attr["POSITION"]).min.emplace_back(bbox.min()[d]);
+      model.accessors.at(attr["POSITION"]).max.emplace_back(bbox.max()[d]);
+    }
+  }
+}
+
+void addMorphWeightsToModel(
+    fx::gltf::Document& model,
+    const Character& character,
+    const float fps,
+    const MatrixXf& modelParams,
+    const size_t meshIndex,
+    const std::string& motionName = "default") {
+  const size_t numFrames = modelParams.cols();
+  if (numFrames == 0) {
+    return;
+  }
+
+  const auto& pt = character.parameterTransform;
+  const size_t numWeights = pt.numBlendShapeParameters();
+  if (numWeights == 0) {
+    return;
+  }
+
+  // validate the mesh node
+  if (model.meshes[model.nodes[meshIndex].mesh].primitives.size() != 1 ||
+      model.meshes[model.nodes[meshIndex].mesh].primitives.at(0).targets.size() != numWeights) {
+    MT_LOGW("No valid mesh to add blendshape animation for");
+    return;
+  }
+
+  // extract weight values
+  std::vector<float> timestamps(numFrames, 0);
+  bool useChannel = false;
+  // Important to make sure row vs col is what createSampler expects
+  MatrixXf weights(numWeights, numFrames);
+
+  for (size_t iFrame = 0; iFrame < numFrames; ++iFrame) {
+    const VectorXf& pose = modelParams.col(iFrame);
+    const VectorXf w = extractBlendWeights(pt, ModelParameters(pose)).v;
+    if (w.norm() > 1e-5f) {
+      useChannel = true;
+    }
+    weights.col(iFrame) = w;
+    timestamps[iFrame] = static_cast<float>(iFrame) / fps;
+  }
+  if (!useChannel) {
+    return;
+  }
+
+  // store weight values in gltf document
+  auto& animation = addMomentumAnimationToModel(model, motionName);
+  const auto timestampIdx = createAccessorBuffer<const float>(model, timestamps);
+  model.accessors[timestampIdx].min.emplace_back(timestamps.front());
+  model.accessors[timestampIdx].max.emplace_back(timestamps.back());
+
+  animation.channels.emplace_back();
+  auto& channel = animation.channels.back();
+  channel.sampler = createSampler<const float>(
+      model, animation, gsl::make_span(weights.data(), numWeights * numFrames), timestampIdx);
+  channel.target.node = meshIndex;
+  channel.target.path = "weights";
 }
 
 Mesh createUnitCube(const Eigen::Vector3b& color) {
@@ -261,7 +367,7 @@ void addActorAnimationToModel(
   }
 }
 
-void addMeshToModel(
+size_t addMeshToModel(
     fx::gltf::Document& model,
     const Character& character,
     const std::vector<size_t>& jointToNodeMap,
@@ -279,7 +385,7 @@ void addMeshToModel(
     auto newMeshIdx = addMeshToModel(model, mesh);
     if (newMeshIdx >= model.meshes.size()) {
       // Mesh not valid, skip
-      return;
+      return kInvalidIndex;
     }
     node.mesh = newMeshIdx;
     auto& m = model.meshes[node.mesh];
@@ -334,7 +440,9 @@ void addMeshToModel(
       setBufferView(
           model, prim.attributes[kWeightsAttribute], fx::gltf::BufferView::TargetType::ArrayBuffer);
     }
+    return nodeIdx;
   }
+  return kInvalidIndex;
 }
 
 void addSkeletonStatesToModel(
@@ -344,10 +452,10 @@ void addSkeletonStatesToModel(
     gsl::span<const SkeletonState> skeletonStates,
     gsl::span<const size_t> jointToNodeMap,
     const std::string& motionName = "default") {
-  // disentangle input values for storage
   const auto numFrames = skeletonStates.size();
-  if (numFrames == 0)
+  if (numFrames == 0) {
     return;
+  }
 
   // check for valid character and stuff before adding things
   if (character.skeleton.joints.empty() ||
@@ -401,7 +509,7 @@ void addSkeletonStatesToModel(
   // add data to gltf document
   auto& animation = addMomentumAnimationToModel(model, motionName);
   const auto timestampIdx = createAccessorBuffer<const float>(model, timestamps);
-  model.accessors[timestampIdx].min.emplace_back(0.0f);
+  model.accessors[timestampIdx].min.emplace_back(timestamps.front());
   model.accessors[timestampIdx].max.emplace_back(timestamps.back());
 
   // only save the animation channels that actually have any useful data
@@ -440,6 +548,7 @@ void addMotionToModel(
     const MotionParameters& inputMotion,
     const IdentityParameters& inputIdentity,
     const std::vector<size_t>& jointToNodeMap,
+    const size_t meshIndex,
     const bool addExtension = true,
     const std::string& motionName = "default") {
   // disentangle input values for storage
@@ -482,17 +591,20 @@ void addMotionToModel(
     return;
   }
 
+  // add blenshapes (that are used) if available
+  if (meshIndex != kInvalidIndex && character.blendShape != nullptr) {
+    addMorphTargetsToModel(
+        model,
+        *character.blendShape.get(),
+        character.parameterTransform.numBlendShapeParameters(),
+        meshIndex);
+
+    addMorphWeightsToModel(model, character, fps, motion, meshIndex, motionName);
+  }
+
   // map data to character
   const auto inputPoses = mapMotionToCharacter(inputMotion, character);
   const auto inputOffset = mapIdentityToCharacter(inputIdentity, character);
-
-  // store parameterized motion into joints for actual animation
-  const auto numJoints = character.skeleton.joints.size();
-  std::vector<float> timestamps(numFrames);
-  std::vector<Vector3<bool>> useChannel(numJoints, Vector3<bool>::Constant(false));
-  std::vector<std::vector<Vector3f>> translation(numJoints, std::vector<Vector3f>(numFrames));
-  std::vector<std::vector<Vector4f>> rotation(numJoints, std::vector<Vector4f>(numFrames));
-  std::vector<std::vector<Vector3f>> scale(numJoints, std::vector<Vector3f>(numFrames));
 
   // create skeleton states from model params
   std::vector<momentum::SkeletonState> skeletonStates(numFrames);
@@ -647,9 +759,10 @@ void saveDocument(
     deducedFileFormat = GltfFileFormat::GLTF_ASCII;
 
   try {
-    // Check if the parent directory of the file exists. If the parent directory does not exist and
-    // is not an empty string (which means the file is in the current working directory), create it.
-    // This is necessary because fx::gltf::Save throws an exception if the directory does not exist.
+    // Check if the parent directory of the file exists. If the parent directory does not exist
+    // and is not an empty string (which means the file is in the current working directory),
+    // create it. This is necessary because fx::gltf::Save throws an exception if the directory
+    // does not exist.
     const filesystem::path parentDir = filename.parent_path();
     if (!parentDir.empty() && !filesystem::exists(parentDir)) {
       filesystem::create_directories(parentDir);
@@ -697,6 +810,8 @@ struct GltfBuilder::Impl {
   struct CharacterData {
     std::vector<size_t> nodeMap = {};
     size_t rootIndex = kInvalidIndex;
+    // node index of the mesh node; needed for creating blendshape morph targets
+    size_t meshIndex = kInvalidIndex;
     std::vector<size_t> animationIndices = {};
   };
 
@@ -730,7 +845,6 @@ void GltfBuilder::addCharacter(
     // #TODO: proper warning
     return;
   }
-
   auto& scene = getDefaultScene(impl_->document);
 
   // Add character root node
@@ -758,7 +872,8 @@ void GltfBuilder::addCharacter(
     addLocatorsToModel(impl_->document, character, characterData.nodeMap, addExtensions);
   }
   if (addMesh) {
-    addMeshToModel(impl_->document, character, characterData.nodeMap, rootNodeIdx);
+    characterData.meshIndex =
+        addMeshToModel(impl_->document, character, characterData.nodeMap, rootNodeIdx);
   }
   if (addExtensions) {
     auto& def = addMomentumExtension(impl_->document.extensionsAndExtras);
@@ -813,9 +928,18 @@ void GltfBuilder::addMotion(
   }
 
   const auto& jointToNodeMap = impl_->characterData[character.name].nodeMap;
+  const size_t meshIndex = impl_->characterData[character.name].meshIndex;
   // add motion
   addMotionToModel(
-      impl_->document, character, fps, motion, offsets, jointToNodeMap, addExtensions, customName);
+      impl_->document,
+      character,
+      fps,
+      motion,
+      offsets,
+      jointToNodeMap,
+      meshIndex,
+      addExtensions,
+      customName);
 
   auto animIter = std::find_if(
       impl_->document.animations.begin(),

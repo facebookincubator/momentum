@@ -107,7 +107,7 @@ std::vector<T> copyAlignedAccessorBuffer(const fx::gltf::Document& model, int32_
 // template to set accessor
 template <typename T>
 void setAccessorType(fx::gltf::Accessor& /* accessor */) {
-  throw std::runtime_error("Unsupported data type");
+  throw std::runtime_error("Unsupported data type " + std::string(typeid(T).name()));
 }
 
 // create accessor buffer

@@ -680,6 +680,13 @@ if(MOMENTUM_BUILD_EXAMPLES)
   )
 
   mt_executable(
+    NAME animate_shapes
+    SOURCES_VARS animate_shapes_sources
+    LINK_LIBRARIES
+      momentum io CLI11::CLI11
+  )
+
+  mt_executable(
     NAME process_markers_app
     SOURCES_VARS process_markers_app_sources
     LINK_LIBRARIES
