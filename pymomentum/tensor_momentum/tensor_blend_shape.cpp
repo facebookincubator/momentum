@@ -67,13 +67,11 @@ variable_list ApplyBlendShapeCoefficientsFunction::forward(
   const momentum::BlendShape* blendShape =
       py::cast<const momentum::BlendShape*>(blendShape_in);
 
-  if (nCoeffs > blendShape->shapeSize()) {
-    std::ostringstream oss;
-    oss << "In applyBlendShapeCoeffs, invalid blend shape count; expected at most "
-        << blendShape->shapeSize() << " coefficients but got " << nCoeffs
-        << ".";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      nCoeffs > blendShape->shapeSize(),
+      "In applyBlendShapeCoeffs, invalid blend shape count; expected at most {} coefficients but got {}.",
+      blendShape->shapeSize(),
+      nCoeffs);
 
   const int64_t nPoints = blendShape->modelSize();
 
@@ -105,10 +103,9 @@ variable_list ApplyBlendShapeCoefficientsFunction::forward(
 variable_list ApplyBlendShapeCoefficientsFunction::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
 
   const momentum::BlendShape* blendShape =
       py::cast<const momentum::BlendShape*>(
@@ -122,9 +119,7 @@ variable_list ApplyBlendShapeCoefficientsFunction::backward(
   const int nPoints = blendShape->modelSize();
 
   const auto saved = ctx->get_saved_variables();
-  if (saved.empty()) {
-    throw std::runtime_error("Missing saved variable");
-  }
+  MT_THROW_IF(saved.empty(), "Missing saved variable");
 
   // The only thing we actually need the blend shape vector for here is to
   // know how many blend shapes the user passed in:

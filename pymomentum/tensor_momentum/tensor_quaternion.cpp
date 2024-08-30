@@ -10,6 +10,7 @@
 #include "pymomentum/tensor_utility/autograd_utility.h"
 #include "pymomentum/tensor_utility/tensor_utility.h"
 
+#include <momentum/common/exception.h>
 #include <momentum/diff_ik/ceres_utility.h>
 
 #include <ATen/Functions.h>
@@ -107,10 +108,9 @@ variable_list XYZEulerToQuaternionFunction<T>::backward(
   TensorChecker checker("euler_xyz_to_quaternion");
   const auto nEuler_index = -1;
 
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
 
   bool squeeze = false;
   const auto input_device = grad_outputs[0].device();
@@ -180,10 +180,8 @@ at::Tensor sqr(at::Tensor val) {
 } // namespace
 
 void checkQuaternion(at::Tensor q) {
-  if (q.size(-1) != 4) {
-    throw std::runtime_error(
-        "Quaternion should have last dimension equal to 4.");
-  }
+  MT_THROW_IF(
+      q.size(-1) != 4, "Quaternion should have last dimension equal to 4.");
 }
 
 std::tuple<at::Tensor, at::Tensor> splitQuaternion(at::Tensor q) {
@@ -199,9 +197,8 @@ at::Tensor quaternionMultiply(at::Tensor q1, at::Tensor q2) {
   auto [r1, v1] = splitQuaternion(q1);
   auto [r2, v2] = splitQuaternion(q2);
 
-  if (q1.sizes() != q2.sizes()) {
-    throw std::runtime_error("Expected matching quaternion dimensions.");
-  }
+  MT_THROW_IF(
+      q1.sizes() != q2.sizes(), "Expected matching quaternion dimensions.");
 
   // (r1*v1 + r2*v2 + v1 x v2, r1*r2 - v1.v2)
   // Dot product here is a product followed by a sum because I can't figure out
@@ -264,9 +261,8 @@ at::Tensor quaternionIdentity() {
 }
 
 at::Tensor quaternionToRotationMatrix(at::Tensor q) {
-  if (q.size(-1) != 4) {
-    throw std::runtime_error("Expected quaternion tensor (last dimension=4).");
-  }
+  MT_THROW_IF(
+      q.size(-1) != 4, "Expected quaternion tensor (last dimension=4).");
 
   const at::Tensor qx = q.select(-1, 0).unsqueeze(-1);
   const at::Tensor qy = q.select(-1, 1).unsqueeze(-1);
@@ -454,20 +450,18 @@ at::Tensor checkAndNormalizeWeights(
     weights = weights.squeeze(-1);
   }
 
-  if (weights.dim() + 1 != quaternions.dim()) {
-    throw std::runtime_error(
-        "Expected weights vector to match quaternion vector in all dimensions except the last; got weights=" +
-        formatTensorSizes(weights) +
-        " and quaternions=" + formatTensorSizes(quaternions));
-  }
+  MT_THROW_IF(
+      weights.dim() + 1 != quaternions.dim(),
+      "Expected weights vector to match quaternion vector in all dimensions except the last; got weights={} and quaternions={}",
+      formatTensorSizes(weights),
+      formatTensorSizes(quaternions));
 
   for (int64_t i = 0; i < weights.dim(); ++i) {
-    if (weights.size(i) != quaternions.size(i)) {
-      throw std::runtime_error(
-          "Expected weights vector to match quaternion vector in all dimensions except the last; got weights=" +
-          formatTensorSizes(weights) +
-          " and quaternions=" + formatTensorSizes(quaternions));
-    }
+    MT_THROW_IF(
+        weights.size(i) != quaternions.size(i),
+        "Expected weights vector to match quaternion vector in all dimensions except the last; got weights={} and quaternions={}",
+        formatTensorSizes(weights),
+        formatTensorSizes(quaternions));
   }
 
   // Normalize the weights

@@ -39,15 +39,13 @@ void jointParametersToPositions(
   const momentum::SkeletonStateT<T> skelState(jointParameters, skeleton);
 
   const int n = parents.size();
-  if (offsets.size() != 3 * n) {
-    throw std::runtime_error(
-        "Mismatched offsets size in jointParametersToPositions()");
-  }
+  MT_THROW_IF(
+      offsets.size() != 3 * n,
+      "Mismatched offsets size in jointParametersToPositions()");
 
-  if (positions.size() != 3 * n) {
-    throw std::runtime_error(
-        "Mismatched positions size in jointParametersToPositions()");
-  }
+  MT_THROW_IF(
+      positions.size() != 3 * n,
+      "Mismatched positions size in jointParametersToPositions()");
 
   for (int i = 0; i < n; ++i) {
     const int parent = parents[i];
@@ -70,10 +68,9 @@ void d_jointParametersToPositions(
   const momentum::SkeletonStateT<T> skelState(jointParameters, skeleton);
 
   const int n = parents.size();
-  if (offsets.size() != 3 * n) {
-    throw std::runtime_error(
-        "Mismatched offsets size in d_modelParametersToPositions()");
-  }
+  MT_THROW_IF(
+      offsets.size() != 3 * n,
+      "Mismatched offsets size in d_modelParametersToPositions()");
 
   dLoss_jointParameters.setZero();
 
@@ -226,10 +223,9 @@ template <typename T>
 variable_list JointParametersToPositionsFunction<T>::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
 
   // Restore variables:
   const int nJointParameters = static_cast<int>(

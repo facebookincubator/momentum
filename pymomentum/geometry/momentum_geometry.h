@@ -14,7 +14,6 @@
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 
-#include <stdexcept>
 #include <string>
 
 namespace pymomentum {
@@ -150,11 +149,11 @@ std::vector<Eigen::Matrix<T, N, 1>> asVectorList(
     return result;
   }
 
-  if (b.cols() != N) {
-    std::ostringstream oss;
-    oss << "Expected a matrix with " << N << " columns, but got " << b.cols();
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      b.cols() != N,
+      "Expected a matrix with {} columns, but got {}",
+      N,
+      b.cols());
 
   result.reserve(b.rows());
   for (Eigen::Index i = 0; i < b.rows(); ++i) {

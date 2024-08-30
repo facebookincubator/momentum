@@ -37,12 +37,11 @@ void saveGLTFCharacterToFile(
     std::optional<const std::vector<std::vector<momentum::Marker>>> markers) {
   if (motion.has_value()) {
     const auto& [parameters, poses] = motion.value();
-    if (poses.cols() != parameters.size()) {
-      std::ostringstream oss;
-      oss << "Expected cols of motion parameters to be " << parameters.size()
-          << " but got " << poses.cols();
-      throw std::runtime_error(oss.str());
-    }
+    MT_THROW_IF(
+        poses.cols() != parameters.size(),
+        "Expected cols of motion parameters to be {} but got {}",
+        parameters.size(),
+        poses.cols());
   }
   momentum::saveCharacter(
       path,
@@ -60,16 +59,11 @@ void saveGLTFCharacterToFileFromSkelStates(
     const std::vector<RowMatrixf>& skel_states,
     const std::vector<RowMatrixf>& joint_params,
     std::optional<const std::vector<std::vector<momentum::Marker>>> markers) {
-  if (markers.has_value()) {
-    if (markers->size() != skel_states.size()) {
-      std::ostringstream oss;
-      oss << "The number of frames of the skeleton states array "
-          << skel_states.size()
-          << " does not coincide with the number of frames of the markers "
-          << markers->size();
-      throw std::length_error(oss.str());
-    }
-  }
+  MT_THROW_IF(
+      markers.has_value() && markers->size() != skel_states.size(),
+      "The number of frames of the skeleton states array {} does not coincide with the number of frames of the markers {}",
+      skel_states.size(),
+      markers->size());
   const int numFrames = skel_states.size();
   const int numJoints = skel_states[0].rows();
   const int numElements = skel_states[0].cols();

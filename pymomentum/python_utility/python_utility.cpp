@@ -31,48 +31,42 @@ std::vector<const momentum::Character*> toCharacterList(
           py::cast<const momentum::Character*>(PyList_GetItem(obj, i)));
     }
 
-    if (result.empty()) {
-      throw std::runtime_error(
-          "Expected a valid pymomentum.Character of list of Characters in " +
-          std::string(context));
-    }
+    MT_THROW_IF(
+        result.empty(),
+        "Expected a valid pymomentum.Character of list of Characters in {}",
+        context);
 
-    if (result.size() != nBatch) {
-      throw std::runtime_error(
-          "Expected a valid pymomentum.Character of list of Characters in " +
-          std::string(context));
-    }
+    MT_THROW_IF(
+        result.size() != nBatch,
+        "Expected a valid pymomentum.Character of list of Characters in {}",
+        context);
 
     for (const auto& c : result) {
-      if (c->parameterTransform.name !=
-          result.front()->parameterTransform.name) {
-        throw std::runtime_error(
-            std::string("Mismatch in parameter transforms in ") + context +
-            "; when processing a batch of characters, all characters must have the same parameters in the same order.");
-      }
+      MT_THROW_IF(
+          c->parameterTransform.name != result.front()->parameterTransform.name,
+          "Mismatch in parameter transforms in {}; when processing a batch of characters, all characters must have the same parameters in the same order.",
+          context);
 
-      if (c->parameterTransform.numJointParameters() !=
-          result.front()->parameterTransform.numJointParameters()) {
-        throw std::runtime_error(
-            std::string("Mismatch in parameter transforms in ") + context +
-            "; when processing a batch of characters, all characters must have the same number of skeleton bones.");
-      }
+      MT_THROW_IF(
+          c->parameterTransform.numJointParameters() !=
+              result.front()->parameterTransform.numJointParameters(),
+          "Mismatch in parameter transforms in {}; when processing a batch of characters, all characters must have the same number of skeleton bones.",
+          context);
 
       if (result.front()->mesh) {
-        if (!c->mesh ||
-            c->mesh->vertices.size() != result.front()->mesh->vertices.size()) {
-          throw std::runtime_error(
-              std::string("Mismatch in meshes in ") + context +
-              "; when processing a batch of characters, all characters must have the same number of vertices.");
-        }
+        MT_THROW_IF(
+            !c->mesh ||
+                c->mesh->vertices.size() !=
+                    result.front()->mesh->vertices.size(),
+            "Mismatch in meshes in {}; when processing a batch of characters, all characters must have the same number of vertices.",
+            context);
       }
 
       if (result.front()->skinWeights) {
-        if (!c->skinWeights) {
-          throw std::runtime_error(
-              std::string("Mismatch in meshes in ") + context +
-              "; when processing a batch of characters, all characters must have the same number of vertices.");
-        }
+        MT_THROW_IF(
+            !c->skinWeights,
+            "Mismatch in meshes in {}; when processing a batch of characters, all characters must have the same number of vertices.",
+            context);
       }
     }
 
@@ -92,15 +86,15 @@ const momentum::Character& anyCharacter(PyObject* obj, const char* context) {
       try {
         return *py::cast<const momentum::Character*>(PyList_GetItem(obj, i));
       } catch (std::exception&) {
-        throw std::runtime_error(
-            "Expected a valid pymomentum.Character of list of Characters in " +
-            std::string(context));
+        MT_THROW(
+            "Expected a valid pymomentum.Character of list of Characters in {}",
+            context);
       }
     }
 
-    throw std::runtime_error(
-        "Expected a valid pymomentum.Character of list of Characters in " +
-        std::string(context) + "; got an empty list.");
+    MT_THROW(
+        "Expected a valid pymomentum.Character of list of Characters in {}; got an empty list.",
+        context);
   }
 
   return *py::cast<const momentum::Character*>(obj);
@@ -111,9 +105,7 @@ nlohmann::json from_msgpack(const pybind11::bytes& bytes) {
   const uint8_t* data = reinterpret_cast<const uint8_t*>(info.ptr);
   const size_t length = static_cast<size_t>(info.size);
 
-  if (data == nullptr) {
-    throw std::runtime_error("Unable to extract contents from bytes.");
-  }
+  MT_THROW_IF(data == nullptr, "Unable to extract contents from bytes.")
 
   return nlohmann::json::from_msgpack(data, data + length);
 }
@@ -135,9 +127,7 @@ PyBytesStreamBuffer::PyBytesStreamBuffer(const pybind11::bytes& bytes) {
   char* data = const_cast<char*>(reinterpret_cast<const char*>(info.ptr));
   const size_t length = static_cast<size_t>(info.size);
 
-  if (data == nullptr) {
-    throw std::runtime_error("Unable to extract contents from bytes.");
-  }
+  MT_THROW_IF(data == nullptr, "Unable to extract contents from bytes.")
 
   this->setg(data, data, data + length);
 }

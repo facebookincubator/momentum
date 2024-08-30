@@ -8,7 +8,6 @@
 #include "pymomentum/tensor_momentum/tensor_skinning.h"
 
 #include "pymomentum/python_utility/python_utility.h"
-#include "pymomentum/tensor_momentum/tensor_parameter_transform.h"
 #include "pymomentum/tensor_momentum/tensor_transforms.h"
 #include "pymomentum/tensor_utility/autograd_utility.h"
 #include "pymomentum/tensor_utility/tensor_utility.h"
@@ -19,8 +18,6 @@
 
 #include <dispenso/parallel_for.h> // @manual
 #include <torch/csrc/jit/python/python_ivalue.h>
-
-#include <stdexcept>
 
 namespace pymomentum {
 
@@ -51,9 +48,8 @@ template <typename T>
 std::vector<Eigen::Matrix4<T>> multiply(
     const std::vector<Eigen::Matrix4<T>>& lhs,
     const std::vector<Eigen::Matrix4<T>>& rhs) {
-  if (lhs.size() != rhs.size()) {
-    throw std::runtime_error("Mismatch in list sizes in multiply().");
-  }
+  MT_THROW_IF(
+      lhs.size() != rhs.size(), "Mismatch in list sizes in multiply().");
   std::vector<Eigen::Matrix4<T>> result;
   result.reserve(lhs.size());
   for (size_t i = 0; i < lhs.size(); ++i) {
@@ -81,10 +77,9 @@ variable_list SkinPointsFunction<T>::forward(
     at::Tensor restPoints) {
   const auto& firstCharacter = anyCharacter(characters_in, "skin_points()");
 
-  if (!firstCharacter.mesh || !firstCharacter.skinWeights) {
-    throw std::runtime_error(
-        "When skinning points, character is missing a mesh.");
-  }
+  MT_THROW_IF(
+      !firstCharacter.mesh || !firstCharacter.skinWeights,
+      "When skinning points, character is missing a mesh.");
 
   ctx->saved_data["character"] =
       c10::ivalue::ConcretePyObjectHolder::create(characters_in);
@@ -180,10 +175,9 @@ template <typename T>
 variable_list SkinPointsFunction<T>::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in SkinPointsFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in SkinPointsFunction::backward");
 
   const auto& firstCharacter =
       anyCharacter(ctx->saved_data["character"].toPyObject(), "skin_points()");
@@ -195,9 +189,8 @@ variable_list SkinPointsFunction<T>::backward(
   auto savedItr = std::begin(saved);
   auto transforms = *savedItr++;
   auto restPoints = *savedItr++;
-  if (savedItr != std::end(saved)) {
-    throw std::runtime_error("Mismatch in saved variable counts.");
-  }
+  MT_THROW_IF(
+      savedItr != std::end(saved), "Mismatch in saved variable counts.");
 
   TensorChecker checker("skin_points");
 
@@ -360,8 +353,8 @@ at::Tensor skinPoints(
     // Assumed to be a matrix.
     ;
   } else {
-    throw std::runtime_error(
-        "In skin_points, skel_state tensor expected to be either a skel_state tensor ([nBatch x nJoints x 8]) or a tensor of 4x4 matrices ([nBatch x nJoints x 4 x 4]).  Got " +
+    MT_THROW(
+        "In skin_points, skel_state tensor expected to be either a skel_state tensor ([nBatch x nJoints x 8]) or a tensor of 4x4 matrices ([nBatch x nJoints x 4 x 4]).  Got {}",
         formatTensorSizes(skel_state));
   }
 
@@ -374,24 +367,18 @@ at::Tensor computeVertexNormals(
     at::Tensor triangles) {
   // vertex_positions shape: [..., n_vertices, 3]
   // triangles shape: [n_triangles, 3]
-  if (vertex_positions.ndimension() < 2) {
-    std::ostringstream oss;
-    oss << "In compute_vertex_normals, expected vertex_positions to have at least two dimensions, got " +
-            formatTensorSizes(vertex_positions);
-    throw std::runtime_error(oss.str());
-  }
-  if (vertex_positions.size(-1) != 3) {
-    std::ostringstream oss;
-    oss << "In compute_vertex_normals, expected vertex_positions to have last dimension equal to 3, got " +
-            formatTensorSizes(vertex_positions);
-    throw std::runtime_error(oss.str());
-  }
-  if (triangles.ndimension() != 2 || triangles.size(-1) != 3) {
-    std::ostringstream oss;
-    oss << "In compute_vertex_normals, expected triangles to have shape [n_triangles, 3], got " +
-            formatTensorSizes(triangles);
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      vertex_positions.ndimension() < 2,
+      "In compute_vertex_normals, expected vertex_positions to have at least two dimensions, got {}",
+      formatTensorSizes(vertex_positions));
+  MT_THROW_IF(
+      vertex_positions.size(-1) != 3,
+      "In compute_vertex_normals, expected vertex_positions to have last dimension equal to 3, got {}",
+      formatTensorSizes(vertex_positions));
+  MT_THROW_IF(
+      triangles.ndimension() != 2 || triangles.size(-1) != 3,
+      "In compute_vertex_normals, expected triangles to have shape [n_triangles, 3], got {}",
+      formatTensorSizes(triangles));
 
   // x1, x2, x3: batch_size x n_triangles x 3
   at::Tensor x1 =

@@ -125,10 +125,9 @@ template <typename T>
 variable_list ApplyParameterTransformFunction<T>::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
 
   // Restore variables:
   PyObject* characters = nullptr;
@@ -138,9 +137,9 @@ variable_list ApplyParameterTransformFunction<T>::backward(
     auto itr = ctx->saved_data.find("parameterTransform");
     if (itr == ctx->saved_data.end()) {
       itr = ctx->saved_data.find("character");
-      if (itr == ctx->saved_data.end()) {
-        throw std::runtime_error("Missing both paramTransform and characters.");
-      }
+      MT_THROW_IF(
+          itr == ctx->saved_data.end(),
+          "Missing both paramTransform and characters.");
       characters = itr->second.toPyObject();
     } else {
       paramTransform = py::cast<const momentum::ParameterTransform*>(
@@ -244,11 +243,10 @@ momentum::ParameterSet tensorToParameterSet(
 
   const auto nParam = parameterTransform.numAllModelParameters();
 
-  if (isEmpty(paramSet) || paramSet.ndimension() != 1 ||
-      paramSet.size(0) != nParam) {
-    throw std::runtime_error(
-        "Mismatch between active parameters size and parameter transform size.");
-  }
+  MT_THROW_IF(
+      isEmpty(paramSet) || paramSet.ndimension() != 1 ||
+          paramSet.size(0) != nParam,
+      "Mismatch between active parameters size and parameter transform size.");
 
   paramSet = paramSet.to(at::DeviceType::CPU, at::ScalarType::Bool);
   auto ptr = (uint8_t*)paramSet.data_ptr();
@@ -310,10 +308,8 @@ at::Tensor getParametersForJoints(
       parameterTransform.numJointParameters() / momentum::kParametersPerJoint;
   std::vector<bool> activeJoints(nJoints);
   for (const auto& idx : jointIndices) {
-    if (idx >= nJoints) {
-      throw std::runtime_error(
-          "getParametersForJoints: joint index out of bounds.");
-    }
+    MT_THROW_IF(
+        idx >= nJoints, "getParametersForJoints: joint index out of bounds.");
     activeJoints[idx] = true;
   }
 
@@ -352,7 +348,7 @@ at::Tensor findParameters(
       if (allowMissing) {
         continue;
       } else {
-        throw std::runtime_error("Missing parameter: " + name);
+        MT_THROW("Missing parameter: {}", name);
       }
     }
 
@@ -422,10 +418,9 @@ variable_list ApplyInverseParameterTransformFunction::forward(
 variable_list ApplyInverseParameterTransformFunction::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in ApplyParameterTransformFunction::backward");
 
   // Restore variables:
   const auto inverseParamTransform =
@@ -443,11 +438,10 @@ variable_list ApplyInverseParameterTransformFunction::backward(
     dLoss_dModelParameters = dLoss_dModelParameters.unsqueeze(0);
   }
 
-  if (dLoss_dModelParameters.size(1) !=
-      inverseParamTransform->numAllModelParameters()) {
-    throw std::runtime_error(
-        "Unexpected error: mismatch in parameter transform sizes.");
-  }
+  MT_THROW_IF(
+      dLoss_dModelParameters.size(1) !=
+          inverseParamTransform->numAllModelParameters(),
+      "Unexpected error: mismatch in parameter transform sizes.");
 
   const auto nBatch = dLoss_dModelParameters.size(0);
 
@@ -522,15 +516,13 @@ at::Tensor unflattenJointParameters(
     return tensor_in;
   }
 
-  if (tensor_in.ndimension() < 1 ||
-      tensor_in.size(-1) !=
-          momentum::kParametersPerJoint * character.skeleton.joints.size()) {
-    std::ostringstream oss;
-    oss << "Expected [... x (nJoints*7)] joint parameters tensor (with nJoints="
-        << character.skeleton.joints.size() << "); got "
-        << formatTensorSizes(tensor_in);
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      tensor_in.ndimension() < 1 ||
+          tensor_in.size(-1) !=
+              momentum::kParametersPerJoint * character.skeleton.joints.size(),
+      "Expected [... x (nJoints*7)] joint parameters tensor (with nJoints={}); got {}",
+      character.skeleton.joints.size(),
+      formatTensorSizes(tensor_in));
 
   std::vector<int64_t> dimensions;
   for (int64_t i = 0; i < tensor_in.ndimension(); ++i) {
@@ -554,15 +546,13 @@ at::Tensor flattenJointParameters(
     return tensor_in;
   }
 
-  if (tensor_in.ndimension() < 2 ||
-      (tensor_in.size(-1) != momentum::kParametersPerJoint ||
-       tensor_in.size(-2) != character.skeleton.joints.size())) {
-    std::ostringstream oss;
-    oss << "Expected [... x nJoints x 7] joint parameters tensor (with nJoints="
-        << character.skeleton.joints.size() << "); got "
-        << formatTensorSizes(tensor_in);
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      tensor_in.ndimension() < 2 ||
+          (tensor_in.size(-1) != momentum::kParametersPerJoint ||
+           tensor_in.size(-2) != character.skeleton.joints.size()),
+      "Expected [... x nJoints x 7] joint parameters tensor (with nJoints={}); got {}",
+      character.skeleton.joints.size(),
+      formatTensorSizes(tensor_in));
 
   std::vector<int64_t> dimensions;
   for (int64_t i = 0; i < tensor_in.ndimension(); ++i) {

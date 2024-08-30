@@ -9,6 +9,7 @@
 
 #include "pymomentum/tensor_utility/tensor_utility.h"
 
+#include <momentum/common/exception.h>
 #include <momentum/math/mppca.h>
 
 #include <Eigen/Core>
@@ -25,9 +26,7 @@ mppcaToTensors(
   const auto nMixtures = mppca.p;
   Eigen::VectorXf pi(nMixtures);
   Eigen::VectorXf sigma(nMixtures);
-  if (mppca.Cinv.size() != nMixtures) {
-    throw std::runtime_error("Invalid Mppca");
-  }
+  MT_THROW_IF(mppca.Cinv.size() != nMixtures, "Invalid Mppca");
   for (Eigen::Index iMix = 0; iMix < nMixtures; ++iMix) {
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXf> Cinv_eigs(mppca.Cinv[iMix]);
 

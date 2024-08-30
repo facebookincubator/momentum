@@ -13,22 +13,20 @@
 #include <ATen/Functions.h>
 #include <ceres/jet.h>
 #include <dispenso/parallel_for.h> // @manual
+#include <momentum/common/exception.h>
 #include <torch/library.h>
 #include <torch/torch.h>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
-
-#include <stdexcept>
 
 namespace pymomentum {
 
 namespace py = pybind11;
 
 void checkSkelState(at::Tensor skelState) {
-  if (skelState.size(-1) != 8) {
-    throw std::runtime_error(
-        "Expected skeleton state to have last dimension 8 (tx, ty, tz, rx, ry, rz, rw, s)");
-  }
+  MT_THROW_IF(
+      skelState.size(-1) != 8,
+      "Expected skeleton state to have last dimension 8 (tx, ty, tz, rx, ry, rz, rw, s)");
 }
 
 std::tuple<at::Tensor, at::Tensor, at::Tensor> splitSkeletonState(
@@ -69,10 +67,9 @@ at::Tensor skeletonStateToTransforms(at::Tensor skeletonState) {
 // common use case of transforming a whole bunch of points or a whole bunch of
 // skeleton state by a single transform.
 at::Tensor matchLeadingDimensions(at::Tensor tLeft, at::Tensor tRight) {
-  if (tRight.dim() < tLeft.dim()) {
-    throw std::runtime_error(
-        "First tensor can't have larger dimensionality than the second.");
-  }
+  MT_THROW_IF(
+      tRight.dim() < tLeft.dim(),
+      "First tensor can't have larger dimensionality than the second.");
 
   while (tLeft.dim() < tRight.dim()) {
     tLeft = tLeft.unsqueeze(0);
@@ -86,8 +83,7 @@ at::Tensor matchLeadingDimensions(at::Tensor tLeft, at::Tensor tRight) {
     } else if (tLeft.size(iDim) == tRight.size(iDim)) {
       new_dim.push_back(tLeft.size(iDim));
     } else {
-      throw std::runtime_error(
-          "Tensors should match in all nonsingular dimensions.");
+      MT_THROW("Tensors should match in all nonsingular dimensions.");
     }
   }
 
@@ -115,9 +111,7 @@ at::Tensor multiplySkeletonStates(
 at::Tensor quaternionToSkeletonState(at::Tensor q) {
   checkQuaternion(q);
   const auto sz = q.sizes();
-  if (sz.empty()) {
-    throw std::runtime_error("Empty quaternion tensor");
-  }
+  MT_THROW_IF(sz.empty(), "Empty quaternion tensor");
 
   std::vector<int64_t> sz_trans(std::begin(sz), std::end(sz));
   assert(sz_trans.size() > 0); // guaranteed by the sz.empty() check above.
@@ -130,14 +124,10 @@ at::Tensor quaternionToSkeletonState(at::Tensor q) {
 }
 
 at::Tensor translationToSkeletonState(at::Tensor t) {
-  if (t.size(-1) != 3) {
-    throw std::runtime_error("Expected 3-dimensional translation vector.");
-  }
+  MT_THROW_IF(t.size(-1) != 3, "Expected 3-dimensional translation vector.");
 
   const auto sz = t.sizes();
-  if (sz.empty()) {
-    throw std::runtime_error("Empty quaternion tensor");
-  }
+  MT_THROW_IF(sz.empty(), "Empty quaternion tensor");
 
   std::vector<int64_t> sz_scale(std::begin(sz), std::end(sz));
   assert(sz_scale.size() > 0); // guaranteed by the sz.empty() check above.
@@ -153,9 +143,7 @@ at::Tensor translationToSkeletonState(at::Tensor t) {
 
 at::Tensor scaleToSkeletonState(at::Tensor s) {
   const auto sz = s.sizes();
-  if (sz.empty()) {
-    throw std::runtime_error("Empty quaternion tensor");
-  }
+  MT_THROW_IF(sz.empty(), "Empty quaternion tensor");
 
   std::vector<int64_t> sz_trans(std::begin(sz), std::end(sz));
   assert(sz_trans.size() > 0); // guaranteed by the sz.empty() check above.
@@ -173,9 +161,9 @@ at::Tensor transformPointsWithSkeletonState(
     at::Tensor skelState,
     at::Tensor p) {
   checkSkelState(skelState);
-  if (p.dim() < 1 || p.size(-1) != 3) {
-    throw std::runtime_error("Points tensor should have last dimension 3.");
-  }
+  MT_THROW_IF(
+      p.dim() < 1 || p.size(-1) != 3,
+      "Points tensor should have last dimension 3.");
   skelState = matchLeadingDimensions(skelState, p);
 
   auto [t, q, s] = splitSkeletonState(skelState);
