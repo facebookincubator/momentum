@@ -9,6 +9,7 @@
 
 #include "momentum/character/joint.h"
 #include "momentum/character/skin_weights.h"
+#include "momentum/common/exception.h"
 #include "momentum/common/log.h"
 #include "momentum/math/mesh.h"
 
@@ -215,11 +216,11 @@ std::vector<size_t> addMappedParameters(
       continue;
     }
 
-    if (existingParams.find(paramTransformOrig.name[iParamOld]) != existingParams.end()) {
-      throw std::runtime_error(
-          "Duplicate parameter " + paramTransformOrig.name[iParamOld] +
-          " found while merging parameter transforms.");
-    }
+    MT_THROW_IF(
+        existingParams.find(paramTransformOrig.name[iParamOld]) != existingParams.end(),
+        "Duplicate parameter {} found while merging parameter transforms.",
+        paramTransformOrig.name[iParamOld]);
+
     origParamToNewParam[iParamOld] = paramTransformResult.name.size();
     paramTransformResult.name.push_back(paramTransformOrig.name[iParamOld]);
   }
@@ -377,21 +378,19 @@ Character replaceSkeletonHierarchy(
   const Skeleton& srcSkeleton = srcCharacter.skeleton;
   const Skeleton& tgtSkeleton = tgtCharacter.skeleton;
 
-  if (srcSkeleton.joints.empty()) {
-    throw std::runtime_error("Trying to reparent empty skeleton.");
-  }
+  MT_THROW_IF(srcSkeleton.joints.empty(), "Trying to reparent empty skeleton.");
 
   const auto tgtRoot = tgtSkeleton.getJointIdByName(tgtRootJoint);
-  if (tgtRoot == kInvalidIndex) {
-    throw std::runtime_error(
-        "Unable to re-root skeleton, target root joint " + tgtRootJoint + " not found.");
-  }
+  MT_THROW_IF(
+      tgtRoot == kInvalidIndex,
+      "Unable to re-root skeleton, target root joint {} not found.",
+      tgtRootJoint);
 
   const auto srcRoot = srcSkeleton.getJointIdByName(srcRootJoint);
-  if (srcRoot == kInvalidIndex) {
-    throw std::runtime_error(
-        "Unable to re-root skeleton, source root joint " + srcRootJoint + " not found.");
-  }
+  MT_THROW_IF(
+      srcRoot == kInvalidIndex,
+      "Unable to re-root skeleton, source root joint {} not found.",
+      srcRootJoint);
 
   Skeleton combinedSkeleton;
 
@@ -402,10 +401,10 @@ Character replaceSkeletonHierarchy(
       [&](const Skeleton& skeleton, size_t jointIndex, std::vector<size_t>& jointMap) -> size_t {
     const Joint& origJoint = skeleton.joints[jointIndex];
     Joint combinedJoint = origJoint;
-    if (combinedSkeletonJointMapping.find(combinedJoint.name) !=
-        combinedSkeletonJointMapping.end()) {
-      throw std::runtime_error("Duplicate joint '" + origJoint.name + "' found while reparenting.");
-    }
+    MT_THROW_IF(
+        combinedSkeletonJointMapping.find(combinedJoint.name) != combinedSkeletonJointMapping.end(),
+        "Duplicate joint '{}' found while reparenting.",
+        origJoint.name);
     const size_t combinedIndex = combinedSkeleton.joints.size();
     jointMap[jointIndex] = combinedIndex;
     combinedSkeletonJointMapping.insert({combinedJoint.name, combinedIndex});
@@ -535,9 +534,7 @@ Character replaceSkeletonHierarchy(
 Character removeJoints(const Character& character, gsl::span<const size_t> jointsToRemove) {
   std::vector<bool> toRemove(character.skeleton.joints.size(), false);
   for (const auto& j : jointsToRemove) {
-    if (j >= character.skeleton.joints.size()) {
-      throw std::runtime_error("Invalid joint found in removeJoints.");
-    }
+    MT_THROW_IF(j >= character.skeleton.joints.size(), "Invalid joint found in removeJoints.");
     toRemove[j] = true;
   }
 
