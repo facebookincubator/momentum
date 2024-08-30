@@ -12,6 +12,7 @@
 #include <momentum/common/filesystem.h>
 #include <momentum/io/gltf/gltf_file_format.h>
 #include <momentum/io/gltf/gltf_io.h>
+#include <momentum/math/mesh.h>
 #include <momentum/math/types.h>
 
 #include <fx/gltf.h>
@@ -25,10 +26,10 @@ namespace momentum {
 using MotionParameters = std::tuple<std::vector<std::string>, MatrixXf>;
 using IdentityParameters = std::tuple<std::vector<std::string>, VectorXf>;
 
-// Helper class to build a glb scene. It supports adding multiple characters
-// and motions for each character.
-// By default, momentum extension is added to the glb nodes. This is required if you
-// want to correctly load the exported character back.
+/// Helper class to build a glb scene. It supports adding multiple characters
+/// and motions for each character.
+/// By default, momentum extension is added to the glb nodes. This is required if you
+/// want to correctly load the exported character back.
 class GltfBuilder final {
  public:
   GltfBuilder();
@@ -39,12 +40,12 @@ class GltfBuilder final {
 
   void operator=(GltfBuilder const&) = delete;
 
-  // Specify how marker mesh is represented in the glb file
+  /// Specify how marker mesh is represented in the glb file
   enum class MarkerMesh : uint8_t { None, UnitCube };
 
-  // Add a character to the scene. Each character will have a root node with the character's
-  // name as the parent of the skeleton root and the character mesh.
-  // positionOffset and rotationOffset can be provided as an initial offset to the character.
+  /// Add a character to the scene. Each character will have a root node with the character's
+  /// name as the parent of the skeleton root and the character mesh.
+  /// positionOffset and rotationOffset can be provided as an initial offset to the character.
   void addCharacter(
       const Character& character,
       const Vector3f& positionOffset = Vector3f::Zero(),
@@ -54,10 +55,13 @@ class GltfBuilder final {
       bool addLocators = true,
       bool addMesh = true);
 
+  /// Add a static mesh, such as an environment or a target scan
+  void addMesh(const Mesh& mesh, const std::string& name, bool addColor = false);
+
   void setFps(float fps);
 
-  // Add a motion to the provided character. If addCharacter is not called before adding
-  // the motion, the character will be automatically added with the default settings.
+  /// Add a motion to the provided character. If addCharacter is not called before adding
+  /// the motion, the character will be automatically added with the default settings.
   void addMotion(
       const Character& character,
       float fps = 120.0f,
@@ -66,8 +70,8 @@ class GltfBuilder final {
       bool addExtensions = true,
       const std::string& customName = "default");
 
-  // Add a skeleton states to the provided character. If addCharacter is not called before adding
-  // the skeleton states, the character will be automatically added with the default settings.
+  /// Add a skeleton states to the provided character. If addCharacter is not called before adding
+  /// the skeleton states, the character will be automatically added with the default settings.
   void addSkeletonStates(
       const Character& character,
       float fps,
@@ -102,13 +106,13 @@ class GltfBuilder final {
       GltfFileFormat fileFormat = GltfFileFormat::EXTENSION,
       bool embedResources = false);
 
-  // Set all existing buffers to embed resources.
+  /// Set all existing buffers to embed resources.
   void forceEmbedResources();
 
   static void forceEmbedResources(fx::gltf::Document& document);
 
-  // Allow copy the document, but do not allow modify the file
-  // outside of the builder to keep metadata consistent
+  /// Allow copy the document, but do not allow modify the file
+  /// outside of the builder to keep metadata consistent
   const fx::gltf::Document& getDocument();
 
   size_t getNumCharacters();
