@@ -17,11 +17,8 @@
 #include "momentum/io/skeleton/parameters_io.h"
 #include "momentum/math/fwd.h"
 
-#include <fmt/format.h>
-
 #include <algorithm>
 #include <optional>
-#include <stdexcept>
 
 namespace momentum {
 
@@ -75,14 +72,12 @@ Character loadFullCharacter(
     const std::string& locatorsPath) {
   // Parse format
   const auto format = parseCharacterFormat(characterPath);
-  if (format == CharacterFormat::UNKNOWN)
-    throw std::runtime_error(fmt::format("UNKNOWN character format for path: {}", characterPath));
+  MT_THROW_IF(
+      format == CharacterFormat::UNKNOWN, "UNKNOWN character format for path: {}", characterPath);
 
   // Load character
   auto character = loadCharacterByFormat(format, characterPath);
-  if (!character) {
-    throw std::runtime_error(fmt::format("Failed to load buffered character"));
-  }
+  MT_THROW_IF(!character, "Failed to load buffered character");
 
   // load parameter transform
   if (!parametersPath.empty()) {
@@ -106,9 +101,7 @@ Character loadFullCharacterFromBuffer(
     const gsl::span<const std::byte> locBuffer) {
   // Load character
   auto character = loadCharacterByFormatFromBuffer(format, characterBuffer);
-  if (!character) {
-    throw std::runtime_error(fmt::format("Failed to load buffered character"));
-  }
+  MT_THROW_IF(!character, "Failed to load buffered character");
 
   // load parameter transform
   if (!paramBuffer.empty()) {

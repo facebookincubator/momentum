@@ -6,9 +6,9 @@
  */
 
 #include "momentum/common/log.h"
+#include "momentum/common/exception.h"
 
 #include <algorithm>
-#include <stdexcept>
 
 #if !defined(MOMENTUM_WITH_XR_LOGGER)
 #include <iostream>
@@ -35,7 +35,7 @@ namespace {
     case LogLevel::Trace:
       return arvr::logging::Level::Trace;
     default:
-      throw std::runtime_error("Unknown log level");
+      MT_THROW("Unknown log level");
   }
 }
 
@@ -61,7 +61,7 @@ namespace {
   } else if (upperCaseLogLevelStr == "DISABLED") {
     return LogLevel::Disabled;
   } else {
-    throw std::invalid_argument("Invalid log level: " + logLevelStr);
+    MT_THROW_T(std::invalid_argument, "Invalid log level: {}", logLevelStr);
   }
 }
 

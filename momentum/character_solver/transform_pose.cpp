@@ -44,9 +44,8 @@ momentum::Character createRigidBodySkeleton(const momentum::Character& character
     }
   }
 
-  if (numRigidJoints == 0) {
-    throw std::runtime_error("No rigid joints found in character, unable to apply transformation.");
-  }
+  MT_THROW_IF(
+      numRigidJoints == 0, "No rigid joints found in character, unable to apply transformation.");
 
   // Need to include all joints and parameters in the parent chain:
   std::fill(rigidJoints.begin(), rigidJoints.begin() + numRigidJoints, true);

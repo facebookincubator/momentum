@@ -8,6 +8,7 @@
 #include "momentum/diff_ik/fully_differentiable_pose_prior_error_function.h"
 
 #include "momentum/common/checks.h"
+#include "momentum/common/exception.h"
 #include "momentum/math/mppca.h"
 
 namespace momentum {
@@ -44,15 +45,12 @@ void FullyDifferentiablePosePriorErrorFunctionT<T>::setPosePrior(
     const MatrixX<T>& mmu,
     const std::vector<MatrixX<T>>& W,
     const VectorX<T>& sigma) {
-  if (W.empty()) {
-    throw std::runtime_error("Empty W matrix in setPosePrior().");
-  }
+  MT_THROW_IF(W.empty(), "Empty W matrix in setPosePrior().");
 
   for (const auto& W_i : W) {
-    if (W_i.rows() != W[0].rows() || W_i.cols() != W[0].cols()) {
-      throw std::runtime_error(
-          "Expected matching dimensions for all matrices in W in setPosePrior.");
-    }
+    MT_THROW_IF(
+        W_i.rows() != W[0].rows() || W_i.cols() != W[0].cols(),
+        "Expected matching dimensions for all matrices in W in setPosePrior.");
   }
 
   pi_ = std::move(pi);
@@ -62,10 +60,9 @@ void FullyDifferentiablePosePriorErrorFunctionT<T>::setPosePrior(
 
   auto mppca = std::make_shared<MppcaT<T>>();
   mppca->set(pi_, mmu_, W_, sigma_.array().square());
-  if (mppca->d != names_.size()) {
-    throw std::runtime_error(
-        "Mismatch in pose prior; expected number of names to match dimension.");
-  }
+  MT_THROW_IF(
+      mppca->d != names_.size(),
+      "Mismatch in pose prior; expected number of names to match dimension.");
   mppca->names = names_;
   PosePriorErrorFunctionT<T>::setPosePrior(mppca);
 }
@@ -91,8 +88,8 @@ Eigen::Index FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize(
   } else if (name == kSigma) {
     return sigma_.size();
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize: " + name);
+    MT_THROW(
+        "Unknown input to FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize: {}", name);
   }
 }
 
@@ -100,9 +97,7 @@ template <typename T>
 void FullyDifferentiablePosePriorErrorFunctionT<T>::getInputImp(
     const std::string& name,
     Eigen::Ref<Eigen::VectorX<T>> value) const {
-  if (!this->posePrior_) {
-    throw std::runtime_error("No pose prior loaded, can't set values.");
-  }
+  MT_THROW_IF(!this->posePrior_, "No pose prior loaded, can't set values.");
 
   const auto& posePrior = *this->posePrior_;
 
@@ -135,8 +130,8 @@ void FullyDifferentiablePosePriorErrorFunctionT<T>::getInputImp(
     MT_CHECK(this->sigma_.size() == p);
     value = this->sigma_.template cast<T>();
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize: " + name);
+    MT_THROW(
+        "Unknown input to FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize: {}", name);
   }
 }
 
@@ -144,9 +139,7 @@ template <typename T>
 void FullyDifferentiablePosePriorErrorFunctionT<T>::setInputImp(
     const std::string& name,
     Eigen::Ref<const Eigen::VectorX<T>> value) {
-  if (!this->posePrior_) {
-    throw std::runtime_error("No pose prior loaded, can't set values.");
-  }
+  MT_THROW_IF(!this->posePrior_, "No pose prior loaded, can't set values.");
 
   const auto& posePrior = *this->posePrior_;
 
@@ -179,8 +172,8 @@ void FullyDifferentiablePosePriorErrorFunctionT<T>::setInputImp(
     MT_CHECK(this->sigma_.size() == p);
     this->sigma_ = value.cwiseMax(0);
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize: " + name);
+    MT_THROW(
+        "Unknown input to FullyDifferentiablePosePriorErrorFunctionT<T>::getInputSize: {}", name);
   }
 
   // Update the Mppca model:
@@ -196,9 +189,7 @@ Eigen::VectorX<T> FullyDifferentiablePosePriorErrorFunctionT<T>::d_gradient_d_in
     const ModelParametersT<T>& params,
     const SkeletonStateT<T>& /* state */,
     Eigen::Ref<const Eigen::VectorX<T>> inputVec) {
-  if (!this->posePrior_) {
-    throw std::runtime_error("No pose prior loaded, can't set values.");
-  }
+  MT_THROW_IF(!this->posePrior_, "No pose prior loaded, can't set values.");
 
   const auto& posePrior = *this->posePrior_;
 

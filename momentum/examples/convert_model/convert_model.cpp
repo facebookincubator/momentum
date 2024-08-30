@@ -120,9 +120,7 @@ int main(int argc, char** argv) {
       const auto motionExt = motionPath.extension();
       if (motionExt == ".mmo") {
         MT_LOGI("Loading motion from mmo...");
-        if (!hasModel) {
-          throw std::runtime_error("mmo file requires an input character.");
-        }
+        MT_THROW_IF(!hasModel, "mmo file requires an input character.");
         std::tie(poses, offsets) = loadMmo(motionPath.string(), character);
 
         if (saveMarkers) {

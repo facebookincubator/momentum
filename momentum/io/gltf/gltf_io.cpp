@@ -29,10 +29,7 @@
 #include "momentum/math/mppca.h"
 #include "momentum/math/utility.h"
 
-#include <fmt/format.h>
-
 #include <algorithm>
-#include <exception>
 #include <iterator>
 #include <limits>
 #include <set>
@@ -69,10 +66,10 @@ TaperedCapsule createCollisionCapsule(const fx::gltf::Node& node, const nlohmann
     tc.length = extension["length"];
     tc.radius = fromJson<Vector2f>(extension["radius"]);
   } catch (const std::exception&) {
-    throw std::runtime_error(fmt::format(
+    MT_THROW(
         "Fail to parse json {} for collision capsule {} when loading character.",
         node.name,
-        extension.dump()));
+        extension.dump());
   }
   return tc;
 }
@@ -92,10 +89,10 @@ Locator createLocator(const fx::gltf::Node& node, const nlohmann::json& extensio
     loc.limitWeight = fromJson<Vector3f>(extension["limitWeight"]);
     loc.locked = fromJson<Vector3i>(extension["locked"]);
   } catch (const std::exception&) {
-    throw std::runtime_error(fmt::format(
+    MT_THROW(
         "Fail to parse json {} for locator {} when loading character.",
         extension.dump(),
-        node.name));
+        node.name);
   }
   return loc;
 }
@@ -268,9 +265,10 @@ void loadHierarchyRecursive(
     LocatorList& locators,
     std::vector<size_t>& nodeToObjectMap,
     bool useExtension) {
-  if ((nodeId < 0) || (nodeId > model.nodes.size()))
-    throw std::runtime_error(
-        fmt::format("Invalid node id found in the gltf hierarchy: {}", nodeId));
+  MT_THROW_IF(
+      (nodeId < 0) || (nodeId > model.nodes.size()),
+      "Invalid node id found in the gltf hierarchy: {}",
+      nodeId);
   const auto& node = model.nodes[nodeId];
   if (!isHierarchyNode(node))
     return;
@@ -286,18 +284,18 @@ void loadHierarchyRecursive(
   auto newParentJointId = parentJointId;
   if (type == "collision_capsule") {
     // Found collision geometry, should be the end node
-    if (parentJointId == kInvalidIndex)
-      throw std::runtime_error(
-          fmt::format("Invalid collision capsule without a parent joint: {}", node.name));
+    MT_THROW_IF(
+        parentJointId == kInvalidIndex,
+        "Invalid collision capsule without a parent joint: {}",
+        node.name);
     auto capsule = createCollisionCapsule(node, extension);
     capsule.parent = parentJointId;
     collision->push_back(capsule);
     nodeToObjectMap[nodeId] = collision->size() - 1;
   } else if (type == "locator") {
     // Found locator, should be the end node
-    if (parentJointId == kInvalidIndex)
-      throw std::runtime_error(
-          fmt::format("Invalid locator without a parent joint: {}", node.name));
+    MT_THROW_IF(
+        parentJointId == kInvalidIndex, "Invalid locator without a parent joint: {}", node.name);
     Locator loc = createLocator(node, extension);
     loc.parent = parentJointId;
     locators.push_back(loc);
@@ -313,9 +311,10 @@ void loadHierarchyRecursive(
 
   MT_CHECK(!model.nodes.empty());
   for (auto childId : model.nodes[nodeId].children) {
-    if ((childId < 0) || (childId > model.nodes.size()))
-      throw std::runtime_error(
-          fmt::format("Invalid node id found in the gltf hierarchy: {}", childId));
+    MT_THROW_IF(
+        (childId < 0) || (childId > model.nodes.size()),
+        "Invalid node id found in the gltf hierarchy: {}",
+        childId);
 
     loadHierarchyRecursive(
         model,
@@ -607,7 +606,7 @@ void loadGlobalExtensions(const fx::gltf::Document& model, Character& character)
     if (def.count("parameterLimits") > 0)
       character.parameterLimits = parameterLimitsFromJson(character, def["parameterLimits"]);
   } catch (std::runtime_error& err) {
-    throw std::runtime_error(fmt::format("Unable to load gltf : {}", std::string(err.what())));
+    MT_THROW("Unable to load gltf : {}", err.what());
   }
 }
 
@@ -712,9 +711,7 @@ fx::gltf::Document loadModel(
           // It is ASCII string "glTF", and can be used to identify data as Binary glTF
           std::string magic;
           std::ifstream infile(arg);
-          if (!infile.is_open()) {
-            throw std::runtime_error(fmt::format("Unable to open: {}", arg.string()));
-          }
+          MT_THROW_IF(!infile.is_open(), "Unable to open: {}", arg.string());
           std::copy_n(std::istreambuf_iterator<char>(infile.rdbuf()), 4, std::back_inserter(magic));
           if (magic == "glTF") {
             model = fx::gltf::LoadFromBinary(arg.string(), kQuotas);
@@ -740,7 +737,7 @@ Character loadModelAndCharacter(
     fx::gltf::Document model = loadModel(input);
     result = loadGltfCharacter(model);
   } catch (std::runtime_error& err) {
-    throw std::runtime_error(fmt::format("Unable to load gltf : {}", std::string(err.what())));
+    MT_THROW("Unable to load gltf : {}", err.what());
   }
 
   return result;
@@ -755,8 +752,7 @@ std::tuple<MotionParameters, IdentityParameters, float> loadMotion(fx::gltf::Doc
     const auto& [motion, identity] = getMotionFromModel(model);
     return {motion, identity, fps};
   } catch (std::runtime_error& err) {
-    throw std::runtime_error(
-        fmt::format("Unable to parse motion data  : {}", std::string(err.what())));
+    MT_THROW("Unable to parse motion data  : {}", err.what());
   }
 
   return {};
@@ -780,7 +776,7 @@ std::tuple<Character, MatrixXf, VectorXf, float> loadCharacterWithMotionCommon(
     MT_LOGW_IF(std::get<1>(motion).cols() == 0, "No motion data found in gltf file");
     return {character, std::get<1>(motion), std::get<1>(identity), fps};
   } catch (std::runtime_error& err) {
-    throw std::runtime_error(fmt::format("Unable to load gltf : {}", std::string(err.what())));
+    MT_THROW("Unable to load gltf : {}", err.what());
   }
 
   return {};
@@ -825,12 +821,12 @@ fx::gltf::Document makeCharacterDocument(
     fileBuilder.addSkeletonStates(character, fps, skeletonStates);
   }
   if (!markerSequence.empty()) {
-    if (!skeletonStates.empty() && (skeletonStates.size() != markerSequence.size())) {
-      throw std::length_error(fmt::format(
-          "Size of skeleton states vector {} does not correspond to size of marker sequence vector {}",
-          skeletonStates.size(),
-          markerSequence.size()));
-    }
+    MT_THROW_IF(
+        !skeletonStates.empty() && (skeletonStates.size() != markerSequence.size()),
+        "Size of skeleton states vector {} does not correspond to size of marker sequence vector {}",
+        skeletonStates.size(),
+        markerSequence.size());
+
     fileBuilder.addMarkerSequence(fps, markerSequence);
   }
   if (embedResource) {
@@ -852,7 +848,7 @@ Character loadGltfCharacter(fx::gltf::Document& model) {
   try {
     result = populateCharacterFromModel(model);
   } catch (std::runtime_error& err) {
-    throw std::runtime_error(fmt::format("Unable to load gltf : {}", std::string(err.what())));
+    MT_THROW("Unable to load gltf : {}", err.what());
   }
 
   return result;
@@ -875,10 +871,7 @@ std::tuple<MotionParameters, IdentityParameters, float> loadMotion(
     fx::gltf::Document model = loadModel(gltfFilename);
     return ::loadMotion(model);
   } catch (std::runtime_error& err) {
-    throw std::runtime_error(fmt::format(
-        "Unable to load gltf from file '{}'. Error: {}",
-        gltfFilename.string(),
-        std::string(err.what())));
+    MT_THROW("Unable to load gltf from file '{}'. Error: {}", gltfFilename.string(), err.what());
   }
 
   return {};

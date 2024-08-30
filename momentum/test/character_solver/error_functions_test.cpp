@@ -9,7 +9,6 @@
 #include <cstring>
 #include <random>
 
-#include <fmt/format.h>
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 

@@ -46,8 +46,7 @@ Eigen::Index FullyDifferentiableOrientationErrorFunctionT<T>::getInputSize(
     return 4 * constraints_.size();
   }
 
-  throw std::runtime_error(
-      "Unknown input to FullyDifferentiableOrientationErrorFunctionT<T>::getInput: " + name);
+  MT_THROW("Unknown input to FullyDifferentiableOrientationErrorFunctionT<T>::getInput: {}", name);
 }
 
 template <typename T>
@@ -206,8 +205,7 @@ void FullyDifferentiableOrientationErrorFunctionT<T>::getInputImp(
       value.template segment<4>(4 * i) = constraints_[i].target.coeffs();
     }
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiableOrientationFunctionT<T>::getInput: " + name);
+    MT_THROW("Unknown input to FullyDifferentiableOrientationFunctionT<T>::getInput: {}", name);
   }
 }
 
@@ -237,8 +235,8 @@ void FullyDifferentiableOrientationErrorFunctionT<T>::setInputImp(
       constraints_[i].target = Eigen::Quaternion<T>(value.template segment<4>(4 * i)).normalized();
     }
   } else {
-    throw std::runtime_error(
-        "Unknown input to FullyDifferentiableOrientationErrorFunctionT<T>::getInput: " + name);
+    MT_THROW(
+        "Unknown input to FullyDifferentiableOrientationErrorFunctionT<T>::getInput: {}", name);
   }
 }
 
@@ -384,8 +382,8 @@ Eigen::VectorX<T> FullyDifferentiableOrientationErrorFunctionT<T>::d_gradient_d_
     }
     return result;
   } else {
-    throw std::runtime_error(
-        "Unknown input name in FullyDifferentiableOrientationErrorFunctionT<T>::d_gradient_d_input_dot: " +
+    MT_THROW(
+        "Unknown input name in FullyDifferentiableOrientationErrorFunctionT<T>::d_gradient_d_input_dot: {}",
         inputName);
   }
 }

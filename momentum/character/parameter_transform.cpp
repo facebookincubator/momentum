@@ -13,7 +13,6 @@
 
 #include <fmt/format.h>
 
-#include <stdexcept>
 #include <type_traits>
 
 namespace momentum {

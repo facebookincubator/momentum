@@ -7,7 +7,7 @@
 
 #include "momentum/solver/solver_function.h"
 
-#include <stdexcept>
+#include "momentum/common/exception.h"
 
 namespace momentum {
 
@@ -15,7 +15,7 @@ template <typename T>
 void SolverFunctionT<T>::getHessian(const VectorX<T>& parameters, MatrixX<T>& hessian) {
   (void)parameters;
   (void)hessian;
-  throw std::runtime_error("SolverFunctionT::getHessian() is not implemented");
+  MT_THROW("SolverFunctionT::getHessian() is not implemented");
 }
 
 template <typename T>

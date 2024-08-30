@@ -19,10 +19,6 @@
 #include "momentum/math/mesh.h"
 #include "momentum/math/utility.h"
 
-#include <fmt/format.h>
-
-#include <stdexcept>
-
 namespace momentum {
 
 std::string_view toString(VertexConstraintType type) {
@@ -39,11 +35,10 @@ VertexErrorFunctionT<T>::VertexErrorFunctionT(
       constraintType_(type) {
   MT_CHECK(static_cast<bool>(character_in.mesh));
   MT_CHECK(static_cast<bool>(character_in.skinWeights));
-  if (character_in.faceExpressionBlendShape && (type != VertexConstraintType::POSITION)) {
-    throw std::runtime_error(fmt::format(
-        "Constraint type {} not implemented yet for face. Only POSITION type is supported.",
-        toString(type)));
-  }
+  MT_THROW_IF(
+      character_in.faceExpressionBlendShape && (type != VertexConstraintType::POSITION),
+      "Constraint type {} not implemented yet for face. Only POSITION type is supported.",
+      toString(type));
   this->neutralMesh_ = std::make_unique<MeshT<T>>(character_in.mesh->template cast<T>());
   this->restMesh_ = std::make_unique<MeshT<T>>(character_in.mesh->template cast<T>());
   this->posedMesh_ = std::make_unique<MeshT<T>>(character_in.mesh->template cast<T>());

@@ -7,6 +7,8 @@
 
 #include <momentum/diff_ik/union_error_function.h>
 
+#include "momentum/common/exception.h"
+
 namespace momentum {
 
 template <typename T>
@@ -16,9 +18,7 @@ UnionErrorFunctionT<T>::UnionErrorFunctionT(
     const std::vector<std::shared_ptr<SkeletonErrorFunctionT<T>>>& errorFunctions)
     : SkeletonErrorFunctionT<T>(skel, pt), errorFunctions_(errorFunctions) {
   // Should this be allowed?
-  if (errorFunctions_.empty()) {
-    throw std::runtime_error("No error functions in union?");
-  }
+  MT_THROW_IF(errorFunctions_.empty(), "No error functions in union?");
 
   for (size_t i = 0; i < errorFunctions_.size(); ++i) {
     auto diff_e =
@@ -138,9 +138,8 @@ std::vector<std::string> UnionErrorFunctionT<T>::inputs() const {
 template <typename T>
 Eigen::Index UnionErrorFunctionT<T>::getInputSize(const std::string& name) const {
   auto itr = inputs_.find(name);
-  if (itr == inputs_.end()) {
-    throw std::runtime_error("Invalid input '" + name + "' for UnionErrorFunction::getInputSize");
-  }
+  MT_THROW_IF(
+      itr == inputs_.end(), "Invalid input '{}' for UnionErrorFunction::getInputSize", name);
 
   Eigen::Index result = 0;
   for (const auto& iErrFun : itr->second) {
@@ -155,9 +154,7 @@ void UnionErrorFunctionT<T>::getInputImp(
     const std::string& name,
     Eigen::Ref<Eigen::VectorX<T>> result) const {
   auto itr = inputs_.find(name);
-  if (itr == inputs_.end()) {
-    throw std::runtime_error("Invalid input '" + name + "' for UnionErrorFunction::getInput");
-  }
+  MT_THROW_IF(itr == inputs_.end(), "Invalid input '{}' for UnionErrorFunction::getInput", name);
 
   Eigen::Index currentOffset = 0;
   for (const auto& iErrFun : itr->second) {
@@ -173,9 +170,7 @@ void UnionErrorFunctionT<T>::setInputImp(
     const std::string& name,
     Eigen::Ref<const Eigen::VectorX<T>> value) {
   auto itr = inputs_.find(name);
-  if (itr == inputs_.end()) {
-    throw std::runtime_error("Invalid input '" + name + "' for UnionErrorFunction::setInput");
-  }
+  MT_THROW_IF(itr == inputs_.end(), "Invalid input '{}' for UnionErrorFunction::setInput", name);
 
   Eigen::Index currentOffset = 0;
   for (const auto& iErrFun : itr->second) {
@@ -193,10 +188,10 @@ Eigen::VectorX<T> UnionErrorFunctionT<T>::d_gradient_d_input_dot(
     const SkeletonStateT<T>& state,
     Eigen::Ref<const Eigen::VectorX<T>> inputVec) {
   auto itr = inputs_.find(name);
-  if (itr == inputs_.end()) {
-    throw std::runtime_error(
-        "Invalid input '" + name + "' for UnionErrorFunction::d_gradient_d_input_dot");
-  }
+  MT_THROW_IF(
+      itr == inputs_.end(),
+      "Invalid input '{}' for UnionErrorFunction::d_gradient_d_input_dot",
+      name);
 
   Eigen::Index currentOffset = 0;
   Eigen::VectorX<T> result = Eigen::VectorX<T>::Zero(getInputSize(name));

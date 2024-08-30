@@ -56,14 +56,14 @@ using DefaultException = std::runtime_error;
 
 // Helper function template to throw with formatted message
 template <typename Exception = DefaultException, typename... Args>
-void throwImpl(fmt::format_string<Args...> format, Args&&... args) {
+[[noreturn]] void throwImpl(fmt::format_string<Args...> format, Args&&... args) {
   throw Exception{fmt::format(format, std::forward<Args>(args)...)};
 }
 
 // Overload for throwing exceptions that do not require any message or whose constructors do not
 // take any arguments.
 template <typename Exception>
-void throwImpl() {
+[[noreturn]] void throwImpl() {
   throw Exception{};
 }
 

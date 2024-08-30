@@ -13,11 +13,9 @@
 #include "momentum/io/skeleton/parameter_limits_io.h"
 #include "momentum/math/utility.h"
 
-#include <fmt/format.h>
 #include <re2/re2.h>
 
 #include <fstream>
-#include <stdexcept>
 
 namespace momentum {
 
@@ -70,8 +68,7 @@ std::unordered_map<std::string, std::string> loadMomentumModelCommon(std::istrea
 std::tuple<ParameterTransform, ParameterLimits> loadModelDefinitionFromStream(
     std::istream& instream,
     const Skeleton& skeleton) {
-  if (!instream)
-    throw std::runtime_error("Unable to read parameter transform data.");
+  MT_THROW_IF(!instream, "Unable to read parameter transform data.");
 
   std::string data;
   std::string line;
@@ -181,8 +178,9 @@ void parseParameter(
           static_cast<int>(jointIndex) * kParametersPerJoint + static_cast<int>(attributeIndex),
           static_cast<int>(parameterIndex),
           weight));
-    } else
-      throw std::runtime_error(fmt::format("Could not parse channel expression : {}", line));
+    } else {
+      MT_THROW("Could not parse channel expression : {}", line);
+    }
   }
 }
 
@@ -193,8 +191,7 @@ std::unordered_map<std::string, std::string> loadMomentumModel(const filesystem:
     return {};
 
   std::ifstream infile(filename);
-  if (!infile.is_open())
-    throw std::runtime_error(fmt::format("Cannot find file {}", filename.string()));
+  MT_THROW_IF(!infile.is_open(), "Cannot find file {}", filename.string());
   return loadMomentumModelCommon(infile);
 }
 
@@ -242,13 +239,11 @@ ParameterTransform parseParameterTransform(const std::string& data, const Skelet
 
     // split pToken[0] into joint name and attribute name
     const auto aTokens = tokenize(pTokens[0], ".");
-    if (aTokens.size() != 2)
-      throw std::runtime_error(fmt::format("Unknown joint name in expression : {}", line));
+    MT_THROW_IF(aTokens.size() != 2, "Unknown joint name in expression : {}", line);
 
     // get the right joint to modify
     const size_t jointIndex = skeleton.getJointIdByName(trim(aTokens[0]));
-    if (jointIndex == kInvalidIndex)
-      throw std::runtime_error(fmt::format("Unknown joint name in expression : {}", line));
+    MT_THROW_IF(jointIndex == kInvalidIndex, "Unknown joint name in expression : {}", line);
 
     // the first pToken is the name of the joint and it's attribute type
     size_t attributeIndex = kInvalidIndex;
@@ -261,8 +256,7 @@ ParameterTransform parseParameterTransform(const std::string& data, const Skelet
     }
 
     // if we didn't find a right name exit with an error
-    if (attributeIndex == kInvalidIndex)
-      throw std::runtime_error(fmt::format("Unknown channel name in expression : {}", line));
+    MT_THROW_IF(attributeIndex == kInvalidIndex, "Unknown channel name in expression : {}", line);
 
     // enable the attribute in the skeleton if we have a parameter controlling it
     pt.activeJointParams[jointIndex * kParametersPerJoint + attributeIndex] = 1;
@@ -297,10 +291,10 @@ ParameterSets parseParameterSets(const std::string& data, const ParameterTransfo
 
     // parse parameterset
     const auto pTokens = tokenize(line, " \t\r\n");
-    if (pTokens.size() < 2) {
-      throw std::runtime_error(
-          fmt::format("Could not parse parameterset line in parameter configuration : {}", line));
-    }
+    MT_THROW_IF(
+        pTokens.size() < 2,
+        "Could not parse parameterset line in parameter configuration : {}",
+        line);
 
     ParameterSet ps;
     for (size_t i = 2; i < pTokens.size(); i++) {
@@ -313,10 +307,10 @@ ParameterSets parseParameterSets(const std::string& data, const ParameterTransfo
         }
       }
 
-      if (parameterIndex == kInvalidIndex) {
-        throw std::runtime_error(
-            fmt::format("Could not parse parameterset line in parameter configuration : {}", line));
-      }
+      MT_THROW_IF(
+          parameterIndex == kInvalidIndex,
+          "Could not parse parameterset line in parameter configuration : {}",
+          line);
 
       ps.set(parameterIndex, true);
     }
@@ -342,10 +336,10 @@ PoseConstraints parsePoseConstraints(const std::string& data, const ParameterTra
 
     // parse parameterset
     const auto pTokens = tokenize(line, " \t\r\n");
-    if (pTokens.size() < 2) {
-      throw std::runtime_error(fmt::format(
-          "Could not parse poseconstraints line in parameter configuration : {}", line));
-    }
+    MT_THROW_IF(
+        pTokens.size() < 2,
+        "Could not parse 'poseconstraints' line in parameter configuration : {}",
+        line);
 
     PoseConstraint ps;
     for (size_t i = 2; i < pTokens.size(); i++) {
@@ -363,10 +357,10 @@ PoseConstraints parsePoseConstraints(const std::string& data, const ParameterTra
         }
       }
 
-      if (parameterIndex == kInvalidIndex) {
-        throw std::runtime_error(fmt::format(
-            "Could not parse poseconstraints line in parameter configuration : {}", line));
-      }
+      MT_THROW_IF(
+          parameterIndex == kInvalidIndex,
+          "Could not parse 'poseconstraints' line in parameter configuration : {}",
+          line);
 
       ps.parameterIdValue.emplace_back(parameterIndex, std::stof(cTokens[1]));
     }
@@ -381,9 +375,10 @@ std::tuple<ParameterTransform, ParameterLimits> loadModelDefinition(
     const filesystem::path& filename,
     const Skeleton& skeleton) {
   std::ifstream infile(filename);
-  if (!infile.is_open())
-    throw std::runtime_error(fmt::format(
-        "Unable to open parameter transform file '{}' for reading.", filename.string()));
+  MT_THROW_IF(
+      !infile.is_open(),
+      "Unable to open parameter transform file '{}' for reading.",
+      filename.string());
 
   return loadModelDefinitionFromStream(infile, skeleton);
 }
@@ -396,8 +391,7 @@ std::tuple<ParameterTransform, ParameterLimits> loadModelDefinition(
 
   ispanstream inputStream(rawData);
 
-  if (!inputStream)
-    throw std::runtime_error("Unable to read parameter transform data.");
+  MT_THROW_IF(!inputStream, "Unable to read parameter transform data.");
 
   return loadModelDefinitionFromStream(inputStream, skeleton);
 }

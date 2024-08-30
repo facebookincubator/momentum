@@ -243,6 +243,7 @@ mt_library(
   HEADERS_VARS io_common_public_headers
   SOURCES_VARS io_common_sources
   PUBLIC_LINK_LIBRARIES
+    common
     Microsoft.GSL::GSL
 )
 

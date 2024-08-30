@@ -7,9 +7,8 @@
 
 #include "momentum/io/openfbx/polygon_data.h"
 
+#include "momentum/common/exception.h"
 #include "momentum/common/log.h"
-
-#include <fmt/format.h>
 
 namespace momentum {
 
@@ -31,9 +30,7 @@ std::vector<Eigen::Vector3i> triangulate(
     const auto faceStart = offsets[iFace];
     const auto faceEnd = offsets[iFace + 1];
     const auto nv = faceEnd - faceStart;
-    if (nv < 3)
-      throw std::runtime_error(
-          fmt::format("Invalid face with {} indices; expected at least 3.", nv));
+    MT_THROW_IF(nv < 3, "Invalid face with {} indices; expected at least 3.", nv);
 
     for (size_t j = 1; j < (nv - 1); ++j)
       result.emplace_back(
