@@ -86,6 +86,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:a61b2f9f4ddba0b8c95c3934020e8dfb0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum_1_1detail.html#a61b2f9f4ddba0b8c95c3934020e8dfb0">DefaultException</a> = std::runtime_error</td></tr>
+<tr class="separator:a61b2f9f4ddba0b8c95c3934020e8dfb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12ad533d024ac999b0aa5db48090d5f3"><td class="memTemplParams" colspan="2">template&lt;typename RealType &gt; </td></tr>
 <tr class="memitem:a12ad533d024ac999b0aa5db48090d5f3"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum_1_1detail.html#a12ad533d024ac999b0aa5db48090d5f3">UniformRealDist</a> = std::uniform_real_distribution&lt; RealType &gt;</td></tr>
 <tr class="separator:a12ad533d024ac999b0aa5db48090d5f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,6 +106,12 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a7bfc6cd509e5a82687cf5f420b553aff"><td class="memTemplParams" colspan="2">template&lt;typename Exception  = DefaultException, typename... Args&gt; </td></tr>
+<tr class="memitem:a7bfc6cd509e5a82687cf5f420b553aff"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum_1_1detail.html#a7bfc6cd509e5a82687cf5f420b553aff">throwImpl</a> (fmt::format_string&lt; Args... &gt; format, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a7bfc6cd509e5a82687cf5f420b553aff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1809e5f22ece83c7f57a9887a8b114bd"><td class="memTemplParams" colspan="2">template&lt;typename Exception &gt; </td></tr>
+<tr class="memitem:a1809e5f22ece83c7f57a9887a8b114bd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum_1_1detail.html#a1809e5f22ece83c7f57a9887a8b114bd">throwImpl</a> ()</td></tr>
+<tr class="separator:a1809e5f22ece83c7f57a9887a8b114bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac36a41e97a505c475623cb0782c2b430"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename... &gt; class C, typename... Ts&gt; </td></tr>
 <tr class="memitem:ac36a41e97a505c475623cb0782c2b430"><td class="memTemplItemLeft" align="right" valign="top">std::true_type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum_1_1detail.html#ac36a41e97a505c475623cb0782c2b430">is_base_of_template_impl</a> (const C&lt; Ts... &gt; *)</td></tr>
 <tr class="separator:ac36a41e97a505c475623cb0782c2b430"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,6 +147,20 @@ Variables</h2></td></tr>
 <tr class="separator:a9763013f6c3661770f83e7a1ed7e523e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="a61b2f9f4ddba0b8c95c3934020e8dfb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61b2f9f4ddba0b8c95c3934020e8dfb0">&#9670;&nbsp;</a></span>DefaultException</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="namespacemomentum_1_1detail.html#a61b2f9f4ddba0b8c95c3934020e8dfb0">momentum::detail::DefaultException</a> = typedef std::runtime_error</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a93561f6f90bf339ad74ca2b5a42d54c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a93561f6f90bf339ad74ca2b5a42d54c5">&#9670;&nbsp;</a></span>is_base_of_matrix</h2>
 
@@ -470,6 +492,55 @@ template&lt;template&lt; typename... &gt; class C, typename... Ts&gt; </div>
           <td class="paramtype">const C&lt; Ts... &gt; *&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1809e5f22ece83c7f57a9887a8b114bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1809e5f22ece83c7f57a9887a8b114bd">&#9670;&nbsp;</a></span>throwImpl() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Exception &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void momentum::detail::throwImpl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bfc6cd509e5a82687cf5f420b553aff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bfc6cd509e5a82687cf5f420b553aff">&#9670;&nbsp;</a></span>throwImpl() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Exception  = DefaultException, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void momentum::detail::throwImpl </td>
+          <td>(</td>
+          <td class="paramtype">fmt::format_string&lt; Args... &gt;&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

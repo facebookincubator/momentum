@@ -79,13 +79,13 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;string_view&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="joint_8h.html">momentum/character/joint.h</a>&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="parameter__transform_8h.html">momentum/character/parameter_transform.h</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="character_2types_8h.html">momentum/character/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string_view&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="joint_8h.html">momentum/character/joint.h</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="parameter__transform_8h.html">momentum/character/parameter_transform.h</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="character_2types_8h.html">momentum/character/types.h</a>&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="exception_8h.html">momentum/common/exception.h</a>&gt;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacemomentum.html">momentum</a> {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
@@ -114,56 +114,59 @@ $(function() {
 <div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="structmomentum_1_1SkeletonT.html#a298d35e9d37bcceefb468943e46931b4">   47</a></span>&#160;  [[nodiscard]] std::vector&lt;size_t&gt; <a class="code" href="structmomentum_1_1SkeletonT.html#a298d35e9d37bcceefb468943e46931b4">getChildrenJoints</a>(</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">size_t</span> jointId,</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">bool</span> recursive = <span class="keyword">true</span>)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (jointId &gt;= <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size()) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">throw</span> std::out_of_range(</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;          <span class="stringliteral">&quot;Out of bounds getChildrenJoints query. Requested index: &quot;</span> + std::to_string(jointId) +</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;          <span class="stringliteral">&quot;. Number of joints: &quot;</span> + std::to_string(<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size()));</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::vector&lt;size_t&gt; childrenJoints;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::vector&lt;int&gt; jointDistance(<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size(), -1);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    jointDistance[jointId] = 0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// traversal assuming parentJoint &lt; childJoint</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> jointIter = jointId + 1; jointIter &lt; <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size(); ++jointIter) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> jointParent = <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>[jointIter].parent;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">int</span> distParent = (jointParent == <a class="code" href="namespacemomentum.html#ac966fa038c85b7384ba387e6a6334b40">kInvalidIndex</a>) ? -1 : jointDistance[jointParent];</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordflow">if</span> ((recursive &amp;&amp; distParent &gt;= 0) || (!recursive &amp;&amp; distParent == 0)) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        jointDistance[jointIter] = distParent + 1;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        childrenJoints.push_back(jointIter);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> childrenJoints;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  [[nodiscard]] <span class="keywordtype">bool</span> <a class="code" href="structmomentum_1_1SkeletonT.html#ae29d62356015fb5b600addfd37c0b454">isAncestor</a>(<span class="keywordtype">size_t</span> jointId, <span class="keywordtype">size_t</span> ancestorJointId) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  [[nodiscard]] <span class="keywordtype">size_t</span> <a class="code" href="structmomentum_1_1SkeletonT.html#a40a202cffa13ff0fc09ea8481c834d4a">commonAncestor</a>(<span class="keywordtype">size_t</span> joint1, <span class="keywordtype">size_t</span> joint2) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="structmomentum_1_1SkeletonT.html#a2e44b7cc4daa5a93ef55e52fd5259e71">   84</a></span>&#160;  [[nodiscard]] <a class="code" href="structmomentum_1_1SkeletonT.html">SkeletonT&lt;U&gt;</a> <a class="code" href="structmomentum_1_1SkeletonT.html#a2e44b7cc4daa5a93ef55e52fd5259e71">cast</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, U&gt;) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <a class="code" href="structmomentum_1_1SkeletonT.html">SkeletonT&lt;U&gt;</a> newSkeleton;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      newSkeleton.<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a> = ::momentum::cast&lt;U&gt;(<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">return</span> newSkeleton;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;} <span class="comment">// namespace momentum</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="exception_8h.html#a60b753237325b6cc993ef71153931fa1">MT_THROW_IF_T</a>(</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        jointId &gt;= <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size(),</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        std::out_of_range,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="stringliteral">&quot;Out of bounds getChildrenJoints query. Requested index: {}. Number of joints: {}&quot;</span>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        jointId,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size());</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::vector&lt;size_t&gt; childrenJoints;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::vector&lt;int&gt; jointDistance(<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size(), -1);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    jointDistance[jointId] = 0;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// traversal assuming parentJoint &lt; childJoint</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> jointIter = jointId + 1; jointIter &lt; <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>.size(); ++jointIter) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> jointParent = <a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>[jointIter].parent;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">int</span> distParent = (jointParent == <a class="code" href="namespacemomentum.html#ac966fa038c85b7384ba387e6a6334b40">kInvalidIndex</a>) ? -1 : jointDistance[jointParent];</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordflow">if</span> ((recursive &amp;&amp; distParent &gt;= 0) || (!recursive &amp;&amp; distParent == 0)) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        jointDistance[jointIter] = distParent + 1;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        childrenJoints.push_back(jointIter);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> childrenJoints;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  [[nodiscard]] <span class="keywordtype">bool</span> <a class="code" href="structmomentum_1_1SkeletonT.html#ae29d62356015fb5b600addfd37c0b454">isAncestor</a>(<span class="keywordtype">size_t</span> jointId, <span class="keywordtype">size_t</span> ancestorJointId) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  [[nodiscard]] <span class="keywordtype">size_t</span> <a class="code" href="structmomentum_1_1SkeletonT.html#a40a202cffa13ff0fc09ea8481c834d4a">commonAncestor</a>(<span class="keywordtype">size_t</span> joint1, <span class="keywordtype">size_t</span> joint2) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="structmomentum_1_1SkeletonT.html#a2e44b7cc4daa5a93ef55e52fd5259e71">   85</a></span>&#160;  [[nodiscard]] <a class="code" href="structmomentum_1_1SkeletonT.html">SkeletonT&lt;U&gt;</a> <a class="code" href="structmomentum_1_1SkeletonT.html#a2e44b7cc4daa5a93ef55e52fd5259e71">cast</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> constexpr (std::is_same_v&lt;T, U&gt;) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <a class="code" href="structmomentum_1_1SkeletonT.html">SkeletonT&lt;U&gt;</a> newSkeleton;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      newSkeleton.<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a> = ::momentum::cast&lt;U&gt;(<a class="code" href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">joints</a>);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">return</span> newSkeleton;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;} <span class="comment">// namespace momentum</span></div>
 <div class="ttc" id="acharacter_2types_8h_html"><div class="ttname"><a href="character_2types_8h.html">types.h</a></div></div>
+<div class="ttc" id="aexception_8h_html"><div class="ttname"><a href="exception_8h.html">exception.h</a></div></div>
+<div class="ttc" id="aexception_8h_html_a60b753237325b6cc993ef71153931fa1"><div class="ttname"><a href="exception_8h.html#a60b753237325b6cc993ef71153931fa1">MT_THROW_IF_T</a></div><div class="ttdeci">#define MT_THROW_IF_T(Condition, Exception,...)</div><div class="ttdoc">Conditionally throws an exception of a specified type with a formatted message if the condition is tr...</div><div class="ttdef"><b>Definition:</b> exception.h:39</div></div>
 <div class="ttc" id="ajoint_8h_html"><div class="ttname"><a href="joint_8h.html">joint.h</a></div></div>
-<div class="ttc" id="anamespacemomentum_html"><div class="ttname"><a href="namespacemomentum.html">momentum</a></div><div class="ttdef"><b>Definition:</b> aligned.h:14</div></div>
+<div class="ttc" id="anamespacemomentum_html"><div class="ttname"><a href="namespacemomentum.html">momentum</a></div><div class="ttdef"><b>Definition:</b> aligned.h:15</div></div>
 <div class="ttc" id="anamespacemomentum_html_ac966fa038c85b7384ba387e6a6334b40"><div class="ttname"><a href="namespacemomentum.html#ac966fa038c85b7384ba387e6a6334b40">momentum::kInvalidIndex</a></div><div class="ttdeci">constexpr size_t kInvalidIndex</div><div class="ttdef"><b>Definition:</b> types.h:193</div></div>
 <div class="ttc" id="anamespacemomentum_html_ae7e9f4cd3def0c1d889f92f0035926e7"><div class="ttname"><a href="namespacemomentum.html#ae7e9f4cd3def0c1d889f92f0035926e7">momentum::JointList</a></div><div class="ttdeci">JointListT&lt; float &gt; JointList</div><div class="ttdef"><b>Definition:</b> joint.h:79</div></div>
 <div class="ttc" id="aparameter__transform_8h_html"><div class="ttname"><a href="parameter__transform_8h.html">parameter_transform.h</a></div></div>
 <div class="ttc" id="astructmomentum_1_1SkeletonT_html"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html">momentum::SkeletonT</a></div><div class="ttdoc">The skeletal structure of a momentum Character.</div><div class="ttdef"><b>Definition:</b> skeleton.h:22</div></div>
 <div class="ttc" id="astructmomentum_1_1SkeletonT_html_a0ad0e55517dd174a1c03c5ebca40a4ca"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a0ad0e55517dd174a1c03c5ebca40a4ca">momentum::SkeletonT::getJointIdByName</a></div><div class="ttdeci">size_t getJointIdByName(const std::string_view name) const</div><div class="ttdoc">Look up the index of a joint from its name.</div><div class="ttdef"><b>Definition:</b> skeleton.h:30</div></div>
 <div class="ttc" id="astructmomentum_1_1SkeletonT_html_a298d35e9d37bcceefb468943e46931b4"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a298d35e9d37bcceefb468943e46931b4">momentum::SkeletonT::getChildrenJoints</a></div><div class="ttdeci">std::vector&lt; size_t &gt; getChildrenJoints(const size_t jointId, const bool recursive=true) const</div><div class="ttdoc">Get the list of indices of the direct children of a joint or all its descendants.</div><div class="ttdef"><b>Definition:</b> skeleton.h:47</div></div>
-<div class="ttc" id="astructmomentum_1_1SkeletonT_html_a2e44b7cc4daa5a93ef55e52fd5259e71"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a2e44b7cc4daa5a93ef55e52fd5259e71">momentum::SkeletonT::cast</a></div><div class="ttdeci">SkeletonT&lt; U &gt; cast() const</div><div class="ttdoc">Casts the current skeleton to another scalar type.</div><div class="ttdef"><b>Definition:</b> skeleton.h:84</div></div>
+<div class="ttc" id="astructmomentum_1_1SkeletonT_html_a2e44b7cc4daa5a93ef55e52fd5259e71"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a2e44b7cc4daa5a93ef55e52fd5259e71">momentum::SkeletonT::cast</a></div><div class="ttdeci">SkeletonT&lt; U &gt; cast() const</div><div class="ttdoc">Casts the current skeleton to another scalar type.</div><div class="ttdef"><b>Definition:</b> skeleton.h:85</div></div>
 <div class="ttc" id="astructmomentum_1_1SkeletonT_html_a40a202cffa13ff0fc09ea8481c834d4a"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a40a202cffa13ff0fc09ea8481c834d4a">momentum::SkeletonT::commonAncestor</a></div><div class="ttdeci">size_t commonAncestor(size_t joint1, size_t joint2) const</div><div class="ttdef"><b>Definition:</b> skeleton.cpp:39</div></div>
 <div class="ttc" id="astructmomentum_1_1SkeletonT_html_a88a0732a2701920900c3bf2b25650f56"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a88a0732a2701920900c3bf2b25650f56">momentum::SkeletonT::joints</a></div><div class="ttdeci">JointList joints</div><div class="ttdoc">The list of joints in this skeleton.</div><div class="ttdef"><b>Definition:</b> skeleton.h:24</div></div>
 <div class="ttc" id="astructmomentum_1_1SkeletonT_html_a9f3fd0a1f5c50cae92c960dc27b7e6f3"><div class="ttname"><a href="structmomentum_1_1SkeletonT.html#a9f3fd0a1f5c50cae92c960dc27b7e6f3">momentum::SkeletonT::SkeletonT</a></div><div class="ttdeci">SkeletonT()=default</div></div>

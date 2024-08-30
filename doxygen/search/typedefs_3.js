@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['dfdvtype_2389',['DfdvType',['../classmomentum_1_1ConstraintErrorFunctionT.html#a102f38cefcad821f39cbb557c8a7859b',1,'momentum::ConstraintErrorFunctionT']]],
-  ['doublep_2390',['DoubleP',['../namespacemomentum.html#afe3eed78243df9949325928bbedb680f',1,'momentum']]]
+  ['defaultexception_2397',['DefaultException',['../namespacemomentum_1_1detail.html#a61b2f9f4ddba0b8c95c3934020e8dfb0',1,'momentum::detail']]],
+  ['dfdvtype_2398',['DfdvType',['../classmomentum_1_1ConstraintErrorFunctionT.html#a102f38cefcad821f39cbb557c8a7859b',1,'momentum::ConstraintErrorFunctionT']]],
+  ['doublep_2399',['DoubleP',['../namespacemomentum.html#afe3eed78243df9949325928bbedb680f',1,'momentum']]]
 ];
