@@ -38,7 +38,7 @@ ParameterSet ParameterTransformT<T>::getParameterSet(
       return ParameterSet{};
     }
 
-    throw std::runtime_error("Missing parameter set: " + parameterSetName);
+    MT_THROW("Missing parameter set: {}", parameterSetName);
   }
   return itr->second;
 }

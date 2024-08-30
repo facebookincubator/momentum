@@ -9,6 +9,7 @@ def fix_path(prefix, list_with_prefix):
 common_public_headers = [
     "common/aligned.h",
     "common/checks.h",
+    "common/exception.h",
     "common/filesystem.h",
     "common/fwd.h",
     "common/log_channel.h",
@@ -27,6 +28,7 @@ common_sources = [
 
 common_test_sources = [
     "test/common/aligned_allocator_test.cpp",
+    "test/common/exception_test.cpp",
 ]
 
 simd_public_headers = [

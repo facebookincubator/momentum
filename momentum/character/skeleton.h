@@ -14,6 +14,7 @@
 #include <momentum/character/joint.h>
 #include <momentum/character/parameter_transform.h>
 #include <momentum/character/types.h>
+#include <momentum/common/exception.h>
 
 namespace momentum {
 
@@ -47,11 +48,12 @@ struct SkeletonT {
   [[nodiscard]] std::vector<size_t> getChildrenJoints(
       const size_t jointId,
       const bool recursive = true) const {
-    if (jointId >= joints.size()) {
-      throw std::out_of_range(
-          "Out of bounds getChildrenJoints query. Requested index: " + std::to_string(jointId) +
-          ". Number of joints: " + std::to_string(joints.size()));
-    }
+    MT_THROW_IF_T(
+        jointId >= joints.size(),
+        std::out_of_range,
+        "Out of bounds getChildrenJoints query. Requested index: {}. Number of joints: {}",
+        jointId,
+        joints.size());
 
     std::vector<size_t> childrenJoints;
     std::vector<int> jointDistance(joints.size(), -1);
