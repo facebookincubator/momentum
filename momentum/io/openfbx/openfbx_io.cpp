@@ -325,6 +325,8 @@ void parseSkeleton(
     CollisionGeometry& capsules,
     LocatorList& locators,
     bool permissive) {
+  MT_CHECK(curSkelNode, "Skeleton node for parent '{}' is null", parent);
+
   // Skip non-transform nodes:
   if (!curSkelNode->isNode()) {
     return;
@@ -447,6 +449,8 @@ void parseSkeleton(
 
 std::tuple<Skeleton, std::vector<const ofbx::Object*>, LocatorList, CollisionGeometry>
 parseSkeleton(const ofbx::Object* sceneRoot, const std::string& skelRoot, bool permissive) {
+  MT_CHECK(sceneRoot, "Scene root with skel root '{}' is null", skelRoot);
+
   Skeleton skeleton;
   LocatorList locators;
   CollisionGeometry collision;
@@ -931,7 +935,8 @@ std::tuple<Character, std::vector<MatrixXf>, float> loadOpenFbx(
   }
   std::unique_ptr<ofbx::IScene, decltype(ofbx_deleter)> scene(
       ofbx::load(fbxCharDataRaw.data(), (int32_t)length, (ofbx::u16)loadFlags), ofbx_deleter);
-  MT_THROW_IF(!scene, "Error reading FBX scene data: {}", ofbx::getError());
+  MT_THROW_IF(!scene, "Error reading FBX scene data. Error: {}", ofbx::getError());
+  MT_THROW_IF(!scene->getRoot(), "FBX scene has no root node. Error: {}", ofbx::getError());
 
   const auto [skeleton, jointFbxNodes, locators, collision] =
       parseSkeleton(scene->getRoot(), {}, permissive);
