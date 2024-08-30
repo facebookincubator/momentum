@@ -23,8 +23,6 @@
 #include <torch/csrc/jit/python/python_ivalue.h>
 #include <Eigen/Core>
 
-#include <stdexcept>
-
 namespace py = pybind11;
 namespace mm = momentum;
 
@@ -293,18 +291,16 @@ template <typename T>
 variable_list JointParametersToSkeletonStateFunction<T>::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in JointParametersToSkeletonStateFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in JointParametersToSkeletonStateFunction::backward");
 
   // Restore variables:
   const auto saved = ctx->get_saved_variables();
   auto savedItr = std::begin(saved);
   auto jointParameters = *savedItr++;
-  if (savedItr != std::end(saved)) {
-    throw std::runtime_error("Mismatch in saved variable counts.");
-  }
+  MT_THROW_IF(
+      savedItr != std::end(saved), "Mismatch in saved variable counts.");
 
   const auto nJoints = anyCharacter(
                            ctx->saved_data["character"].toPyObject(),
@@ -439,18 +435,16 @@ template <typename T>
 variable_list JointParametersToLocalSkeletonStateFunction<T>::backward(
     AutogradContext* ctx,
     variable_list grad_outputs) {
-  if (grad_outputs.size() != 1) {
-    throw std::runtime_error(
-        "Invalid grad_outputs in JointParametersToLocalSkeletonStateFunction::backward");
-  }
+  MT_THROW_IF(
+      grad_outputs.size() != 1,
+      "Invalid grad_outputs in JointParametersToLocalSkeletonStateFunction::backward");
 
   // Restore variables:
   const auto saved = ctx->get_saved_variables();
   auto savedItr = std::begin(saved);
   auto jointParameters = *savedItr++;
-  if (savedItr != std::end(saved)) {
-    throw std::runtime_error("Mismatch in saved variable counts.");
-  }
+  MT_THROW_IF(
+      savedItr != std::end(saved), "Mismatch in saved variable counts.");
 
   const auto nJoints = anyCharacter(
                            ctx->saved_data["character"].toPyObject(),
@@ -541,9 +535,9 @@ at::Tensor modelParametersToLocalSkeletonState(
 }
 
 at::Tensor matricesToSkeletonStates(at::Tensor matrices) {
-  if (matrices.dim() < 2 || matrices.size(-1) != 4 || matrices.size(-2) != 4) {
-    throw std::runtime_error("Expected a tensor of 4x4 matrices");
-  }
+  MT_THROW_IF(
+      matrices.dim() < 2 || matrices.size(-1) != 4 || matrices.size(-2) != 4,
+      "Expected a tensor of 4x4 matrices");
 
   /*
       linear = matrices[..., 0:3, 0:3]
@@ -650,15 +644,13 @@ at::Tensor getParentSkeletonState(
 at::Tensor localSkeletonStateToJointParameters(
     const momentum::Character& character,
     at::Tensor localSkelState) {
-  if (localSkelState.ndimension() < 2 ||
-      localSkelState.size(-2) != character.skeleton.joints.size() ||
-      localSkelState.size(-1) != 8) {
-    std::ostringstream oss;
-    oss << "Expected skel_state with dimensions [nBatch x nJoints="
-        << character.skeleton.joints.size() << " x 8]; got "
-        << formatTensorSizes(localSkelState) << ".";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      localSkelState.ndimension() < 2 ||
+          localSkelState.size(-2) != character.skeleton.joints.size() ||
+          localSkelState.size(-1) != 8,
+      "Expected skel_state with dimensions [nBatch x nJoints={} x 8]; got {}.",
+      character.skeleton.joints.size(),
+      formatTensorSizes(localSkelState));
 
   auto [localTranslation, localRotation, localScale] =
       splitSkeletonState(localSkelState);
@@ -695,15 +687,13 @@ at::Tensor localSkeletonStateToJointParameters(
 at::Tensor skeletonStateToJointParameters(
     const momentum::Character& character,
     at::Tensor skelState) {
-  if (skelState.ndimension() < 2 ||
-      skelState.size(-2) != character.skeleton.joints.size() ||
-      skelState.size(-1) != 8) {
-    std::ostringstream oss;
-    oss << "Expected skel_state with dimensions [nBatch x nJoints="
-        << character.skeleton.joints.size() << " x 8]; got "
-        << formatTensorSizes(skelState) << ".";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      skelState.ndimension() < 2 ||
+          skelState.size(-2) != character.skeleton.joints.size() ||
+          skelState.size(-1) != 8,
+      "Expected skel_state with dimensions [nBatch x nJoints={} x 8]; got {}.",
+      character.skeleton.joints.size(),
+      formatTensorSizes(skelState));
 
   at::Tensor parentSkelState = getParentSkeletonState(character, skelState);
 

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#include "pymomentum/tensor_momentum/tensor_quaternion.h"
 #include "pymomentum/tensor_momentum/tensor_skeleton_state.h"
 #include "pymomentum/tensor_momentum/tensor_transforms.h"
 

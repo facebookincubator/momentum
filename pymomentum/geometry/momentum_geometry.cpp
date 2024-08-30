@@ -46,9 +46,7 @@ gsl::span<const T> toSpan(const pybind11::bytes& bytes) {
   const T* data = reinterpret_cast<const T*>(info.ptr);
   const size_t length = static_cast<size_t>(info.size);
 
-  if (data == nullptr) {
-    throw std::runtime_error("Unable to extract contents from bytes.");
-  }
+  MT_THROW_IF(data == nullptr, "Unable to extract contents from bytes.");
 
   return gsl::make_span<const T>(data, length);
 }
@@ -58,9 +56,7 @@ momentum::Character loadGLTFCharacterFromBytes(const pybind11::bytes& bytes) {
   const std::byte* data = reinterpret_cast<const std::byte*>(info.ptr);
   const size_t length = static_cast<size_t>(info.size);
 
-  if (data == nullptr) {
-    throw std::runtime_error("Unable to extract contents from bytes.");
-  }
+  MT_THROW_IF(data == nullptr, "Unable to extract contents from bytes.");
 
   return momentum::loadGltfCharacter(
       gsl::make_span<const std::byte>(data, length));
@@ -79,11 +75,10 @@ at::Tensor mapTensor(
     dimension += srcTensor.ndimension();
   }
 
-  if (dimension < 0 || srcTensor.ndimension() <= dimension ||
-      srcTensor.size(dimension) != srcNames.size()) {
-    throw std::runtime_error(
-        "Unexpected error in mapTensor(): dimensions don't match.");
-  }
+  MT_THROW_IF(
+      dimension < 0 || srcTensor.ndimension() <= dimension ||
+          srcTensor.size(dimension) != srcNames.size(),
+      "Unexpected error in mapTensor(): dimensions don't match.");
 
   std::unordered_map<std::string, size_t> tgtNameMap;
   for (size_t iTgt = 0; iTgt < tgtNames.size(); ++iTgt) {
@@ -138,10 +133,9 @@ at::Tensor mapModelParameters_names(
     at::Tensor motion_in,
     const std::vector<std::string>& parameterNames_in,
     const momentum::Character& character_remap) {
-  if (motion_in.size(-1) != parameterNames_in.size()) {
-    throw std::runtime_error(
-        "Mismatch between motion size and parameter name count.");
-  }
+  MT_THROW_IF(
+      motion_in.size(-1) != parameterNames_in.size(),
+      "Mismatch between motion size and parameter name count.");
 
   std::vector<std::string> missingParams;
   for (size_t iParamSource = 0; iParamSource < parameterNames_in.size();
@@ -241,9 +235,7 @@ loadFBXCharacterWithMotionFromBytes(
 momentum::Character loadLocatorsFromFile(
     const momentum::Character& character,
     const std::string& locatorsPath) {
-  if (locatorsPath.empty()) {
-    throw std::runtime_error("Missing locators path.");
-  }
+  MT_THROW_IF(locatorsPath.empty(), "Missing locators path.");
   momentum::Character result = character;
   auto locators = momentum::loadLocators(
       filesystem::path(locatorsPath),
@@ -257,9 +249,7 @@ momentum::Character loadLocatorsFromFile(
 momentum::Character loadConfigFromFile(
     const momentum::Character& character,
     const std::string& configPath) {
-  if (configPath.empty()) {
-    throw std::runtime_error("Missing model definition path.");
-  }
+  MT_THROW_IF(configPath.empty(), "Missing model definition path.");
 
   momentum::Character result = character;
   std::tie(result.parameterTransform, result.parameterLimits) =
@@ -314,9 +304,10 @@ std::shared_ptr<momentum::BlendShape> loadBlendShapeFromFile(
     int nExpectedVertices) {
   auto result =
       momentum::loadBlendShape(path, nExpectedShapes, nExpectedVertices);
-  if (result.getBaseShape().empty()) {
-    throw std::runtime_error("Error loading blend shape from '" + path + "'.");
-  }
+  MT_THROW_IF(
+      result.getBaseShape().empty(),
+      "Error loading blend shape from '{}'.",
+      path);
   return std::make_shared<momentum::BlendShape>(std::move(result));
 }
 
@@ -328,9 +319,8 @@ std::shared_ptr<momentum::BlendShape> loadBlendShapeFromBytes(
   std::istream is(&streambuf);
   momentum::BlendShape result =
       momentum::loadBlendShape(is, nExpectedShapes, nExpectedVertices);
-  if (result.getBaseShape().empty()) {
-    throw std::runtime_error("Error loading blend shape from bytes.");
-  }
+  MT_THROW_IF(
+      result.getBaseShape().empty(), "Error loading blend shape from bytes.");
   return std::make_shared<momentum::BlendShape>(std::move(result));
 }
 
@@ -351,28 +341,24 @@ std::string formatDimensions(const py::array_t<T>& array) {
 std::shared_ptr<momentum::BlendShape> loadBlendShapeFromTensors(
     pybind11::array_t<float> baseShape,
     pybind11::array_t<float> shapeVectors) {
-  if (baseShape.ndim() != 2 || baseShape.shape(1) != 3) {
-    throw std::runtime_error(
-        "In BlendShape.from_tensors(), expected base_shape to be [n_pts x 3] but got " +
-        formatDimensions(baseShape));
-  }
-  if (shapeVectors.ndim() != 3 || shapeVectors.shape(2) != 3) {
-    throw std::runtime_error(
-        "In BlendShape.from_tensors(), expected shape_vectors shape to be [n_shapes x n_pts x 3] but got " +
-        formatDimensions(shapeVectors));
-  }
+  MT_THROW_IF(
+      baseShape.ndim() != 2 || baseShape.shape(1) != 3,
+      "In BlendShape.from_tensors(), expected base_shape to be [n_pts x 3] but got {}",
+      formatDimensions(baseShape));
+  MT_THROW_IF(
+      shapeVectors.ndim() != 3 || shapeVectors.shape(2) != 3,
+      "In BlendShape.from_tensors(), expected shape_vectors shape to be [n_shapes x n_pts x 3] but got {}",
+      formatDimensions(shapeVectors));
 
   const auto nPts = baseShape.shape(0);
   const auto nShapes = shapeVectors.shape(0);
-  if (shapeVectors.shape(1) != nPts) {
-    std::ostringstream oss;
-    oss << "In BlendShape.from_tensors(), expected match in n_pts dimensions.  ";
-    oss << "Expected base_shape to be [n_pts x 3] but got "
-        << formatDimensions(baseShape) << ".";
-    oss << "Expected shape_vectors to be [n_shapes x n_pts x 3] but got "
-        << formatDimensions(shapeVectors) << ".";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      shapeVectors.shape(1) != nPts,
+      "In BlendShape.from_tensors(), expected match in n_pts dimensions. "
+      "Expected base_shape to be [n_pts x 3] but got {}. "
+      "Expected shape_vectors to be [n_shapes x n_pts x 3] but got {}.",
+      formatDimensions(baseShape),
+      formatDimensions(shapeVectors));
 
   std::vector<Eigen::Vector3f> baseShapeRes(nPts, Eigen::Vector3f::Zero());
   auto baseShapeAccess = baseShape.unchecked<2>();
@@ -400,19 +386,17 @@ std::shared_ptr<momentum::BlendShape> loadBlendShapeFromTensors(
 momentum::Character replaceRestMesh(
     const momentum::Character& character,
     RowMatrixf positions) {
-  if (!character.mesh) {
-    throw std::runtime_error(
-        "Can't replace vertex positions because the Character lacks a mesh.");
-  }
+  MT_THROW_IF(
+      !character.mesh,
+      "Can't replace vertex positions because the Character lacks a mesh.");
 
-  if (positions.cols() != 3 ||
-      positions.rows() != character.mesh->vertices.size()) {
-    std::ostringstream oss;
-    oss << "Expected a mesh position vector of size "
-        << character.mesh->vertices.size() << " x 3; got " << positions.rows()
-        << " x " << positions.cols();
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      positions.cols() != 3 ||
+          positions.rows() != character.mesh->vertices.size(),
+      "Expected a mesh position vector of size {} x 3; got {} x {}",
+      character.mesh->vertices.size(),
+      positions.rows(),
+      positions.cols());
 
   momentum::Mesh newMesh(*character.mesh);
   for (size_t i = 0; i < newMesh.vertices.size(); ++i) {
@@ -452,13 +436,11 @@ at::Tensor uniformRandomToModelParameters(
   }
   const auto nBatch = unifNoise.size(0);
 
-  if (unifNoise.size(1) != nModelParam) {
-    std::ostringstream oss;
-    oss << "In uniformRandomToModelParameters(), expected array with size [nBatch, nModelParameters] with nModelParameters="
-        << nModelParam << "; got array with size "
-        << formatTensorSizes(unifNoise);
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      unifNoise.size(1) != nModelParam,
+      "In uniformRandomToModelParameters(), expected array with size [nBatch, nModelParameters] with nModelParameters={}; got array with size {}",
+      nModelParam,
+      formatTensorSizes(unifNoise));
 
   at::Tensor result = at::zeros({nBatch, nModelParam}, at::kFloat);
 
@@ -498,9 +480,9 @@ std::vector<bool> bonesToVertices(
     const momentum::SkinWeights& skinWeights,
     const std::vector<bool>& bones) {
   const auto nVerts = mesh.vertices.size();
-  if (skinWeights.index.rows() != nVerts) {
-    throw std::runtime_error("Skinning weights don't match mesh vertices.");
-  }
+  MT_THROW_IF(
+      skinWeights.index.rows() != nVerts,
+      "Skinning weights don't match mesh vertices.");
 
   std::vector<bool> result(nVerts);
   for (size_t iVert = 0; iVert < nVerts; ++iVert) {
@@ -623,9 +605,9 @@ std::pair<momentum::Mesh, momentum::SkinWeights> subsetVerticesMesh(
 
 std::vector<size_t> getUpperBodyJoints(const momentum::Skeleton& skeleton) {
   auto upperBodyRoot_idx = skeleton.getJointIdByName("b_spine0");
-  if (upperBodyRoot_idx == momentum::kInvalidIndex) {
-    throw std::runtime_error("Missing 'b_spine0' joint.");
-  }
+  MT_THROW_IF(
+      upperBodyRoot_idx == momentum::kInvalidIndex,
+      "Missing 'b_spine0' joint.");
 
   std::vector<size_t> result;
 
@@ -695,9 +677,7 @@ std::unique_ptr<momentum::Character> reduceToSelectedModelParameters(
 std::tuple<float, Eigen::VectorXf, Eigen::MatrixXf, float> getMppcaModel(
     const momentum::Mppca& mppca,
     int iModel) {
-  if (iModel >= mppca.p) {
-    throw std::runtime_error("Out of range iModel in Mppca.getModel()");
-  }
+  MT_THROW_IF(iModel >= mppca.p, "Out of range iModel in Mppca.getModel()");
 
   const Eigen::Index dim = mppca.mu.cols();
 
@@ -771,24 +751,24 @@ std::shared_ptr<momentum::Mppca> createMppcaModel(
   const Eigen::Index dimension = parameterNames.size();
   const Eigen::Index nModels = pi.size();
 
-  if (mu.cols() != dimension || mu.rows() != nModels) {
-    std::ostringstream oss;
-    oss << "Invalid dimensions for mu; expected " << nModels << " x "
-        << dimension << " but got " << mu.rows() << " x " << mu.cols() << "\n";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      mu.cols() != dimension || mu.rows() != nModels,
+      "Invalid dimensions for mu; expected {} x {} but got {} x {}",
+      nModels,
+      dimension,
+      mu.rows(),
+      mu.cols());
 
-  if (sigma.size() != nModels) {
-    throw std::runtime_error(
-        "Mismatch between mixture counts in pi and sigma2.");
-  }
+  MT_THROW_IF(
+      sigma.size() != nModels,
+      "Mismatch between mixture counts in pi and sigma2.");
 
-  if (W.ndim() != 3 || W.shape(0) != nModels || W.shape(2) != dimension) {
-    std::ostringstream oss;
-    oss << "Expected W of size [nMixtures=" << nModels
-        << " x nPCA x d=" << dimension << "]; got " << formatNumpyDims(W);
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      W.ndim() != 3 || W.shape(0) != nModels || W.shape(2) != dimension,
+      "Expected W of size [nMixtures={} x nPCA x d={}]; got {}",
+      nModels,
+      dimension,
+      formatNumpyDims(W));
 
   std::vector<Eigen::MatrixXf> W_in;
 
@@ -822,22 +802,19 @@ std::shared_ptr<momentum::Mppca> createMppcaModel(
 std::unique_ptr<momentum::Mesh> getPosedMesh(
     const momentum::Character& character,
     Eigen::Ref<const Eigen::VectorXf> jointParameters) {
-  if (!character.mesh) {
-    throw std::runtime_error("Character has no mesh.");
-  }
+  MT_THROW_IF(!character.mesh, "Character has no mesh.");
 
   auto result = std::make_unique<momentum::Mesh>(*character.mesh);
 
   using momentum::kParametersPerJoint;
 
-  if (jointParameters.size() !=
-      kParametersPerJoint * character.skeleton.joints.size()) {
-    std::ostringstream oss;
-    oss << "Mismatched jointParameters size in getPosedMesh(); expected "
-        << kParametersPerJoint << "x" << character.skeleton.joints.size()
-        << " parameters but got " << jointParameters.size();
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      jointParameters.size() !=
+          kParametersPerJoint * character.skeleton.joints.size(),
+      "Mismatched jointParameters size in getPosedMesh(); expected {}x{} parameters but got {}",
+      kParametersPerJoint,
+      character.skeleton.joints.size(),
+      jointParameters.size());
   momentum::SkeletonState skelState;
 
   skelState.set(jointParameters, character.skeleton);
@@ -886,20 +863,17 @@ std::tuple<Eigen::VectorXi, RowMatrixf> getLocators(
       continue;
     }
     for (size_t idx : itr->second) {
-      if (parents(idx) != -1) {
-        throw std::runtime_error(
-            "Duplicate joint '" + name +
-            "' found in both locators list and skeleton.");
-      }
+      MT_THROW_IF(
+          parents(idx) != -1,
+          "Duplicate joint '{}' found in both locators list and skeleton.",
+          name);
       parents(idx) = iBone;
       // Offset in this case relative to parent bone is just 0
     }
   }
 
   for (size_t i = 0; i < names.size(); ++i) {
-    if (parents(i) == -1) {
-      throw std::runtime_error("Missing joint/locator '" + names[i] + "'.");
-    }
+    MT_THROW_IF(parents(i) == -1, "Missing joint/locator '{}'.", names[i]);
   }
 
   return {parents, offsets};
@@ -925,11 +899,9 @@ at::Tensor applyModelParameterLimitsTemplate(
       &squeeze);
 
   const int64_t nModelParams = checker.getBoundValue(nModelParamsID);
-  if (character.parameterTransform.numAllModelParameters() != nModelParams) {
-    throw std::runtime_error(
-        "pymomentum::applyModelParameterLimits(): model param ssize in "
-        "input tensor does not match character");
-  }
+  MT_THROW_IF(
+      character.parameterTransform.numAllModelParameters() != nModelParams,
+      "pymomentum::applyModelParameterLimits(): model param ssize in input tensor does not match character")
 
   // character.parameterLimits can be empty. In this case, there is no
   // limit for all the model params.

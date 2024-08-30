@@ -6,7 +6,8 @@
  */
 
 #include <pymomentum/tensor_utility/tensor_utility.h>
-#include <stdexcept>
+
+#include <momentum/common/exception.h>
 
 namespace pymomentum {
 
@@ -44,9 +45,8 @@ at::Tensor denullify(std::optional<at::Tensor> tensor) {
 
 template <typename T>
 Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> toEigenMap(at::Tensor t) {
-  if (t.scalar_type() != toScalarType<T>()) {
-    throw std::runtime_error("Mismatch in tensor types.");
-  }
+  MT_THROW_IF(
+      t.scalar_type() != toScalarType<T>(), "Mismatch in tensor types.");
 
   int64_t sz = 1;
   for (const auto& d : t.sizes()) {
@@ -65,21 +65,20 @@ template Eigen::Map<Eigen::Matrix<int, Eigen::Dynamic, 1>> toEigenMap(
 
 template <typename T, int Rows, int Cols>
 std::vector<Eigen::Matrix<T, Rows, Cols>> toMatrixList(at::Tensor tensor) {
-  if (tensor.ndimension() != 3) {
-    throw std::runtime_error("toMatrixList expected tensor of dimension 3.");
-  }
+  MT_THROW_IF(
+      tensor.ndimension() != 3, "toMatrixList expected tensor of dimension 3.");
 
   const auto nMat = tensor.size(0);
   const auto nRows = tensor.size(1);
   const auto nCols = tensor.size(2);
 
-  if (Rows != Eigen::Dynamic && nRows != Rows) {
-    throw std::runtime_error("Mismatch in row dimension for toMatrixList()");
-  }
+  MT_THROW_IF(
+      Rows != Eigen::Dynamic && nRows != Rows,
+      "Mismatch in row dimension for toMatrixList()");
 
-  if (Cols != Eigen::Dynamic && nCols != Cols) {
-    throw std::runtime_error("Mismatch in row dimension for toMatrixList()");
-  }
+  MT_THROW_IF(
+      Cols != Eigen::Dynamic && nCols != Cols,
+      "Mismatch in row dimension for toMatrixList()");
 
   std::vector<Eigen::Matrix<T, Rows, Cols>> result;
   result.reserve(nMat);
@@ -135,20 +134,19 @@ at::Tensor TensorChecker::validateAndFixTensor(
   at::Tensor result =
       tensor_orig.contiguous().to(at::DeviceType::CPU, expectedScalarType);
 
-  if (expectedSizes.size() != dimensionNames.size()) {
-    throw std::runtime_error("Unexpected error in validateAndFixTensor()");
-  }
+  MT_THROW_IF(
+      expectedSizes.size() != dimensionNames.size(),
+      "Unexpected error in validateAndFixTensor()");
   const auto nExpectedDim = expectedSizes.size();
 
   if (isEmpty(tensor_orig)) {
-    if (!allowEmpty) {
-      std::ostringstream oss;
-      oss << "In " << _functionName << ", tensor argument " << tensorName
-          << " is empty.  Expected "
-          << formatExpectedDimensions(
-                 expectedSizes, dimensionNames, _boundVariableSizes);
-      throw std::runtime_error(oss.str());
-    }
+    MT_THROW_IF(
+        !allowEmpty,
+        "In {}, tensor argument {} is empty. Expected {}",
+        _functionName,
+        tensorName,
+        formatExpectedDimensions(
+            expectedSizes, dimensionNames, _boundVariableSizes));
     return result;
   }
 
@@ -156,16 +154,14 @@ at::Tensor TensorChecker::validateAndFixTensor(
   bool needsSqueeze;
   int batchSize_new = _batchSize;
   if (tensor_orig.ndimension() == nExpectedDim) {
-    if (!allowUnbatched) {
-      std::ostringstream oss;
-      oss << "In " << _functionName << ", expected " << tensorName
-          << " to be a batched tensor with dimensions "
-          << formatExpectedDimensions(
-                 expectedSizes, dimensionNames, _boundVariableSizes)
-          << " but got unbatched tensor with dimensions "
-          << formatTensorSizes(tensor_orig);
-      throw std::runtime_error(oss.str());
-    }
+    MT_THROW_IF(
+        !allowUnbatched,
+        "In {}, expected {} to be a batched tensor with dimensions {} but got unbatched tensor with dimensions {}",
+        _functionName,
+        tensorName,
+        formatExpectedDimensions(
+            expectedSizes, dimensionNames, _boundVariableSizes),
+        formatTensorSizes(tensor_orig));
 
     result = result.unsqueeze(0);
     needsSqueeze = true;
@@ -189,25 +185,23 @@ at::Tensor TensorChecker::validateAndFixTensor(
       // Bind the batch size:
       batchSize_new = batchSize_cur;
     } else {
-      if (batchSize_cur != _batchSize) {
-        std::ostringstream oss;
-        oss << "In " << _functionName << ", mismatch in tensor batch sizes for "
-            << tensorName << ".  Expected batch size of " << _batchSize
-            << " but got a tensor with dimensions "
-            << formatTensorSizes(tensor_orig);
-        throw std::runtime_error(oss.str());
-      }
+      MT_THROW_IF(
+          batchSize_cur != _batchSize,
+          "In {}, mismatch in tensor batch sizes for {}. Expected batch size of {} but got a tensor with dimensions {}",
+          _functionName,
+          tensorName,
+          _batchSize,
+          formatTensorSizes(tensor_orig));
     }
   } else {
-    std::ostringstream oss;
-    oss << "In " << _functionName << ", tensor argument " << tensorName
-        << " has unexpected size " << formatTensorSizes(tensor_orig)
-        << ".  Expected "
-        << formatExpectedDimensions(
-               expectedSizes, dimensionNames, _boundVariableSizes)
-        << " but got a tensor with dimensions "
-        << formatTensorSizes(tensor_orig);
-    throw std::runtime_error(oss.str());
+    MT_THROW(
+        "In {}, tensor argument {} has unexpected size {}. Expected {} but got a tensor with dimensions {}",
+        _functionName,
+        tensorName,
+        formatTensorSizes(tensor_orig),
+        formatExpectedDimensions(
+            expectedSizes, dimensionNames, _boundVariableSizes),
+        formatTensorSizes(tensor_orig));
   }
 
   std::unordered_map<int, int64_t> boundVariableSizes_new = _boundVariableSizes;
@@ -226,28 +220,26 @@ at::Tensor TensorChecker::validateAndFixTensor(
       } else {
         // Validate that we match the bound size.
         const auto boundSize = itr->second;
-        if (foundSize != boundSize) {
-          std::ostringstream oss;
-          oss << "In " << _functionName << ", for tensor argument "
-              << tensorName << ", mismatch in tensor dimension "
-              << dimensionNames[iDim] << "; expected: "
-              << formatExpectedDimensions(
-                     expectedSizes, dimensionNames, boundVariableSizes_new)
-              << " but found " << formatTensorSizes(tensor_orig);
-          throw std::runtime_error(oss.str());
-        }
+        MT_THROW_IF(
+            foundSize != boundSize,
+            "In {}, for tensor argument {} mismatch in tensor dimension {}; expected: {} but found {}",
+            _functionName,
+            tensorName,
+            dimensionNames[iDim],
+            formatExpectedDimensions(
+                expectedSizes, dimensionNames, boundVariableSizes_new),
+            formatTensorSizes(tensor_orig));
       }
     } else {
-      if (foundSize != expectedSizes[iDim]) {
-        std::ostringstream oss;
-        oss << "In " << _functionName << ", for tensor argument " << tensorName
-            << ", mismatch in tensor dimension " << dimensionNames[iDim]
-            << "; expected: "
-            << formatExpectedDimensions(
-                   expectedSizes, dimensionNames, boundVariableSizes_new)
-            << " but found " << formatTensorSizes(tensor_orig);
-        throw std::runtime_error(oss.str());
-      }
+      MT_THROW_IF(
+          foundSize != expectedSizes[iDim],
+          "In {}, for tensor argument {}, mismatch in tensor dimension {}; expected: {} but found {}",
+          _functionName,
+          tensorName,
+          dimensionNames[iDim],
+          formatExpectedDimensions(
+              expectedSizes, dimensionNames, boundVariableSizes_new),
+          formatTensorSizes(tensor_orig));
     }
   }
 
@@ -262,19 +254,17 @@ at::Tensor TensorChecker::validateAndFixTensor(
 }
 
 int64_t TensorChecker::getBatchSize() {
-  if (_batchSize <= 0) {
-    throw std::runtime_error(
-        "TensorChecker: Called getBatchSize with invalid batch size.");
-  }
+  MT_THROW_IF(
+      _batchSize <= 0,
+      "TensorChecker: Called getBatchSize with invalid batch size.");
   return _batchSize;
 }
 
 int64_t TensorChecker::getBoundValue(int idx) {
   auto itr = _boundVariableSizes.find(idx);
-  if (itr == _boundVariableSizes.end()) {
-    throw std::runtime_error(
-        "TensorChecker: Called getBoundValue with invalid variable index.");
-  }
+  MT_THROW_IF(
+      itr == _boundVariableSizes.end(),
+      "TensorChecker: Called getBoundValue with invalid variable index.");
 
   return itr->second;
 }
@@ -287,13 +277,13 @@ void throwIfNaNOrINF(
     return;
   }
 
-  if (at::isnan(t).any().cpu().item<bool>() ||
-      at::isinf(t).any().cpu().item<bool>()) {
-    std::string error_msg = "In " + std::string(context) + ", " +
-        std::string(tensorName) + " with dimension " + formatTensorSizes(t) +
-        " has NaN/INF.";
-    throw std::runtime_error(error_msg);
-  }
+  MT_THROW_IF(
+      at::isnan(t).any().cpu().item<bool>() ||
+          at::isinf(t).any().cpu().item<bool>(),
+      "In {}, {} with dimension {} has NaN/INF.",
+      context,
+      tensorName,
+      formatTensorSizes(t));
 }
 
 } // namespace pymomentum

@@ -31,7 +31,6 @@
 #include <momentum/math/mppca.h>
 #include <momentum/test/character/character_helpers.h>
 
-#include <fmt/format.h>
 #include <pybind11/eigen.h>
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
@@ -42,7 +41,6 @@
 
 #include <algorithm>
 #include <limits>
-#include <stdexcept>
 
 namespace py = pybind11;
 namespace mm = momentum;
@@ -169,15 +167,14 @@ PYBIND11_MODULE(geometry, m) {
             mm::Character characterWithMesh = character;
             characterWithMesh.mesh = std::make_unique<mm::Mesh>(*mesh);
             const auto numMeshVertices = mesh->vertices.size();
-            if (skinWeights && mesh &&
-                numMeshVertices != skinWeights->index.rows() &&
-                numMeshVertices != skinWeights->weight.rows()) {
-              throw std::runtime_error(fmt::format(
-                  "The number of mesh vertices and skin weight index/weight matrix rows should be the same {} vs {} vs {}",
-                  numMeshVertices,
-                  skinWeights->index.rows(),
-                  skinWeights->weight.rows()));
-            }
+            MT_THROW_IF(
+                skinWeights && mesh &&
+                    numMeshVertices != skinWeights->index.rows() &&
+                    numMeshVertices != skinWeights->weight.rows(),
+                "The number of mesh vertices and skin weight index/weight matrix rows should be the same {} vs {} vs {}",
+                numMeshVertices,
+                skinWeights->index.rows(),
+                skinWeights->weight.rows())
             characterWithMesh.skinWeights =
                 std::make_unique<mm::SkinWeights>(*skinWeights);
             return characterWithMesh;
@@ -692,8 +689,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
               if (allow_missing) {
                 return -1;
               } else {
-                throw std::runtime_error(
-                    "Joint '" + name + "' not found in skeleton.");
+                MT_THROW("Joint '{}' not found in skeleton.", name);
               }
             } else {
               return result;
@@ -705,12 +701,10 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
       .def(
           "get_parent",
           [](const mm::Skeleton& skel, int jointIndex) -> int64_t {
-            if (jointIndex < 0 || jointIndex >= skel.joints.size()) {
-              std::ostringstream oss;
-              oss << "get_parent() called with invalid joint index "
-                  << jointIndex;
-              throw std::runtime_error(oss.str());
-            }
+            MT_THROW_IF(
+                jointIndex < 0 || jointIndex >= skel.joints.size(),
+                "get_parent() called with invalid joint index {}",
+                jointIndex);
             const auto parent = skel.joints[jointIndex].parent;
             if (parent == momentum::kInvalidIndex) {
               return -1;
@@ -820,73 +814,56 @@ isAncestor(id, id) returns true. )",
                       const std::vector<std::vector<int32_t>>& texcoord_lines) {
             mm::Mesh mesh;
             const auto nVerts = vertices.rows();
-            if (normals.rows() != nVerts) {
-              throw std::runtime_error(
-                  "vertices and normals must have the same number of rows");
-            }
 
-            if (vertices.cols() != 3) {
-              throw std::runtime_error("vertices must have size n x 3");
-            }
-
-            if (normals.cols() != 3) {
-              throw std::runtime_error("normals must have size n x 3");
-            }
-
-            if (faces.cols() != 3) {
-              throw std::runtime_error("faces must have size n x 3");
-            }
-
-            if (faces.size() > 0 && faces.maxCoeff() >= nVerts) {
-              throw std::runtime_error("face index exceeded vertex count");
-            }
+            MT_THROW_IF(
+                normals.rows() != nVerts,
+                "vertices and normals must have the same number of rows");
+            MT_THROW_IF(vertices.cols() != 3, "vertices must have size n x 3");
+            MT_THROW_IF(normals.cols() != 3, "normals must have size n x 3");
+            MT_THROW_IF(faces.cols() != 3, "faces must have size n x 3");
+            MT_THROW_IF(
+                faces.size() > 0 && faces.maxCoeff() >= nVerts,
+                "face index exceeded vertex count");
 
             mesh.vertices = asVectorList<float, 3>(vertices);
             mesh.normals = asVectorList<float, 3>(normals);
             mesh.faces = asVectorList<int, 3>(faces);
 
             for (const auto& l : lines) {
-              if (!l.empty() &&
-                  *std::max_element(l.begin(), l.end()) >= nVerts) {
-                throw std::runtime_error("line index exceeded vertex count");
-              }
+              MT_THROW_IF(
+                  !l.empty() && *std::max_element(l.begin(), l.end()) >= nVerts,
+                  "line index exceeded vertex count");
             }
             mesh.lines = lines;
 
-            if (colors.rows() != 0 && colors.cols() != nVerts) {
-              throw std::runtime_error(
-                  "colors should be empty or equal to the number of vertices");
-            }
+            MT_THROW_IF(
+                colors.rows() != 0 && colors.cols() != nVerts,
+                "colors should be empty or equal to the number of vertices");
             mesh.colors = asVectorList<uint8_t, 3>(colors);
 
-            if (confidence.size() != 0 && confidence.size() != nVerts) {
-              throw std::runtime_error(
-                  "confidence should be empty or equal to the number of vertices");
-            }
+            MT_THROW_IF(
+                confidence.size() != 0 && confidence.size() != nVerts,
+                "confidence should be empty or equal to the number of vertices");
             mesh.confidence = confidence;
 
-            if (texcoords.size() != 0 && texcoords.cols() != 2) {
-              throw std::runtime_error(
-                  "texcoords should be empty or must have size n x 2");
-            }
+            MT_THROW_IF(
+                texcoords.size() != 0 && texcoords.cols() != 2,
+                "texcoords should be empty or must have size n x 2");
 
             const auto nTextureCoords = texcoords.rows();
-            if (texcoord_faces.size() != 0 &&
-                texcoord_faces.rows() != faces.rows()) {
-              throw std::runtime_error(
-                  "texcoords_faces should be empty or equal to the size of faces");
-            }
+            MT_THROW_IF(
+                texcoord_faces.size() != 0 &&
+                    texcoord_faces.rows() != faces.rows(),
+                "texcoords_faces should be empty or equal to the size of faces");
 
-            if (texcoord_faces.size() != 0 && texcoord_faces.cols() != 3) {
-              throw std::runtime_error(
-                  "texcoord_faces should be empty or must have size n x 3");
-            }
+            MT_THROW_IF(
+                texcoord_faces.size() != 0 && texcoord_faces.cols() != 3,
+                "texcoord_faces should be empty or must have size n x 3");
 
-            if (texcoord_faces.size() > 0 &&
-                texcoord_faces.maxCoeff() >= nTextureCoords) {
-              throw std::runtime_error(
-                  "texcoord_face index exceeded texcoord count");
-            }
+            MT_THROW_IF(
+                texcoord_faces.size() > 0 &&
+                    texcoord_faces.maxCoeff() >= nTextureCoords,
+                "texcoord_face index exceeded texcoord count");
             mesh.texcoords = asVectorList<float, 2>(texcoords);
             mesh.texcoord_faces = asVectorList<int32_t, 3>(texcoord_faces);
             mesh.texcoord_lines = texcoord_lines;
@@ -980,9 +957,8 @@ isAncestor(id, id) returns true. )",
           [](const mm::BlendShape& blendShape) -> py::array_t<float> {
             const Eigen::MatrixXf& shapeVectors = blendShape.getShapeVectors();
             const Eigen::Index nVerts = shapeVectors.rows() / 3;
-            if (shapeVectors.rows() % 3 != 0) {
-              throw std::runtime_error("Invalid blend shape basis.");
-            }
+            MT_THROW_IF(
+                shapeVectors.rows() % 3 != 0, "Invalid blend shape basis.");
             py::array_t<float> result(
                 std::vector<ptrdiff_t>{shapeVectors.cols(), nVerts, 3});
             py::buffer_info buf = result.request();
@@ -1724,11 +1700,10 @@ This can be useful for visualization if you don't want the legs to distract.
         std::vector<size_t> joints;
         for (const auto& j : joints_in) {
           const auto idx = c.skeleton.getJointIdByName(j);
-          if (idx == momentum::kInvalidIndex) {
-            throw std::runtime_error(
-                "Trying to remove nonexistent joint '" + j +
-                "' from skeleton.");
-          }
+          MT_THROW_IF(
+              idx == momentum::kInvalidIndex,
+              "Trying to remove nonexistent joint '{}' from skeleton.",
+              j);
           joints.push_back(idx);
         }
 

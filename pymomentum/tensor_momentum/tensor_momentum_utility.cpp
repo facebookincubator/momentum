@@ -13,8 +13,6 @@
 
 #include <c10/core/ScalarType.h>
 
-#include <sstream>
-
 namespace pymomentum {
 
 void checkValidBoneIndex(
@@ -26,13 +24,12 @@ void checkValidBoneIndex(
   }
 
   const int64_t nJoints = character.skeleton.joints.size();
-  if (idx.less((int64_t)0).any().cpu().item<bool>() ||
-      idx.greater_equal(nJoints).any().cpu().item<bool>()) {
-    std::ostringstream oss;
-    oss << "Invalid joint index found in " << name
-        << "; expected all values in the range [0, " << nJoints << ").";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      idx.less((int64_t)0).any().cpu().item<bool>() ||
+          idx.greater_equal(nJoints).any().cpu().item<bool>(),
+      "Invalid joint index found in {}; expected all values in the range [0, {}).",
+      name,
+      nJoints);
 }
 
 void checkValidParameterIndex(
@@ -46,13 +43,12 @@ void checkValidParameterIndex(
 
   const int64_t nParams = character.parameterTransform.numAllModelParameters();
   const int64_t minVal = allow_missing ? -1 : 0;
-  if (idx.less((int64_t)minVal).any().cpu().item<bool>() ||
-      idx.greater_equal(nParams).any().cpu().item<bool>()) {
-    std::ostringstream oss;
-    oss << "Invalid parameter index found in " << name
-        << "; expected all values in the range [0, " << nParams << ").";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      idx.less((int64_t)minVal).any().cpu().item<bool>() ||
+          idx.greater_equal(nParams).any().cpu().item<bool>(),
+      "Invalid parameter index found in {}; expected all values in the range [0, {}).",
+      name,
+      nParams);
 }
 
 // allow_missing means -1 is allowed:
@@ -65,20 +61,19 @@ void checkValidVertexIndex(
     return;
   }
 
-  if (!character.mesh && !allow_missing) {
-    throw std::runtime_error("Vertex indices invalid for empty mesh.");
-  }
+  MT_THROW_IF(
+      !character.mesh && !allow_missing,
+      "Vertex indices invalid for empty mesh.");
 
   const int64_t nVertices =
       (character.mesh) ? character.mesh->vertices.size() : 0;
   const int64_t minVal = allow_missing ? -1 : 0;
-  if (idx.less((int64_t)minVal).any().cpu().template item<bool>() ||
-      idx.greater_equal(nVertices).any().cpu().template item<bool>()) {
-    std::ostringstream oss;
-    oss << "Invalid vertex index found in " << name
-        << "; expected all values in the range [0, " << nVertices << ").";
-    throw std::runtime_error(oss.str());
-  }
+  MT_THROW_IF(
+      idx.less((int64_t)minVal).any().cpu().template item<bool>() ||
+          idx.greater_equal(nVertices).any().cpu().template item<bool>(),
+      "Invalid vertex index found in {}; expected all values in the range [0, {}).",
+      name,
+      nVertices);
 }
 
 std::vector<bool> tensorToJointSet(
@@ -101,11 +96,10 @@ std::vector<bool> tensorToJointSet(
     }
   }
 
-  if (isEmpty(jointSet) || jointSet.ndimension() != 1 ||
-      jointSet.size(0) != nJoints) {
-    throw std::runtime_error(
-        "Mismatch between joint set size and number of joints in skeleton.");
-  }
+  MT_THROW_IF(
+      isEmpty(jointSet) || jointSet.ndimension() != 1 ||
+          jointSet.size(0) != nJoints,
+      "Mismatch between joint set size and number of joints in skeleton.");
 
   jointSet = jointSet.to(at::DeviceType::CPU, at::ScalarType::Bool);
   auto ptr = (uint8_t*)jointSet.data_ptr();
