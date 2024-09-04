@@ -9,7 +9,9 @@
 
 #include <optional>
 
+#ifndef AXEL_NO_DISPENSO
 #include <dispenso/parallel_for.h>
+#endif
 
 #include "axel/Bvh.h"
 #include "axel/Ray.h"
@@ -106,10 +108,16 @@ void closestSurfacePoints(
     const TriBvh<typename Derived::Scalar>& bvh,
     const Eigen::PlainObjectBase<Derived>& queryPoints,
     F&& resultFunc) {
+#ifdef AXEL_NO_DISPENSO
+  for (uint32_t i = 0; i < queryPoints.rows(); ++i) {
+    resultFunc(i, bvh.closestSurfacePoint(queryPoints.row(i)));
+  }
+#else
   dispenso::parallel_for(
       0, queryPoints.rows(), [&bvh, &queryPoints, &resultFunc](const uint32_t i) {
         resultFunc(i, bvh.closestSurfacePoint(queryPoints.row(i)));
       });
+#endif
 }
 
 template <typename Derived1, typename Derived2, typename Derived3, typename Derived4>
@@ -126,9 +134,8 @@ void closestSurfacePoints(
   closestSquareDistances.resize(queryPoints.rows(), 1);
   closestTriangles.resize(queryPoints.rows(), 1);
   closestPoints.resize(queryPoints.rows(), 3);
-  dispenso::parallel_for(
-      0,
-      queryPoints.rows(),
+
+  const auto closestSquareDistancesLambda =
       [&bvh, &queryPoints, &closestSquareDistances, &closestPoints, &closestTriangles](
           const uint32_t i) {
         const auto result = bvh.closestSurfacePoint(queryPoints.row(i));
@@ -136,7 +143,15 @@ void closestSurfacePoints(
         closestTriangles(i) = static_cast<int32_t>(result.triangleIdx);
         closestSquareDistances(i) =
             (Eigen::Vector3<S>(queryPoints.row(i)) - result.point).squaredNorm();
-      });
+      };
+
+#ifdef AXEL_NO_DISPENSO
+  for (uint32_t i = 0; i < queryPoints.rows(); ++i) {
+    closestSquareDistancesLambda(i);
+  }
+#else
+  dispenso::parallel_for(0, queryPoints.rows(), closestSquareDistancesLambda);
+#endif
 }
 
 } // namespace axel

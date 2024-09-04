@@ -41,7 +41,7 @@ Bvh<S, LeafCapacity> buildBvh(
   const Eigen::Index triangleCount{triangles.rows()};
   std::vector<BoundingBox<S>> boundingBoxes(triangleCount);
 
-  dispenso::parallel_for(0, triangleCount, [&](const Eigen::Index triangleIndex) {
+  const auto boundingBoxComputeLambda = [&](const Eigen::Index triangleIndex) {
     const Eigen::Vector3i triangle = triangles.row(triangleIndex);
 
     const Eigen::Index positionCount{positions.rows()};
@@ -74,7 +74,14 @@ Bvh<S, LeafCapacity> buildBvh(
     }
     boundingBoxes[triangleIndex] =
         BoundingBox<S>(minBound, maxBound, static_cast<int>(triangleIndex));
-  });
+  };
+#ifdef AXEL_NO_DISPENSO
+  for (size_t triangleIndex = 0; triangleIndex < triangleCount; ++triangleIndex) {
+    boundingBoxComputeLambda(triangleIndex);
+  }
+#else
+  dispenso::parallel_for(0, triangleCount, boundingBoxComputeLambda);
+#endif
   return Bvh<S, LeafCapacity>{boundingBoxes};
 }
 } // namespace
