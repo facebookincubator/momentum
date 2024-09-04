@@ -7,7 +7,9 @@
 
 #pragma once
 
+#include <momentum/character/fwd.h>
 #include <momentum/character_solver/fwd.h>
+#include <momentum/math/transform.h>
 #include <momentum/math/types.h>
 
 namespace momentum {
@@ -18,10 +20,21 @@ namespace momentum {
 /// characters attach the rigid parameters to different joints, so a fully general solution uses IK.
 /// However, getting it right requires dealing with local minima issues in Euler angles and other
 /// challenges.  So centralizing this functionality in a single place is useful.
+///
+/// @param[in] ensureContinuousOutput If true, the output model parameters will be solved
+/// sequentially so that the resulting output is continuous where possible.  This helps to avoid
+/// issues with Euler flipping.
 template <typename T>
 std::vector<ModelParametersT<T>> transformPose(
     const Character& character,
     const std::vector<ModelParametersT<T>>& modelParameters,
-    const std::vector<TransformT<T>>& transforms);
+    const std::vector<TransformT<T>>& transforms,
+    bool ensureContinuousOutput = true);
+
+template <typename T>
+std::vector<ModelParametersT<T>> transformPose(
+    const Character& character,
+    const std::vector<ModelParametersT<T>>& modelParameters,
+    const TransformT<T>& transforms);
 
 } // namespace momentum
