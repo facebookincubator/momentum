@@ -79,22 +79,33 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="character__solver_2fwd_8h.html">momentum/character_solver/fwd.h</a>&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="math_2types_8h.html">momentum/math/types.h</a>&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacemomentum.html">momentum</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="character_2fwd_8h.html">momentum/character/fwd.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="character__solver_2fwd_8h.html">momentum/character_solver/fwd.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="transform_8h.html">momentum/math/transform.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="math_2types_8h.html">momentum/math/types.h</a>&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;std::vector&lt;ModelParametersT&lt;T&gt;&gt; <a class="code" href="namespacemomentum.html#ac967077c8b452b3b6ddca95962ef29be">transformPose</a>(</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">const</span> Character&amp; character,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">const</span> std::vector&lt;ModelParametersT&lt;T&gt;&gt;&amp; modelParameters,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">const</span> std::vector&lt;TransformT&lt;T&gt;&gt;&amp; transforms);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <span class="comment">// namespace momentum</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacemomentum.html">momentum</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;std::vector&lt;ModelParametersT&lt;T&gt;&gt; <a class="code" href="namespacemomentum.html#a906549fcb3d1c624396a338730dcc829">transformPose</a>(</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">const</span> Character&amp; character,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">const</span> std::vector&lt;ModelParametersT&lt;T&gt;&gt;&amp; modelParameters,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">const</span> std::vector&lt;TransformT&lt;T&gt;&gt;&amp; transforms,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">bool</span> ensureContinuousOutput = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;std::vector&lt;ModelParametersT&lt;T&gt;&gt; <a class="code" href="namespacemomentum.html#a906549fcb3d1c624396a338730dcc829">transformPose</a>(</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">const</span> Character&amp; character,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">const</span> std::vector&lt;ModelParametersT&lt;T&gt;&gt;&amp; modelParameters,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">const</span> TransformT&lt;T&gt;&amp; transforms);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;} <span class="comment">// namespace momentum</span></div>
+<div class="ttc" id="acharacter_2fwd_8h_html"><div class="ttname"><a href="character_2fwd_8h.html">fwd.h</a></div></div>
 <div class="ttc" id="acharacter__solver_2fwd_8h_html"><div class="ttname"><a href="character__solver_2fwd_8h.html">fwd.h</a></div></div>
 <div class="ttc" id="amath_2types_8h_html"><div class="ttname"><a href="math_2types_8h.html">types.h</a></div></div>
 <div class="ttc" id="anamespacemomentum_html"><div class="ttname"><a href="namespacemomentum.html">momentum</a></div><div class="ttdef"><b>Definition:</b> aligned.h:15</div></div>
-<div class="ttc" id="anamespacemomentum_html_ac967077c8b452b3b6ddca95962ef29be"><div class="ttname"><a href="namespacemomentum.html#ac967077c8b452b3b6ddca95962ef29be">momentum::transformPose</a></div><div class="ttdeci">std::vector&lt; ModelParametersT&lt; T &gt; &gt; transformPose(const Character &amp;character, const std::vector&lt; ModelParametersT&lt; T &gt;&gt; &amp;modelParameters, const std::vector&lt; TransformT&lt; T &gt;&gt; &amp;transforms)</div><div class="ttdoc">Function which computes a new set of model parameters such that the character pose is a rigidly trans...</div><div class="ttdef"><b>Definition:</b> transform_pose.cpp:80</div></div>
+<div class="ttc" id="anamespacemomentum_html_a906549fcb3d1c624396a338730dcc829"><div class="ttname"><a href="namespacemomentum.html#a906549fcb3d1c624396a338730dcc829">momentum::transformPose</a></div><div class="ttdeci">std::vector&lt; ModelParametersT&lt; T &gt; &gt; transformPose(const Character &amp;character, const std::vector&lt; ModelParametersT&lt; T &gt;&gt; &amp;modelParameters, const TransformT&lt; T &gt; &amp;transforms)</div><div class="ttdef"><b>Definition:</b> transform_pose.cpp:80</div></div>
+<div class="ttc" id="atransform_8h_html"><div class="ttname"><a href="transform_8h.html">transform.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
