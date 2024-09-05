@@ -346,8 +346,9 @@ std::tuple<JointList, CollisionGeometry_u, LocatorList, std::vector<size_t>> loa
   for (const auto& rootNode : skeletonRoots[0]) {
     loadHierarchyRecursive(
         model, rootNode, kInvalidIndex, joints, collision, locators, nodeToObjectMap, useExtension);
-    if (joints.size() > 0)
+    if (!joints.empty()) {
       break;
+    }
   }
 
   std::sort(
@@ -367,17 +368,19 @@ std::tuple<JointList, CollisionGeometry_u, LocatorList, std::vector<size_t>> loa
 // Return the number of vertices newly loaded
 size_t
 addMesh(const fx::gltf::Document& model, const fx::gltf::Primitive& primitive, Mesh_u& mesh) {
-  // #TODO: warn about quads not being loaded
-  if (primitive.mode != fx::gltf::Primitive::Mode::Triangles)
+  if (primitive.mode != fx::gltf::Primitive::Mode::Triangles) {
+    MT_LOGW("Mesh not loaded because it's not a triangle mesh");
     return 0;
+  }
 
   // load index buffer
   auto idxDense = copyAccessorBuffer<uint32_t>(model, primitive.indices);
   if (idxDense.empty()) {
     // Try fallback with short indices.
     auto a = copyAccessorBuffer<uint16_t>(model, primitive.indices);
-    for (const auto& ae : a)
+    for (const auto& ae : a) {
       idxDense.push_back(ae);
+    }
   }
   MT_CHECK(idxDense.size() % 3 == 0, "{} % 3 = {}", idxDense.size(), idxDense.size() % 3);
   std::vector<Vector3i> idx(idxDense.size() / 3);
@@ -388,28 +391,32 @@ addMesh(const fx::gltf::Document& model, const fx::gltf::Primitive& primitive, M
   toMomentumVec3f(pos);
 
   // if we have no points or indices, skip loading
-  if (idx.empty() || pos.empty())
+  if (idx.empty() || pos.empty()) {
     return 0;
+  }
 
   // load optional normal buffer
   std::vector<Vector3f> nml;
   const auto normId = primitive.attributes.find("NORMAL");
-  if (normId != primitive.attributes.end())
+  if (normId != primitive.attributes.end()) {
     nml = copyAccessorBuffer<Vector3f>(model, normId->second);
+  }
   MT_CHECK(nml.empty() || nml.size() == pos.size(), "nml: {}, pos: {}", nml.size(), pos.size());
 
   // load optional color buffer
   std::vector<Vector3b> col;
   const auto colorId = primitive.attributes.find("COLOR_0");
-  if (colorId != primitive.attributes.end())
+  if (colorId != primitive.attributes.end()) {
     col = copyAccessorBuffer<Vector3b>(model, colorId->second);
+  }
   MT_CHECK(col.empty() || col.size() == pos.size(), "col: {}, pos: {}", col.size(), pos.size());
 
   // load optional texcoord buffer
   std::vector<Vector2f> texcoord;
   auto texcoordId = primitive.attributes.find("TEXCOORD_0");
-  if (texcoordId != primitive.attributes.end())
+  if (texcoordId != primitive.attributes.end()) {
     texcoord = copyAccessorBuffer<Vector2f>(model, texcoordId->second);
+  }
   MT_CHECK(
       texcoord.empty() || texcoord.size() == pos.size(),
       "texcoord: {}, pos: {}",
@@ -432,8 +439,9 @@ addMesh(const fx::gltf::Document& model, const fx::gltf::Primitive& primitive, M
   mesh->normals.insert(mesh->normals.end(), nml.begin(), nml.end());
   mesh->colors.insert(mesh->colors.end(), col.begin(), col.end());
   mesh->texcoords.insert(mesh->texcoords.end(), texcoord.begin(), texcoord.end());
-  if (!mesh->texcoords.empty())
+  if (!mesh->texcoords.empty()) {
     mesh->texcoord_faces = mesh->faces;
+  }
 
   // make sure we have enough normals and colors
   mesh->normals.resize(mesh->vertices.size(), Vector3f::Zero());
@@ -465,21 +473,42 @@ void addSkinWeights(
       if (jointIndices.empty()) {
         // Try fallback with short indices.
         auto jointIndicesShort = copyAccessorBuffer<Vector4b>(model, jointAttribute->second);
-        for (const auto& value : jointIndicesShort)
+        for (const auto& value : jointIndicesShort) {
           jointIndices.push_back(value.cast<uint16_t>());
+        }
       }
     }
 
     // load skinning weight buffer
     auto weightsAttribute = primitive.attributes.find(std::string("WEIGHTS_") + std::to_string(i));
     std::vector<Vector4f> weightsData;
-    if (weightsAttribute != primitive.attributes.end())
+    if (weightsAttribute != primitive.attributes.end()) {
       weightsData = copyAlignedAccessorBuffer<Vector4f>(model, weightsAttribute->second);
-
-    // check for buffer sizes. #TODO: Warn about skipping
-    if (jointIndices.empty() || weightsData.empty() || jointIndices.size() != weightsData.size() ||
-        jointIndices.size() != kNumVertices)
+      if (weightsData.empty()) {
+        MT_LOGW("No skinning weights read");
+        return;
+      }
+    } else {
+      MT_LOGW("No skinning weights stored on primitive");
       return;
+    }
+
+    if (jointIndices.empty() || weightsData.empty() || jointIndices.size() != weightsData.size() ||
+        jointIndices.size() != kNumVertices) {
+      MT_LOGW_IF(jointIndices.empty() || weightsData.empty(), "Mesh is not skinned to any joint");
+      MT_LOGW_IF(
+          !jointIndices.empty() && !weightsData.empty() &&
+              jointIndices.size() != weightsData.size(),
+          "Inconsistent data: {} vertices are skinned but {} weights found",
+          jointIndices.size(),
+          weightsData.size());
+      MT_LOGW_IF(
+          jointIndices.size() != kNumVertices,
+          "Inconsistent data: {} vertices are skinned but mesh has {} vertices",
+          jointIndices.size(),
+          kNumVertices);
+      return;
+    }
 
     // copy indices/vertices into our buffer
     for (Eigen::Index v = 0; v < static_cast<int>(kNumVertices); v++) {
@@ -496,8 +525,9 @@ void addSkinWeights(
         if (jointIndex != kInvalidIndex) {
           skinWeights->index(kVertexOffset + v, i * 4 + d) = (uint32_t)jointIndex;
           skinWeights->weight(kVertexOffset + v, i * 4 + d) = skinWeight;
+        } else {
+          MT_LOGW("Invalid joint index encountered when reading skinning weights");
         }
-        // #TODO: warn about invalid joint with skinning
       }
     }
   }
