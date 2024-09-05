@@ -60,8 +60,15 @@ std::vector<T> copyAccessorBuffer(const fx::gltf::Document& model, int32_t id) {
   const auto csize = getComponentSize(accessor.componentType);
   const auto elsize = tsize * csize;
 
-  if (elsize != sizeof(T))
+  if (elsize != sizeof(T)) {
+    MT_LOGW(
+        "[{}] Accessor type mismatch. Expect to read {} bytes, but got type of {} bytes with {} components",
+        __func__,
+        sizeof(T),
+        csize,
+        tsize);
     return {};
+  }
 
   const auto& view = model.bufferViews[accessor.bufferView];
   const auto stride = view.byteStride == 0 ? elsize : view.byteStride;
@@ -72,8 +79,9 @@ std::vector<T> copyAccessorBuffer(const fx::gltf::Document& model, int32_t id) {
   bytes = bytes.subspan(accessor.byteOffset);
 
   std::vector<T> r(accessor.count);
-  for (size_t i = 0; i < accessor.count; i++)
+  for (size_t i = 0; i < accessor.count; i++) {
     std::memcpy(&r[i], &bytes[i * stride], elsize);
+  }
 
   return r;
 }
@@ -81,13 +89,24 @@ std::vector<T> copyAccessorBuffer(const fx::gltf::Document& model, int32_t id) {
 template <typename T>
 std::vector<T> copyAlignedAccessorBuffer(const fx::gltf::Document& model, int32_t id) {
   const auto& accessor = model.accessors[id];
+  if (accessor.count == 0) {
+    MT_LOGW("Accessor count zero.");
+    return {};
+  }
 
   const auto tsize = getTypeSize(accessor.type);
   const auto csize = getComponentSize(accessor.componentType);
   const auto elsize = tsize * csize;
 
-  if (elsize != sizeof(T))
+  if (elsize != sizeof(T)) {
+    MT_LOGW(
+        "[{}] Accessor type mismatch. Expect to read {} bytes, but got type of {} bytes with {} components",
+        __func__,
+        sizeof(T),
+        csize,
+        tsize);
     return {};
+  }
 
   const auto& view = model.bufferViews[accessor.bufferView];
   const auto stride = view.byteStride == 0 ? elsize : view.byteStride;
@@ -98,8 +117,9 @@ std::vector<T> copyAlignedAccessorBuffer(const fx::gltf::Document& model, int32_
   bytes = bytes.subspan(accessor.byteOffset);
 
   std::vector<T> r(accessor.count);
-  for (size_t i = 0; i < accessor.count; i++)
+  for (size_t i = 0; i < accessor.count; i++) {
     std::memcpy(&r[i], &bytes[i * stride], elsize);
+  }
 
   return r;
 }
@@ -122,8 +142,9 @@ int32_t createAccessorBuffer(
   // only ever store data in the first buffer
 
   // check if we have a buffer
-  if (model.buffers.empty())
+  if (model.buffers.empty()) {
     model.buffers.resize(1);
+  }
 
   // create buffer for data
   const size_t bufferIdx = 0;
@@ -142,8 +163,9 @@ int32_t createAccessorBuffer(
     dataSize = data.size() * alignedElementSize;
     buffer.data.resize(bufferDataStart + dataSize);
     // need to go over each element one by one to copy
-    for (size_t e = 0; e < data.size(); e++)
+    for (size_t e = 0; e < data.size(); e++) {
       std::memcpy(&buffer.data[bufferDataStart + alignedElementSize * e], &data[e], elementSize);
+    }
     buffer.byteLength = buffer.data.size();
   } else {
     // no alignment needed or already aligned, just copy data in
@@ -160,10 +182,11 @@ int32_t createAccessorBuffer(
   bufferView.buffer = bufferIdx;
   bufferView.byteLength = dataSize;
   bufferView.byteOffset = bufferDataStart;
-  if (align && elementSize % 4 != 0)
+  if (align && elementSize % 4 != 0) {
     bufferView.byteStride = alignedElementSize;
-  else
+  } else {
     bufferView.byteStride = 0;
+  }
 
   // create accessor
   const size_t accessorIdx = model.accessors.size();
