@@ -451,7 +451,7 @@ mt_library(
 #===============================================================================
 
 if(MOMENTUM_BUILD_TESTING)
-  find_package(Boost REQUIRED)
+  find_package(Boost CONFIG REQUIRED)
 
   enable_testing()
   mt_setup_gtest()
