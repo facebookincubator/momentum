@@ -74,7 +74,6 @@ math_sources = [
     "math/generalized_loss.cpp",
     "math/mesh.cpp",
     "math/mppca.cpp",
-    "math/online_householder_qr.cpp",
     "math/transform.cpp",
     "math/utility.cpp",
 ]
