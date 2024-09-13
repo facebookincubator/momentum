@@ -63,6 +63,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/glog-0.7.1-hbabe93e_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gmp-6.3.0-hac33072_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gmpy2-2.1.5-py312h1d5cde6_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/gtest-1.15.2-h434a139_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx-12.4.0-h236703b_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_impl_linux-64-12.4.0-h613a52c_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gxx_linux-64-12.4.0-h8489865_1.conda
@@ -184,6 +185,8 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/ptyprocess-0.7.0-pyhd3deb0d_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/pure_eval-0.2.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/pyarrow-15.0.2-py312h3f82784_6_cpu.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/pybind11-2.13.5-py312h68727a3_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/pybind11-global-2.13.5-py312h68727a3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pygments-2.18.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/python-3.12.3-hab00c5b_0_cpython.conda
@@ -281,6 +284,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/glog-0.7.1-h2790a97_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/gmp-6.3.0-hf036a51_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/gmpy2-2.1.5-py312hd98c385_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/gtest-1.15.2-h3c5361c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/icu-75.1-h120a0e1_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/idna-3.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/iniconfig-2.0.0-pyhd8ed1ab_0.conda
@@ -389,6 +393,8 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/ptyprocess-0.7.0-pyhd3deb0d_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/pure_eval-0.2.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/pyarrow-15.0.2-py312h3db2695_6_cpu.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/pybind11-2.13.5-py312hc5c4d5f_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/pybind11-global-2.13.5-py312hc5c4d5f_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pygments-2.18.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/python-3.12.3-h1411813_0_cpython.conda
@@ -484,6 +490,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glog-0.7.1-heb240a5_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gmp-6.3.0-h7bae524_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gmpy2-2.1.5-py312hfa9fade_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gtest-1.15.2-h420ef59_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/icu-75.1-hfee45f7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/idna-3.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/iniconfig-2.0.0-pyhd8ed1ab_0.conda
@@ -592,6 +599,8 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/ptyprocess-0.7.0-pyhd3deb0d_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/pure_eval-0.2.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pyarrow-15.0.2-py312hbf1f86f_6_cpu.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pybind11-2.13.5-py312h6142ec9_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/pybind11-global-2.13.5-py312h6142ec9_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pygments-2.18.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/python-3.12.3-h4a7b5fc_0_cpython.conda
@@ -686,6 +695,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/fx-gltf-2.0.0-he0c23c2_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/gflags-2.2.2-ha925a31_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/win-64/glog-0.7.1-h3ff59bf_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/gtest-1.15.2-hc790b64_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/idna-3.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/iniconfig-2.0.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/intel-openmp-2024.2.1-h57928b3_1083.conda
@@ -797,6 +807,8 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/pthreads-win32-2.9.1-hfa6e2cd_3.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/pure_eval-0.2.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pyarrow-15.0.2-py312h4af9903_6_cpu.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/pybind11-2.13.5-py312hd5eb7cc_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/pybind11-global-2.13.5-py312hd5eb7cc_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pygments-2.18.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-8.2.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/python-3.12.3-h2628c8c_0_cpython.conda
@@ -4259,6 +4271,76 @@ packages:
   license_family: LGPL
   size: 148826
   timestamp: 1715527621898
+- kind: conda
+  name: gtest
+  version: 1.15.2
+  build: h3c5361c_0
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/gtest-1.15.2-h3c5361c_0.conda
+  sha256: bb98d9a5287329c8e969c2f851c468cb7f1ee0fd90bd8c62b745dfbd36fc8adb
+  md5: 172833b001e5b7de8ed32491f1b2753e
+  depends:
+  - __osx >=10.13
+  - libcxx >=16
+  constrains:
+  - gmock 1.15.2
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 385087
+  timestamp: 1722457952955
+- kind: conda
+  name: gtest
+  version: 1.15.2
+  build: h420ef59_0
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/gtest-1.15.2-h420ef59_0.conda
+  sha256: 7295d84430024bd36da657c5b82a2b9759d5a335b6d5ef9b7f4b58b96ba8b6c9
+  md5: 539e1126f517d18d5c26b7c460374297
+  depends:
+  - __osx >=11.0
+  - libcxx >=16
+  constrains:
+  - gmock 1.15.2
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 373673
+  timestamp: 1722458126696
+- kind: conda
+  name: gtest
+  version: 1.15.2
+  build: h434a139_0
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/gtest-1.15.2-h434a139_0.conda
+  sha256: cf2ccc3bbaca3dba1c12087aeaf5cc8f7c665d8678d9a9815d87b360867fc952
+  md5: 0874e26e61c13ae001dc647a650a97ca
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  constrains:
+  - gmock 1.15.2
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 408202
+  timestamp: 1722457782806
+- kind: conda
+  name: gtest
+  version: 1.15.2
+  build: hc790b64_0
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/gtest-1.15.2-hc790b64_0.conda
+  sha256: d2f8f770ad40c1e5857fd79d2cfdb087d45f3e7fdc922a0c81bdd215c350a8ad
+  md5: d3be2a4f511c28dc626bdb3c5dc297c6
+  depends:
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  constrains:
+  - gmock 1.15.2
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 502351
+  timestamp: 1722458363989
 - kind: conda
   name: gxx
   version: 12.4.0
@@ -11199,6 +11281,176 @@ packages:
   license_family: APACHE
   size: 3939611
   timestamp: 1714452954882
+- kind: conda
+  name: pybind11
+  version: 2.13.5
+  build: py312h6142ec9_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/pybind11-2.13.5-py312h6142ec9_1.conda
+  sha256: 2db6637c1267f6988521b552fe733922fbb3a4bf26344a865afa0e231e6f6f80
+  md5: 53fcfa1d6cdf6c0fb01bbbec52eb369d
+  depends:
+  - __osx >=11.0
+  - libcxx >=17
+  - pybind11-global 2.13.5 py312h6142ec9_1
+  - python >=3.12,<3.13.0a0
+  - python >=3.12,<3.13.0a0 *_cpython
+  - python_abi 3.12.* *_cp312
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 196749
+  timestamp: 1725347133592
+- kind: conda
+  name: pybind11
+  version: 2.13.5
+  build: py312h68727a3_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/pybind11-2.13.5-py312h68727a3_1.conda
+  sha256: adf25b1ffa342b30124e8684b9f7b944212f4fcd17713315fb2bd64c26ac860e
+  md5: 3ee14496dd5f7b80b86860a939e2d325
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=13
+  - libstdcxx >=13
+  - pybind11-global 2.13.5 py312h68727a3_1
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 195973
+  timestamp: 1725346774395
+- kind: conda
+  name: pybind11
+  version: 2.13.5
+  build: py312hc5c4d5f_1
+  build_number: 1
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/pybind11-2.13.5-py312hc5c4d5f_1.conda
+  sha256: d6e4cd158d6ecc6b4b463135cd518570f648be22716371c7090f6035226128d8
+  md5: 6c6e75d184557549fc0fff138e05d83f
+  depends:
+  - __osx >=10.13
+  - libcxx >=17
+  - pybind11-global 2.13.5 py312hc5c4d5f_1
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 196415
+  timestamp: 1725346822811
+- kind: conda
+  name: pybind11
+  version: 2.13.5
+  build: py312hd5eb7cc_1
+  build_number: 1
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/pybind11-2.13.5-py312hd5eb7cc_1.conda
+  sha256: ca49bc0ee237ec56f06d76024a9fac51891f97878349f6f977c5bc71907cf479
+  md5: 76dbf639ce67976ff1e153ea4eefb36b
+  depends:
+  - pybind11-global 2.13.5 py312hd5eb7cc_1
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 245724
+  timestamp: 1725347315708
+- kind: conda
+  name: pybind11-global
+  version: 2.13.5
+  build: py312h6142ec9_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/pybind11-global-2.13.5-py312h6142ec9_1.conda
+  sha256: f24fcb7d60a3dbe458d6877ffa05c7c1d86679641ddd83c4d204cee7a1f27b3f
+  md5: 0dfa96d906ce2e4641bff67a67eb7b25
+  depends:
+  - __osx >=11.0
+  - libcxx >=17
+  - python >=3.12,<3.13.0a0
+  - python >=3.12,<3.13.0a0 *_cpython
+  - python_abi 3.12.* *_cp312
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 181288
+  timestamp: 1725347044789
+- kind: conda
+  name: pybind11-global
+  version: 2.13.5
+  build: py312h68727a3_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/pybind11-global-2.13.5-py312h68727a3_1.conda
+  sha256: 1592d8575d50ece8b277b088a703dd4b6c0adc256c59344912ee4f59531e1ef9
+  md5: 3884120192ff6eef9aa012965978e7f7
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=13
+  - libstdcxx >=13
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 180371
+  timestamp: 1725346758060
+- kind: conda
+  name: pybind11-global
+  version: 2.13.5
+  build: py312hc5c4d5f_1
+  build_number: 1
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/pybind11-global-2.13.5-py312hc5c4d5f_1.conda
+  sha256: 59c66662141e027e1c54ea483020629a49c232db82df38aa13ebab64e7d93ed5
+  md5: d959e791ce7b7c254b01c7f4ffee8f30
+  depends:
+  - __osx >=10.13
+  - libcxx >=17
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 180783
+  timestamp: 1725346771227
+- kind: conda
+  name: pybind11-global
+  version: 2.13.5
+  build: py312hd5eb7cc_1
+  build_number: 1
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/pybind11-global-2.13.5-py312hd5eb7cc_1.conda
+  sha256: 9c037c3133b8afe40e337f4da08ee7a0ce095c002876a34329c1af0a573f047c
+  md5: 8de5ba32305762d84aa9148244932d8c
+  depends:
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  constrains:
+  - pybind11-abi ==4
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 180471
+  timestamp: 1725346973419
 - kind: conda
   name: pygments
   version: 2.18.0
