@@ -26,7 +26,7 @@ struct VertexConstraintT {
   VertexConstraintT<T2> cast() const {
     return {
         this->vertexIndex,
-        (T)this->weight_,
+        (T)this->weight,
         this->targetPosition.template cast<T2>(),
         this->targetNormal.template cast<T2>()};
   }
