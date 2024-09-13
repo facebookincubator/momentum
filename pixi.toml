@@ -11,7 +11,7 @@ repository = "https://github.com/facebookincubator/momentum"
 
 [build-dependencies]
 boost = ">=1.84.0,<1.85"
-cmake = "3.27.6"
+cmake = ">=3.16.3"
 c-compiler = "1.7.0.*"
 cxx-compiler = "1.7.0.*"
 gtest = ">=1.15.2,<2"
