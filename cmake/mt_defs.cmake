@@ -228,7 +228,7 @@ function(mt_setup_gtest)
   )
 
   if(NOT _ARG_GIT_TAG)
-    set(_ARG_GIT_TAG v1.14.0)
+    set(_ARG_GIT_TAG v1.15.2)
   endif()
 
   include(FetchContent)
