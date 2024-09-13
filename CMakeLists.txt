@@ -33,6 +33,8 @@ option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
 option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
 option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
 option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
+option(MOMENTUM_USE_SYSTEM_GOOGLETEST "Use GoogleTest installed in system" OFF)
+option(MOMENTUM_USE_SYSTEM_PYBIND11 "Use pybind11 installed in system" OFF)
 option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
 
 #===============================================================================
