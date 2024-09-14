@@ -232,7 +232,7 @@ function(mt_setup_gtest)
   endif()
 
   if(MOMENTUM_USE_SYSTEM_GOOGLETEST)
-    find_package(GTest MODULE REQUIRED)
+    find_package(GTest CONFIG REQUIRED)
   else()
     include(FetchContent)
     FetchContent_Declare(googletest
