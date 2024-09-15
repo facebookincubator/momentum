@@ -44,13 +44,22 @@ class CMakeBuild(build_ext):
         cmake_args = [
             f"-DCMAKE_BUILD_TYPE={cfg}",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
+            f"-DBUILD_SHARED_LIBS=OFF",
+            f"-DMOMENTUM_BUILD_EXAMPLES={os.environ.get(
+                'MOMENTUM_BUILD_EXAMPLES', 'OFF')}",
+            f"-DMOMENTUM_BUILD_PYMOMENTUM=ON",
+            # TODO: OFF when pym.geometry doesn't depend on testing
+            f"-DMOMENTUM_BUILD_TESTING={os.environ.get(
+                'MOMENTUM_BUILD_TESTING', 'ON')}",
+            f"-DMOMENTUM_ENABLE_SIMD={os.environ.get(
+                'MOMENTUM_ENABLE_SIMD', 'ON')}",
+            f"-DMOMENTUM_USE_SYSTEM_GOOGLETEST={os.environ.get(
+                'MOMENTUM_USE_SYSTEM_GOOGLETEST', 'ON')}",
+            f"-DMOMENTUM_USE_SYSTEM_PYBIND11={os.environ.get(
+                'MOMENTUM_USE_SYSTEM_PYBIND11', 'ON')}",
+            f"-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK={os.environ.get(
+                'MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK', 'ON')}",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
-            "-DBUILD_SHARED_LIBS=OFF",
-            "-DMOMENTUM_BUILD_PYMOMENTUM=ON",
-            "-DMOMENTUM_BUILD_TESTING=ON",  # TODO: OFF when pym.geometry doesn't depend on testing
-            "-DMOMENTUM_BUILD_EXAMPLES=OFF",
-            "-DMOMENTUM_ENABLE_SIMD=ON",
-            "-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON",
         ]
         build_args = ["--target", os.path.basename(ext.name)]
 
@@ -91,7 +100,8 @@ def main():
 
     setup(
         name="pymomentum",
-        version="0.1.0",  # TODO: get version from a single source (e.g., version.txt)
+        # TODO: get version from a single source (e.g., version.txt)
+        version="0.1.0",
         description="A library providing foundational algorithms for human kinematic motion and numerical optimization solvers to apply human motion in various applications",
         long_description=long_description,
         long_description_content_type="text/markdown",
