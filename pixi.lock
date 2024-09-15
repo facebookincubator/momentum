@@ -61,7 +61,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gcc_linux-64-12.4.0-h6b7512a_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gflags-2.2.2-he1b5a44_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/glog-0.7.1-hbabe93e_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/gmock-1.15.2-ha770c72_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gmp-6.3.0-hac33072_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gmpy2-2.1.5-py312h1d5cde6_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/gtest-1.15.2-h434a139_0.conda
@@ -283,7 +282,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/fx-gltf-2.0.0-hac325c4_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/gflags-2.2.2-hb1e8313_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-64/glog-0.7.1-h2790a97_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-64/gmock-1.15.2-h694c41f_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/gmp-6.3.0-hf036a51_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/gmpy2-2.1.5-py312hd98c385_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/gtest-1.15.2-h3c5361c_0.conda
@@ -490,7 +488,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/fx-gltf-2.0.0-hf9b8971_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gflags-2.2.2-hc88da5d_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/glog-0.7.1-heb240a5_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gmock-1.15.2-hce30654_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gmp-6.3.0-h7bae524_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gmpy2-2.1.5-py312hfa9fade_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/gtest-1.15.2-h420ef59_0.conda
@@ -698,7 +695,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/fx-gltf-2.0.0-he0c23c2_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/gflags-2.2.2-ha925a31_1004.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/win-64/glog-0.7.1-h3ff59bf_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/gmock-1.15.2-h57928b3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/gtest-1.15.2-hc790b64_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/idna-3.8-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/iniconfig-2.0.0-pyhd8ed1ab_0.conda
@@ -4169,62 +4165,6 @@ packages:
   license_family: BSD
   size: 112215
   timestamp: 1718284365403
-- kind: conda
-  name: gmock
-  version: 1.15.2
-  build: h57928b3_0
-  subdir: win-64
-  url: https://conda.anaconda.org/conda-forge/win-64/gmock-1.15.2-h57928b3_0.conda
-  sha256: 88b0582c94c433fe929e32dc88ddb38a24973e07c4f0e35345b257fe62b00290
-  md5: 1f94ef86a939ec4db1939186c002a621
-  depends:
-  - gtest 1.15.2 hc790b64_0
-  license: BSD-3-Clause
-  license_family: BSD
-  size: 7364
-  timestamp: 1722458392601
-- kind: conda
-  name: gmock
-  version: 1.15.2
-  build: h694c41f_0
-  subdir: osx-64
-  url: https://conda.anaconda.org/conda-forge/osx-64/gmock-1.15.2-h694c41f_0.conda
-  sha256: ed80786e63da074eb1712ce3c13194eac563348cdaa451e14d7a81be9f3b5a74
-  md5: 5d753e236bd3a3ef106b85127a8a4560
-  depends:
-  - gtest 1.15.2 h3c5361c_0
-  license: BSD-3-Clause
-  license_family: BSD
-  size: 7036
-  timestamp: 1722458014510
-- kind: conda
-  name: gmock
-  version: 1.15.2
-  build: ha770c72_0
-  subdir: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/gmock-1.15.2-ha770c72_0.conda
-  sha256: cddaae3c433647872ddb8c93d195ffad927154c82f6abc17013c7764c02e5eb0
-  md5: 28f0e4e7ea2aa02d685b2cf71f1c7164
-  depends:
-  - gtest 1.15.2 h434a139_0
-  license: BSD-3-Clause
-  license_family: BSD
-  size: 6935
-  timestamp: 1722457788931
-- kind: conda
-  name: gmock
-  version: 1.15.2
-  build: hce30654_0
-  subdir: osx-arm64
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/gmock-1.15.2-hce30654_0.conda
-  sha256: de03729626bed65e992b2bd7595d538358c80fb28b8fa6bf76e329a551b3498f
-  md5: 8dded26d3fd46cb00da3dd60b0bdea95
-  depends:
-  - gtest 1.15.2 h420ef59_0
-  license: BSD-3-Clause
-  license_family: BSD
-  size: 7030
-  timestamp: 1722458155746
 - kind: conda
   name: gmp
   version: 6.3.0
