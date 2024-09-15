@@ -231,19 +231,23 @@ function(mt_setup_gtest)
     set(_ARG_GIT_TAG v1.15.2)
   endif()
 
-  include(FetchContent)
-  FetchContent_Declare(googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG ${_ARG_GIT_TAG}
-  )
+  if(MOMENTUM_USE_SYSTEM_GOOGLETEST)
+    find_package(GTest CONFIG REQUIRED)
+  else()
+    include(FetchContent)
+    FetchContent_Declare(googletest
+      GIT_REPOSITORY https://github.com/google/googletest.git
+      GIT_TAG ${_ARG_GIT_TAG}
+    )
 
-  # Set options
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  set(gtest_disable_pthreads ON CACHE BOOL "" FORCE)
-  set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
-  set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+    # Set options
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    set(gtest_disable_pthreads ON CACHE BOOL "" FORCE)
+    set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
+    set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 
-  FetchContent_MakeAvailable(googletest)
+    FetchContent_MakeAvailable(googletest)
+  endif()
 endfunction()
 
 function(mt_test)

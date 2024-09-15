@@ -21,14 +21,18 @@ find_library(torch_python
 #===============================================================================
 
 # pybind11
-include(FetchContent)
-FetchContent_Declare(
-  pybind11
-  GIT_REPOSITORY https://github.com/pybind/pybind11.git
-  GIT_TAG v2.13.5
-)
-set(PYBIND11_TEST OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(pybind11)
+if(MOMENTUM_USE_SYSTEM_PYBIND11)
+  find_package(pybind11 CONFIG REQUIRED)
+else()
+  include(FetchContent)
+  FetchContent_Declare(
+    pybind11
+    GIT_REPOSITORY https://github.com/pybind/pybind11.git
+    GIT_TAG v2.13.5
+  )
+  set(PYBIND11_TEST OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(pybind11)
+endif()
 
 #===============================================================================
 # Build PyMomentum

@@ -33,6 +33,8 @@ option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
 option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
 option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
 option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
+option(MOMENTUM_USE_SYSTEM_GOOGLETEST "Use GoogleTest installed in system" OFF)
+option(MOMENTUM_USE_SYSTEM_PYBIND11 "Use pybind11 installed in system" OFF)
 option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
 
 #===============================================================================
@@ -462,7 +464,7 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS test_helpers_sources
     PUBLIC_LINK_LIBRARIES
       common
-      gtest
+      GTest::gtest
     PRIVATE_LINK_LIBRARIES
       Boost::boost
     EXCLUDE_FROM_INSTALL
@@ -475,8 +477,8 @@ if(MOMENTUM_BUILD_TESTING)
     PUBLIC_LINK_LIBRARIES
       character
     PRIVATE_LINK_LIBRARIES
-      gmock
-      gtest
+      GTest::gmock
+      GTest::gtest
     EXCLUDE_FROM_INSTALL
   )
 
@@ -497,8 +499,8 @@ if(MOMENTUM_BUILD_TESTING)
       character
       character_solver
     PRIVATE_LINK_LIBRARIES
-      gmock
-      gtest
+      GTest::gmock
+      GTest::gtest
     EXCLUDE_FROM_INSTALL
   )
 
