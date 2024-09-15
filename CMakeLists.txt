@@ -464,7 +464,7 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS test_helpers_sources
     PUBLIC_LINK_LIBRARIES
       common
-      gtest
+      GTest::gtest
     PRIVATE_LINK_LIBRARIES
       Boost::boost
     EXCLUDE_FROM_INSTALL
@@ -477,8 +477,8 @@ if(MOMENTUM_BUILD_TESTING)
     PUBLIC_LINK_LIBRARIES
       character
     PRIVATE_LINK_LIBRARIES
-      gmock
-      gtest
+      GTest::gmock
+      GTest::gtest
     EXCLUDE_FROM_INSTALL
   )
 
@@ -499,8 +499,8 @@ if(MOMENTUM_BUILD_TESTING)
       character
       character_solver
     PRIVATE_LINK_LIBRARIES
-      gmock
-      gtest
+      GTest::gmock
+      GTest::gtest
     EXCLUDE_FROM_INSTALL
   )
 
