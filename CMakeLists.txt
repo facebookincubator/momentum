@@ -13,6 +13,29 @@ project(momentum)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+# Print intro
+message(STATUS "")
+message(STATUS "============================================")
+message(STATUS "                Momentum")
+message(STATUS "============================================")
+message(STATUS "")
+
+# Print OS and architecture information
+message(STATUS "[ System Info ]")
+message(STATUS "- Operating System    : ${CMAKE_SYSTEM_NAME}")
+message(STATUS "- Processor Arch      : ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "")
+
+# Print build tool information
+message(STATUS "[ Build Tools ]")
+message(STATUS "- CMake               : ${CMAKE_VERSION}")
+message(STATUS "- C Compiler          : ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}")
+message(STATUS "- C++ Compiler        : ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+if(MSVC)
+  message(STATUS "- CMake Toolchain File: ${CMAKE_TOOLCHAIN_FILE}")
+endif()
+message(STATUS "")
+
 #===============================================================================
 # Build dependencies
 #===============================================================================
