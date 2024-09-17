@@ -56,21 +56,25 @@ PYBIND11_MODULE(geometry, m) {
 
   m.attr("PARAMETERS_PER_JOINT") = mm::kParametersPerJoint;
 
-  py::enum_<mm::FBXUpVector>(m, "FBXUpVector", R"(FBXUpVector.)")
+  py::enum_<mm::FBXUpVector>(m, "FBXUpVector")
       .value("XAxis", mm::FBXUpVector::XAxis)
       .value("YAxis", mm::FBXUpVector::YAxis)
-      .value("ZAxis", mm::FBXUpVector::ZAxis)
-      .export_values();
+      .value("ZAxis", mm::FBXUpVector::ZAxis);
 
-  py::enum_<mm::FBXFrontVector>(m, "FBXFrontVector", R"(FBXFrontVector.)")
+  py::enum_<mm::FBXFrontVector>(m, "FBXFrontVector")
       .value("ParityEven", mm::FBXFrontVector::ParityEven)
-      .value("ParityOdd", mm::FBXFrontVector::ParityOdd)
-      .export_values();
+      .value("ParityOdd", mm::FBXFrontVector::ParityOdd);
 
-  py::enum_<mm::FBXCoordSystem>(m, "FBXCoordSystem", R"(FBXCoordSystem.)")
+  py::enum_<mm::FBXCoordSystem>(m, "FBXCoordSystem")
       .value("RightHanded", mm::FBXCoordSystem::RightHanded)
-      .value("LeftHanded", mm::FBXCoordSystem::LeftHanded)
-      .export_values();
+      .value("LeftHanded", mm::FBXCoordSystem::LeftHanded);
+
+  py::enum_<mm::LimitType>(m, "LimitType", R"(Type of joint limit.)")
+      .value("MinMax", mm::LimitType::MINMAX)
+      .value("MinMaxJoint", mm::LimitType::MINMAX_JOINT)
+      .value("MinMaxJointPassive", mm::LimitType::MINMAX_JOINT_PASSIVE)
+      .value("Linear", mm::LimitType::LINEAR)
+      .value("Ellipsoid", mm::LimitType::ELLIPSOID);
 
   // We need to forward-declare classes so that if we refer to them they get
   // typed correctly; otherwise we end up with "momentum::Locator" in the
@@ -97,6 +101,17 @@ PYBIND11_MODULE(geometry, m) {
       py::class_<mm::MarkerSequence>(m, "MarkerSequence");
   auto fbxCoordSystemInfoClass =
       py::class_<mm::FBXCoordSystemInfo>(m, "FBXCoordSystemInfo");
+  auto parameterLimitClass =
+      py::class_<mm::ParameterLimit>(m, "ParameterLimit");
+  auto parameterLimitDataClass = py::class_<mm::LimitData>(m, "LimitData");
+  auto parameterLimitMinMaxClass =
+      py::class_<mm::LimitMinMax>(m, "LimitMinMax");
+  auto parameterLimitMinMaxJointClass =
+      py::class_<mm::LimitMinMaxJoint>(m, "LimitMinMaxJoint");
+  auto parameterLimitLinearClass =
+      py::class_<mm::LimitLinear>(m, "LimitLinear");
+  auto parameterLimitEllipsoidClass =
+      py::class_<mm::LimitEllipsoid>(m, "LimitEllipsoid");
 
   // =====================================================
   // momentum::Character
@@ -182,9 +197,33 @@ PYBIND11_MODULE(geometry, m) {
           "Adds mesh and skin weight to the character and return a new character instance",
           py::arg("mesh"),
           py::arg("skin_weights"))
+      .def(
+          "with_parameter_limits",
+          [](const mm::Character& character,
+             const std::vector<mm::ParameterLimit>& parameterLimits) {
+            return mm::Character(
+                character.skeleton,
+                character.parameterTransform,
+                parameterLimits,
+                character.locators,
+                character.mesh.get(),
+                character.skinWeights.get(),
+                character.collision.get(),
+                character.poseShapes.get(),
+                character.blendShape,
+                character.faceExpressionBlendShape,
+                character.name,
+                character.inverseBindPose);
+          },
+          "Returns a new character with the parameter limits set to the passed-in limits.",
+          py::arg("parameter_limits"))
       .def_readonly("name", &mm::Character::name, "The character's name.")
       .def_readonly(
           "skeleton", &mm::Character::skeleton, "The character's skeleton.")
+      .def_readonly(
+          "parameter_limits",
+          &mm::Character::parameterLimits,
+          "The character's parameter limits.")
       .def_readonly(
           "parameter_transform",
           &mm::Character::parameterTransform,
@@ -1077,6 +1116,192 @@ The resulting shape is equal to the base shape plus a linear combination of the 
             << "; offset: " << l.offset.transpose() << "]";
         return oss.str();
       });
+
+  parameterLimitClass
+      .def_readonly(
+          "type", &mm::ParameterLimit::type, "Type of parameter limit.")
+      .def_readonly(
+          "weight", &mm::ParameterLimit::weight, "Weight of parameter limit.")
+      .def_readonly(
+          "data", &mm::ParameterLimit::data, "Data of parameter limit.")
+      .def_static(
+          "create_minmax",
+          [](size_t model_parameter_index, float min, float max, float weight) {
+            mm::LimitData data;
+            data.minMax.parameterIndex = model_parameter_index;
+            data.minMax.limits = Eigen::Vector2f(min, max);
+            return mm::ParameterLimit{data, mm::LimitType::MINMAX, weight};
+          },
+          R"(
+Create a parameter limit with min and max values for a model parameter.
+
+:parameter model_parameter_index: Index of model parameter to limit.
+:parameter min: Minimum value of the parameter.
+:parameter max: Maximum value of the parameter.
+:parameter weight: Weight of the parameter limit.  Defaults to 1.
+        )",
+          py::arg("model_parameter_index"),
+          py::arg("min"),
+          py::arg("max"),
+          py::arg("weight") = 1.0f)
+      .def_static(
+          "create_minmax_joint",
+          [](size_t joint_index,
+             size_t joint_parameter,
+             float min,
+             float max,
+             float weight) {
+            mm::LimitData data;
+            data.minMaxJoint.jointIndex = joint_index;
+            data.minMaxJoint.jointParameter = joint_parameter;
+            data.minMaxJoint.limits = Eigen::Vector2f(min, max);
+            return mm::ParameterLimit{
+                data, mm::LimitType::MINMAX_JOINT, weight};
+          },
+          R"(
+Create a parameter limit with min and max values for a joint parameter.
+
+:parameter joint_index: Index of joint to limit.
+:parameter joint_parameter: Index of joint parameter to limit, in the range 0->7 (tx,ty,tz,rx,ry,rz,s).
+:parameter min: Minimum value of the parameter.
+:parameter max: Maximum value of the parameter.
+:parameter weight: Weight of the parameter limit.  Defaults to 1.
+        )",
+          py::arg("joint_index"),
+          py::arg("joint_parameter"),
+          py::arg("min"),
+          py::arg("max"),
+          py::arg("weight") = 1.0f)
+      .def_static(
+          "create_linear",
+          [](size_t reference_model_parameter_index,
+             size_t target_model_parameter_index,
+             float scale,
+             float offset,
+             float weight) {
+            mm::LimitData data;
+            data.linear.referenceIndex = reference_model_parameter_index;
+            data.linear.targetIndex = target_model_parameter_index;
+            data.linear.scale = scale;
+            data.linear.offset = offset;
+            return mm::ParameterLimit{data, mm::LimitType::LINEAR, weight};
+          },
+          R"(Create a parameter limit with a linear constraint.
+
+:parameter reference_model_parameter_index: Index of reference parameter p0 to use in equation p_0 = scale * p_1 - offset.
+:parameter target_model_parameter_index: Index of target parameter p1 to use in equation p_0 = scale * p_1 - offset.
+:parameter scale: Scale to use in equation p_0 = scale * p_1 - offset.
+:parameter offset: Offset to use in equation p_0 = scale * p_1 - offset.
+:parameter weight: Weight of the parameter limit.  Defaults to 1.
+    )",
+          py::arg("reference_model_parameter_index"),
+          py::arg("target_model_parameter_index"),
+          py::arg("scale"),
+          py::arg("offset"),
+          py::arg("weight") = 1.0f)
+      .def_static(
+          "create_ellipsoid",
+          [](size_t ellipsoid_parent,
+             size_t parent,
+             const Eigen::Vector3f& offset,
+             const Eigen::Matrix4f& ellipsoid,
+             float weight) {
+            mm::LimitData data;
+            data.ellipsoid.ellipsoidParent = ellipsoid_parent;
+            data.ellipsoid.parent = parent;
+            data.ellipsoid.offset = offset;
+            data.ellipsoid.ellipsoid = Eigen::Affine3f(ellipsoid);
+            data.ellipsoid.ellipsoidInv = data.ellipsoid.ellipsoid.inverse();
+            return mm::ParameterLimit{data, mm::LimitType::ELLIPSOID, weight};
+          },
+          R"(Create a parameter limit with an ellipsoid constraint.
+
+:parameter ellipsoid_parent: Index of joint to use as the ellipsoid's parent.
+:parameter parent: Index of joint to constraint.
+:parameter offset: Offset of the ellipsoid from the parent joint.
+:parameter ellipsoid: 4x4 matrix defining the ellipsoid's shape.
+:parameter weight: Weight of the parameter limit.  Defaults to 1.
+    )",
+          py::arg("ellipsoid_parent"),
+          py::arg("parent"),
+          py::arg("offset"),
+          py::arg("ellipsoid"),
+          py::arg("weight") = 1.0f);
+
+  parameterLimitDataClass
+      .def_readonly("minmax", &mm::LimitData::minMax, "Data for MinMax limit.")
+      .def_readonly(
+          "minmax_joint",
+          &mm::LimitData::minMaxJoint,
+          "Data for MinMaxJoint limit.")
+      .def_readonly("linear", &mm::LimitData::linear, "Data for Linear limit.")
+      .def_readonly(
+          "ellipsoid", &mm::LimitData::ellipsoid, "Data for Ellipsoid limit.");
+
+  parameterLimitMinMaxClass
+      .def_readonly(
+          "model_parameter_index",
+          &mm::LimitMinMax::parameterIndex,
+          "Index of model parameter to use.")
+      .def_property_readonly(
+          "min",
+          [](const mm::LimitMinMax& data) { return data.limits[0]; },
+          "Minimum value of MinMax limit.")
+      .def_property_readonly(
+          "max",
+          [](const mm::LimitMinMax& data) { return data.limits[1]; },
+          "Maximum value of MinMax limit.");
+
+  parameterLimitMinMaxJointClass
+      .def_readonly(
+          "joint_index",
+          &mm::LimitMinMaxJoint::jointIndex,
+          "Index of joint to affect.")
+      .def_readonly(
+          "joint_parameter_index",
+          &mm::LimitMinMaxJoint::jointParameter,
+          "Index of joint parameter to use, in the range 0->7 (tx,ty,tz,rx,ry,rz,s).")
+      .def_property_readonly(
+          "min",
+          [](const mm::LimitMinMaxJoint& data) { return data.limits[0]; },
+          "Minimum value of MinMaxJoint limit.")
+      .def_property_readonly(
+          "max",
+          [](const mm::LimitMinMaxJoint& data) { return data.limits[1]; },
+          "Maximum value of MinMaxJoint limit.");
+
+  parameterLimitLinearClass
+      .def_readonly(
+          "reference_model_parameter_index",
+          &mm::LimitLinear::referenceIndex,
+          "Index of reference parameter p0 to use in equation p_0 = scale * p_1 - offset.")
+      .def_readonly(
+          "target_model_parameter_index",
+          &mm::LimitLinear::targetIndex,
+          "Index of target parameter p1 to use in equation p_0 = scale * p_1 - offset.")
+      .def_readonly(
+          "scale",
+          &mm::LimitLinear::scale,
+          "Scale to use in equation p_0 = scale * p_1 - offset.")
+      .def_readonly(
+          "offset",
+          &mm::LimitLinear::offset,
+          "Offset to use in equation p_0 = scale * p_1 - offset.");
+
+  parameterLimitEllipsoidClass
+      .def_property_readonly(
+          "ellipsoid",
+          [](const mm::LimitEllipsoid& data) -> Eigen::Matrix4f {
+            return data.ellipsoid.matrix();
+          })
+      .def_property_readonly(
+          "ellipsoid_inv",
+          [](const mm::LimitEllipsoid& data) -> Eigen::Matrix4f {
+            return data.ellipsoidInv.matrix();
+          })
+      .def_readonly("offset", &mm::LimitEllipsoid::offset)
+      .def_readonly("ellipsoid_parent", &mm::LimitEllipsoid::ellipsoidParent)
+      .def_readonly("parent", &mm::LimitEllipsoid::parent);
 
   // =====================================================
   // momentum::ParameterTransform
