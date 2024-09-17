@@ -70,7 +70,8 @@ install = { cmd = "cmake --build build -j --target install", depends_on = [
 clang-format-18 = ">=18.1.2,<19"
 
 [target.linux-64.dependencies]
-pytorch = ">=2.4.0,<2.5"
+pytorch = { version = "2.4.0", build = "py3.10_cuda12.1_cudnn9.1.0_0", channel = "pytorch" }
+
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]

@@ -7,8 +7,18 @@
 # Find dependencies
 #===============================================================================
 
-find_package(ATen CONFIG REQUIRED)
-find_package(Torch CONFIG REQUIRED)
+find_package(ATen CONFIG REQUIRED
+  HINTS
+    $ENV{CONDA_PREFIX}/lib/python3.10/site-packages/torch/
+    $ENV{CONDA_PREFIX}/lib/python3.11/site-packages/torch/
+    $ENV{CONDA_PREFIX}/lib/python3.12/site-packages/torch/
+)
+find_package(Torch CONFIG REQUIRED
+  HINTS
+    $ENV{CONDA_PREFIX}/lib/python3.10/site-packages/torch/
+    $ENV{CONDA_PREFIX}/lib/python3.11/site-packages/torch/
+    $ENV{CONDA_PREFIX}/lib/python3.12/site-packages/torch/
+)
 
 find_library(torch_python
   NAMES torch_python
