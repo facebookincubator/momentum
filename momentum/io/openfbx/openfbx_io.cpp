@@ -476,14 +476,14 @@ void parseSkinnedModel(
     SkinWeights& skinWeights,
     TransformationList& inverseBindPoseTransforms) {
   enum EMapping {
-    MAPPING_UNKNOWN,
-    MAPPING_BY_POLY_VERTEX,
-    MAPPING_BY_VERTEX,
+    MappingUnknown,
+    MappingByPolyVertex,
+    MappingByVertex,
   };
   enum EReference {
-    REF_UNKNOWN,
-    REF_INDEX_TO_DIRECT,
-    REF_DIRECT,
+    RefUnknown,
+    RefIndexToDirect,
+    RefDirect,
   };
 
   // We will parse out the geometry ourselves rather than using OpenFBX's
@@ -526,37 +526,38 @@ void parseSkinnedModel(
       // element. So we are not hard-failing to remain "compatible".
       MT_LOGE("No UVs found in mesh element.");
     } else {
-      EMapping mapping = MAPPING_UNKNOWN;
+      EMapping mapping = MappingUnknown;
       const auto* mapping_element = findChild(*layer_uv_element, "MappingInformationType");
       if (mapping_element != nullptr && mapping_element->getFirstProperty() != nullptr) {
         const ofbx::DataView& view = mapping_element->getFirstProperty()->getValue();
         if (view == "ByPolygonVertex") {
-          mapping = MAPPING_BY_POLY_VERTEX;
+          mapping = MappingByPolyVertex;
         } else if (view == "ByVertex" || view == "ByVertice") {
-          mapping = MAPPING_BY_VERTEX;
+          mapping = MappingByVertex;
         }
       }
       MT_THROW_IF(
-          mapping == MAPPING_UNKNOWN,
+          mapping == MappingUnknown,
           "Don't currently know how to deal with mapping type that is not 'ByPolygonVertex' or 'ByVertex'.");
 
-      EReference reference = REF_UNKNOWN;
+      EReference reference = RefUnknown;
       const auto* reference_element = findChild(*layer_uv_element, "ReferenceInformationType");
       if (reference_element != nullptr && reference_element->getFirstProperty() != nullptr) {
         const ofbx::DataView& view = reference_element->getFirstProperty()->getValue();
-        if (view == "IndexToDirect")
-          reference = REF_INDEX_TO_DIRECT;
-        else if (view == "Direct")
-          reference = REF_DIRECT;
+        if (view == "IndexToDirect") {
+          reference = RefIndexToDirect;
+        } else if (view == "Direct") {
+          reference = RefDirect;
+        }
       }
       MT_THROW_IF(
-          reference == REF_UNKNOWN,
+          reference == RefUnknown,
           "Don't currently know how to deal with reference type that is not 'IndexToDirect' or 'Direct'.");
 
       // Coords array is handled the same for either mapping type
       textureCoords = extractPropertyVecArray<std::vector<Eigen::Vector2f>>(uvs_element, "UV");
 
-      if (reference == REF_INDEX_TO_DIRECT) {
+      if (reference == RefIndexToDirect) {
         // IndexToDirect means there is another mapping array which gives the order of the UVs in
         // the mesh
         const auto* indices_element = findChild(*layer_uv_element, "UVIndex");
@@ -569,7 +570,7 @@ void parseSkinnedModel(
             "Mismatch between texture indices size and indices size.");
         std::copy(
             textureIndices.begin(), textureIndices.end(), std::back_inserter(faces.textureIndices));
-      } else if (reference == REF_DIRECT) {
+      } else if (reference == RefDirect) {
         // Direct means the UV array is already in order.
         MT_THROW_IF(
             textureCoords.size() != faces.indices.size(),

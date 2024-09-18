@@ -911,7 +911,7 @@ at::Tensor applyModelParameterLimitsTemplate(
     // Store the limit values.
     std::vector<T> minLimits, maxLimits;
     for (const auto& l : character.parameterLimits) {
-      if (l.type == momentum::LimitType::MINMAX) {
+      if (l.type == momentum::LimitType::MinMax) {
         limitedIndices.push_back(l.data.minMax.parameterIndex);
         minLimits.push_back(l.data.minMax.limits.x());
         maxLimits.push_back(l.data.minMax.limits.y());
@@ -970,7 +970,7 @@ std::tuple<Eigen::VectorXf, Eigen::VectorXf> modelParameterLimits(
       std::numeric_limits<float>::max());
 
   for (const auto& l : character.parameterLimits) {
-    if (l.type == momentum::LimitType::MINMAX) {
+    if (l.type == momentum::LimitType::MinMax) {
       const auto& limitVal = l.data.minMax;
       minLimits(limitVal.parameterIndex) = limitVal.limits.x();
       maxLimits(limitVal.parameterIndex) = limitVal.limits.y();
@@ -992,8 +992,8 @@ std::tuple<MatrixX7f, MatrixX7f> jointParameterLimits(
       std::numeric_limits<float>::max());
 
   for (const auto& l : character.parameterLimits) {
-    if (l.type == momentum::LimitType::MINMAX_JOINT ||
-        l.type == momentum::LimitType::MINMAX_JOINT_PASSIVE) {
+    if (l.type == momentum::LimitType::MinMaxJoint ||
+        l.type == momentum::LimitType::MinMaxJointPassive) {
       const auto& limitVal = l.data.minMaxJoint;
       minLimits(limitVal.jointIndex, limitVal.jointParameter) =
           limitVal.limits.x();

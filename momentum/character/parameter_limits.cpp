@@ -16,18 +16,18 @@ namespace momentum {
 
 std::string_view toString(const LimitType type) {
   switch (type) {
-    case MINMAX:
-      return "MINMAX";
-    case MINMAX_JOINT:
-      return "MINMAX_JOINT";
-    case MINMAX_JOINT_PASSIVE:
-      return "MINMAX_JOINT_PASSIVE";
-    case LINEAR:
-      return "LINEAR";
-    case ELLIPSOID:
-      return "ELLIPSOID";
+    case MinMax:
+      return "Minmax";
+    case MinMaxJoint:
+      return "MinMaxJoint";
+    case MinMaxJointPassive:
+      return "MinMaxJointPassive";
+    case Linear:
+      return "Linear";
+    case Ellipsoid:
+      return "Ellipsoid";
     default:
-      return "UNKNOWN";
+      return "Unknown";
   }
 }
 
@@ -36,8 +36,9 @@ JointParameters applyJointParameterLimits(
     const JointParameters& jointParams) {
   JointParameters res = jointParams;
   for (const auto& limit : limits) {
-    if (limit.type != MINMAX_JOINT_PASSIVE)
+    if (limit.type != MinMaxJointPassive) {
       continue;
+    }
 
     const auto& data = limit.data.minMaxJoint;
     const size_t parameterIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
@@ -63,7 +64,7 @@ ParameterLimits getPoseConstraintParameterLimits(
   if (pt.poseConstraints.count(name) > 0) {
     for (const auto& pc : pt.poseConstraints.at(name).parameterIdValue) {
       ParameterLimit p;
-      p.type = MINMAX;
+      p.type = MinMax;
       p.data.minMax.parameterIndex = pc.first;
       p.data.minMax.limits = Vector2f::Constant(pc.second);
       p.weight = weight;

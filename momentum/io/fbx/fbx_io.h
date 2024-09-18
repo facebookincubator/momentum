@@ -16,7 +16,7 @@
 namespace momentum {
 
 // UpVector Specifies which canonical axis represents up in the system
-// (typically Y or Z). Maps to fbxsdk::FbxAxisSystem::eUpVector
+// (typically Y or Z). Maps to fbxsdk::FbxAxisSystem::EUpVector
 enum class FBXUpVector { XAxis = 1, YAxis = 2, ZAxis = 3 };
 
 // FrontVector  Vector with origin at the screen pointing toward the camera.
@@ -24,11 +24,11 @@ enum class FBXUpVector { XAxis = 1, YAxis = 2, ZAxis = 3 };
 // We use the system of "parity" to define this vector because its value (X,Y or
 // Z axis) really depends on the up-vector. The EPreDefinedAxisSystem list the
 // up-vector, parity and coordinate system values for the predefined systems.
-// Maps to fbxsdk::FbxAxisSystem::eFrontVector
+// Maps to fbxsdk::FbxAxisSystem::EFrontVector
 enum class FBXFrontVector { ParityEven = 1, ParityOdd = 2 };
 
 // CoordSystem Specifies the third vector of the system.
-// Maps to fbxsdk::FbxAxisSystem::eCoorSystem
+// Maps to fbxsdk::FbxAxisSystem::ECoordSystem
 enum class FBXCoordSystem { RightHanded, LeftHanded };
 
 // A struct containing the up, front vectors and coordinate system

@@ -446,10 +446,10 @@ ParameterLimits CharacterT<T>::remapParameterLimits(
   result = limits;
   for (auto&& limit : result) {
     // only need to remap limits that depend on joints
-    if (limit.type == MINMAX_JOINT || limit.type == MINMAX_JOINT_PASSIVE) {
+    if (limit.type == MinMaxJoint || limit.type == MinMaxJointPassive) {
       auto& data = limit.data.minMaxJoint;
       data.jointIndex = jointMap[data.jointIndex];
-    } else if (limit.type == ELLIPSOID) {
+    } else if (limit.type == Ellipsoid) {
       // ellipsoid limit requires re-targeting the ellipsoid to the new joint's local system
       auto& data = limit.data.ellipsoid;
       const auto sourceParent = data.parent;

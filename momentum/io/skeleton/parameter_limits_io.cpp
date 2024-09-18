@@ -26,7 +26,7 @@ void parseMinmaxWithParameterIndex(
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
-  p.type = MINMAX;
+  p.type = MinMax;
   static const re2::RE2 minmaxRegex(
       "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches
                                                                                                             // [<float>
@@ -55,7 +55,7 @@ void parseMinmaxWithJointIndex(
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
-  p.type = MINMAX_JOINT;
+  p.type = MinMaxJoint;
   static const re2::RE2 minmaxRegex(
       "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches
                                                                                                             // [<float>
@@ -84,7 +84,7 @@ void parseMinmaxPassive(
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
-  p.type = MINMAX_JOINT_PASSIVE;
+  p.type = MinMaxJointPassive;
   static const re2::RE2 minmaxRegex(
       "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches
                                                                                                             // [<float>
@@ -113,7 +113,7 @@ void parseLinear(
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
-  p.type = LINEAR;
+  p.type = Linear;
   static const re2::RE2 linearRegex(
       "(\\w+)\\s*\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches <parametername> [<float> , <float>] <optional weight>
   std::array<std::string, 4> values;
@@ -153,7 +153,7 @@ void parseEllipsoid(
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
-  p.type = ELLIPSOID;
+  p.type = Ellipsoid;
   // format is is [offset] parent [translation] [rotation] [scale] <optional weight>
   static const re2::RE2 ellipsoidRegex(
       "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\]\\s*"
@@ -202,7 +202,7 @@ void parseEllipsoid(
   const Vector3f angles =
       Vector3f(toRad(std::stof(eulerX)), toRad(std::stof(eulerY)), toRad(std::stof(eulerZ)));
   p.data.ellipsoid.ellipsoid.linear() =
-      eulerXYZToRotationMatrix(angles, EulerConvention::EXTRINSIC) *
+      eulerXYZToRotationMatrix(angles, EulerConvention::Extrinsic) *
       Eigen::Scaling(std::stof(scaleX), std::stof(scaleY), std::stof(scaleZ));
   p.data.ellipsoid.ellipsoidInv = p.data.ellipsoid.ellipsoid.inverse();
 

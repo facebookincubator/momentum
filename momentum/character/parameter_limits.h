@@ -21,7 +21,7 @@ namespace momentum {
 // option of modeling more complicated limits that depend on each other
 
 // limit type
-enum LimitType { MINMAX, MINMAX_JOINT, MINMAX_JOINT_PASSIVE, LINEAR, ELLIPSOID };
+enum LimitType { MinMax, MinMaxJoint, MinMaxJointPassive, Linear, Ellipsoid };
 
 [[nodiscard]] std::string_view toString(LimitType type);
 

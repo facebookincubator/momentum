@@ -185,24 +185,24 @@ void parameterLimitsToJson(const Character& character, nlohmann::json& j) {
     li["weight"] = lim.weight;
 
     switch (lim.type) {
-      case MINMAX:
+      case MinMax:
         li["type"] = "minmax";
         li["parameter"] = character.parameterTransform.name[lim.data.minMax.parameterIndex];
         li["limits"] = lim.data.minMax.limits;
         break;
-      case MINMAX_JOINT:
+      case MinMaxJoint:
         li["type"] = "minmax_joint";
         li["jointIndex"] = character.skeleton.joints[lim.data.minMaxJoint.jointIndex].name;
         li["jointParameter"] = kJointParameterNames[lim.data.minMaxJoint.jointParameter];
         li["limits"] = lim.data.minMaxJoint.limits;
         break;
-      case MINMAX_JOINT_PASSIVE:
+      case MinMaxJointPassive:
         li["type"] = "minmax_joint_passive";
         li["jointIndex"] = character.skeleton.joints[lim.data.minMaxJoint.jointIndex].name;
         li["jointParameter"] = kJointParameterNames[lim.data.minMaxJoint.jointParameter];
         li["limits"] = lim.data.minMaxJoint.limits;
         break;
-      case LINEAR:
+      case Linear:
         li["type"] = "limit";
         li["referenceParameter"] =
             character.parameterTransform.name[lim.data.linear.referenceIndex];
@@ -210,7 +210,7 @@ void parameterLimitsToJson(const Character& character, nlohmann::json& j) {
         li["scale"] = lim.data.linear.scale;
         li["offset"] = lim.data.linear.offset;
         break;
-      case ELLIPSOID: {
+      case Ellipsoid: {
         li["type"] = "ellipsoid";
         li["parent"] = character.skeleton.joints[lim.data.ellipsoid.parent].name;
         li["ellipsoidParent"] = character.skeleton.joints[lim.data.ellipsoid.ellipsoidParent].name;
@@ -239,12 +239,12 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
     ParameterLimit l;
     l.weight = element.value("weight", 0.0f);
     if (type == "minmax") {
-      l.type = MINMAX;
+      l.type = MinMax;
       l.data.minMax.parameterIndex =
           character.parameterTransform.getParameterIdByName(element.value("parameter", ""));
       l.data.minMax.limits = fromJson<Vector2f>(element["limits"]);
     } else if (type == "minmax_joint") {
-      l.type = MINMAX_JOINT;
+      l.type = MinMaxJoint;
       l.data.minMaxJoint.jointIndex =
           character.skeleton.getJointIdByName(element.value("jointIndex", ""));
       const std::string attribute = element.value("jointParameter", "");
@@ -258,7 +258,7 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
       l.data.minMaxJoint.jointParameter = attributeIndex;
       l.data.minMaxJoint.limits = fromJson<Vector2f>(element["limits"]);
     } else if (type == "minmax_joint_passive") {
-      l.type = MINMAX_JOINT_PASSIVE;
+      l.type = MinMaxJointPassive;
       l.data.minMaxJoint.jointIndex =
           character.skeleton.getJointIdByName(element.value("jointIndex", ""));
       const std::string attribute = element.value("jointParameter", "");
@@ -272,7 +272,7 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
       l.data.minMaxJoint.jointParameter = attributeIndex;
       l.data.minMaxJoint.limits = fromJson<Vector2f>(element["limits"]);
     } else if (type == "linear") {
-      l.type = LINEAR;
+      l.type = Linear;
       l.data.linear.referenceIndex = character.parameterTransform.getParameterIdByName(
           element.value("referenceParameter", ""));
       l.data.linear.targetIndex =
@@ -280,7 +280,7 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
       l.data.linear.scale = element["scale"];
       l.data.linear.offset = element["offset"];
     } else if (type == "ellipsoid") {
-      l.type = ELLIPSOID;
+      l.type = Ellipsoid;
       l.data.ellipsoid.parent = character.skeleton.getJointIdByName(element.value("parent", ""));
       l.data.ellipsoid.ellipsoidParent =
           character.skeleton.getJointIdByName(element.value("ellipsoidParent", ""));
@@ -293,7 +293,7 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
       // TODO: Remove once all the model files are migrated to ellipsoid
       MT_LOGW_ONCE(
           "Deprecated parameter limit type: {} (typo). Please use 'ellipsoid' instead.", type);
-      l.type = ELLIPSOID;
+      l.type = Ellipsoid;
       l.data.ellipsoid.parent = character.skeleton.getJointIdByName(element.value("parent", ""));
       l.data.ellipsoid.ellipsoidParent =
           character.skeleton.getJointIdByName(element.value("elipsoidParent", ""));

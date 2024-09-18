@@ -104,7 +104,7 @@ Character createLocatorCharacter(const Character& sourceCharacter, const std::st
       // check if we need joint limit
       if (newLocator.limitWeight[j] > 0.0f) {
         ParameterLimit p;
-        p.type = MINMAX_JOINT;
+        p.type = MinMaxJoint;
         p.data.minMaxJoint.jointIndex = id;
         p.data.minMaxJoint.jointParameter = j;
         const float referencePosition = newLocator.limitOrigin[j] - newLocator.offset[j];

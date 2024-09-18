@@ -336,7 +336,7 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
   for (const auto& limitOld : paramLimitsOld) {
     auto limitNew = limitOld;
     switch (limitOld.type) {
-      case MINMAX: {
+      case MinMax: {
         auto& data = limitNew.data.minMax;
         auto paramIndexOld = data.parameterIndex;
         auto paramIndexNew = oldParamToNewParam[paramIndexOld];
@@ -347,12 +347,12 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
         break;
       }
 
-      case MINMAX_JOINT: {
+      case MinMaxJoint: {
         //                auto& data = *((LimitMinMaxJoint*)limitNew.data);
         break;
       }
 
-      case LINEAR: {
+      case Linear: {
         auto& data = limitNew.data.linear;
 
         auto referenceIndexNew = oldParamToNewParam[data.referenceIndex];
@@ -368,8 +368,8 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
         break;
       }
 
-      case ELLIPSOID:
-      case MINMAX_JOINT_PASSIVE: {
+      case Ellipsoid:
+      case MinMaxJointPassive: {
         // nothing to do here.
         break;
       }

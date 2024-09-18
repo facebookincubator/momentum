@@ -84,7 +84,7 @@ enum class EulerConvention {
   /// Intrinsic rotations are usually represented by a sequence of three letters, like XYZ, which
   /// means rotation around the X-axis, followed by rotation around the Y-axis, and finally rotation
   /// around the Z-axis. For example, intrinsic XYZ is equivalent to RotX(a) * RotY(b) * RotZ(c).
-  INTRINSIC,
+  Intrinsic,
 
   /// The extrinsic convention. Extrinsic rotations (also called global, absolute, or space-fixed
   /// rotations) are performed around the axes of a fixed coordinate system.
@@ -93,7 +93,7 @@ enum class EulerConvention {
   /// around the fixed X-axis, followed by rotation around the fixed Y-axis, and finally rotation
   /// around the fixed Z-axis. For example, extrinsic XYZ is equivalent to RotZ(c) * RotY(b) *
   /// RotX(a).
-  EXTRINSIC,
+  Extrinsic,
 };
 
 /// Converts rotation matrix to Euler angles
@@ -110,21 +110,21 @@ template <typename T>
     int axis0,
     int axis1,
     int axis2,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 /// An optimized version of rotationMatrixToEuler(m, 0, 1, 2, convention) or
 /// rotationMatrixToEuler(m, 2, 1, 0, convention).reverse().
 template <typename T>
 [[nodiscard]] Vector3<T> rotationMatrixToEulerXYZ(
     const Matrix3<T>& m,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 /// An optimized version of rotationMatrixToEuler(m, 2, 1, 0, convention) or
 /// rotationMatrixToEuler(m, 0, 1, 2, convention).reverse().
 template <typename T>
 [[nodiscard]] Vector3<T> rotationMatrixToEulerZYX(
     const Matrix3<T>& m,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 /// Converts Euler angles to quaternion
 ///
@@ -140,7 +140,7 @@ template <typename T>
     int axis0,
     int axis1,
     int axis2,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 /// Converts Euler angles to rotation matrix
 ///
@@ -156,21 +156,21 @@ template <typename T>
     int axis0,
     int axis1,
     int axis2,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 /// An optimized version of eulerToRotationMatrix(angles, 0, 1, 2, convention) or
 /// eulerToRotationMatrix(angles.reverse(), 2, 1, 0, convention).
 template <typename T>
 [[nodiscard]] Matrix3<T> eulerXYZToRotationMatrix(
     const Vector3<T>& angles,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 /// An optimized version of eulerToRotationMatrix(angles, 2, 1, 0, convention) or
 /// eulerToRotationMatrix(angles.reverse(), 0, 1, 2, convention).
 template <typename T>
 [[nodiscard]] Matrix3<T> eulerZYXToRotationMatrix(
     const Vector3<T>& angles,
-    EulerConvention convention = EulerConvention::INTRINSIC);
+    EulerConvention convention = EulerConvention::Intrinsic);
 
 // convert quaternion to euler
 template <typename T>

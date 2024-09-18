@@ -51,7 +51,7 @@ LocatorList scale(const LocatorList& locators, float scale) {
 ParameterLimits scale(const ParameterLimits& limits, float scale) {
   ParameterLimits result = limits;
   for (auto& limit : result) {
-    if (limit.type == LimitType::ELLIPSOID) {
+    if (limit.type == LimitType::Ellipsoid) {
       limit.data.ellipsoid.ellipsoid.translation() *= scale;
       limit.data.ellipsoid.ellipsoidInv.translation() *= scale;
       limit.data.ellipsoid.offset *= scale;
@@ -115,20 +115,20 @@ ParameterLimits mapParameterLimits(
   result.reserve(limits.size());
   for (auto l : limits) {
     switch (l.type) {
-      case LimitType::MINMAX:
+      case LimitType::MinMax:
         l.data.minMax.parameterIndex = parameterMapping[l.data.minMax.parameterIndex];
         if (l.data.minMax.parameterIndex != kInvalidIndex) {
           result.push_back(l);
         }
         break;
-      case LimitType::MINMAX_JOINT:
-      case LimitType::MINMAX_JOINT_PASSIVE:
+      case LimitType::MinMaxJoint:
+      case LimitType::MinMaxJointPassive:
         l.data.minMaxJoint.jointIndex = jointMapping[l.data.minMaxJoint.jointIndex];
         if (l.data.minMaxJoint.jointIndex != kInvalidIndex) {
           result.push_back(l);
         }
         break;
-      case LimitType::LINEAR:
+      case LimitType::Linear:
         l.data.linear.referenceIndex = parameterMapping[l.data.linear.referenceIndex];
         l.data.linear.targetIndex = parameterMapping[l.data.linear.targetIndex];
         if (l.data.linear.referenceIndex != kInvalidIndex &&
@@ -136,7 +136,7 @@ ParameterLimits mapParameterLimits(
           result.push_back(l);
         }
         break;
-      case LimitType::ELLIPSOID:
+      case LimitType::Ellipsoid:
         l.data.ellipsoid.parent = jointMapping[l.data.ellipsoid.parent];
         l.data.ellipsoid.ellipsoidParent = jointMapping[l.data.ellipsoid.ellipsoidParent];
         if (l.data.ellipsoid.parent != kInvalidIndex &&

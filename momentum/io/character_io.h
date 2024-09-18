@@ -17,9 +17,9 @@ namespace momentum {
 
 /// Represents the supported character formats.
 enum class CharacterFormat : uint8_t {
-  FBX, ///< FBX file format.
-  GLTF, ///< glTF file format.
-  UNKNOWN ///< Unknown or unsupported file format.
+  Fbx, ///< FBX file format.
+  Gltf, ///< glTF file format.
+  Unknown ///< Unknown or unsupported file format.
 };
 
 /// High level function to load a character of any type, with a local path.

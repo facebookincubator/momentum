@@ -61,7 +61,7 @@ TYPED_TEST(UtilityTest, EulerAngles) {
 
   // Intrinsic XYZ
   for (const auto& angles : angles_set) {
-    const auto convention = EulerConvention::INTRINSIC;
+    const auto convention = EulerConvention::Intrinsic;
     const Matrix3<T> mat1 = Quaternion<T>(
                                 AngleAxis<T>(angles(0), Vector3<T>::UnitX()) *
                                 AngleAxis<T>(angles(1), Vector3<T>::UnitY()) *
@@ -81,7 +81,7 @@ TYPED_TEST(UtilityTest, EulerAngles) {
 
   // Intrinsic ZYX
   for (const auto& angles : angles_set) {
-    const auto convention = EulerConvention::INTRINSIC;
+    const auto convention = EulerConvention::Intrinsic;
     const Matrix3<T> mat1 = Quaternion<T>(
                                 AngleAxis<T>(angles(0), Vector3<T>::UnitZ()) *
                                 AngleAxis<T>(angles(1), Vector3<T>::UnitY()) *
@@ -101,7 +101,7 @@ TYPED_TEST(UtilityTest, EulerAngles) {
 
   // Extrinsic XYZ
   for (const auto& angles : angles_set) {
-    const auto convention = EulerConvention::EXTRINSIC;
+    const auto convention = EulerConvention::Extrinsic;
     const Matrix3<T> mat1 = Quaternion<T>(
                                 AngleAxis<T>(angles(2), Vector3<T>::UnitZ()) *
                                 AngleAxis<T>(angles(1), Vector3<T>::UnitY()) *
@@ -121,7 +121,7 @@ TYPED_TEST(UtilityTest, EulerAngles) {
 
   // Extrinsic ZYX
   for (const auto& angles : angles_set) {
-    const auto convention = EulerConvention::EXTRINSIC;
+    const auto convention = EulerConvention::Extrinsic;
     const Matrix3<T> mat1 = Quaternion<T>(
                                 AngleAxis<T>(angles(2), Vector3<T>::UnitX()) *
                                 AngleAxis<T>(angles(1), Vector3<T>::UnitY()) *
@@ -152,9 +152,9 @@ void testIntrinsicExtrinsicConversion(int axis0, int axis1, int axis2) {
 
     // Compute the intrinsic and extrinsic Euler angles
     const Vector3<T> euler_intrinsic =
-        rotationMatrixToEuler(m, axis0, axis1, axis2, EulerConvention::INTRINSIC);
+        rotationMatrixToEuler(m, axis0, axis1, axis2, EulerConvention::Intrinsic);
     const Vector3<T> euler_extrinsic =
-        rotationMatrixToEuler(m, axis2, axis1, axis0, EulerConvention::EXTRINSIC);
+        rotationMatrixToEuler(m, axis2, axis1, axis0, EulerConvention::Extrinsic);
 
     // Check if the extrinsic Euler angles are the reverse of the intrinsic Euler angles
     EXPECT_TRUE(euler_intrinsic.reverse().isApprox(euler_extrinsic))
@@ -183,10 +183,10 @@ void testEulerToQuaternionConversion(int axis0, int axis1, int axis2) {
     const Vector3<T> euler_angles = Vector3<T>::Random();
 
     const Quaternion<T> quaternion_intrinsic =
-        eulerToQuaternion(euler_angles, axis0, axis1, axis2, EulerConvention::INTRINSIC);
+        eulerToQuaternion(euler_angles, axis0, axis1, axis2, EulerConvention::Intrinsic);
 
     const Quaternion<T> quaternion_extrinsic = eulerToQuaternion(
-        euler_angles.reverse().eval(), axis2, axis1, axis0, EulerConvention::EXTRINSIC);
+        euler_angles.reverse().eval(), axis2, axis1, axis0, EulerConvention::Extrinsic);
 
     // Compute the rotation matrices from the quaternions
     const Matrix3<T> rotation_matrix_intrinsic = quaternion_intrinsic.toRotationMatrix();

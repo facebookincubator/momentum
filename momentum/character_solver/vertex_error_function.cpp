@@ -22,7 +22,8 @@
 namespace momentum {
 
 std::string_view toString(VertexConstraintType type) {
-  static const std::string_view strings[] = {"POSITION", "PLANE", "NORMAL", "SYMMETRIC_NORMAL"};
+  static const std::array<std::string_view, 4> strings = {
+      "Position", "Plane", "Normal", "SymmetricNormal"};
   return strings[static_cast<size_t>(type)];
 }
 
@@ -36,8 +37,8 @@ VertexErrorFunctionT<T>::VertexErrorFunctionT(
   MT_CHECK(static_cast<bool>(character_in.mesh));
   MT_CHECK(static_cast<bool>(character_in.skinWeights));
   MT_THROW_IF(
-      character_in.faceExpressionBlendShape && (type != VertexConstraintType::POSITION),
-      "Constraint type {} not implemented yet for face. Only POSITION type is supported.",
+      character_in.faceExpressionBlendShape && (type != VertexConstraintType::Position),
+      "Constraint type {} not implemented yet for face. Only Position type is supported.",
       toString(type));
   this->neutralMesh_ = std::make_unique<MeshT<T>>(character_in.mesh->template cast<T>());
   this->restMesh_ = std::make_unique<MeshT<T>>(character_in.mesh->template cast<T>());
@@ -73,7 +74,7 @@ double VertexErrorFunctionT<T>::getError(
   // loop over all constraints and calculate the error
   double error = 0.0;
 
-  if (constraintType_ == VertexConstraintType::POSITION) {
+  if (constraintType_ == VertexConstraintType::Position) {
     for (size_t i = 0; i < constraints_.size(); ++i) {
       const VertexConstraintT<T>& constr = constraints_[i];
 
@@ -734,11 +735,11 @@ double VertexErrorFunctionT<T>::calculateNormalJacobian(
 template <typename T>
 std::pair<T, T> VertexErrorFunctionT<T>::computeNormalWeights() const {
   switch (constraintType_) {
-    case VertexConstraintType::PLANE:
+    case VertexConstraintType::Plane:
       return {T(0), T(1)};
-    case VertexConstraintType::NORMAL:
+    case VertexConstraintType::Normal:
       return {T(1), T(0)};
-    case VertexConstraintType::SYMMETRIC_NORMAL:
+    case VertexConstraintType::SymmetricNormal:
     default:
       return {T(0.5), T(0.5)};
   }
@@ -753,7 +754,7 @@ double VertexErrorFunctionT<T>::getGradient(
 
   double error = 0;
 
-  if (constraintType_ == VertexConstraintType::POSITION) {
+  if (constraintType_ == VertexConstraintType::Position) {
     for (size_t iCons = 0; iCons < constraints_.size(); ++iCons) {
       error += calculatePositionGradient(modelParameters, state, constraints_[iCons], gradient);
     }
@@ -788,7 +789,7 @@ double VertexErrorFunctionT<T>::getJacobian(
   updateMeshes(modelParameters, state);
 
   double error = 0;
-  if (constraintType_ == VertexConstraintType::POSITION) {
+  if (constraintType_ == VertexConstraintType::Position) {
     MT_PROFILE_EVENT("VertexErrorFunction - position jacobians");
 
     for (size_t iCons = 0; iCons < constraints_.size(); ++iCons) {
@@ -823,11 +824,11 @@ double VertexErrorFunctionT<T>::getJacobian(
 template <typename T>
 size_t VertexErrorFunctionT<T>::getJacobianSize() const {
   switch (constraintType_) {
-    case VertexConstraintType::POSITION:
+    case VertexConstraintType::Position:
       return 3 * constraints_.size();
-    case VertexConstraintType::NORMAL:
-    case VertexConstraintType::PLANE:
-    case VertexConstraintType::SYMMETRIC_NORMAL:
+    case VertexConstraintType::Normal:
+    case VertexConstraintType::Plane:
+    case VertexConstraintType::SymmetricNormal:
     default:
       return constraints_.size();
   }

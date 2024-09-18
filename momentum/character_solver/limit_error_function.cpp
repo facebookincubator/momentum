@@ -55,7 +55,7 @@ double LimitErrorFunctionT<T>::getError(
   // ---------------------------------------
   for (const auto& limit : limits_) {
     switch (limit.type) {
-      case MINMAX: {
+      case MinMax: {
         const auto& data = limit.data.minMax;
         MT_CHECK(data.parameterIndex <= static_cast<size_t>(params.size()));
         if (this->enabledParameters_.test(data.parameterIndex)) {
@@ -70,7 +70,7 @@ double LimitErrorFunctionT<T>::getError(
         }
         break;
       }
-      case MINMAX_JOINT: {
+      case MinMaxJoint: {
         const auto& data = limit.data.minMaxJoint;
         const size_t parameterIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
         MT_CHECK(parameterIndex <= (size_t)state.jointParameters.size());
@@ -86,10 +86,10 @@ double LimitErrorFunctionT<T>::getError(
         }
         break;
       }
-      case MINMAX_JOINT_PASSIVE: {
+      case MinMaxJointPassive: {
         break;
       }
-      case LINEAR: {
+      case Linear: {
         const auto& data = limit.data.linear;
         MT_CHECK(data.referenceIndex <= static_cast<size_t>(params.size()));
         MT_CHECK(data.targetIndex <= static_cast<size_t>(params.size()));
@@ -102,7 +102,7 @@ double LimitErrorFunctionT<T>::getError(
         }
         break;
       }
-      case ELLIPSOID: {
+      case Ellipsoid: {
         const auto& ct = limit.data.ellipsoid;
 
         // get the constraint position in global space
@@ -161,7 +161,7 @@ double LimitErrorFunctionT<T>::getGradient(
   // ---------------------------------------
   for (const auto& limit : limits_) {
     switch (limit.type) {
-      case MINMAX: {
+      case MinMax: {
         const auto& data = limit.data.minMax;
         MT_CHECK(data.parameterIndex <= static_cast<size_t>(params.size()));
         if (this->enabledParameters_.test(data.parameterIndex)) {
@@ -178,7 +178,7 @@ double LimitErrorFunctionT<T>::getGradient(
         }
         break;
       }
-      case MINMAX_JOINT: {
+      case MinMaxJoint: {
         const auto& data = limit.data.minMaxJoint;
         const size_t parameterIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
         MT_CHECK(parameterIndex <= (size_t)state.jointParameters.size());
@@ -210,10 +210,10 @@ double LimitErrorFunctionT<T>::getGradient(
         }
         break;
       }
-      case MINMAX_JOINT_PASSIVE: {
+      case MinMaxJointPassive: {
         break;
       }
-      case LINEAR: {
+      case Linear: {
         const auto& data = limit.data.linear;
         MT_CHECK(data.referenceIndex <= static_cast<size_t>(params.size()));
         MT_CHECK(data.targetIndex <= static_cast<size_t>(params.size()));
@@ -230,7 +230,7 @@ double LimitErrorFunctionT<T>::getGradient(
 
         break;
       }
-      case ELLIPSOID: {
+      case Ellipsoid: {
         // NOTE: The gradient for these is currently simplified
         // It assumes the ellipsoid is static and doesn't move with the parent joint
         const auto& ct = limit.data.ellipsoid;
@@ -350,7 +350,7 @@ double LimitErrorFunctionT<T>::getJacobian(
   for (const auto& limit : limits_) {
     const T wgt = std::sqrt(kLimitWeight * this->weight_ * limit.weight);
     switch (limit.type) {
-      case MINMAX: {
+      case MinMax: {
         const auto& data = limit.data.minMax;
         MT_CHECK(data.parameterIndex <= static_cast<size_t>(params.size()));
         if (this->enabledParameters_.test(data.parameterIndex)) {
@@ -369,7 +369,7 @@ double LimitErrorFunctionT<T>::getJacobian(
         count++;
         break;
       }
-      case MINMAX_JOINT: {
+      case MinMaxJoint: {
         // simple case, our jacobians are currently in joint space, just add them up
         const auto& data = limit.data.minMaxJoint;
         const size_t jointIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
@@ -402,10 +402,10 @@ double LimitErrorFunctionT<T>::getJacobian(
         count++;
         break;
       }
-      case MINMAX_JOINT_PASSIVE: {
+      case MinMaxJointPassive: {
         break;
       }
-      case LINEAR: {
+      case Linear: {
         const auto& data = limit.data.linear;
         MT_CHECK(data.referenceIndex <= static_cast<size_t>(params.size()));
         MT_CHECK(data.targetIndex <= static_cast<size_t>(params.size()));
@@ -428,7 +428,7 @@ double LimitErrorFunctionT<T>::getJacobian(
         count++;
         break;
       }
-      case ELLIPSOID: {
+      case Ellipsoid: {
         // NOTE: The jacobian for these is currently simplified
         // It assumes the ellipsoid is static and doesn't move with the parent joint
         const auto& ct = limit.data.ellipsoid;
@@ -531,16 +531,16 @@ size_t LimitErrorFunctionT<T>::getJacobianSize() const {
   size_t count = 0;
   for (const auto& limit : limits_) {
     switch (limit.type) {
-      case MINMAX:
-      case MINMAX_JOINT:
+      case MinMax:
+      case MinMaxJoint:
         count++;
         break;
-      case MINMAX_JOINT_PASSIVE:
+      case MinMaxJointPassive:
         break;
-      case LINEAR:
+      case Linear:
         count++;
         break;
-      case ELLIPSOID:
+      case Ellipsoid:
         count += 3;
         break;
       default:

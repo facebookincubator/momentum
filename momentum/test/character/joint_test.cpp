@@ -151,7 +151,7 @@ TYPED_TEST(Momentum_JointStateTest, Rotations) {
     const Quaternion<T> prot = uniformQuaternion<T>();
     jt.preRotation = prot;
     js.set(jt, params, nullptr);
-    Quaternion<T> res = eulerToQuaternion<T>(rot, 0, 1, 2, EulerConvention::EXTRINSIC);
+    Quaternion<T> res = eulerToQuaternion<T>(rot, 0, 1, 2, EulerConvention::Extrinsic);
     EXPECT_TRUE(js.localRotation().coeffs().isApprox((prot * res).coeffs(), Eps<T>(1e-6f, 1e-7)));
     EXPECT_TRUE(js.localTranslation() == Vector3<T>::Zero());
     EXPECT_TRUE(js.localScale() == 1.0);

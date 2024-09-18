@@ -70,11 +70,11 @@ PYBIND11_MODULE(geometry, m) {
       .value("LeftHanded", mm::FBXCoordSystem::LeftHanded);
 
   py::enum_<mm::LimitType>(m, "LimitType", R"(Type of joint limit.)")
-      .value("MinMax", mm::LimitType::MINMAX)
-      .value("MinMaxJoint", mm::LimitType::MINMAX_JOINT)
-      .value("MinMaxJointPassive", mm::LimitType::MINMAX_JOINT_PASSIVE)
-      .value("Linear", mm::LimitType::LINEAR)
-      .value("Ellipsoid", mm::LimitType::ELLIPSOID);
+      .value("MinMax", mm::LimitType::MinMax)
+      .value("MinMaxJoint", mm::LimitType::MinMaxJoint)
+      .value("MinMaxJointPassive", mm::LimitType::MinMaxJointPassive)
+      .value("Linear", mm::LimitType::Linear)
+      .value("Ellipsoid", mm::LimitType::Ellipsoid);
 
   // We need to forward-declare classes so that if we refer to them they get
   // typed correctly; otherwise we end up with "momentum::Locator" in the
@@ -1130,7 +1130,7 @@ The resulting shape is equal to the base shape plus a linear combination of the 
             mm::LimitData data;
             data.minMax.parameterIndex = model_parameter_index;
             data.minMax.limits = Eigen::Vector2f(min, max);
-            return mm::ParameterLimit{data, mm::LimitType::MINMAX, weight};
+            return mm::ParameterLimit{data, mm::LimitType::MinMax, weight};
           },
           R"(
 Create a parameter limit with min and max values for a model parameter.
@@ -1155,8 +1155,7 @@ Create a parameter limit with min and max values for a model parameter.
             data.minMaxJoint.jointIndex = joint_index;
             data.minMaxJoint.jointParameter = joint_parameter;
             data.minMaxJoint.limits = Eigen::Vector2f(min, max);
-            return mm::ParameterLimit{
-                data, mm::LimitType::MINMAX_JOINT, weight};
+            return mm::ParameterLimit{data, mm::LimitType::MinMaxJoint, weight};
           },
           R"(
 Create a parameter limit with min and max values for a joint parameter.
@@ -1184,7 +1183,7 @@ Create a parameter limit with min and max values for a joint parameter.
             data.linear.targetIndex = target_model_parameter_index;
             data.linear.scale = scale;
             data.linear.offset = offset;
-            return mm::ParameterLimit{data, mm::LimitType::LINEAR, weight};
+            return mm::ParameterLimit{data, mm::LimitType::Linear, weight};
           },
           R"(Create a parameter limit with a linear constraint.
 
@@ -1212,7 +1211,7 @@ Create a parameter limit with min and max values for a joint parameter.
             data.ellipsoid.offset = offset;
             data.ellipsoid.ellipsoid = Eigen::Affine3f(ellipsoid);
             data.ellipsoid.ellipsoidInv = data.ellipsoid.ellipsoid.inverse();
-            return mm::ParameterLimit{data, mm::LimitType::ELLIPSOID, weight};
+            return mm::ParameterLimit{data, mm::LimitType::Ellipsoid, weight};
           },
           R"(Create a parameter limit with an ellipsoid constraint.
 
