@@ -280,7 +280,11 @@ ParameterLimits parseParameterLimits(
           "Deprecated parameter limit type: {} (typo). Please use 'ellipsoid' instead.", type);
       parseEllipsoid(pl, valueStr, skeleton, jointIndex);
     } else {
-      MT_THROW("Unexpected limit type '{}' in parameter configuration : {}", type, line);
+      MT_THROW(
+          "Failed to parse parameter configuration '{}'. This could be due to an unsupported limit type '{}' or failure to find the parameter name '{}'.",
+          line,
+          type,
+          parameterName);
     }
   }
   return pl;
