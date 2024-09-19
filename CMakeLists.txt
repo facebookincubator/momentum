@@ -50,15 +50,17 @@ include(cmake/mt_defs.cmake)
 # Build Options
 #===============================================================================
 
-option(BUILD_SHARED_LIBS "Build as shared libraries" ON)
-option(MOMENTUM_ENABLE_SIMD "Enable building with SIMD instructions" ON)
-option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
-option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
-option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
-option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
-option(MOMENTUM_USE_SYSTEM_GOOGLETEST "Use GoogleTest installed in system" OFF)
-option(MOMENTUM_USE_SYSTEM_PYBIND11 "Use pybind11 installed in system" OFF)
-option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
+mt_option(BUILD_SHARED_LIBS "Build as shared libraries" ON)
+mt_option(MOMENTUM_ENABLE_SIMD "Enable building with SIMD instructions" ON)
+mt_option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
+mt_option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
+mt_option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
+mt_option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
+mt_option(MOMENTUM_USE_SYSTEM_GOOGLETEST "Use GoogleTest installed in system" OFF)
+mt_option(MOMENTUM_USE_SYSTEM_PYBIND11 "Use pybind11 installed in system" OFF)
+mt_option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
+
+mt_print_options()
 
 #===============================================================================
 # Find dependencies
