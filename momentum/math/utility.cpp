@@ -60,8 +60,8 @@ Vector3<T> rotationMatrixToEuler(
     int axis1,
     int axis2,
     EulerConvention convention) {
-  if (convention == EulerConvention::EXTRINSIC) {
-    return rotationMatrixToEuler(m, axis2, axis1, axis0, EulerConvention::INTRINSIC).reverse();
+  if (convention == EulerConvention::Extrinsic) {
+    return rotationMatrixToEuler(m, axis2, axis1, axis0, EulerConvention::Intrinsic).reverse();
   }
 
   return m.eulerAngles(axis0, axis1, axis2);
@@ -70,8 +70,8 @@ Vector3<T> rotationMatrixToEuler(
 template <typename T>
 Vector3<T> rotationMatrixToEulerXYZ(const Matrix3<T>& m, EulerConvention convention) {
   // If the convention is extrinsic, convert it to intrinsic and reverse the order
-  if (convention == EulerConvention::EXTRINSIC) {
-    return rotationMatrixToEulerZYX(m, EulerConvention::INTRINSIC).reverse();
+  if (convention == EulerConvention::Extrinsic) {
+    return rotationMatrixToEulerZYX(m, EulerConvention::Intrinsic).reverse();
   }
 
   // Reference: https://en.wikipedia.org/wiki/Euler_angles
@@ -111,8 +111,8 @@ Vector3<T> rotationMatrixToEulerXYZ(const Matrix3<T>& m, EulerConvention convent
 template <typename T>
 Vector3<T> rotationMatrixToEulerZYX(const Matrix3<T>& m, EulerConvention convention) {
   // If the convention is extrinsic, convert it to intrinsic and reverse the order
-  if (convention == EulerConvention::EXTRINSIC) {
-    return rotationMatrixToEulerXYZ(m, EulerConvention::INTRINSIC).reverse();
+  if (convention == EulerConvention::Extrinsic) {
+    return rotationMatrixToEulerXYZ(m, EulerConvention::Intrinsic).reverse();
   }
 
   // Reference: https://en.wikipedia.org/wiki/Euler_angles
@@ -157,9 +157,9 @@ Quaternion<T> eulerToQuaternion(
     int axis1,
     int axis2,
     EulerConvention convention) {
-  if (convention == EulerConvention::EXTRINSIC) {
+  if (convention == EulerConvention::Extrinsic) {
     return eulerToQuaternion(
-        angles.reverse().eval(), axis2, axis1, axis0, EulerConvention::INTRINSIC);
+        angles.reverse().eval(), axis2, axis1, axis0, EulerConvention::Intrinsic);
   }
 
   return Quaternion<T>(
@@ -180,8 +180,9 @@ Matrix3<T> eulerToRotationMatrix(
 
 template <typename T>
 Matrix3<T> eulerXYZToRotationMatrix(const Vector3<T>& angles, EulerConvention convention) {
-  if (convention == EulerConvention::EXTRINSIC)
-    return eulerZYXToRotationMatrix(angles.reverse().eval(), EulerConvention::INTRINSIC);
+  if (convention == EulerConvention::Extrinsic) {
+    return eulerZYXToRotationMatrix(angles.reverse().eval(), EulerConvention::Intrinsic);
+  }
 
   // | r00 r01 r02 |   |  cy*cz           -cy*sz            sy    |
   // | r10 r11 r12 | = |  cz*sx*sy+cx*sz   cx*cz-sx*sy*sz  -cy*sx |
@@ -213,8 +214,9 @@ Matrix3<T> eulerXYZToRotationMatrix(const Vector3<T>& angles, EulerConvention co
 
 template <typename T>
 Matrix3<T> eulerZYXToRotationMatrix(const Vector3<T>& angles, EulerConvention convention) {
-  if (convention == EulerConvention::EXTRINSIC)
-    return eulerXYZToRotationMatrix(angles.reverse().eval(), EulerConvention::INTRINSIC);
+  if (convention == EulerConvention::Extrinsic) {
+    return eulerXYZToRotationMatrix(angles.reverse().eval(), EulerConvention::Intrinsic);
+  }
 
   // | r00 r01 r02 |   |  cy*cz  cz*sx*sy-cx*sz  cx*cz*sy+sx*sz |
   // | r10 r11 r12 | = |  cy*sz  cx*cz+sx*sy*sz -cz*sx+cx*sy*sz |

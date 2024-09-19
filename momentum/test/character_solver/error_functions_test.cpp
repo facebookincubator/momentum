@@ -61,7 +61,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
 
   {
     SCOPED_TRACE("Limit MinMax Test");
-    lm[0].type = MINMAX;
+    lm[0].type = MinMax;
     lm[0].weight = 1.0;
     lm[0].data.minMax.limits = Vector2f(-0.1, 0.1);
     lm[0].data.minMax.parameterIndex = 0;
@@ -82,7 +82,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
 
   {
     SCOPED_TRACE("Limit MinMax Joint Test");
-    lm[0].type = MINMAX_JOINT;
+    lm[0].type = MinMaxJoint;
     lm[0].weight = 1.0;
     lm[0].data.minMaxJoint.limits = Vector2f(-0.1, 0.1);
     lm[0].data.minMaxJoint.jointIndex = 2;
@@ -104,7 +104,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
 
   {
     SCOPED_TRACE("Limit LinearTest");
-    lm[0].type = LINEAR;
+    lm[0].type = Linear;
     lm[0].weight = 1.0;
     lm[0].data.linear.referenceIndex = 0;
     lm[0].data.linear.targetIndex = 5;
@@ -413,20 +413,20 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
         0.25 * VectorX<T>::Random(character_orig.parameterTransform.numAllModelParameters());
 
     for (VertexConstraintType type :
-         {VertexConstraintType::POSITION,
-          VertexConstraintType::PLANE,
-          VertexConstraintType::NORMAL,
-          VertexConstraintType::SYMMETRIC_NORMAL}) {
+         {VertexConstraintType::Position,
+          VertexConstraintType::Plane,
+          VertexConstraintType::Normal,
+          VertexConstraintType::SymmetricNormal}) {
       const T errorTol = [&]() {
         switch (type) {
-          case VertexConstraintType::POSITION:
-          case VertexConstraintType::PLANE:
+          case VertexConstraintType::Position:
+          case VertexConstraintType::Plane:
             return Eps<T>(5e-2f, 1e-5);
 
-          // TODO NORMAL constraints have a much higher epsilon than I'd prefer to see;
+          // TODO Normal constraints have a much higher epsilon than I'd prefer to see;
           // it would be good to dig into this.
-          case VertexConstraintType::NORMAL:
-          case VertexConstraintType::SYMMETRIC_NORMAL:
+          case VertexConstraintType::Normal:
+          case VertexConstraintType::SymmetricNormal:
             return Eps<T>(5e-2f, 5e-2);
 
           default:
@@ -462,13 +462,13 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
     const Character character_blend = withTestBlendShapes(createTestCharacter());
     const ModelParametersT<T> modelParams =
         0.25 * VectorX<T>::Random(character_blend.parameterTransform.numAllModelParameters());
-    // It's trickier to test NORMAL and SYMMETRIC_NORMAL constraints in the blend shape case because
+    // It's trickier to test Normal and SymmetricNormal constraints in the blend shape case because
     // the mesh normals are recomputed after blend shapes are applied (this is the only sensible
     // thing to do since the blend shapes can drastically change the shape) and thus the normals
     // depend on the blend shapes in a very complicated way that we aren't currently trying to
     // model.
     for (VertexConstraintType type :
-         {VertexConstraintType::POSITION, VertexConstraintType::PLANE}) {
+         {VertexConstraintType::Position, VertexConstraintType::Plane}) {
       VertexErrorFunctionT<T> errorFunction(character_blend, type);
       for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
         errorFunction.addConstraint(
@@ -503,8 +503,8 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexPositionErrorFunctionFaceParameter
     const ModelParametersT<T> modelParams =
         0.25 * VectorX<T>::Random(character_blend.parameterTransform.numAllModelParameters());
 
-    // TODO: Add PLANE, NORMAL and SYMMETRIC_NORMAL?
-    for (VertexConstraintType type : {VertexConstraintType::POSITION}) {
+    // TODO: Add Plane, Normal and SymmetricNormal?
+    for (VertexConstraintType type : {VertexConstraintType::Position}) {
       VertexErrorFunctionT<T> errorFunction(character_blend, type);
       for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
         errorFunction.addConstraint(
@@ -534,8 +534,8 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexPositionErrorFunctionFaceParameter
     const ModelParametersT<T> modelParams =
         0.25 * VectorX<T>::Random(character_blend.parameterTransform.numAllModelParameters());
 
-    // TODO: Add PLANE, NORMAL and SYMMETRIC_NORMAL?
-    for (VertexConstraintType type : {VertexConstraintType::POSITION}) {
+    // TODO: Add Plane, Normal and SymmetricNormal?
+    for (VertexConstraintType type : {VertexConstraintType::Position}) {
       VertexErrorFunctionT<T> errorFunction(character_blend, type);
       for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
         errorFunction.addConstraint(

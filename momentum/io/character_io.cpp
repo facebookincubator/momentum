@@ -30,38 +30,42 @@ namespace {
 /// @return The parsed CharacterFormat enumeration value.
 [[nodiscard]] CharacterFormat parseCharacterFormat(const filesystem::path& filepath) noexcept {
   std::string ext = filepath.extension().string();
-  if (ext.empty())
-    return CharacterFormat::UNKNOWN;
+  if (ext.empty()) {
+    return CharacterFormat::Unknown;
+  }
 
   std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-  if ((ext == ".glb") || (ext == ".gltf"))
-    return CharacterFormat::GLTF;
-  else if (ext == ".fbx")
-    return CharacterFormat::FBX;
-  else
-    return CharacterFormat::UNKNOWN;
+  if ((ext == ".glb") || (ext == ".gltf")) {
+    return CharacterFormat::Gltf;
+  } else if (ext == ".fbx") {
+    return CharacterFormat::Fbx;
+  } else {
+    return CharacterFormat::Unknown;
+  }
 }
 
 [[nodiscard]] std::optional<Character> loadCharacterByFormat(
     const CharacterFormat format,
     const filesystem::path& filepath) {
-  if (format == CharacterFormat::GLTF)
+  if (format == CharacterFormat::Gltf) {
     return loadGltfCharacter(filepath);
-  else if (format == CharacterFormat::FBX)
+  } else if (format == CharacterFormat::Fbx) {
     return loadOpenFbxCharacter(filepath, true);
-  else
+  } else {
     return {};
+  }
 }
 
 [[nodiscard]] std::optional<Character> loadCharacterByFormatFromBuffer(
     const CharacterFormat format,
     const gsl::span<const std::byte> fileBuffer) {
-  if (format == CharacterFormat::GLTF)
+  if (format == CharacterFormat::Gltf) {
     return loadGltfCharacter(fileBuffer);
-  else if (format == CharacterFormat::FBX)
+  } else if (format == CharacterFormat::Fbx) {
     return loadOpenFbxCharacter(fileBuffer, true);
-  else
+  } else {
     return {};
+  }
 }
 
 } // namespace
@@ -73,7 +77,7 @@ Character loadFullCharacter(
   // Parse format
   const auto format = parseCharacterFormat(characterPath);
   MT_THROW_IF(
-      format == CharacterFormat::UNKNOWN, "UNKNOWN character format for path: {}", characterPath);
+      format == CharacterFormat::Unknown, "Unknown character format for path: {}", characterPath);
 
   // Load character
   auto character = loadCharacterByFormat(format, characterPath);

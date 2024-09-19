@@ -15,7 +15,7 @@ enum class UpVector {
   X = 0, ///< X-axis up vector
   Y, ///< Y-axis up vector
   Z, ///< Z-axis up vector
-  Y_NEG, ///< Negative Y-axis up vector
+  YNeg, ///< Negative Y-axis up vector
 };
 
 /// An enumeration representing the units of measurement used in marker data files.
@@ -24,7 +24,7 @@ enum class Unit {
   DM, ///< Decimeter
   CM, ///< Centimeters
   MM, ///< Millimeters
-  UNKNOWN, ///< Unknown unit of measurement
+  Unknown, ///< Unknown unit of measurement
 };
 
 } // namespace momentum

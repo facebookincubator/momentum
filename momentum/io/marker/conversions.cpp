@@ -23,7 +23,7 @@ Unit toUnit(const std::string& unitStr) {
   } else if (unitStr == "mm" || unitStr == "MM") {
     return Unit::MM;
   } else {
-    return Unit::UNKNOWN;
+    return Unit::Unknown;
   }
 }
 
@@ -37,7 +37,7 @@ Unit toUnit(const std::string& unitStr) {
       return "cm";
     case Unit::MM:
       return "mm";
-    case Unit::UNKNOWN:
+    case Unit::Unknown:
     default:
       return "unknown";
   }
@@ -62,7 +62,7 @@ Vector3<T> toMomentumVector3(const Vector3<T>& vec, UpVector up, Unit unit) {
     case Unit::MM: // Millimeters
       vec_in_cm = vec * (T)0.1;
       break;
-    case Unit::UNKNOWN: // Unknown units, default to centimeters
+    case Unit::Unknown: // Unknown units, default to centimeters
       MT_LOGE(
           "{}: Unknown unit '{}' found in the file. Use centimeters instead.",
           __func__,
@@ -86,7 +86,7 @@ Vector3<T> toMomentumVector3(const Vector3<T>& vec, UpVector up, Unit unit) {
     case UpVector::Z: // Z-up
       vec_in_momentum = vec_in_cm;
       break;
-    case UpVector::Y_NEG: // Negative Y-up
+    case UpVector::YNeg: // Negative Y-up
       vec_in_momentum = Vector3<T>(vec_in_cm.x(), -vec_in_cm.z(), vec_in_cm.y());
       break;
     default:

@@ -754,8 +754,10 @@ void saveDocument(
     const GltfFileFormat fileFormat) {
   // save model
   auto deducedFileFormat = fileFormat;
-  if (fileFormat == GltfFileFormat::EXTENSION && filename.extension() == filesystem::path(".gltf"))
-    deducedFileFormat = GltfFileFormat::GLTF_ASCII;
+  if (fileFormat == GltfFileFormat::Extension &&
+      filename.extension() == filesystem::path(".gltf")) {
+    deducedFileFormat = GltfFileFormat::GltfAscii;
+  }
 
   try {
     // Check if the parent directory of the file exists. If the parent directory does not exist
@@ -768,7 +770,7 @@ void saveDocument(
     }
 
     switch (deducedFileFormat) {
-      case GltfFileFormat::GLTF_ASCII: {
+      case GltfFileFormat::GltfAscii: {
         // we can't embed binary if we writing to ascii format.
         // so we need to provide exported with a uri name relative to json root.
         filesystem::path new_filename = filename;
@@ -782,9 +784,9 @@ void saveDocument(
         fx::gltf::Save(model, filename.string(), false);
         break;
       }
-      case GltfFileFormat::EXTENSION:
+      case GltfFileFormat::Extension:
         [[fallthrough]];
-      case GltfFileFormat::GLTF_BINARY:
+      case GltfFileFormat::GltfBinary:
         fx::gltf::Save(model, filename.string(), true);
         break;
     }
@@ -995,7 +997,7 @@ void GltfBuilder::addMarkerSequence(
 
 void GltfBuilder::save(
     const filesystem::path& filename,
-    const GltfFileFormat fileFormat /*= GltfFileFormat::EXTENSION*/,
+    const GltfFileFormat fileFormat /*= GltfFileFormat::Extension*/,
     bool embedResources /*= false*/) {
   GltfBuilder::save(impl_->document, filename, fileFormat, embedResources);
 }
@@ -1017,7 +1019,7 @@ void GltfBuilder::forceEmbedResources() {
 void GltfBuilder::save(
     fx::gltf::Document& document,
     const filesystem::path& filename,
-    const GltfFileFormat fileFormat /*= GltfFileFormat::EXTENSION*/,
+    const GltfFileFormat fileFormat /*= GltfFileFormat::Extension*/,
     bool embedResources /*= false*/) {
   if (embedResources) {
     forceEmbedResources(document);

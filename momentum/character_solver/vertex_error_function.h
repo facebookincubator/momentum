@@ -33,10 +33,10 @@ struct VertexConstraintT {
 };
 
 enum class VertexConstraintType {
-  POSITION, // Target the vertex position
-  PLANE, // point-to-plane distance using the target normal
-  NORMAL, // point-to-plane distance using the source (body) normal
-  SYMMETRIC_NORMAL, // Point-to-plane using a 50/50 mix of source and target normal
+  Position, // Target the vertex position
+  Plane, // point-to-plane distance using the target normal
+  Normal, // point-to-plane distance using the source (body) normal
+  SymmetricNormal, // Point-to-plane using a 50/50 mix of source and target normal
 };
 
 [[nodiscard]] std::string_view toString(VertexConstraintType type);
@@ -44,9 +44,9 @@ enum class VertexConstraintType {
 template <typename T>
 class VertexErrorFunctionT : public SkeletonErrorFunctionT<T> {
  public:
-  VertexErrorFunctionT(
+  explicit VertexErrorFunctionT(
       const Character& character,
-      VertexConstraintType type = VertexConstraintType::POSITION);
+      VertexConstraintType type = VertexConstraintType::Position);
   virtual ~VertexErrorFunctionT() override;
 
   [[nodiscard]] double getError(const ModelParametersT<T>& params, const SkeletonStateT<T>& state)

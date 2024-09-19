@@ -126,7 +126,7 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
       ::fbxsdk::FbxVector4 vec;
       vec = node->GetPreRotation(::fbxsdk::FbxNode::eSourcePivot);
       joint.preRotation = eulerToQuaternion<float>(
-          Vector3f(vec[0], vec[1], vec[2]) * toRad(), 0, 1, 2, EulerConvention::EXTRINSIC);
+          Vector3f(vec[0], vec[1], vec[2]) * toRad(), 0, 1, 2, EulerConvention::Extrinsic);
 
       vec = node->GetPostRotation(::fbxsdk::FbxNode::eSourcePivot);
       MT_THROW_IF(
@@ -473,7 +473,7 @@ void createCollisionGeometryNodes(
         collision.transformation.translation().y(),
         collision.transformation.translation().z()));
     const Vector3f rot = rotationMatrixToEulerXYZ<float>(
-        collision.transformation.rotation(), EulerConvention::EXTRINSIC);
+        collision.transformation.rotation(), EulerConvention::Extrinsic);
     collisionNode->LclRotation.Set(FbxDouble3(toDeg(rot.x()), toDeg(rot.y()), toDeg(rot.z())));
     collisionNode->LclScaling.Set(FbxDouble3(1));
 

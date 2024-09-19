@@ -169,7 +169,7 @@ std::tuple<Mesh, SkinWeights> createDefaultMesh() {
 
 ParameterLimits createDefaultParameterLimits() {
   ParameterLimits lm(1);
-  lm[0].type = MINMAX;
+  lm[0].type = MinMax;
   lm[0].weight = 1.0f;
   lm[0].data.minMax.limits = Vector2f(-0.1, 0.1);
   lm[0].data.minMax.parameterIndex = 0;

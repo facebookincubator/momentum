@@ -101,7 +101,7 @@ void saveCharacter(
     const MotionParameters& motion = {},
     const IdentityParameters& offsets = {},
     const std::vector<std::vector<Marker>>& markerSequence = {},
-    GltfFileFormat fileFormat = GltfFileFormat::EXTENSION);
+    GltfFileFormat fileFormat = GltfFileFormat::Extension);
 
 /// Saves character skeleton states to a glb file.
 ///
@@ -113,6 +113,6 @@ void saveCharacter(
     float fps,
     gsl::span<const SkeletonState> skeletonStates,
     const std::vector<std::vector<Marker>>& markerSequence = {},
-    GltfFileFormat fileFormat = GltfFileFormat::EXTENSION);
+    GltfFileFormat fileFormat = GltfFileFormat::Extension);
 
 } // namespace momentum
