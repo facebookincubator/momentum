@@ -11,7 +11,7 @@ repository = "https://github.com/facebookincubator/momentum"
 
 [build-dependencies]
 boost = ">=1.84.0,<1.85"
-cmake = ">=3.23"
+cmake = "<3.25"
 c-compiler = "1.7.0.*"
 cxx-compiler = "1.7.0.*"
 gtest = ">=1.15.2,<2"
@@ -44,7 +44,7 @@ spdlog = ">=1.12.0,<1.13"
 [tasks]
 clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
 configure = { cmd = "cmake -S . -B build -G Ninja -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON -DMOMENTUM_USE_SYSTEM_PYBIND11=ON -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON -DMOMENTUM_BUILD_TESTING=ON -DMOMENTUM_BUILD_EXAMPLES=ON -DMOMENTUM_BUILD_PYMOMENTUM=ON", inputs = [
-    "CMakeLists.txt",
+    "**/CMakeLists.txt",
 ] }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
     "configure",
@@ -68,10 +68,23 @@ install = { cmd = "cmake --build build -j --target install", depends_on = [
 
 [target.linux-64.build-dependencies]
 clang-format-18 = ">=18.1.2,<19"
+c-compiler = "1.5.0.*"
+cxx-compiler = "1.5.0.*"
+gcc = "<=11"
 
 [target.linux-64.dependencies]
-pytorch = { version = "2.4.0", build = "py3.10_cuda12.1_cudnn9.1.0_0", channel = "pytorch" }
-
+cuda-toolkit = ">=11.8.0,<12"
+cuda-compiler = ">=11.8.0,<12"
+cuda-nvcc = ">=11.8.0,<12"
+cuda-nsight = ">=11.8.0,<12"
+cuda-nvdisasm = ">=11.8.0,<12"
+cuda-nvml-dev = ">=11.8.0,<12"
+pytorch-cuda = ">=11.8.0,<12"
+cuda-nvprof = ">=11.8.0,<12"
+cuda-nvprune = ">=11.8.0,<12"
+cuda-nvrtc = ">=11.8.0,<12"
+cuda-nvrtc-dev = ">=11.8.0,<12"
+pytorch = { version = "2.4.1", build = "py3.10_cuda11.8_cudnn9.1.0_0", channel = "pytorch" }
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]

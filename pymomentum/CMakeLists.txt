@@ -22,7 +22,10 @@ find_package(Torch CONFIG REQUIRED
 
 find_library(torch_python
   NAMES torch_python
-  HINTS $ENV{CONDA_PREFIX}/lib/python3.12/site-packages/torch/lib/
+  HINTS
+    $ENV{CONDA_PREFIX}/lib/python3.10/site-packages/torch/lib/
+    $ENV{CONDA_PREFIX}/lib/python3.11/site-packages/torch/lib/
+    $ENV{CONDA_PREFIX}/lib/python3.12/site-packages/torch/lib/
   REQUIRED
 )
 
