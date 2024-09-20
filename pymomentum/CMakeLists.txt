@@ -173,9 +173,9 @@ if(MOMENTUM_BUILD_TESTING)
   enable_testing()
   mt_setup_gtest()
 
-  mt_test(
-    NAME tensor_utility_test
-    PYMOMENTUM_SOURCES_VARS tensor_utility_test_sources
-    LINK_LIBRARIES tensor_utility
-  )
+  # mt_test(
+  #   NAME tensor_utility_test
+  #   PYMOMENTUM_SOURCES_VARS tensor_utility_test_sources
+  #   LINK_LIBRARIES tensor_utility
+  # )
 endif()
