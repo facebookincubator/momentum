@@ -54,9 +54,9 @@ class CMakeBuild(build_ext):
             (f"-DMOMENTUM_ENABLE_SIMD="
             f"{os.environ.get('MOMENTUM_ENABLE_SIMD', 'ON')}"),
             (f"-DMOMENTUM_USE_SYSTEM_GOOGLETEST="
-            f"{os.environ.get('MOMENTUM_USE_SYSTEM_GOOGLETEST', 'ON')}"),
+            f"{os.environ.get('MOMENTUM_USE_SYSTEM_GOOGLETEST', 'OFF')}"),
             (f"-DMOMENTUM_USE_SYSTEM_PYBIND11="
-            f"{os.environ.get('MOMENTUM_USE_SYSTEM_PYBIND11', 'ON')}"),
+            f"{os.environ.get('MOMENTUM_USE_SYSTEM_PYBIND11', 'OFF')}"),
             (f"-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK="
             f"{os.environ.get('MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK', 'ON')}"),
             f"-DPYTHON_EXECUTABLE={sys.executable}",
