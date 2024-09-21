@@ -117,8 +117,8 @@ mt_library(
   HEADERS_VARS common_public_headers
   SOURCES_VARS common_sources
   PUBLIC_LINK_LIBRARIES
-    fmt::fmt
-    spdlog::spdlog
+    fmt::fmt_header_only
+    spdlog::spdlog_header_only
   PUBLIC_COMPILE_DEFINITIONS
     MOMENTUM_WITH_SPDLOG=1
 )

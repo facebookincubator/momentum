@@ -40,6 +40,9 @@ find_library(torch_python
   REQUIRED
 )
 # return()
+
+message("[DEBUG] TORCH_CXX_FLAGS: ${TORCH_CXX_FLAGS}")
+
 #===============================================================================
 # Find build dependencies
 #===============================================================================
