@@ -13,8 +13,8 @@ on:
       - "**/website/**"
 
 jobs:
-  build:
-    name: win
+  momentum:
+    name: momentum-win
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -36,3 +36,16 @@ jobs:
             --build momentum/examples/hello_world/build `
             --config Release `
             --parallel
+  pymomentum:
+    name: pymomentum-win
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          cache: true
+      - name: Build PyMomentum
+        run: |
+          pixi run test_pymomentum
