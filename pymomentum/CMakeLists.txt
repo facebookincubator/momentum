@@ -8,7 +8,15 @@
 #===============================================================================
 
 # find_package(CUDAToolkit REQUIRED)
+# if(NOT TARGET CUDA::nvToolsExt)
+#   message(FATAL_ERROR "[DEBUG] Failed to find nvToolsExt")
+# endif()
 # return()
+
+message("[DEBUG] CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
+
+set(ENV{NVTOOLSEXT_PATH} "/home/js/dev/momentum/main/.pixi/envs/default/include")
+message("[DEBUG] ENV{NVTOOLSEXT_PATH}   : $ENV{NVTOOLSEXT_PATH}")
 
 find_package(ATen CONFIG REQUIRED
   HINTS
@@ -31,7 +39,7 @@ find_library(torch_python
     $ENV{CONDA_PREFIX}/lib/python3.12/site-packages/torch/lib/
   REQUIRED
 )
-return()
+# return()
 #===============================================================================
 # Find build dependencies
 #===============================================================================

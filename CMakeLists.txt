@@ -11,6 +11,8 @@ endif()
 
 project(momentum)
 
+add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 # Print intro
