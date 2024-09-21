@@ -45,20 +45,32 @@ class CMakeBuild(build_ext):
             f"-DCMAKE_BUILD_TYPE={cfg}",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
             f"-DBUILD_SHARED_LIBS=OFF",
-            f"-DMOMENTUM_BUILD_EXAMPLES={os.environ.get(
-                'MOMENTUM_BUILD_EXAMPLES', 'OFF')}",
+            (
+                f"-DMOMENTUM_BUILD_EXAMPLES="
+                f"{os.environ.get('MOMENTUM_BUILD_EXAMPLES', 'OFF')}"
+            ),
             f"-DMOMENTUM_BUILD_PYMOMENTUM=ON",
             # TODO: OFF when pym.geometry doesn't depend on testing
-            f"-DMOMENTUM_BUILD_TESTING={os.environ.get(
-                'MOMENTUM_BUILD_TESTING', 'ON')}",
-            f"-DMOMENTUM_ENABLE_SIMD={os.environ.get(
-                'MOMENTUM_ENABLE_SIMD', 'ON')}",
-            f"-DMOMENTUM_USE_SYSTEM_GOOGLETEST={os.environ.get(
-                'MOMENTUM_USE_SYSTEM_GOOGLETEST', 'ON')}",
-            f"-DMOMENTUM_USE_SYSTEM_PYBIND11={os.environ.get(
-                'MOMENTUM_USE_SYSTEM_PYBIND11', 'ON')}",
-            f"-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK={os.environ.get(
-                'MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK', 'ON')}",
+            (
+                f"-DMOMENTUM_BUILD_TESTING="
+                f"{os.environ.get('MOMENTUM_BUILD_TESTING', 'ON')}"
+            ),
+            (
+                f"-DMOMENTUM_ENABLE_SIMD="
+                f"{os.environ.get('MOMENTUM_ENABLE_SIMD', 'ON')}"
+            ),
+            (
+                f"-DMOMENTUM_USE_SYSTEM_GOOGLETEST="
+                f"{os.environ.get('MOMENTUM_USE_SYSTEM_GOOGLETEST', 'ON')}"
+            ),
+            (
+                f"-DMOMENTUM_USE_SYSTEM_PYBIND11="
+                f"{os.environ.get('MOMENTUM_USE_SYSTEM_PYBIND11', 'ON')}"
+            ),
+            (
+                f"-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK="
+                f"{os.environ.get('MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK', 'ON')}"
+            ),
             f"-DPYTHON_EXECUTABLE={sys.executable}",
         ]
         build_args = ["--target", os.path.basename(ext.name)]
