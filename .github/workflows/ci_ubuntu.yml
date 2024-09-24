@@ -41,7 +41,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pixi_env: ["cpu"]  # TODO: Add gpu
+        include:
+          - pixi_env: "cpu"
+          - pixi_env: "gpu"
+            cuda_version: "12.0.1"
+    env:
+      FULL_CUDA_VERSION: ${{ matrix.cuda_version }}
     steps:
       - name: Maximize build space
         if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
@@ -62,12 +67,18 @@ jobs:
         uses: Jimver/cuda-toolkit@v0.2.17
         id: cuda-toolkit
         with:
-          cuda: "12.0.1"
+          # Available versions: https://github.com/Jimver/cuda-toolkit/blob/v0.2.17/src/links/linux-links.ts
+          cuda: ${{ matrix.cuda_version }}
 
       - name: Check CUDA Version
         if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
         run: |
           nvcc --version
+
+      - name: Set Conda environment variables
+        if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
+        run: |
+          echo "CONDA_OVERRIDE_CUDA=$(echo $FULL_CUDA_VERSION | cut -d'.' -f1)" >> $GITHUB_ENV
 
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
