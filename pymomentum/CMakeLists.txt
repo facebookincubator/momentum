@@ -7,12 +7,22 @@
 # Find dependencies
 #===============================================================================
 
-find_package(ATen CONFIG REQUIRED)
-find_package(Torch CONFIG REQUIRED)
+set(ENV{NVTOOLSEXT_PATH} "$ENV{CONDA_PREFIX}/include")
+
+find_package(ATen CONFIG REQUIRED
+  HINTS
+    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
+)
+
+find_package(Torch CONFIG REQUIRED
+  HINTS
+    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
+)
 
 find_library(torch_python
   NAMES torch_python
-  HINTS $ENV{CONDA_PREFIX}/lib/python3.12/site-packages/torch/lib/
+  HINTS
+    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/lib/
   REQUIRED
 )
 
