@@ -94,6 +94,16 @@ int main(int argc, char* argv[]) {
     const auto kHasCharacterMotion = nFrames > 0;
     auto fps = cFps;
 
+    // Special case when we want to view the template with no motion
+    if (nFrames == 0) {
+      CharacterParameters param;
+      param.pose = Eigen::VectorXf::Zero(character.parameterTransform.numAllModelParameters());
+      CharacterState charState(
+          param, character, true /*updateMesh*/, true /*updateCollision*/, false /*applyLimits*/);
+      logCharacter(rec, "world/character", character, charState);
+      return EXIT_SUCCESS;
+    }
+
     const std::vector<std::string> modelParamNames = character.parameterTransform.name;
     const std::vector<std::string> jointNames = character.skeleton.getJointNames();
 
