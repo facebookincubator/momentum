@@ -36,7 +36,10 @@ CollisionErrorFunctionStatelessT<T>::CollisionErrorFunctionStatelessT(
     : CollisionErrorFunctionStatelessT(
           character.skeleton,
           character.parameterTransform,
-          *character.collision) {
+          character.collision
+              ? *character.collision
+              : throw std::invalid_argument(
+                    "Attempting to create collision error function with a character that has no collision geometries")) {
   // Do nothing
 }
 
