@@ -33,11 +33,8 @@ ParameterSet ParameterTransformT<T>::getParameterSet(
     bool allowMissing) const {
   const auto itr = this->parameterSets.find(parameterSetName);
   if (itr == this->parameterSets.end()) {
-    if (allowMissing) {
-      return ParameterSet{};
-    }
-
-    MT_THROW("Missing parameter set: {}", parameterSetName);
+    MT_THROW_IF(!allowMissing, "Missing parameter set: {}", parameterSetName);
+    return ParameterSet{};
   }
   return itr->second;
 }
