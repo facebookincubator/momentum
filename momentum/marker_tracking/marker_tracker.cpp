@@ -84,6 +84,9 @@ Eigen::MatrixXf trackSequence(
   // add per-frame constraint data to the solver
   for (size_t iFrame = 0, solverFrame = 0; iFrame < numFrames;
        iFrame += frameStride, ++solverFrame) {
+    if (iFrame >= initialMotion.cols()) {
+      break;
+    }
     if (constrData.at(iFrame).size() > numMarkers * config.minVisPercent) {
       // prepare positional constraints
       auto posConstrFunc = std::make_shared<PositionErrorFunction>(character, config.lossAlpha);
@@ -92,11 +95,13 @@ Eigen::MatrixXf trackSequence(
       solverFunc.addErrorFunction(solverFrame, posConstrFunc);
 
       // prepare floor constraints
-      auto halfPlaneConstrFunc =
-          std::make_shared<PlaneErrorFunction>(character, /*half plane*/ true);
-      halfPlaneConstrFunc->setConstraints(floorConstraints);
-      halfPlaneConstrFunc->setWeight(PlaneErrorFunction::kLegacyWeight);
-      solverFunc.addErrorFunction(solverFrame, halfPlaneConstrFunc);
+      if (!floorConstraints.empty()) {
+        auto halfPlaneConstrFunc =
+            std::make_shared<PlaneErrorFunction>(character, /*half plane*/ true);
+        halfPlaneConstrFunc->setConstraints(floorConstraints);
+        halfPlaneConstrFunc->setWeight(PlaneErrorFunction::kLegacyWeight);
+        solverFunc.addErrorFunction(solverFrame, halfPlaneConstrFunc);
+      }
     }
     // Set per-frame initial value
     solverFunc.setFrameParameters(solverFrame, initialMotion.col(iFrame));
@@ -107,15 +112,19 @@ Eigen::MatrixXf trackSequence(
   limitConstrFunc->setWeight(0.1);
   solverFunc.addErrorFunction(kAllFrames, limitConstrFunc);
 
-  // add collision error; the weight could be zero (disabled)
-  auto collisionConstrFunc = std::make_shared<CollisionErrorFunctionStateless>(character);
-  collisionConstrFunc->setWeight(config.collisionErrorWeight);
-  solverFunc.addErrorFunction(kAllFrames, collisionConstrFunc);
+  // add collision error
+  if (config.collisionErrorWeight != 0 && character.collision != nullptr) {
+    auto collisionConstrFunc = std::make_shared<CollisionErrorFunctionStateless>(character);
+    collisionConstrFunc->setWeight(config.collisionErrorWeight);
+    solverFunc.addErrorFunction(kAllFrames, collisionConstrFunc);
+  }
 
-  // add a smoothness constraint in parameter space; the weight could be zero (disabled)
-  auto smoothConstrFunc = std::make_shared<ModelParametersSequenceErrorFunction>(character);
-  smoothConstrFunc->setWeight(config.smoothing);
-  solverFunc.addSequenceErrorFunction(kAllFrames, smoothConstrFunc);
+  // add a smoothness constraint in parameter space
+  if (config.smoothing != 0) {
+    auto smoothConstrFunc = std::make_shared<ModelParametersSequenceErrorFunction>(character);
+    smoothConstrFunc->setWeight(config.smoothing);
+    solverFunc.addSequenceErrorFunction(kAllFrames, smoothConstrFunc);
+  }
 
   // minimize the change to global params
   if (globalParams.count() > 0 && regularizer != 0) {
@@ -234,9 +243,11 @@ Eigen::MatrixXf trackPosesPerframe(
   solverFunc.addErrorFunction(smoothConstrFunc.get());
 
   // add collision error
-  auto collisionErrorFunction = std::make_shared<CollisionErrorFunction>(character);
-  collisionErrorFunction->setWeight(config.collisionErrorWeight);
-  solverFunc.addErrorFunction(collisionErrorFunction.get());
+  if (config.collisionErrorWeight != 0 && character.collision != nullptr) {
+    auto collisionErrorFunction = std::make_shared<CollisionErrorFunction>(character);
+    collisionErrorFunction->setWeight(config.collisionErrorWeight);
+    solverFunc.addErrorFunction(collisionErrorFunction.get());
+  }
 
   MatrixXf motion(pt.numAllModelParameters(), numFrames);
   // initialze parameters to contain identity information
@@ -485,6 +496,12 @@ MatrixXf refineMotion(
     const MatrixXf& motion,
     const RefineConfig& config,
     momentum::Character& character) {
+  MT_CHECK(
+      markerData.size() == motion.cols(),
+      "markers and motion frames mismatch: {} != {}",
+      markerData.size(),
+      motion.cols());
+
   MatrixXf newMotion;
   const ParameterSet idParamSet = character.parameterTransform.getScalingParameters();
 
