@@ -1,1 +1,1 @@
-var searchData=[["normaldatat_1655",["NormalDataT",["../structmomentum_1_1NormalDataT.html",1,"momentum"]]],["normalerrorfunctiont_1656",["NormalErrorFunctionT",["../classmomentum_1_1NormalErrorFunctionT.html",1,"momentum"]]]];
+var searchData=[["normaldatat_1654",["NormalDataT",["../structmomentum_1_1NormalDataT.html",1,"momentum"]]],["normalerrorfunctiont_1655",["NormalErrorFunctionT",["../classmomentum_1_1NormalErrorFunctionT.html",1,"momentum"]]]];

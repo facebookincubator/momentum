@@ -1229,6 +1229,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6bcf70bfacfd155a7cb83946efa60d4d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#af3a3b5f2df84c8acf8d37df7f2eb9ee6">Vector3P</a>&lt; S &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a6bcf70bfacfd155a7cb83946efa60d4d">cross</a> (const <a class="el" href="namespacemomentum.html#af3a3b5f2df84c8acf8d37df7f2eb9ee6">Vector3P</a>&lt; S &gt; &amp;v1, const Eigen::MatrixBase&lt; Derived &gt; &amp;v2)</td></tr>
 <tr class="memdesc:a6bcf70bfacfd155a7cb83946efa60d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates cross product of Vector3P and Eigen::Vector3f.  <a href="namespacemomentum.html#a6bcf70bfacfd155a7cb83946efa60d4d">More...</a><br /></td></tr>
 <tr class="separator:a6bcf70bfacfd155a7cb83946efa60d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7abd59cb8c7664ef3483fecbcd33c68d"><td class="memTemplParams" colspan="2">template&lt;typename T  = float&gt; </td></tr>
+<tr class="memitem:a7abd59cb8c7664ef3483fecbcd33c68d"><td class="memTemplItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a7abd59cb8c7664ef3483fecbcd33c68d">nan</a> () noexcept</td></tr>
+<tr class="separator:a7abd59cb8c7664ef3483fecbcd33c68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a3afe859147839030e5b1ebf4bb021e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0a3afe859147839030e5b1ebf4bb021e"><td class="memTemplItemLeft" align="right" valign="top">constexpr T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0a3afe859147839030e5b1ebf4bb021e">Eps</a> (T FloatEps=T(1e-7), T DoubleEps=T(1e-16))</td></tr>
 <tr class="memdesc:a0a3afe859147839030e5b1ebf4bb021e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the tolerance value based on the provided type T.  <a href="namespacemomentum.html#a0a3afe859147839030e5b1ebf4bb021e">More...</a><br /></td></tr>
@@ -2097,8 +2100,6 @@ Variables</h2></td></tr>
 <tr class="separator:afec18b99aaa4556b1218116ca26df5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac966fa038c85b7384ba387e6a6334b40"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ac966fa038c85b7384ba387e6a6334b40">kInvalidIndex</a> = std::numeric_limits&lt;size_t&gt;::max()</td></tr>
 <tr class="separator:ac966fa038c85b7384ba387e6a6334b40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae074dd46fe353222ca79da1e8f00c5fc"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ae074dd46fe353222ca79da1e8f00c5fc">kFloatNan</a> = std::numeric_limits&lt;float&gt;::quiet_NaN()</td></tr>
-<tr class="separator:ae074dd46fe353222ca79da1e8f00c5fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5470b1a65954dbd823cdd5107c58c0ba"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a5470b1a65954dbd823cdd5107c58c0ba">kPositionWeight</a> = 1e-4f</td></tr>
 <tr class="separator:a5470b1a65954dbd823cdd5107c58c0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b47b8c684f633c3d64046a9d456d00e"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2b47b8c684f633c3d64046a9d456d00e">kAllFrames</a> = SIZE_MAX</td></tr>
@@ -13657,6 +13658,33 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a7abd59cb8c7664ef3483fecbcd33c68d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7abd59cb8c7664ef3483fecbcd33c68d">&#9670;&nbsp;</a></span>nan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T  = float&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr T momentum::nan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="adbb85e0689a03f64ef8564d27a4e3934"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adbb85e0689a03f64ef8564d27a4e3934">&#9670;&nbsp;</a></span>normal() <span class="overload">[1/4]</span></h2>
 
@@ -18394,28 +18422,6 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr float momentum::kDefaultExtrapolateMaxDelta = 0.4f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae074dd46fe353222ca79da1e8f00c5fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae074dd46fe353222ca79da1e8f00c5fc">&#9670;&nbsp;</a></span>kFloatNan</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr float momentum::kFloatNan = std::numeric_limits&lt;float&gt;::quiet_NaN()</td>
         </tr>
       </table>
   </td>
