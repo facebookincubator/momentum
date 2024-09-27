@@ -192,7 +192,4 @@ using IdentityParameters = std::tuple<std::vector<std::string>, Eigen::VectorXf>
 // define static kInvalidIndex for size_t
 inline constexpr size_t kInvalidIndex = std::numeric_limits<size_t>::max();
 
-// define INVALID float
-inline constexpr float kFloatNan = std::numeric_limits<float>::quiet_NaN();
-
 } // namespace momentum

@@ -7,9 +7,15 @@
 
 #pragma once
 
+#include <limits>
 #include <type_traits>
 
 namespace momentum {
+
+template <typename T = float>
+[[nodiscard]] constexpr T nan() noexcept {
+  return std::numeric_limits<T>::quiet_NaN();
+}
 
 /// Returns the tolerance value based on the provided type T
 template <typename T>
