@@ -58,7 +58,7 @@ ParameterTransformT<T> ParameterTransformT<T>::identity(gsl::span<const std::str
   const size_t nJoints = jointNames.size();
   const size_t nJointParameters = nJoints * kParametersPerJoint;
   result.offsets.setZero(nJointParameters);
-  result.activeJointParams.setOnes(nJointParameters);
+  result.activeJointParams.setConstant(nJointParameters, true);
   result.transform.resize(nJointParameters, nJointParameters);
   result.transform.setIdentity();
   result.name.resize(nJointParameters);
@@ -211,7 +211,7 @@ ParameterTransformT<T> mapParameterTransformJoints(
           mappedJoint * kParametersPerJoint + jOffset, static_cast<int>(it.col()), it.value()));
 
       // enable joint channels
-      mappedTransform.activeJointParams[mappedJoint * kParametersPerJoint + jOffset] = 1;
+      mappedTransform.activeJointParams[mappedJoint * kParametersPerJoint + jOffset] = true;
     }
   }
 
@@ -273,7 +273,7 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
         continue;
 
       tripletsNew.emplace_back((int)it.row(), (int)iNewParam, it.value());
-      paramTransformNew.activeJointParams[it.row()] = 1;
+      paramTransformNew.activeJointParams[it.row()] = true;
     }
   }
 
