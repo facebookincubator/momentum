@@ -574,3 +574,11 @@ animate_shapes_sources = [
 process_markers_app_sources = [
     "examples/process_markers_app/process_markers_app.cpp",
 ]
+
+#===========
+# Tutorials
+#===========
+
+forward_kinematics_sources = [
+    "tutorials/forward_kinematics/forward_kinematics.cpp",
+]
