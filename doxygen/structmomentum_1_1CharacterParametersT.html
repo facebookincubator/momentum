@@ -74,16 +74,27 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>A struct that encapsulates both pose and identity parameters for a character.  
+ <a href="structmomentum_1_1CharacterParametersT.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="character_2types_8h_source.html">types.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a5e1f39e527b2e8a39d166faa35c0c8bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1CharacterParametersT.html#a5e1f39e527b2e8a39d166faa35c0c8bd">pose</a></td></tr>
+<tr class="memdesc:a5e1f39e527b2e8a39d166faa35c0c8bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The model parameter vector representing the pose of the character.  <a href="structmomentum_1_1CharacterParametersT.html#a5e1f39e527b2e8a39d166faa35c0c8bd">More...</a><br /></td></tr>
 <tr class="separator:a5e1f39e527b2e8a39d166faa35c0c8bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11b608a996b975c09c15b7282f08c629"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1JointParametersT.html">JointParametersT</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1CharacterParametersT.html#a11b608a996b975c09c15b7282f08c629">offsets</a></td></tr>
+<tr class="memdesc:a11b608a996b975c09c15b7282f08c629"><td class="mdescLeft">&#160;</td><td class="mdescRight">The joint parameter vector representing the unique bone lengths of the character, defining the character's identity.  <a href="structmomentum_1_1CharacterParametersT.html#a11b608a996b975c09c15b7282f08c629">More...</a><br /></td></tr>
 <tr class="separator:a11b608a996b975c09c15b7282f08c629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct momentum::CharacterParametersT&lt; T &gt;</h3>
+
+<p>A struct that encapsulates both pose and identity parameters for a character. </p>
+<dl class="section note"><dt>Note</dt><dd>This structure implies, but does not enforce, that the pose vector should contain only pose information with identity-related elements set to zero. Similarly, the identity vector should exclusively contain bone length information, excluding any pose data. </dd></dl>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a11b608a996b975c09c15b7282f08c629"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11b608a996b975c09c15b7282f08c629">&#9670;&nbsp;</a></span>offsets</h2>
 
@@ -97,6 +108,9 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The joint parameter vector representing the unique bone lengths of the character, defining the character's identity. </p>
+<p>This vector should have a size of numSkeletonJoints * kParametersPerJoint. </p>
 
 </div>
 </div>
@@ -113,6 +127,9 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The model parameter vector representing the pose of the character. </p>
+<p>This vector should have a size of numModelParams. </p>
 
 </div>
 </div>
