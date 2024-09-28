@@ -61,21 +61,26 @@ template <typename T>
 struct ParameterTransformT {
   /// The list of model parameter names.
   std::vector<std::string> name;
+
   /// The sparse mapping matrix that maps model parameters to joint parameters.
   SparseRowMatrix<T> transform;
+
   /// @deprecated Constant offset factor for each joint.
   Eigen::VectorX<T> offsets;
+
   /// The list of joint *parameters* that are actually active and influenced from the transform.
   VectorX<bool> activeJointParams;
 
   /// Convenience grouping of model parameters.
   ParameterSets parameterSets;
+
   /// A set of predefined poses.
   PoseConstraints poseConstraints;
 
   /// The indices of the parameters that influence blend shapes; blendShapeParameters(0) is the
   /// parameter that controls the 0th blend shape, etc.
   VectorXi blendShapeParameters;
+
   /// The indices of the parameters that influence face expressions; faceExpressionParameters(0) is
   /// the parameter that controls the 0th face expression parameter, etc.
   VectorXi faceExpressionParameters;
@@ -83,6 +88,7 @@ struct ParameterTransformT {
   /// Return a ParameterTransform object with no model parameters. The model can still perform FK
   /// with JointParameters, but it does not have any degrees of freedom for IK.
   static ParameterTransformT<T> empty(size_t nJointParameters);
+
   /// Return a ParameterTransform object where the model parameters are identical to the joint
   /// parameters.
   static ParameterTransformT<T> identity(gsl::span<const std::string> jointNames);

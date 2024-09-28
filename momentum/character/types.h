@@ -163,13 +163,20 @@ using JointStateListT = std::vector<JointStateT<T>>;
 using JointStateList = JointStateListT<float>;
 using JointStateListd = JointStateListT<double>;
 
-// A struct containing the joint parameters that describe a pose + offsets for
-// a parameter transform
+/// A struct that encapsulates both pose and identity parameters for a character.
+///
+/// @note This structure implies, but does not enforce, that the pose vector should contain only
+/// pose information with identity-related elements set to zero. Similarly, the identity vector
+/// should exclusively contain bone length information, excluding any pose data.
 template <typename T>
 struct CharacterParametersT {
-  // A model parameter pose vector of size numModelParams
+  /// The model parameter vector representing the pose of the character. This vector should have a
+  /// size of numModelParams.
+
   ModelParametersT<T> pose;
-  // Joint parameter offset vector of size numSkeletonJoints * kParametersPerJoint
+  /// The joint parameter vector representing the unique bone lengths of the character, defining
+  /// the character's identity. This vector should have a size of numSkeletonJoints *
+  /// kParametersPerJoint.
   JointParametersT<T> offsets;
 };
 
