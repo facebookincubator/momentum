@@ -14,8 +14,14 @@ on:
 
 jobs:
   momentum:
-    name: momentum-ubuntu
+    name: momentum-simd${{ matrix.simd }}-ubuntu
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        simd: ["ON", "OFF"]
+    env:
+      MOMENTUM_ENABLE_SIMD: ${{ matrix.simd }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
