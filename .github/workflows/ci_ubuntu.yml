@@ -29,6 +29,10 @@ jobs:
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
+      - name: Configure
+        run: |
+          MOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+            pixi run configure
       - name: Build and test Momentum
         run: |
           pixi run test
