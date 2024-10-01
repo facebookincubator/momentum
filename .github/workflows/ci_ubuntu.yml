@@ -14,8 +14,18 @@ on:
 
 jobs:
   momentum:
-    name: momentum-ubuntu
+    name: momentum-simd:${{ matrix.simd }}-ubuntu
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - simd: "ON"
+            pymomentum: "ON"
+          - simd: "OFF"
+            pymomentum: "OFF"
+    env:
+      MOMENTUM_ENABLE_SIMD: ${{ matrix.simd }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,10 +35,14 @@ jobs:
           cache: true
       - name: Build and test Momentum
         run: |
-          pixi run test
+          MOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+            MOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+            pixi run test
       - name: Install Momentum and Build hello_world
         run: |
-          pixi run install
+          MOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+            MOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+            pixi run install
           pixi run cmake \
             -S momentum/examples/hello_world \
             -B momentum/examples/hello_world/build \

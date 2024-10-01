@@ -46,7 +46,19 @@ TEST(Momentum_ErrorFunctions, SimdNormalFunctionIsSame) {
   const ParameterTransform& transform = character.parameterTransform;
 
   SimdNormalConstraints cl_simd(&skeleton);
-  for (size_t nConstraints : {0, 1, 2, 5, 15}) {
+  const std::initializer_list<size_t> constraints = {
+      0ul,
+      1ul,
+      kAvxPacketSize - 1,
+      kAvxPacketSize,
+      kAvxPacketSize + 1,
+      kAvxPacketSize * 2,
+      kSimdPacketSize - 1,
+      kSimdPacketSize,
+      kSimdPacketSize + 1,
+      kSimdPacketSize * 2,
+      100ul};
+  for (size_t nConstraints : constraints) {
     const auto parameters = uniform<VectorXf>(transform.numAllModelParameters(), -0.5, 0.5);
 
     std::vector<NormalData> cl;
@@ -96,7 +108,19 @@ TEST(Momentum_ErrorFunctions, SimdPositionFunctionIsSame) {
   const ParameterTransform& transform = character.parameterTransform;
 
   SimdPositionConstraints cl_simd(&skeleton);
-  for (size_t nConstraints : {0, 1, 2, 5, 15}) {
+  const std::initializer_list<size_t> constraints = {
+      0ul,
+      1ul,
+      kAvxPacketSize - 1,
+      kAvxPacketSize,
+      kAvxPacketSize + 1,
+      kAvxPacketSize * 2,
+      kSimdPacketSize - 1,
+      kSimdPacketSize,
+      kSimdPacketSize + 1,
+      kSimdPacketSize * 2,
+      100ul};
+  for (size_t nConstraints : constraints) {
     if (verbose) {
       fmt::print("nConstraints: {}\n", nConstraints);
     }
@@ -150,7 +174,19 @@ TEST(Momentum_ErrorFunctions, SimdPlaneFunctionIsSame) {
   const ParameterTransform& transform = character.parameterTransform;
 
   SimdPlaneConstraints cl_simd(&skeleton);
-  for (size_t nConstraints : {0, 1, 2, 5, 15, 100}) {
+  const std::initializer_list<size_t> constraints = {
+      0ul,
+      1ul,
+      kAvxPacketSize - 1,
+      kAvxPacketSize,
+      kAvxPacketSize + 1,
+      kAvxPacketSize * 2,
+      kSimdPacketSize - 1,
+      kSimdPacketSize,
+      kSimdPacketSize + 1,
+      kSimdPacketSize * 2,
+      100ul};
+  for (size_t nConstraints : constraints) {
     const auto parameters = uniform<VectorXf>(transform.numAllModelParameters(), -0.5, 0.5);
 
     std::vector<PlaneData> cl;
@@ -202,7 +238,10 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, SimdCollisionErrorFunctionIsSame) {
 
   CollisionErrorFunctionT<T> errf_base(character);
   CollisionErrorFunctionStatelessT<T> errf_stateless(character);
+  // TODO: Fix this test for SIMD when MOMENTUM_ENABLE_SIMD=OFF
+#ifdef MOMENTUM_ENABLE_SIMD
   SimdCollisionErrorFunctionT<T> errf_simd(character);
+#endif
 
   const size_t nBendTests = 8;
   for (size_t iBendAmount = 4; iBendAmount < nBendTests; ++iBendAmount) {
@@ -221,11 +260,17 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, SimdCollisionErrorFunctionIsSame) {
 
     const double err_base = errf_base.getError(mp, skelState);
     const double err_stateless = errf_stateless.getError(mp, skelState);
+#ifdef MOMENTUM_ENABLE_SIMD
     const double err_simd = errf_simd.getError(mp, skelState);
+#endif
     ASSERT_NEAR(err_base, err_stateless, 0.0001 * err_base);
+#ifdef MOMENTUM_ENABLE_SIMD
     ASSERT_NEAR(err_base, err_simd, 0.0001 * err_base);
+#endif
     VALIDATE_IDENTICAL(T, errf_base, errf_stateless, skeleton, transform, mp.v);
+#ifdef MOMENTUM_ENABLE_SIMD
     VALIDATE_IDENTICAL(T, errf_base, errf_simd, skeleton, transform, mp.v);
+#endif
   }
 
   MT_LOGI("done.");

@@ -101,7 +101,7 @@ class SimdNormalErrorFunction : public SkeletonErrorFunction {
       Ref<VectorXf> residual,
       int& usedRows) override;
 
-  [[nodiscard]] size_t getJacobianSize() const final;
+  [[nodiscard]] size_t getJacobianSize() const override;
 
   void setConstraints(const SimdNormalConstraints* cstrs) {
     constraints_ = cstrs;
@@ -120,6 +120,7 @@ class SimdNormalErrorFunction : public SkeletonErrorFunction {
 };
 
 #ifdef MOMENTUM_ENABLE_AVX
+
 // A version of SimdNormalErrorFunction where the Jacobian has been hand-unrolled using
 // AVX instructions.  On some platforms this performs better than the generic SIMD version
 // but it only works on Intel platforms that support AVX.
@@ -141,7 +142,10 @@ class SimdNormalErrorFunctionAVX : public SimdNormalErrorFunction {
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,
       int& usedRows) final;
+
+  [[nodiscard]] size_t getJacobianSize() const final;
 };
+
 #endif // MOMENTUM_ENABLE_AVX
 
 } // namespace momentum
