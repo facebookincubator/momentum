@@ -27,28 +27,15 @@
 
 namespace momentum {
 
-namespace {
-
-template <typename Derived>
-void ensureAligned(const Eigen::MatrixBase<Derived>& mat, size_t& addressOffset) {
-  if (addressOffset == 8)
-    addressOffset = 0;
-  MT_CHECK(((uintptr_t)(&mat(addressOffset, 0))) % 32 == 0);
-}
-
-} // namespace
-
 SimdNormalConstraints::SimdNormalConstraints(const Skeleton* skel) {
-  constexpr uintptr_t kAlignment = 32;
-
   // resize all arrays to the number of joints
   MT_CHECK(skel->joints.size() <= kMaxJoints);
   numJoints = static_cast<int>(skel->joints.size());
   const auto dataSize = kMaxConstraints * numJoints;
-  MT_CHECK(dataSize % kAlignment == 0);
+  MT_CHECK(dataSize % kSimdAlignment == 0);
 
   // create memory for all floats
-  data = makeAlignedUnique<float, kAlignment>(dataSize * 10);
+  data = makeAlignedUnique<float, kSimdAlignment>(dataSize * 10);
   float* dataPtr = data.get();
 
   offsetX = dataPtr + dataSize * 0;
@@ -169,7 +156,7 @@ double SimdNormalErrorFunction::getError(
     }
   }
 
-  // sum the avx error register for final result
+  // sum the SIMD error register for final result
   return static_cast<float>(drjit::sum(error) * kPlaneWeight * weight_);
 }
 
@@ -310,9 +297,8 @@ double SimdNormalErrorFunction::getJacobian(
   // storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
 
-  // need to make sure we're actually at a 32 byte data offset at the first offset for avx access
-  size_t addressOffset = 8 - (((size_t)jacobian.data() % 32) / 4);
-  ensureAligned(jacobian, addressOffset);
+  // need to make sure we're actually at a 32 byte data offset at the first offset for SIMD access
+  checkAlignment<kSimdAlignment>(jacobian);
 
   // loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -413,7 +399,7 @@ double SimdNormalErrorFunction::getJacobian(
 
   usedRows = gsl::narrow_cast<int>(jacobian.rows());
 
-  // sum the avx error register for final result
+  // sum the SIMD error register for final result
   return static_cast<float>(error);
 }
 
@@ -426,11 +412,11 @@ size_t SimdNormalErrorFunction::getJacobianSize() const {
   size_t num = 0;
   for (int i = 0; i < constraints_->numJoints; i++) {
     jacobianOffset_[i] = num;
-    const auto numPackets =
-        (constraints_->constraintCount[i] + kSimdPacketSize - 1) / kSimdPacketSize;
+    const size_t count = constraints_->constraintCount[i];
+    const auto numPackets = (count + kSimdPacketSize - 1) / kSimdPacketSize;
     num += numPackets * kSimdPacketSize;
   }
-  return num + kSimdPacketSize;
+  return num;
 }
 
 #ifdef MOMENTUM_ENABLE_AVX
@@ -468,9 +454,8 @@ double SimdNormalErrorFunctionAVX::getJacobian(
   // storage for joint errors
   std::vector<double> ets_error;
 
-  // need to make sure we're actually at a 32 byte data offset at the first offset for avx access
-  size_t addressOffset = 8 - (((size_t)jacobian.data() % 32) / 4);
-  ensureAligned(jacobian, addressOffset);
+  // need to make sure we're actually at a 32 byte data offset at the first offset for AVX access
+  checkAlignment<kAvxAlignment>(jacobian);
 
   // loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -482,7 +467,7 @@ double SimdNormalErrorFunctionAVX::getJacobian(
       constraints_->numJoints,
       [&](double& error_local, const size_t jointId) {
         // get initial offset
-        const auto offset = jacobianOffset_[jointId] + addressOffset;
+        const auto offset = jacobianOffset_[jointId];
 
         // pre-load some joint specific values
         const auto& transformation = state.jointState[jointId].transformation;
@@ -497,9 +482,9 @@ double SimdNormalErrorFunctionAVX::getJacobian(
 
         const auto jointOffset = jointId * SimdNormalConstraints::kMaxConstraints;
 
-        // loop over all constraints in increments of 8
+        // loop over all constraints in increments of kAvxPacketSize
         const uint32_t count = constraints_->constraintCount[jointId];
-        for (uint32_t index = 0; index < count; index += 8) {
+        for (uint32_t index = 0; index < count; index += kAvxPacketSize) {
           // transform offset by joint transformation :           pos = transform * offset
           // also transform normal by transformation :            nml = (transform.linear() *
           // normal).normalized()
@@ -687,9 +672,26 @@ double SimdNormalErrorFunctionAVX::getJacobian(
 
   usedRows = gsl::narrow_cast<int>(jacobian.rows());
 
-  // sum the avx error register for final result
+  // sum the AVX error register for final result
   return static_cast<float>(error);
 }
+
+size_t SimdNormalErrorFunctionAVX::getJacobianSize() const {
+  if (constraints_ == nullptr) {
+    return 0;
+  }
+
+  jacobianOffset_.resize(constraints_->numJoints);
+  size_t num = 0;
+  for (int i = 0; i < constraints_->numJoints; i++) {
+    jacobianOffset_[i] = num;
+    const size_t count = constraints_->constraintCount[i];
+    const auto numPackets = (count + kAvxPacketSize - 1) / kAvxPacketSize;
+    num += numPackets * kAvxPacketSize;
+  }
+  return num;
+}
+
 #endif // MOMENTUM_ENABLE_AVX
 
 } // namespace momentum

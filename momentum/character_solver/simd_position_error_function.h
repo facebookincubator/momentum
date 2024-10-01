@@ -67,6 +67,9 @@ struct SimdPositionConstraints final {
 /// results may be produced on multiple calls with the same data.
 class SimdPositionErrorFunction : public SkeletonErrorFunction {
  public:
+  /// The dimensionality of each constraint.
+  static constexpr size_t kConstraintDim = 3;
+
   /// @param maxThreads An optional parameter that specifies the maximum number of threads to be
   /// used with dispenso::parallel_for. If this parameter is set to zero, the function will run in
   /// serial mode, i.e., it will not use any additional threads. By default, the value is set to the
@@ -98,7 +101,7 @@ class SimdPositionErrorFunction : public SkeletonErrorFunction {
       Ref<VectorXf> residual,
       int& usedRows) override;
 
-  [[nodiscard]] size_t getJacobianSize() const final;
+  [[nodiscard]] size_t getJacobianSize() const override;
 
   void setConstraints(const SimdPositionConstraints* cstrs);
 
@@ -143,6 +146,8 @@ class SimdPositionErrorFunctionAVX : public SimdPositionErrorFunction {
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,
       int& usedRows) final;
+
+  [[nodiscard]] size_t getJacobianSize() const final;
 };
 
 #endif // MOMENTUM_ENABLE_AVX

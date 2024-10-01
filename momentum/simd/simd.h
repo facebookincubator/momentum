@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <momentum/common/exception.h>
+
 #include <drjit/array.h>
 #include <drjit/array_router.h>
 #include <drjit/packet.h>
@@ -19,8 +21,11 @@
 
 namespace momentum {
 
+inline constexpr size_t kAvxPacketSize = 8;
+inline constexpr size_t kAvxAlignment = kAvxPacketSize * sizeof(float);
+
 inline constexpr size_t kSimdPacketSize = drjit::DefaultSize;
-inline constexpr size_t kSimdAlignment = kSimdPacketSize * 4;
+inline constexpr size_t kSimdAlignment = kSimdPacketSize * sizeof(float);
 
 template <typename T>
 using Packet = drjit::Packet<T, kSimdPacketSize>;
@@ -43,6 +48,18 @@ using Vector3fP = Vector3P<float>;
 
 using Vector2dP = Vector2P<double>;
 using Vector3dP = Vector3P<double>;
+
+/// Checks if the data of the matrix is aligned correctly.
+template <size_t Alignment>
+void checkAlignment(const Eigen::Ref<Eigen::MatrixXf>& mat) {
+  MT_THROW_IF(
+      (uintptr_t(mat.data())) % Alignment != 0,
+      "Matrix ({}x{}, ptr: {}) is not aligned ({}) correctly.",
+      mat.rows(),
+      mat.cols(),
+      uintptr_t(mat.data()),
+      Alignment);
+}
 
 /// Calculates dot product of Eigen::Vector3f and 3-vector of packets.
 ///

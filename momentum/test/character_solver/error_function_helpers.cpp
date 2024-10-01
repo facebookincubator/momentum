@@ -14,6 +14,7 @@
 #include "momentum/character_solver/skeleton_error_function.h"
 #include "momentum/common/log.h"
 #include "momentum/math/fmt_eigen.h"
+#include "momentum/simd/simd.h"
 
 namespace momentum {
 
@@ -224,7 +225,7 @@ void validateIdentical(
     const auto n = transform.numAllModelParameters();
     const size_t m1 = err1.getJacobianSize();
     const size_t m2 = err2.getJacobianSize();
-    EXPECT_LE(m1, m2); // SIMD pads out to a multiple of 8.
+    EXPECT_LE(m1, m2); // SIMD pads out to a multiple of kSimdPacketSize.
 
     Eigen::MatrixX<T> j1 = Eigen::MatrixX<T>::Zero(m1, n);
     Eigen::MatrixX<T> j2 = Eigen::MatrixX<T>::Zero(m2, n);
@@ -267,7 +268,8 @@ void timeJacobian(
     const ModelParameters& modelParams,
     const char* type) {
   const size_t jacobianSize = errorFunction.getJacobianSize();
-  const size_t paddedJacobianSize = jacobianSize + 8 - (jacobianSize % 8);
+  const size_t paddedJacobianSize =
+      jacobianSize + kSimdPacketSize - (jacobianSize % kSimdPacketSize);
   Eigen::MatrixXf jacobian = Eigen::MatrixXf::Zero(
       paddedJacobianSize, character.parameterTransform.numAllModelParameters());
   Eigen::VectorXf residual = Eigen::VectorXf::Zero(paddedJacobianSize);

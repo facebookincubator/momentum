@@ -26,28 +26,15 @@
 
 namespace momentum {
 
-namespace {
-
-template <typename Derived>
-void ensureAligned(const Eigen::MatrixBase<Derived>& mat, size_t& addressOffset) {
-  if (addressOffset == 8)
-    addressOffset = 0;
-  MT_CHECK(((uintptr_t)(&mat(addressOffset, 0))) % 32 == 0);
-}
-
-} // namespace
-
 SimdPositionConstraints::SimdPositionConstraints(const Skeleton* skel) {
-  constexpr uintptr_t kAlignment = 32;
-
   // resize all arrays to the number of joints
   MT_CHECK(skel->joints.size() <= kMaxJoints);
   numJoints = static_cast<int>(skel->joints.size());
   const auto dataSize = kMaxConstraints * numJoints;
-  MT_CHECK(dataSize % kAlignment == 0);
+  MT_CHECK(dataSize % kSimdAlignment == 0);
 
   // create memory for all floats
-  data = makeAlignedUnique<float, kAlignment>(dataSize * 7);
+  data = makeAlignedUnique<float, kSimdAlignment>(dataSize * 7);
   float* dataPtr = data.get();
 
   offsetX = dataPtr + dataSize * 0;
@@ -158,7 +145,7 @@ double SimdPositionErrorFunction::getError(
     }
   }
 
-  // Sum the AVX error register for final result
+  // Sum the SIMD error register for final result
   return static_cast<float>(drjit::sum(error) * kPositionWeight * weight_);
 }
 
@@ -173,9 +160,9 @@ double SimdPositionErrorFunction::getGradient(
   // Storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
 
-  // need to make sure we're actually at a 32 byte data offset at the first offset for AVX access
-  size_t addressOffset = 8 - (((size_t)gradient.data() % 32) / 4);
-  ensureAligned(gradient, addressOffset);
+  // Need to make sure we're actually at a kSimdAlignment byte data offset at the first offset for
+  // SIMD access
+  checkAlignment<kSimdAlignment>(gradient);
 
   // Loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -284,7 +271,7 @@ double SimdPositionErrorFunction::getGradient(
       },
       dispensoOptions);
 
-  // Sum the AVX error register for final result
+  // Sum the SIMD error register for final result
   const double error =
       kPositionWeight * weight_ * std::accumulate(jointErrors.begin(), jointErrors.end(), 0.0);
   return static_cast<float>(error);
@@ -325,9 +312,9 @@ double SimdPositionErrorFunction::getJacobian(
   // Storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
 
-  // Need to make sure we're actually at a 32 byte data offset at the first offset for avx access
-  size_t addressOffset = 8 - (((size_t)jacobian.data() % 32) / 4);
-  ensureAligned(jacobian, addressOffset);
+  // Need to make sure we're actually at a kSimdAlignment byte data offset at the first offset for
+  // SIMD access
+  checkAlignment<kSimdAlignment>(jacobian);
 
   // Loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -342,7 +329,7 @@ double SimdPositionErrorFunction::getJacobian(
 
         // Loop over all constraints in increments of kSimdPacketSize
         for (uint32_t index = 0, jindex = 0; index < constraintCount;
-             index += kSimdPacketSize, jindex += kSimdPacketSize * 3) {
+             index += kSimdPacketSize, jindex += kSimdPacketSize * kConstraintDim) {
           const auto constraintOffsetIndex =
               jointId * SimdPositionConstraints::kMaxConstraints + index;
           const auto jacobianOffsetCur = jacobianOffset_[jointId] + jindex;
@@ -480,7 +467,7 @@ double SimdPositionErrorFunction::getJacobian(
 
   usedRows = gsl::narrow_cast<int>(jacobian.rows());
 
-  // Sum the AVX error register for final result
+  // Sum the SIMD error register for final result
   const double error =
       kPositionWeight * weight_ * std::accumulate(jointErrors.begin(), jointErrors.end(), 0.0);
   return static_cast<float>(error);
@@ -498,12 +485,12 @@ size_t SimdPositionErrorFunction::getJacobianSize() const {
     const size_t count = constraints_->constraintCount[i];
     const size_t residual = count % kSimdPacketSize;
     if (residual != 0) {
-      num += (count + kSimdPacketSize - residual) * 3;
+      num += (count + kSimdPacketSize - residual) * kConstraintDim;
     } else {
-      num += count * kSimdPacketSize;
+      num += count * kConstraintDim;
     }
   }
-  return num + kSimdPacketSize;
+  return num;
 }
 
 void SimdPositionErrorFunction::setConstraints(const SimdPositionConstraints* cstrs) {
@@ -792,7 +779,7 @@ double SimdPositionErrorFunctionAVX::getGradient(
 
     // finalize the gradient
     gradient += std::get<1>(ets_error_grad[0]).cast<float>() * weight_;
-    // sum the avx error register for final result
+    // sum the AVX error register for final result
     error = std::get<0>(ets_error_grad[0]);
   }
 
@@ -814,8 +801,8 @@ double SimdPositionErrorFunctionAVX::getJacobian(
   // storage for joint errors
   std::vector<double> ets_error;
 
-  // need to make sure we're actually at a 32 byte data offset at the first offset for avx access
-  const size_t addressOffset = 8 - ((size_t)jacobian.data() % 32) / 4;
+  // need to make sure we're actually at a 32 byte data offset at the first offset for AVX access
+  checkAlignment<kAvxAlignment>(jacobian);
 
   // loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -827,7 +814,7 @@ double SimdPositionErrorFunctionAVX::getJacobian(
       constraints_->numJoints,
       [&](double& error_local, const size_t jointId) {
         // get initial offset
-        const auto offset = jacobianOffset_[jointId] + addressOffset;
+        const auto offset = jacobianOffset_[jointId];
 
         // pre-load some joint specific values
         const auto& transformation = state.jointState[jointId].transformation;
@@ -838,9 +825,10 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
         const auto jointOffset = jointId * SimdPositionConstraints::kMaxConstraints;
 
-        // loop over all constraints in increments of 8
+        // loop over all constraints in increments of kAvxPacketSize
         const uint32_t count = constraints_->constraintCount[jointId];
-        for (uint32_t index = 0, jindex = 0; index < count; index += 8, jindex += 24) {
+        for (uint32_t index = 0, jindex = 0; index < count;
+             index += kAvxPacketSize, jindex += kAvxPacketSize * kConstraintDim) {
           // transform offset by joint transformation :           pos = transform * offset
           const __m256 valx = _mm256_loadu_ps(&constraints_->offsetX[jointOffset + index]);
           posx = _mm256_mul_ps(valx, _mm256_broadcast_ss(&transformation.data()[0]));
@@ -920,19 +908,22 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
                   const __m256 pjacx = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacx);
                   auto* const addressx = &jacobian(
-                      offset + jindex + 0, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                      offset + jindex + kAvxPacketSize * 0,
+                      parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevx = _mm256_loadu_ps(addressx);
                   _mm256_storeu_ps(addressx, _mm256_add_ps(prevx, pjacx));
 
                   const __m256 pjacy = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacy);
                   auto* const addressy = &jacobian(
-                      offset + jindex + 8, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                      offset + jindex + kAvxPacketSize * 1,
+                      parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevy = _mm256_loadu_ps(addressy);
                   _mm256_storeu_ps(addressy, _mm256_add_ps(prevy, pjacy));
 
                   const __m256 pjacz = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacz);
                   auto* const addressz = &jacobian(
-                      offset + jindex + 16, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                      offset + jindex + kAvxPacketSize * 2,
+                      parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevz = _mm256_loadu_ps(addressz);
                   _mm256_storeu_ps(addressz, _mm256_add_ps(prevz, pjacz));
                 }
@@ -960,19 +951,22 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
                   const __m256 pjacx = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacx);
                   auto* const addressx = &jacobian(
-                      offset + jindex + 0, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                      offset + jindex + kAvxPacketSize * 0,
+                      parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevx = _mm256_loadu_ps(addressx);
                   _mm256_storeu_ps(addressx, _mm256_add_ps(prevx, pjacx));
 
                   const __m256 pjacy = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacy);
                   auto* const addressy = &jacobian(
-                      offset + jindex + 8, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                      offset + jindex + kAvxPacketSize * 1,
+                      parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevy = _mm256_loadu_ps(addressy);
                   _mm256_storeu_ps(addressy, _mm256_add_ps(prevy, pjacy));
 
                   const __m256 pjacz = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacz);
                   auto* const addressz = &jacobian(
-                      offset + jindex + 16, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                      offset + jindex + kAvxPacketSize * 2,
+                      parameterTransform_.transform.innerIndexPtr()[pIndex]);
                   const __m256 prevz = _mm256_loadu_ps(addressz);
                   _mm256_storeu_ps(addressz, _mm256_add_ps(prevz, pjacz));
                 }
@@ -995,19 +989,22 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
                 const __m256 pjacx = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacx);
                 auto* const addressx = &jacobian(
-                    offset + jindex + 0, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                    offset + jindex + kAvxPacketSize * 0,
+                    parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prevx = _mm256_loadu_ps(addressx);
                 _mm256_storeu_ps(addressx, _mm256_add_ps(prevx, pjacx));
 
                 const __m256 pjacy = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacy);
                 auto* const addressy = &jacobian(
-                    offset + jindex + 8, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                    offset + jindex + kAvxPacketSize * 1,
+                    parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prevy = _mm256_loadu_ps(addressy);
                 _mm256_storeu_ps(addressy, _mm256_add_ps(prevy, pjacy));
 
                 const __m256 pjacz = _mm256_mul_ps(_mm256_broadcast_ss(&pw), jacz);
                 auto* const addressz = &jacobian(
-                    offset + jindex + 16, parameterTransform_.transform.innerIndexPtr()[pIndex]);
+                    offset + jindex + kAvxPacketSize * 2,
+                    parameterTransform_.transform.innerIndexPtr()[pIndex]);
                 const __m256 prevz = _mm256_loadu_ps(addressz);
                 _mm256_storeu_ps(addressz, _mm256_add_ps(prevz, pjacz));
               }
@@ -1018,9 +1015,9 @@ double SimdPositionErrorFunctionAVX::getJacobian(
           }
 
           // store the residual
-          _mm256_storeu_ps(&residual(offset + jindex + 0), resx);
-          _mm256_storeu_ps(&residual(offset + jindex + 8), resy);
-          _mm256_storeu_ps(&residual(offset + jindex + 16), resz);
+          _mm256_storeu_ps(&residual(offset + jindex + kAvxPacketSize * 0), resx);
+          _mm256_storeu_ps(&residual(offset + jindex + kAvxPacketSize * 1), resy);
+          _mm256_storeu_ps(&residual(offset + jindex + kAvxPacketSize * 2), resz);
         }
       },
       dispensoOptions);
@@ -1029,8 +1026,28 @@ double SimdPositionErrorFunctionAVX::getJacobian(
 
   usedRows = gsl::narrow_cast<int>(jacobian.rows());
 
-  // sum the avx error register for final result
+  // sum the AVX error register for final result
   return static_cast<float>(error);
+}
+
+size_t SimdPositionErrorFunctionAVX::getJacobianSize() const {
+  if (constraints_ == nullptr) {
+    return 0;
+  }
+
+  jacobianOffset_.resize(constraints_->numJoints);
+  size_t num = 0;
+  for (int i = 0; i < constraints_->numJoints; ++i) {
+    jacobianOffset_[i] = num;
+    const size_t count = constraints_->constraintCount[i];
+    const size_t residual = count % kAvxPacketSize;
+    if (residual != 0) {
+      num += (count + kAvxPacketSize - residual) * kConstraintDim;
+    } else {
+      num += count * kConstraintDim;
+    }
+  }
+  return num;
 }
 
 #endif // MOMENTUM_ENABLE_AVX

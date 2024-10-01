@@ -100,7 +100,7 @@ class SimdPlaneErrorFunction : public SkeletonErrorFunction {
       Ref<VectorXf> residual,
       int& usedRows) override;
 
-  [[nodiscard]] size_t getJacobianSize() const final;
+  [[nodiscard]] size_t getJacobianSize() const override;
 
   void setConstraints(const SimdPlaneConstraints* cstrs);
 
@@ -145,6 +145,8 @@ class SimdPlaneErrorFunctionAVX : public SimdPlaneErrorFunction {
       Ref<MatrixXf> jacobian,
       Ref<VectorXf> residual,
       int& usedRows) final;
+
+  [[nodiscard]] size_t getJacobianSize() const final;
 };
 
 #endif // MOMENTUM_ENABLE_AVX

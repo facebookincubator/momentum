@@ -251,6 +251,9 @@ function(mt_library)
     else()
       target_compile_options(${_ARG_NAME} ${type} -march=native)
     endif()
+    target_compile_definitions(${_ARG_NAME}
+      ${type} -DMOMENTUM_ENABLE_SIMD=1
+    )
   endif()
   target_compile_options(${_ARG_NAME}
     ${type} ${_ARG_PUBLIC_COMPILE_OPTIONS}
