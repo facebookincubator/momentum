@@ -1190,6 +1190,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a9556e994cd3e64fc51c22f3ad0d48e9f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string_view &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a9556e994cd3e64fc51c22f3ad0d48e9f">tokenize</a> (std::string_view inputString, std::string_view delimiters=&quot; \t\r\n&quot;, bool <a class="el" href="namespacemomentum.html#a1b06073550742d4ffb0e68c403825722">trim</a>=true)</td></tr>
 <tr class="memdesc:a9556e994cd3e64fc51c22f3ad0d48e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tokenize a string_view using the specified delimiters.  <a href="namespacemomentum.html#a9556e994cd3e64fc51c22f3ad0d48e9f">More...</a><br /></td></tr>
 <tr class="separator:a9556e994cd3e64fc51c22f3ad0d48e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcbc22d2bea189f31b1105c95b61d5e2"><td class="memTemplParams" colspan="2">template&lt;size_t Alignment&gt; </td></tr>
+<tr class="memitem:afcbc22d2bea189f31b1105c95b61d5e2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#afcbc22d2bea189f31b1105c95b61d5e2">checkAlignment</a> (const Eigen::Ref&lt; Eigen::MatrixXf &gt; &amp;mat)</td></tr>
+<tr class="memdesc:afcbc22d2bea189f31b1105c95b61d5e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the data of the matrix is aligned correctly.  <a href="namespacemomentum.html#afcbc22d2bea189f31b1105c95b61d5e2">More...</a><br /></td></tr>
+<tr class="separator:afcbc22d2bea189f31b1105c95b61d5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e841fb80f1015d501cd5164213a1c05"><td class="memTemplParams" colspan="2">template&lt;typename Derived , typename S &gt; </td></tr>
 <tr class="memitem:a6e841fb80f1015d501cd5164213a1c05"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#a3c50b779f3e2b68a3ce7fbb094184549">FloatP</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a6e841fb80f1015d501cd5164213a1c05">dot</a> (const Eigen::MatrixBase&lt; Derived &gt; &amp;v1, const <a class="el" href="namespacemomentum.html#af3a3b5f2df84c8acf8d37df7f2eb9ee6">Vector3P</a>&lt; S &gt; &amp;v2)</td></tr>
 <tr class="memdesc:a6e841fb80f1015d501cd5164213a1c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates dot product of Eigen::Vector3f and 3-vector of packets.  <a href="namespacemomentum.html#a6e841fb80f1015d501cd5164213a1c05">More...</a><br /></td></tr>
@@ -2080,9 +2084,13 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a0fc2afe43b2fd442387d507fd40cdea0"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0fc2afe43b2fd442387d507fd40cdea0">kAvxPacketSize</a> = 8</td></tr>
+<tr class="separator:a0fc2afe43b2fd442387d507fd40cdea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbe10e16212eab335f14435015e5bd88"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#afbe10e16212eab335f14435015e5bd88">kAvxAlignment</a> = <a class="el" href="namespacemomentum.html#a0fc2afe43b2fd442387d507fd40cdea0">kAvxPacketSize</a> * sizeof(float)</td></tr>
+<tr class="separator:afbe10e16212eab335f14435015e5bd88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f9ed099fa9b206312926f7d04f8ddd9"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2f9ed099fa9b206312926f7d04f8ddd9">kSimdPacketSize</a> = drjit::DefaultSize</td></tr>
 <tr class="separator:a2f9ed099fa9b206312926f7d04f8ddd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48aa47b7e646b6dc4ed28a60cc6a75a1"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a48aa47b7e646b6dc4ed28a60cc6a75a1">kSimdAlignment</a> = <a class="el" href="namespacemomentum.html#a2f9ed099fa9b206312926f7d04f8ddd9">kSimdPacketSize</a> * 4</td></tr>
+<tr class="memitem:a48aa47b7e646b6dc4ed28a60cc6a75a1"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a48aa47b7e646b6dc4ed28a60cc6a75a1">kSimdAlignment</a> = <a class="el" href="namespacemomentum.html#a2f9ed099fa9b206312926f7d04f8ddd9">kSimdPacketSize</a> * sizeof(float)</td></tr>
 <tr class="separator:a48aa47b7e646b6dc4ed28a60cc6a75a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a807173313bd65586aa1f92c60ac5e61d"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a807173313bd65586aa1f92c60ac5e61d">Dynamic</a> = Eigen::Dynamic</td></tr>
 <tr class="separator:a807173313bd65586aa1f92c60ac5e61d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -7628,6 +7636,28 @@ template&lt;typename T , typename T2 , int N&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcbc22d2bea189f31b1105c95b61d5e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcbc22d2bea189f31b1105c95b61d5e2">&#9670;&nbsp;</a></span>checkAlignment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;size_t Alignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void momentum::checkAlignment </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Ref&lt; Eigen::MatrixXf &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if the data of the matrix is aligned correctly. </p>
 
 </div>
 </div>
@@ -18390,6 +18420,50 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="afbe10e16212eab335f14435015e5bd88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbe10e16212eab335f14435015e5bd88">&#9670;&nbsp;</a></span>kAvxAlignment</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t momentum::kAvxAlignment = <a class="el" href="namespacemomentum.html#a0fc2afe43b2fd442387d507fd40cdea0">kAvxPacketSize</a> * sizeof(float)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fc2afe43b2fd442387d507fd40cdea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fc2afe43b2fd442387d507fd40cdea0">&#9670;&nbsp;</a></span>kAvxPacketSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t momentum::kAvxPacketSize = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a1e54e03d01c8dee568b7943561825fe5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e54e03d01c8dee568b7943561825fe5">&#9670;&nbsp;</a></span>kDefaultExtrapolateFactor</h2>
 
@@ -18576,7 +18650,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t momentum::kSimdAlignment = <a class="el" href="namespacemomentum.html#a2f9ed099fa9b206312926f7d04f8ddd9">kSimdPacketSize</a> * 4</td>
+          <td class="memname">constexpr size_t momentum::kSimdAlignment = <a class="el" href="namespacemomentum.html#a2f9ed099fa9b206312926f7d04f8ddd9">kSimdPacketSize</a> * sizeof(float)</td>
         </tr>
       </table>
   </td>

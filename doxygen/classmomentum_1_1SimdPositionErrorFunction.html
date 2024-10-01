@@ -68,6 +68,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pro-static-attribs">Static Protected Attributes</a> &#124;
 <a href="classmomentum_1_1SimdPositionErrorFunction-members.html">List of all members</a>  </div>
@@ -99,10 +100,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aec0589727481e9338df2474741b9bba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a404d7bac5ff79257bbc5e359928bd3d8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SimdPositionErrorFunction.html#a404d7bac5ff79257bbc5e359928bd3d8">getJacobian</a> (const <a class="el" href="namespacemomentum.html#ade72a5ad1f8b3000b90f216070608699">ModelParameters</a> &amp;, const SkeletonState &amp;state, <a class="el" href="namespacemomentum.html#a45e7bad11d6956c9cd6651e17c98772d">Ref</a>&lt; <a class="el" href="namespacemomentum.html#a946ab1953d1fb51ba0a9d204ed46b68e">MatrixXf</a> &gt; jacobian, <a class="el" href="namespacemomentum.html#a45e7bad11d6956c9cd6651e17c98772d">Ref</a>&lt; <a class="el" href="namespacemomentum.html#a954f7505066845a67c868e1ae88a5b1e">VectorXf</a> &gt; residual, int &amp;usedRows) override</td></tr>
 <tr class="separator:a404d7bac5ff79257bbc5e359928bd3d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1efbccfcdda0a5e1bd379dc83a5734bd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SimdPositionErrorFunction.html#a1efbccfcdda0a5e1bd379dc83a5734bd">getJacobianSize</a> () const final</td></tr>
-<tr class="separator:a1efbccfcdda0a5e1bd379dc83a5734bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ce33ec604a2c3fbbfbfca8b723ffc9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SimdPositionErrorFunction.html#ad6ce33ec604a2c3fbbfbfca8b723ffc9">getJacobianSize</a> () const override</td></tr>
+<tr class="separator:ad6ce33ec604a2c3fbbfbfca8b723ffc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b73830a18539c6036aa882af0e9197d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SimdPositionErrorFunction.html#a9b73830a18539c6036aa882af0e9197d">setConstraints</a> (const <a class="el" href="structmomentum_1_1SimdPositionConstraints.html">SimdPositionConstraints</a> *cstrs)</td></tr>
 <tr class="separator:a9b73830a18539c6036aa882af0e9197d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:ad812c6dfdd7431c37a76d90361bca4c7"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SimdPositionErrorFunction.html#ad812c6dfdd7431c37a76d90361bca4c7">kConstraintDim</a> = 3</td></tr>
+<tr class="memdesc:ad812c6dfdd7431c37a76d90361bca4c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dimensionality of each constraint.  <a href="classmomentum_1_1SimdPositionErrorFunction.html#ad812c6dfdd7431c37a76d90361bca4c7">More...</a><br /></td></tr>
+<tr class="separator:ad812c6dfdd7431c37a76d90361bca4c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -346,8 +353,8 @@ Static Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1efbccfcdda0a5e1bd379dc83a5734bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1efbccfcdda0a5e1bd379dc83a5734bd">&#9670;&nbsp;</a></span>getJacobianSize()</h2>
+<a id="ad6ce33ec604a2c3fbbfbfca8b723ffc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6ce33ec604a2c3fbbfbfca8b723ffc9">&#9670;&nbsp;</a></span>getJacobianSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -364,7 +371,7 @@ Static Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">final</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -431,6 +438,30 @@ Static Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad812c6dfdd7431c37a76d90361bca4c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad812c6dfdd7431c37a76d90361bca4c7">&#9670;&nbsp;</a></span>kConstraintDim</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t momentum::SimdPositionErrorFunction::kConstraintDim = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The dimensionality of each constraint. </p>
 
 </div>
 </div>
