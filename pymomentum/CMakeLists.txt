@@ -7,24 +7,20 @@
 # Find dependencies
 #===============================================================================
 
-set(ENV{NVTOOLSEXT_PATH} "$ENV{CONDA_PREFIX}/include")
+if(MSVC)
+  set(torch_lib_path "$ENV{CONDA_PREFIX}/lib/site-packages/torch/")
+  set(nvtoolsext_path "$ENV{CONDA_PREFIX}/include")
+  string(REPLACE "\\" "/" torch_lib_path ${torch_lib_path})
+  string(REPLACE "\\" "/" nvtoolsext_path ${nvtoolsext_path})
+else()
+  set(torch_lib_path "$ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/")
+  set(nvtoolsext_path "$ENV{CONDA_PREFIX}/include")
+endif()
 
-find_package(ATen CONFIG REQUIRED
-  HINTS
-    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
-)
-
-find_package(Torch CONFIG REQUIRED
-  HINTS
-    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
-)
-
-find_library(torch_python
-  NAMES torch_python
-  HINTS
-    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/lib/
-  REQUIRED
-)
+set(ENV{NVTOOLSEXT_PATH} "${nvtoolsext_path}")
+find_package(ATen CONFIG REQUIRED HINTS "${torch_lib_path}")
+find_package(Torch CONFIG REQUIRED HINTS "${torch_lib_path}")
+find_library(torch_python NAMES torch_python HINTS "${torch_lib_path}/lib" REQUIRED)
 
 #===============================================================================
 # Find build dependencies

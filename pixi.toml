@@ -1,9 +1,12 @@
 [project]
 name = "momentum"
-channels = ["conda-forge"]
+channels = ["conda-forge", "pytorch"]
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 version = "0.1.0"
-description = "A library providing foundational algorithms for human kinematic motion and numerical optimization solvers to apply human motion in various applications"
+description = """
+A library providing foundational algorithms for human kinematic motion and numerical optimization \
+solvers to apply human motion in various applications
+"""
 license = "MIT"
 readme = "README.md"
 homepage = "https://facebookincubator.github.io/momentum/"
@@ -24,7 +27,6 @@ scipy = ">=1.13.0"
 setuptools = ">=69.5.1"
 
 [dependencies]
-blas = ">=1.1"
 ceres-solver = ">=2.2.0"
 cli11 = ">=2.4.1"
 dispenso = ">=1.3.0"
@@ -43,7 +45,7 @@ spdlog = ">=1.12.0"
 
 [tasks]
 clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
-configure = { cmd = """
+config = { cmd = """
     cmake \
         -S . \
         -B build \
@@ -59,7 +61,7 @@ configure = { cmd = """
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
-    "configure",
+    "config",
 ] }
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
@@ -113,7 +115,7 @@ pytorch = ">=2.4.0"
 [target.osx.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
-    "configure",
+    "config",
 ] }
 build_pymomentum = { cmd = "pip install -e ." }
 # TODO: Add test_pymomentum once segfault on import is fixed
@@ -131,7 +133,7 @@ pytorch = ">=2.4.0"
 [target.osx-arm64.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = [
-    "configure",
+    "config",
 ] }
 build_pymomentum = { cmd = "pip install -e ." }
 # TODO: Add test_pymomentum once segfault on import is fixed
@@ -141,9 +143,11 @@ build_pymomentum = { cmd = "pip install -e ." }
 #=========
 
 [target.win-64.dependencies]
+mkl-static = ">=2018"                                       # Needed by pytorch::pytorch
+pytorch = { version = ">=2.4.1,<2.5", channel = "pytorch" } # TODO: Migrate to conda-forge::pytorch once available on Windows
 
 [target.win-64.tasks]
-configure = { cmd = """
+config = { cmd = """
     cmake \
         -S . \
         -B build \
@@ -160,13 +164,25 @@ configure = { cmd = """
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "OFF" } }
 open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = [
-    "configure",
+    "config",
 ] }
 build = { cmd = "cmake --build build -j --config Release", depends_on = [
-    "configure",
+    "config",
 ] }
+build_pymomentum = { cmd = "pip install -e ." }
 test = { cmd = "ctest --test-dir build --output-on-failure --build-config Release", depends_on = [
     "build",
+] }
+test_pymomentum = { cmd = """
+    pytest \
+        pymomentum/test/test_closest_points.py \
+        pymomentum/test/test_fbx.py \
+        pymomentum/test/test_parameter_transform.py \
+        pymomentum/test/test_quaternion.py \
+        pymomentum/test/test_skel_state.py \
+        pymomentum/test/test_skeleton.py
+    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends_on = [
+    "build_pymomentum",
 ] }
 hello_world = { cmd = "build/Release/hello_world.exe", depends_on = ["build"] }
 convert_model = { cmd = "build/Release/convert_model.exe", depends_on = [

@@ -42,7 +42,7 @@ class CMakeBuild(build_ext):
             cfg = "Debug" if self.debug else "Release"
 
         cmake_args = [
-            f"-DCMAKE_BUILD_TYPE={cfg}",
+            f"-DCMAKE_BUILD_TYPE={cfg}" if self.compiler.compiler_type != "msvc" else "",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
             f"-DBUILD_SHARED_LIBS=OFF",
             (
@@ -74,6 +74,9 @@ class CMakeBuild(build_ext):
             f"-DPYTHON_EXECUTABLE={sys.executable}",
         ]
         build_args = ["--target", os.path.basename(ext.name)]
+
+        if self.compiler.compiler_type == "msvc":
+            build_args += ["--config", cfg]
 
         if "CMAKE_ARGS" in os.environ:
             cmake_args += [item for item in os.environ["CMAKE_ARGS"].split(" ") if item]
