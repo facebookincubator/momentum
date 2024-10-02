@@ -33,7 +33,7 @@ template <typename T>
 Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> toEigenMap(at::Tensor t);
 
 std::string formatTensorSizes(const at::Tensor& tensor);
-std::string formatTensorSizes(const std::vector<ssize_t>& dims);
+std::string formatTensorSizes(const std::vector<size_t>& dims);
 
 inline bool isEmpty(const at::Tensor& t) {
   return (t.numel() == 0);
