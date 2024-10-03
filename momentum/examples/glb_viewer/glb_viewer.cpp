@@ -95,12 +95,42 @@ int main(int argc, char* argv[]) {
     auto fps = cFps;
 
     // Special case when we want to view the template with no motion
-    if (nFrames == 0) {
+    if (!kHasCharacterMotion) {
       CharacterParameters param;
       param.pose = Eigen::VectorXf::Zero(character.parameterTransform.numAllModelParameters());
       CharacterState charState(
           param, character, true /*updateMesh*/, true /*updateCollision*/, false /*applyLimits*/);
       logCharacter(rec, "world/character", character, charState);
+    }
+
+    // Load marker sequence from the same file. There can be cases where we only have marker
+    // sequence.
+    const auto markers = loadMarkerSequence(options->glbFile);
+    const size_t nMarkerFrames = markers.frames.size();
+    const auto kHasMarkerSequence = nMarkerFrames > 0;
+    std::string markerStreamName;
+    if (kHasMarkerSequence) {
+      markerStreamName = "world/markers/" + (markers.name.empty() ? "positions" : markers.name);
+
+      if (!kHasCharacterMotion) {
+        MT_LOGE("No character motion in the file. Using fps from the marker sequence.");
+        fps = markers.fps;
+      } else {
+        // Validate whether marker sequence and motion sequence matches.
+        if (nMarkerFrames != nFrames) {
+          MT_LOGW("Has {} marker frames but {} motion frames.", nMarkerFrames, nFrames);
+        }
+        if (fps != markers.fps) {
+          MT_LOGW(
+              "Marker sequence has {} fps but motion sequence has {} fps. Using motion's.",
+              markers.fps,
+              fps);
+        }
+      }
+    }
+
+    // Logging static mesh
+    if ((!kHasCharacterMotion) && (!kHasMarkerSequence)) {
       return EXIT_SUCCESS;
     }
 
@@ -114,20 +144,6 @@ int main(int argc, char* argv[]) {
       logJointParamNames(rec, "world_params", "joint_params", jointNames);
     }
 
-    const auto markers = loadMarkerSequence(options->glbFile);
-    const size_t nMarkerFrames = markers.frames.size();
-    if (!kHasCharacterMotion) {
-      MT_LOGE("No character motion in the file. Using fps from the marker sequence.");
-      fps = markers.fps;
-    } else if (nMarkerFrames != nFrames) {
-      MT_LOGW("Has {} marker frames but {} motion frames.", nMarkerFrames, nFrames);
-    }
-    std::string markerStreamName;
-    if (!markers.name.empty()) {
-      markerStreamName = "world/markers/" + markers.name;
-    } else {
-      markerStreamName = "world/markers/positions";
-    }
     std::map<std::string, size_t> locatorLookup;
     for (size_t i = 0; i < character.locators.size(); i++) {
       locatorLookup[character.locators[i].name] = i;
