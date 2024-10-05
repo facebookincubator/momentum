@@ -110,6 +110,15 @@ def main():
     with open(os.path.join(ROOT_DIR, "README.md"), encoding="utf-8") as f:
         long_description = f.read()
 
+    ext_modules = [
+        CMakeExtension("geometry", sourcedir=ROOT_DIR),
+        CMakeExtension("quaternion", sourcedir=ROOT_DIR),
+        CMakeExtension("skel_state", sourcedir=ROOT_DIR),
+    ]
+
+    if os.getenv('MOMENTUM_BUILD_TESTING') == 'ON':
+        ext_modules.append(CMakeExtension("geometry_test_helper", sourcedir=ROOT_DIR))
+
     setup(
         name="pymomentum",
         # TODO: get version from a single source (e.g., version.txt)
@@ -124,12 +133,7 @@ def main():
         python_requires=">=3.7",
         packages=find_packages(),
         zip_safe=False,
-        ext_modules=[
-            CMakeExtension("geometry", sourcedir=ROOT_DIR),
-            CMakeExtension("quaternion", sourcedir=ROOT_DIR),
-            CMakeExtension("geometry_test_helper", sourcedir=ROOT_DIR),
-            CMakeExtension("skel_state", sourcedir=ROOT_DIR),
-        ],
+        ext_modules=ext_modules,
         cmdclass={
             "build_ext": CMakeBuild,
         },
