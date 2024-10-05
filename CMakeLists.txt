@@ -112,6 +112,7 @@ endif()
 
 if(MSVC)
   add_compile_options(/bigobj)
+  add_compile_options(/utf-8)
 endif()
 
 #===============================================================================
