@@ -13,6 +13,10 @@ project(momentum)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
+# Needed by mt_defs.cmake
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
+include(cmake/mt_defs.cmake)
+
 # Print intro
 message(STATUS "")
 message(STATUS "============================================")
@@ -29,6 +33,7 @@ message(STATUS "")
 # Print build tool information
 message(STATUS "[ Build Tools ]")
 message(STATUS "- CMake               : ${CMAKE_VERSION}")
+message(STATUS "- CMake Generator     : ${CMAKE_GENERATOR}")
 message(STATUS "- C Compiler          : ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}")
 message(STATUS "- C++ Compiler        : ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 if(MSVC)
@@ -36,15 +41,18 @@ if(MSVC)
 endif()
 message(STATUS "")
 
+# Print CMake variables
+message(STATUS "[ CMake Variables ]")
+mt_print_flags(CMAKE_C_FLAGS)
+mt_print_flags(CMAKE_CXX_FLAGS)
+mt_print_flags(CMAKE_CUDA_FLAGS)
+message(STATUS "")
+
 #===============================================================================
 # Build dependencies
 #===============================================================================
 
-# Needed by mt_defs.cmake
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-
 include(GNUInstallDirs)
-include(cmake/mt_defs.cmake)
 
 #===============================================================================
 # Build Options
@@ -104,6 +112,7 @@ endif()
 
 if(MSVC)
   add_compile_options(/bigobj)
+  add_compile_options(/utf-8)
 endif()
 
 #===============================================================================

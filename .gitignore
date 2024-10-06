@@ -5,3 +5,6 @@
 # python
 *.egg-info/
 *.cpython-*.so
+
+# build artifacts
+build/

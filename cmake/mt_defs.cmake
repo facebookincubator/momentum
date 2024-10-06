@@ -75,6 +75,20 @@ function(mt_get_max_string_length var)
   set(${var} ${choice} PARENT_SCOPE)
 endfunction()
 
+# Function to print each flag on a new line with indentation
+# mt_print_flags(<variable>)
+function(mt_print_flags var_name)
+  if(NOT "${${var_name}}" STREQUAL "")
+    string(REPLACE " " ";" FLAGS_LIST "${${var_name}}")
+    message(STATUS "${var_name}:")
+    foreach(flag IN LISTS FLAGS_LIST)
+      message(STATUS "  - ${flag}")
+    endforeach()
+  else()
+    message(STATUS "${var_name}: (not set)")
+  endif()
+endfunction()
+
 # mt_option(<variable> "<help_text>" <value>)
 function(mt_option variable help_text default_value)
   set_property(
