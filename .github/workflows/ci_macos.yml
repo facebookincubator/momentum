@@ -14,16 +14,12 @@ on:
 
 jobs:
   momentum:
-    name: momentum-${{ matrix.platform }}
+    name: momentum-mac${{ matrix.os == 'macos-latest' && '-arm' || matrix.os == 'macos-latest-large' && '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: macos-latest
-            platform: mac-arm
-          - os: macos-latest-large
-            platform: mac-intel
+        os: ["macos-latest", "macos-latest-large"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,16 +40,12 @@ jobs:
           pixi run cmake --build momentum/examples/hello_world/build
 
   pymomentum:
-    name: pymomentum-${{ matrix.platform }}
+    name: pymomentum-mac${{ matrix.os == 'macos-latest' && '-arm' || matrix.os == 'macos-latest-large' && '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: macos-latest
-            platform: mac-arm
-          - os: macos-latest-large
-            platform: mac-intel
+        os: ["macos-latest", "macos-latest-large"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
