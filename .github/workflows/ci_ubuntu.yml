@@ -14,7 +14,7 @@ on:
 
 jobs:
   momentum:
-    name: momentum-simd:${{ matrix.simd }}-ubuntu
+    name: momentum${{ matrix.simd == 'ON' && '-simd' || '' }}-ubuntu
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
