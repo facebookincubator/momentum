@@ -27,5 +27,5 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.INTERNAL_GHE_TOKEN }}
         with:
-          source-repo: "git@github.com:facebookincubator/momentum.git"
+          source-repo: "https://github.com/${{ github.repository }}"
           destination-repo: "${{ secrets.INTERNAL_GHE_REPO_URL }}"
