@@ -19,5 +19,5 @@ jobs:
       - name: Push Mirror to GitHub Enterprise
         run: |
           git checkout main
-          git push https://${{ secrets.GHE_USERNAME }}:${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} main:main --force
-          git push https://${{ secrets.GHE_USERNAME }}:${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} --tags
+          git push https://${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} main:main --force
+          git push https://${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} --tags
