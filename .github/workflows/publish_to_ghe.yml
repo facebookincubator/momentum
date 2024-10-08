@@ -16,8 +16,16 @@ jobs:
         with:
           fetch-depth: 0 # Fetches all history for all branches and tags
 
-      - name: Push Mirror to GitHub Enterprise
-        run: |
-          git checkout main
-          git push https://${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} main:main --force
-          git push https://${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} --tags
+      # - name: Push Mirror to GitHub Enterprise
+      #   run: |
+      #     git checkout main
+      #     git push https://${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} main:main --force
+      #     git push https://${{ secrets.INTERNAL_GHE_TOKEN }}@${{ secrets.INTERNAL_GHE_REPO_URL }} --tags
+
+      - name: Push mirror to GitHub Enterprise
+        uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.INTERNAL_GHE_TOKEN }}
+        with:
+          source-repo: "https://github.com/${{ github.repository }}"
+          destination-repo: "https://${{ secrets.INTERNAL_GHE_REPO_URL }}"
