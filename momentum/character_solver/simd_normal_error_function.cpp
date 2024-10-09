@@ -266,15 +266,17 @@ __vectorcall DRJIT_INLINE void jacobian_jointParams_to_modelParams(
     const Eigen::Index iJointParam,
     const ParameterTransform& parameterTransform_,
     Eigen::Ref<Eigen::MatrixX<float>> jacobian) {
+  checkAlignment<kSimdAlignment>(jacobian);
+
   // explicitly multiply with the parameter transform to generate parameter space gradients
   for (auto index = parameterTransform_.transform.outerIndexPtr()[iJointParam];
        index < parameterTransform_.transform.outerIndexPtr()[iJointParam + 1];
        ++index) {
     const auto modelParamIdx = parameterTransform_.transform.innerIndexPtr()[index];
     float* jacPtr = jacobian.col(modelParamIdx).data();
-    drjit::store(
+    drjit::store_aligned(
         jacPtr,
-        drjit::load<FloatP>(jacPtr) +
+        drjit::load_aligned<FloatP>(jacPtr) +
             parameterTransform_.transform.valuePtr()[index] * jacobian_jointParams);
   }
 }
@@ -297,8 +299,10 @@ double SimdNormalErrorFunction::getJacobian(
   // storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
 
-  // need to make sure we're actually at a 32 byte data offset at the first offset for SIMD access
-  checkAlignment<kSimdAlignment>(jacobian);
+  // Need to make sure we're actually at a kSimdAlignment byte data offset at the first offset for
+  // SIMD access
+  const size_t addressOffset = computeOffset<kSimdAlignment>(jacobian);
+  checkAlignment<kSimdAlignment>(jacobian, addressOffset);
 
   // loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -315,7 +319,7 @@ double SimdNormalErrorFunction::getJacobian(
         for (uint32_t index = 0; index < constraintCount; index += kSimdPacketSize) {
           const auto constraintOffsetIndex =
               jointId * SimdNormalConstraints::kMaxConstraints + index;
-          const auto jacobianOffsetCur = jacobianOffset_[jointId] + index;
+          const auto jacobianOffsetCur = jacobianOffset_[jointId] + index + addressOffset;
 
           const Vector3fP offset{
               drjit::load<FloatP>(&constraints_->offsetX[constraintOffsetIndex]),
@@ -340,7 +344,8 @@ double SimdNormalErrorFunction::getJacobian(
 
           jointError += weight * drjit::sqr(dist);
 
-          drjit::store(residual.segment(jacobianOffsetCur, kSimdPacketSize).data(), dist * wgt);
+          drjit::store_aligned(
+              residual.segment(jacobianOffsetCur, kSimdPacketSize).data(), dist * wgt);
 
           // loop over all joints the constraint is attached to and calculate gradient
           size_t jointIndex = jointId;
@@ -455,7 +460,8 @@ double SimdNormalErrorFunctionAVX::getJacobian(
   std::vector<double> ets_error;
 
   // need to make sure we're actually at a 32 byte data offset at the first offset for AVX access
-  checkAlignment<kAvxAlignment>(jacobian);
+  const size_t addressOffset = computeOffset<kAvxAlignment>(jacobian);
+  checkAlignment<kAvxAlignment>(jacobian, addressOffset);
 
   // loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -467,7 +473,7 @@ double SimdNormalErrorFunctionAVX::getJacobian(
       constraints_->numJoints,
       [&](double& error_local, const size_t jointId) {
         // get initial offset
-        const auto offset = jacobianOffset_[jointId];
+        const auto offset = jacobianOffset_[jointId] + addressOffset;
 
         // pre-load some joint specific values
         const auto& transformation = state.jointState[jointId].transformation;

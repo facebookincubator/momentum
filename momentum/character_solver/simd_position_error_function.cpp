@@ -160,10 +160,6 @@ double SimdPositionErrorFunction::getGradient(
   // Storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
 
-  // Need to make sure we're actually at a kSimdAlignment byte data offset at the first offset for
-  // SIMD access
-  checkAlignment<kSimdAlignment>(gradient);
-
   // Loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
   dispensoOptions.maxThreads = maxThreads_;
@@ -282,15 +278,17 @@ __vectorcall DRJIT_INLINE void jacobian_jointParams_to_modelParams(
     const Eigen::Index iJointParam,
     const ParameterTransform& parameterTransform_,
     Eigen::Ref<Eigen::MatrixX<float>> jacobian) {
+  checkAlignment<kSimdAlignment>(jacobian);
+
   // explicitly multiply with the parameter transform to generate parameter space gradients
   for (auto index = parameterTransform_.transform.outerIndexPtr()[iJointParam];
        index < parameterTransform_.transform.outerIndexPtr()[iJointParam + 1];
        ++index) {
     const auto modelParamIdx = parameterTransform_.transform.innerIndexPtr()[index];
     float* jacPtr = jacobian.col(modelParamIdx).data();
-    drjit::store(
+    drjit::store_aligned(
         jacPtr,
-        drjit::load<FloatP>(jacPtr) +
+        drjit::load_aligned<FloatP>(jacPtr) +
             parameterTransform_.transform.valuePtr()[index] * jacobian_jointParams);
   }
 }
@@ -314,7 +312,8 @@ double SimdPositionErrorFunction::getJacobian(
 
   // Need to make sure we're actually at a kSimdAlignment byte data offset at the first offset for
   // SIMD access
-  checkAlignment<kSimdAlignment>(jacobian);
+  const size_t addressOffset = computeOffset<kSimdAlignment>(jacobian);
+  checkAlignment<kSimdAlignment>(jacobian, addressOffset);
 
   // Loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -332,7 +331,7 @@ double SimdPositionErrorFunction::getJacobian(
              index += kSimdPacketSize, jindex += kSimdPacketSize * kConstraintDim) {
           const auto constraintOffsetIndex =
               jointId * SimdPositionConstraints::kMaxConstraints + index;
-          const auto jacobianOffsetCur = jacobianOffset_[jointId] + jindex;
+          const auto jacobianOffsetCur = jacobianOffset_[jointId] + jindex + addressOffset;
 
           // Transform offset by joint transform: pos = transform * offset
           const Vector3fP offset{
@@ -362,13 +361,13 @@ double SimdPositionErrorFunction::getJacobian(
 
           // Calculate residual: res = wgt * diff
           const Vector3fP res = wgt * diff;
-          drjit::store(
+          drjit::store_aligned(
               residual.segment(jacobianOffsetCur + kSimdPacketSize * 0, kSimdPacketSize).data(),
               res.x());
-          drjit::store(
+          drjit::store_aligned(
               residual.segment(jacobianOffsetCur + kSimdPacketSize * 1, kSimdPacketSize).data(),
               res.y());
-          drjit::store(
+          drjit::store_aligned(
               residual.segment(jacobianOffsetCur + kSimdPacketSize * 2, kSimdPacketSize).data(),
               res.z());
 
@@ -802,7 +801,8 @@ double SimdPositionErrorFunctionAVX::getJacobian(
   std::vector<double> ets_error;
 
   // need to make sure we're actually at a 32 byte data offset at the first offset for AVX access
-  checkAlignment<kAvxAlignment>(jacobian);
+  const size_t addressOffset = computeOffset<kAvxAlignment>(jacobian);
+  checkAlignment<kAvxAlignment>(jacobian, addressOffset);
 
   // loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -814,7 +814,7 @@ double SimdPositionErrorFunctionAVX::getJacobian(
       constraints_->numJoints,
       [&](double& error_local, const size_t jointId) {
         // get initial offset
-        const auto offset = jacobianOffset_[jointId];
+        const auto offset = jacobianOffset_[jointId] + addressOffset;
 
         // pre-load some joint specific values
         const auto& transformation = state.jointState[jointId].transformation;
