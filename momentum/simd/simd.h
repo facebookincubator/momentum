@@ -49,11 +49,26 @@ using Vector3fP = Vector3P<float>;
 using Vector2dP = Vector2P<double>;
 using Vector3dP = Vector3P<double>;
 
+/// Computes the offset required for the matrix data to meet the alignment requirement.
+template <size_t Alignment>
+[[nodiscard]] size_t computeOffset(const Eigen::Ref<Eigen::MatrixXf>& mat) {
+  constexpr size_t sizeOfScalar = sizeof(typename Eigen::MatrixXf::Scalar);
+  const size_t addressOffset =
+      Alignment / sizeOfScalar - (((size_t)mat.data() % Alignment) / sizeOfScalar);
+
+  // If the current alignment already meets the requirement, no offset is needed.
+  if (addressOffset == Alignment / sizeOfScalar) {
+    return 0;
+  }
+
+  return addressOffset;
+}
+
 /// Checks if the data of the matrix is aligned correctly.
 template <size_t Alignment>
-void checkAlignment(const Eigen::Ref<Eigen::MatrixXf>& mat) {
+void checkAlignment(const Eigen::Ref<Eigen::MatrixXf>& mat, size_t offset = 0) {
   MT_THROW_IF(
-      (uintptr_t(mat.data())) % Alignment != 0,
+      (uintptr_t(mat.data() + offset)) % Alignment != 0,
       "Matrix ({}x{}, ptr: {}) is not aligned ({}) correctly.",
       mat.rows(),
       mat.cols(),
