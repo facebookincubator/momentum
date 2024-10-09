@@ -243,8 +243,9 @@ Eigen::MatrixXf trackPosesPerframe(
   solverFunc.addErrorFunction(smoothConstrFunc.get());
 
   // add collision error
+  std::shared_ptr<CollisionErrorFunction> collisionErrorFunction;
   if (config.collisionErrorWeight != 0 && character.collision != nullptr) {
-    auto collisionErrorFunction = std::make_shared<CollisionErrorFunction>(character);
+    collisionErrorFunction = std::make_shared<CollisionErrorFunction>(character);
     collisionErrorFunction->setWeight(config.collisionErrorWeight);
     solverFunc.addErrorFunction(collisionErrorFunction.get());
   }
