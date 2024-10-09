@@ -163,9 +163,6 @@ double SimdPlaneErrorFunction::getGradient(
   // Storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
 
-  // Need to make sure we're actually at a 32 byte data offset at the first offset for SIMD access
-  checkAlignment<kSimdAlignment>(gradient);
-
   // Loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
   dispensoOptions.maxThreads = maxThreads_;
@@ -316,9 +313,6 @@ double SimdPlaneErrorFunction::getJacobian(
 
   // Storage for joint errors
   std::vector<double> jointErrors(constraints_->numJoints);
-
-  // Need to make sure we're actually at a 32 byte data offset at the first offset for SIMD access
-  checkAlignment<kSimdAlignment>(jacobian);
 
   // Loop over all joints, as these are our base units
   auto dispensoOptions = dispenso::ParForOptions();
@@ -762,7 +756,8 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
   std::vector<double> ets_error;
 
   // need to make sure we're actually at a 32 byte data offset at the first offset for AVX access
-  checkAlignment<kAvxAlignment>(jacobian);
+  const size_t addressOffset = computeOffset<kAvxAlignment>(jacobian);
+  checkAlignment<kAvxAlignment>(jacobian, addressOffset);
 
   // calculate actually used number of rows
   const size_t maxRows = gsl::narrow_cast<size_t>(jacobian.rows());
@@ -787,7 +782,7 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
       constraints_->numJoints,
       [&](double& error_local, const size_t jointId) {
         // get initial offset
-        const auto offset = jacobianOffset_[jointId];
+        const auto offset = jacobianOffset_[jointId] + addressOffset;
 
         // pre-load some joint specific values
         const auto& transformation = state.jointState[jointId].transformation;
