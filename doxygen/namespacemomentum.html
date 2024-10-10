@@ -1705,9 +1705,9 @@ Functions</h2></td></tr>
 <tr class="separator:a8f3588c780befed5a89d926af68bc806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaca9a0d3d5428b343b05172fff1f6686"><td class="memItemLeft" align="right" valign="top"><a class="el" href="simd__position__error__function_8cpp.html#aa088132c2b7a83450a38272743634159">__vectorcall</a> DRJIT_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aaca9a0d3d5428b343b05172fff1f6686">jacobian_jointParams_to_modelParams</a> (const <a class="el" href="namespacemomentum.html#a3c50b779f3e2b68a3ce7fbb094184549">FloatP</a> &amp;jacobian_jointParams, const Eigen::Index iJointParam, const <a class="el" href="namespacemomentum.html#aa4f420e3cb4bfd6c9ee092903de378d4">ParameterTransform</a> &amp;parameterTransform_, Eigen::Ref&lt; Eigen::MatrixX&lt; float &gt;&gt; jacobian)</td></tr>
 <tr class="separator:aaca9a0d3d5428b343b05172fff1f6686"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a553a9bbd7182bf1cc1ac9f6f4f0b0934"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a553a9bbd7182bf1cc1ac9f6f4f0b0934"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; size_t, std::vector&lt; size_t &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a553a9bbd7182bf1cc1ac9f6f4f0b0934">getDimensions</a> (const std::vector&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; * &gt; &amp;error_func)</td></tr>
-<tr class="separator:a553a9bbd7182bf1cc1ac9f6f4f0b0934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f5409e2fe3d4cf521bd3aa9a8e159dd"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a7f5409e2fe3d4cf521bd3aa9a8e159dd"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; size_t, std::vector&lt; size_t &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a7f5409e2fe3d4cf521bd3aa9a8e159dd">getDimensions</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt;&gt;&gt; &amp;error_func)</td></tr>
+<tr class="separator:a7f5409e2fe3d4cf521bd3aa9a8e159dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a906549fcb3d1c624396a338730dcc829"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a906549fcb3d1c624396a338730dcc829"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a906549fcb3d1c624396a338730dcc829">transformPose</a> (const Character &amp;character, const std::vector&lt; <a class="el" href="structmomentum_1_1ModelParametersT.html">ModelParametersT</a>&lt; T &gt;&gt; &amp;modelParameters, const <a class="el" href="structmomentum_1_1TransformT.html">TransformT</a>&lt; T &gt; &amp;transforms)</td></tr>
 <tr class="separator:a906549fcb3d1c624396a338730dcc829"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -9632,8 +9632,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a553a9bbd7182bf1cc1ac9f6f4f0b0934"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a553a9bbd7182bf1cc1ac9f6f4f0b0934">&#9670;&nbsp;</a></span>getDimensions()</h2>
+<a id="a7f5409e2fe3d4cf521bd3aa9a8e159dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f5409e2fe3d4cf521bd3aa9a8e159dd">&#9670;&nbsp;</a></span>getDimensions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -9643,7 +9643,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">std::pair&lt;size_t, std::vector&lt;size_t&gt; &gt; momentum::getDimensions </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; * &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt;&gt;&gt; &amp;&#160;</td>
           <td class="paramname"><em>error_func</em></td><td>)</td>
           <td></td>
         </tr>

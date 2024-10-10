@@ -104,12 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab743f448d9c241064f7b797345d890ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#ab743f448d9c241064f7b797345d890ac">setEnabledParameters</a> (const <a class="el" href="namespacemomentum.html#aadb2e10e938b6dde5b7faf1dfb44ce7e">ParameterSet</a> &amp;ps) final</td></tr>
 <tr class="memdesc:ab743f448d9c241064f7b797345d890ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the enabled parameters.  <a href="classmomentum_1_1SkeletonSolverFunctionT.html#ab743f448d9c241064f7b797345d890ac">More...</a><br /></td></tr>
 <tr class="separator:ab743f448d9c241064f7b797345d890ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d9dec12c2a7bec89c740144cf8344ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#a5d9dec12c2a7bec89c740144cf8344ca">addErrorFunction</a> (<a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; *solvable)</td></tr>
-<tr class="separator:a5d9dec12c2a7bec89c740144cf8344ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae27bd874c827a30cda7842b4b7065878"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#ae27bd874c827a30cda7842b4b7065878">addErrorFunction</a> (std::shared_ptr&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt;&gt; solvable)</td></tr>
+<tr class="separator:ae27bd874c827a30cda7842b4b7065878"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7ec43ec342ff562d629d06fa19872af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#ad7ec43ec342ff562d629d06fa19872af">clearErrorFunctions</a> ()</td></tr>
 <tr class="separator:ad7ec43ec342ff562d629d06fa19872af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af19b0bf623f6aba442d09bb4759e4770"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#af19b0bf623f6aba442d09bb4759e4770">getErrorFunctions</a> () const</td></tr>
-<tr class="separator:af19b0bf623f6aba442d09bb4759e4770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73f2cb90cce4b24685dd9bad2b468710"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#a73f2cb90cce4b24685dd9bad2b468710">getErrorFunctions</a> () const</td></tr>
+<tr class="separator:a73f2cb90cce4b24685dd9bad2b468710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae41c1b03b4e1ab4d86430d63a626af31"><td class="memItemLeft" align="right" valign="top">const Skeleton *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#ae41c1b03b4e1ab4d86430d63a626af31">getSkeleton</a> ()</td></tr>
 <tr class="separator:ae41c1b03b4e1ab4d86430d63a626af31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38fb4bcc312fb5a8e15394589e028eba"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html#a38fb4bcc312fb5a8e15394589e028eba">getParameterTransform</a> ()</td></tr>
@@ -192,8 +192,8 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5d9dec12c2a7bec89c740144cf8344ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d9dec12c2a7bec89c740144cf8344ca">&#9670;&nbsp;</a></span>addErrorFunction()</h2>
+<a id="ae27bd874c827a30cda7842b4b7065878"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae27bd874c827a30cda7842b4b7065878">&#9670;&nbsp;</a></span>addErrorFunction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,7 +203,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html">momentum::SkeletonSolverFunctionT</a>&lt; T &gt;::addErrorFunction </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; *&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt;&gt;&#160;</td>
           <td class="paramname"><em>solvable</em></td><td>)</td>
           <td></td>
         </tr>
@@ -256,8 +256,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="af19b0bf623f6aba442d09bb4759e4770"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af19b0bf623f6aba442d09bb4759e4770">&#9670;&nbsp;</a></span>getErrorFunctions()</h2>
+<a id="a73f2cb90cce4b24685dd9bad2b468710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73f2cb90cce4b24685dd9bad2b468710">&#9670;&nbsp;</a></span>getErrorFunctions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -265,7 +265,7 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; * &gt; &amp; <a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html">momentum::SkeletonSolverFunctionT</a>&lt; T &gt;::getErrorFunctions</td>
+          <td class="memname">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classmomentum_1_1SkeletonErrorFunctionT.html">SkeletonErrorFunctionT</a>&lt; T &gt; &gt; &gt; &amp; <a class="el" href="classmomentum_1_1SkeletonSolverFunctionT.html">momentum::SkeletonSolverFunctionT</a>&lt; T &gt;::getErrorFunctions</td>
         </tr>
       </table>
 </div><div class="memdoc">
