@@ -96,7 +96,7 @@ TEST(DifferentiableIK, Basic) {
     }
     positionError->setWeight(j + 1);
     errorFunctions.push_back(positionError);
-    solverFunction.addErrorFunction(positionError.get());
+    solverFunction.addErrorFunction(positionError);
   }
 
   {
@@ -111,7 +111,7 @@ TEST(DifferentiableIK, Basic) {
     }
     rotationError->setWeight(3);
     errorFunctions.push_back(rotationError);
-    solverFunction.addErrorFunction(rotationError.get());
+    solverFunction.addErrorFunction(rotationError);
   }
 
   {
@@ -119,7 +119,7 @@ TEST(DifferentiableIK, Basic) {
         skeleton, character.parameterTransform, parameterLimits);
     limitError->setWeight(0.1f);
     errorFunctions.push_back(limitError);
-    solverFunction.addErrorFunction(limitError.get());
+    solverFunction.addErrorFunction(limitError);
   }
 
   GaussNewtonSolverQRT<T> solver(solverOptions, &solverFunction);

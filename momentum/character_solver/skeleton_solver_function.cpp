@@ -87,7 +87,7 @@ double SkeletonSolverFunctionT<T>::getGradient(
 
 template <typename T>
 std::pair<size_t, std::vector<size_t>> getDimensions(
-    const std::vector<SkeletonErrorFunctionT<T>*>& error_func) {
+    const std::vector<std::shared_ptr<SkeletonErrorFunctionT<T>>>& error_func) {
   MT_PROFILE_EVENT("GetJacobianSize");
   std::vector<size_t> offset(error_func.size());
   size_t jacobianSize = 0;
@@ -285,8 +285,9 @@ void SkeletonSolverFunctionT<T>::updateParameters(
 }
 
 template <typename T>
-void SkeletonSolverFunctionT<T>::addErrorFunction(SkeletonErrorFunctionT<T>* errorFunction) {
-  errorFunctions_.push_back(errorFunction);
+void SkeletonSolverFunctionT<T>::addErrorFunction(
+    std::shared_ptr<SkeletonErrorFunctionT<T>> solvable) {
+  errorFunctions_.push_back(std::move(solvable));
 }
 
 template <typename T>
@@ -295,8 +296,8 @@ void SkeletonSolverFunctionT<T>::clearErrorFunctions() {
 }
 
 template <typename T>
-const std::vector<SkeletonErrorFunctionT<T>*>& SkeletonSolverFunctionT<T>::getErrorFunctions()
-    const {
+const std::vector<std::shared_ptr<SkeletonErrorFunctionT<T>>>&
+SkeletonSolverFunctionT<T>::getErrorFunctions() const {
   return errorFunctions_;
 }
 

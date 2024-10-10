@@ -28,7 +28,7 @@ namespace momentum {
 
 template <typename T>
 struct ErrorFunctionDerivativesT {
-  const SkeletonErrorFunctionT<T>* errorFunction = nullptr;
+  std::shared_ptr<const SkeletonErrorFunctionT<T>> errorFunction = nullptr;
 
   // Gradient of the energy wrt the global weight.
   T gradWeight = 0;

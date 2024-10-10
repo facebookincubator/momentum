@@ -47,10 +47,10 @@ void testSimpleTargets(const SolverOptionsT& options) {
   SkeletonSolverFunctionT<T> solverFunction(&skeleton, &castedCharacterParameterTransform);
 
   // create marker solvable
-  PositionErrorFunctionT<T> errorFunction(skeleton, transform);
+  auto errorFunction = std::make_shared<PositionErrorFunctionT<T>>(skeleton, transform);
 
   // add to solvable
-  solverFunction.addErrorFunction(&errorFunction);
+  solverFunction.addErrorFunction(errorFunction);
 
   // create solver
   GaussNewtonSolverT<T> solver(options, &solverFunction);
@@ -70,7 +70,7 @@ void testSimpleTargets(const SolverOptionsT& options) {
 
   {
     SCOPED_TRACE("Checking optimizing rest pose");
-    errorFunction.setConstraints(constraints);
+    errorFunction->setConstraints(constraints);
     const T error = solver.solve(optimizedParameters);
     state.set(castedCharacterParameterTransform.apply(optimizedParameters), skeleton);
     EXPECT_LE(error, Eps<T>(1e-7f, 1e-15));
@@ -84,7 +84,7 @@ void testSimpleTargets(const SolverOptionsT& options) {
     SCOPED_TRACE("Checking optimizing target pose");
     for (size_t i = 0; i < 10; i++) {
       constraints[0].target = Vector3<T>::Random() * 3.0;
-      errorFunction.setConstraints(constraints);
+      errorFunction->setConstraints(constraints);
       const T error = solver.solve(optimizedParameters);
       state.set(castedCharacterParameterTransform.apply(optimizedParameters), skeleton);
       EXPECT_LE(error, Eps<T>(5e-7f, 1e-8));

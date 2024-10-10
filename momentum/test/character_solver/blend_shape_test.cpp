@@ -157,11 +157,11 @@ TYPED_TEST(BlendShapesTest, Fitting) {
   SkeletonSolverFunctionT<T> solverFunction(
       &characterBlend.skeleton, &castedCharacterBlendParameterTransform);
 
-  VertexErrorFunctionT<T> errorFunction(characterBlend);
+  auto errorFunction = std::make_shared<VertexErrorFunctionT<T>>(characterBlend);
   for (size_t iVert = 0; iVert < targetMesh.vertices.size(); ++iVert) {
-    errorFunction.addConstraint(iVert, 1.0, targetMesh.vertices[iVert], targetMesh.normals[iVert]);
+    errorFunction->addConstraint(iVert, 1.0, targetMesh.vertices[iVert], targetMesh.normals[iVert]);
   }
-  solverFunction.addErrorFunction(&errorFunction);
+  solverFunction.addErrorFunction(errorFunction);
 
   // create solver
   GaussNewtonSolverQROptions options;

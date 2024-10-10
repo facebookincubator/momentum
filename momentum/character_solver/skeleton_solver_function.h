@@ -44,10 +44,11 @@ class SkeletonSolverFunctionT : public SolverFunctionT<T> {
   void updateParameters(Eigen::VectorX<T>& parameters, const Eigen::VectorX<T>& delta) final;
   void setEnabledParameters(const ParameterSet& ps) final;
 
-  void addErrorFunction(SkeletonErrorFunctionT<T>* solvable);
+  void addErrorFunction(std::shared_ptr<SkeletonErrorFunctionT<T>> solvable);
   void clearErrorFunctions();
 
-  const std::vector<SkeletonErrorFunctionT<T>*>& getErrorFunctions() const;
+  [[nodiscard]] const std::vector<std::shared_ptr<SkeletonErrorFunctionT<T>>>& getErrorFunctions()
+      const;
 
   const Skeleton* getSkeleton() {
     return skeleton_;
@@ -65,7 +66,7 @@ class SkeletonSolverFunctionT : public SolverFunctionT<T> {
   Eigen::MatrixX<T> tJacobian_;
   Eigen::VectorX<T> tResidual_;
 
-  std::vector<SkeletonErrorFunctionT<T>*> errorFunctions_;
+  std::vector<std::shared_ptr<SkeletonErrorFunctionT<T>>> errorFunctions_;
 };
 
 } // namespace momentum

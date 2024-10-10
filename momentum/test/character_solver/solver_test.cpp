@@ -79,25 +79,27 @@ TYPED_TEST(GaussNewtonQRTest, CompareGaussNewton) {
 
     targetParams.push_back(randomParams_cur.v);
 
-    PositionErrorFunctionT<T> positionErrorFunction(skeleton, parameterTransform);
-    OrientationErrorFunctionT<T> orientErrorFunction(skeleton, parameterTransform);
+    auto positionErrorFunction =
+        std::make_shared<PositionErrorFunctionT<T>>(skeleton, parameterTransform);
+    auto orientErrorFunction =
+        std::make_shared<OrientationErrorFunctionT<T>>(skeleton, parameterTransform);
     SkeletonStateT<T> skelState_cur(
         castedCharacterParameterTransform.apply(randomParams_cur), character.skeleton);
     for (size_t iJoint = 0; iJoint < skelState_cur.jointState.size(); ++iJoint) {
-      positionErrorFunction.addConstraint(PositionDataT<T>(
+      positionErrorFunction->addConstraint(PositionDataT<T>(
           Eigen::Vector3<T>::Zero(),
           skelState_cur.jointState[iJoint].translation().template cast<T>(),
           iJoint,
           1.0));
-      orientErrorFunction.addConstraint(OrientationDataT<T>(
+      orientErrorFunction->addConstraint(OrientationDataT<T>(
           Eigen::Quaternion<T>::Identity(),
           skelState_cur.jointState[iJoint].rotation().template cast<T>(),
           iJoint,
           1.0));
     }
 
-    solverFunction.addErrorFunction(&positionErrorFunction);
-    solverFunction.addErrorFunction(&orientErrorFunction);
+    solverFunction.addErrorFunction(positionErrorFunction);
+    solverFunction.addErrorFunction(orientErrorFunction);
 
     SubsetGaussNewtonSolverT<T> solver_sub(subsetGaussNewtonSolverOptions, &solverFunction);
     const T err_sub = test::checkAndTimeSolver<T>(solverFunction, solver_sub, parametersInit);
@@ -140,11 +142,12 @@ TYPED_TEST(TrustRegionTest, PerfectQuadratic) {
     ModelParametersT<T> randomParams_cur =
         VectorX<T>::Random(parameterTransform.numAllModelParameters());
 
-    ModelParametersErrorFunctionT<T> mpErrorFunction(skeleton, parameterTransform);
+    auto mpErrorFunction =
+        std::make_shared<ModelParametersErrorFunctionT<T>>(skeleton, parameterTransform);
     Eigen::VectorX<T> weights =
         VectorX<T>::Random(parameterTransform.numAllModelParameters()).array().abs();
-    mpErrorFunction.setTargetParameters(randomParams_cur, weights);
-    solverFunction.addErrorFunction(&mpErrorFunction);
+    mpErrorFunction->setTargetParameters(randomParams_cur, weights);
+    solverFunction.addErrorFunction(mpErrorFunction);
 
     TrustRegionQRT<T> solver_tr(test::defaultSolverOptions(), &solverFunction);
     const T err_tr = test::checkAndTimeSolver<T>(solverFunction, solver_tr, parametersInit);
@@ -182,25 +185,27 @@ TYPED_TEST(TrustRegionTest, SanityCheck) {
 
     targetParams.push_back(randomParams_cur.v);
 
-    PositionErrorFunctionT<T> positionErrorFunction(skeleton, character.parameterTransform);
-    OrientationErrorFunctionT<T> orientErrorFunction(skeleton, character.parameterTransform);
+    auto positionErrorFunction =
+        std::make_shared<PositionErrorFunctionT<T>>(skeleton, character.parameterTransform);
+    auto orientErrorFunction =
+        std::make_shared<OrientationErrorFunctionT<T>>(skeleton, character.parameterTransform);
     SkeletonStateT<T> skelState_cur(
         castedCharacterParameterTransform.apply(randomParams_cur), character.skeleton);
     for (size_t iJoint = 0; iJoint < skelState_cur.jointState.size(); ++iJoint) {
-      positionErrorFunction.addConstraint(PositionDataT<T>(
+      positionErrorFunction->addConstraint(PositionDataT<T>(
           Eigen::Vector3<T>::Zero(),
           skelState_cur.jointState[iJoint].translation().template cast<T>(),
           iJoint,
           1.0));
-      orientErrorFunction.addConstraint(OrientationDataT<T>(
+      orientErrorFunction->addConstraint(OrientationDataT<T>(
           Eigen::Quaternion<T>::Identity(),
           skelState_cur.jointState[iJoint].rotation().template cast<T>(),
           iJoint,
           1.0));
     }
 
-    solverFunction.addErrorFunction(&positionErrorFunction);
-    solverFunction.addErrorFunction(&orientErrorFunction);
+    solverFunction.addErrorFunction(positionErrorFunction);
+    solverFunction.addErrorFunction(orientErrorFunction);
 
     TrustRegionQRT<T> solver_tr(test::defaultSolverOptions(), &solverFunction);
     const T err_tr = test::checkAndTimeSolver<T>(solverFunction, solver_tr, parametersInit);
