@@ -46,7 +46,8 @@ at::Tensor skeletonStateToTransforms(at::Tensor skeletonState) {
   const at::Tensor affine = at::cat({linear, t.unsqueeze(-1)}, -1);
 
   const at::Tensor lastRow = [&]() {
-    at::Tensor result = to1DTensor(Eigen::Vector4f(0, 0, 0, 1));
+    at::Tensor result = to1DTensor(Eigen::Vector4f(0, 0, 0, 1))
+                            .to(skeletonState.device(), skeletonState.dtype());
     std::vector<int64_t> result_shape;
     while (result.dim() < affine.dim()) {
       result = result.unsqueeze(0);
