@@ -217,7 +217,8 @@ std::vector<ErrorFunctionDerivativesT<T>> d_modelParams_d_inputs(
     result[iErr].errorFunction = errf;
     result[iErr].gradWeight = -dGrad_dWeight.dot(Jinv_times_dLoss_dModelParams_full);
 
-    auto differentiableErr = dynamic_cast<FullyDifferentiableSkeletonErrorFunctionT<T>*>(errf);
+    auto differentiableErr =
+        std::dynamic_pointer_cast<FullyDifferentiableSkeletonErrorFunctionT<T>>(errf);
     if (differentiableErr != nullptr) {
       for (const auto& inputName : differentiableErr->inputs()) {
         result[iErr].gradInputs.emplace(

@@ -213,12 +213,12 @@ Eigen::MatrixXf trackPosesPerframe(
   // parameter limits constraint
   auto limitConstrFunc = std::make_shared<LimitErrorFunction>(character);
   limitConstrFunc->setWeight(0.1);
-  solverFunc.addErrorFunction(limitConstrFunc.get());
+  solverFunc.addErrorFunction(limitConstrFunc);
 
   // positional constraint function for markers
   auto posConstrFunc = std::make_shared<PositionErrorFunction>(character, config.lossAlpha);
   posConstrFunc->setWeight(PositionErrorFunction::kLegacyWeight);
-  solverFunc.addErrorFunction(posConstrFunc.get());
+  solverFunc.addErrorFunction(posConstrFunc);
 
   // floor penetration constraint data; we assume the world is y-up and floor is y=0 for mocap data.
   const auto& floorConstraints = createFloorConstraints<float>(
@@ -230,7 +230,7 @@ Eigen::MatrixXf trackPosesPerframe(
   auto halfPlaneConstrFunc = std::make_shared<PlaneErrorFunction>(character, /*half plane*/ true);
   halfPlaneConstrFunc->setConstraints(floorConstraints);
   halfPlaneConstrFunc->setWeight(PlaneErrorFunction::kLegacyWeight);
-  solverFunc.addErrorFunction(halfPlaneConstrFunc.get());
+  solverFunc.addErrorFunction(halfPlaneConstrFunc);
 
   // marker constraint data
   auto constrData = createConstraintData(markerData, character.locators);
@@ -240,18 +240,18 @@ Eigen::MatrixXf trackPosesPerframe(
   auto smoothConstrFunc = std::make_shared<ModelParametersErrorFunction>(
       character, poseParams & ~pt.getRigidParameters());
   smoothConstrFunc->setWeight(config.smoothing);
-  solverFunc.addErrorFunction(smoothConstrFunc.get());
+  solverFunc.addErrorFunction(smoothConstrFunc);
 
   // add collision error
   std::shared_ptr<CollisionErrorFunction> collisionErrorFunction;
   if (config.collisionErrorWeight != 0 && character.collision != nullptr) {
     collisionErrorFunction = std::make_shared<CollisionErrorFunction>(character);
     collisionErrorFunction->setWeight(config.collisionErrorWeight);
-    solverFunc.addErrorFunction(collisionErrorFunction.get());
+    solverFunc.addErrorFunction(collisionErrorFunction);
   }
 
   MatrixXf motion(pt.numAllModelParameters(), numFrames);
-  // initialze parameters to contain identity information
+  // initialize parameters to contain identity information
   // the identity fields will be used but untouched during optimization
   // globalParams could also be repurposed to pass in initial pose value
   Eigen::VectorXf dof = globalParams.v;

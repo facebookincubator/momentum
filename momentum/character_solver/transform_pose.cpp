@@ -131,13 +131,14 @@ std::vector<ModelParametersT<T>> transformPose(
     simplifiedParamToFullParamIdx.at(iSimplifiedParam) = fullParamIdx;
   }
 
-  momentum::PositionErrorFunctionT<T> positionError(characterSimplified);
-  momentum::OrientationErrorFunctionT<T> orientationError(characterSimplified);
+  auto positionError = std::make_shared<momentum::PositionErrorFunctionT<T>>(characterSimplified);
+  auto orientationError =
+      std::make_shared<momentum::OrientationErrorFunctionT<T>>(characterSimplified);
 
   momentum::SkeletonSolverFunctionT<T> solverFunction(
       &characterSimplified.skeleton, &parameterTransformSimplified);
-  solverFunction.addErrorFunction(&positionError);
-  solverFunction.addErrorFunction(&orientationError);
+  solverFunction.addErrorFunction(positionError);
+  solverFunction.addErrorFunction(orientationError);
 
   momentum::GaussNewtonSolverOptions solverOptions;
   solverOptions.maxIterations = 1000;
@@ -173,12 +174,12 @@ std::vector<ModelParametersT<T>> transformPose(
     const Eigen::Quaternion<T> worldFromRootRotationTarget =
         transform.rotation * skelStateFull.jointState[rootJointFull].rotation();
 
-    positionError.clearConstraints();
-    positionError.addConstraint(PositionDataT<T>(
+    positionError->clearConstraints();
+    positionError->addConstraint(PositionDataT<T>(
         Eigen::Vector3<T>::Zero(), worldFromRootTranslationTarget, rootJointSimplified, 100.0));
 
-    orientationError.clearConstraints();
-    orientationError.addConstraint(OrientationDataT<T>(
+    orientationError->clearConstraints();
+    orientationError->addConstraint(OrientationDataT<T>(
         Eigen::Quaternion<T>::Identity(), worldFromRootRotationTarget, rootJointSimplified, 10.0));
 
     // Initialize with rest params

@@ -115,12 +115,12 @@ void addPositionConstraints(
 
 template <typename T>
 struct IKProblem {
-  std::unique_ptr<momentum::FullyDifferentiablePositionErrorFunctionT<T>>
+  std::shared_ptr<momentum::FullyDifferentiablePositionErrorFunctionT<T>>
       markerError;
-  std::unique_ptr<momentum::LimitErrorFunction> limitError;
-  std::unique_ptr<momentum::FullyDifferentiableOrientationErrorFunctionT<T>>
+  std::shared_ptr<momentum::LimitErrorFunction> limitError;
+  std::shared_ptr<momentum::FullyDifferentiableOrientationErrorFunctionT<T>>
       orientationError;
-  std::unique_ptr<momentum::SkeletonSolverFunction> solverFunction;
+  std::shared_ptr<momentum::SkeletonSolverFunction> solverFunction;
 
   Eigen::VectorX<T> modelParameters_init;
   Eigen::VectorX<T> modelParameters_final;
@@ -181,7 +181,7 @@ TEST(TensorIK, TensorIK) {
         std::make_unique<momentum::SkeletonSolverFunction>(
             &character.skeleton, &character.parameterTransform);
 
-    ikProblems[iBatch].markerError = std::make_unique<
+    ikProblems[iBatch].markerError = std::make_shared<
         momentum::FullyDifferentiablePositionErrorFunctionT<T>>(
         character.skeleton, character.parameterTransform);
     ikProblems[iBatch].markerError->setWeight(2.0f + unif(rng));
@@ -194,21 +194,21 @@ TEST(TensorIK, TensorIK) {
     // pymomentum::printConstraintList(ikProblems[iBatch].markerError->getConstraints(),
     // std::cout);
     ikProblems[iBatch].solverFunction->addErrorFunction(
-        ikProblems[iBatch].markerError.get());
+        ikProblems[iBatch].markerError);
 
     ikProblems[iBatch].limitError =
-        std::make_unique<momentum::LimitErrorFunction>(
+        std::make_shared<momentum::LimitErrorFunction>(
             character.skeleton,
             character.parameterTransform,
             character.parameterLimits);
     ikProblems[iBatch].solverFunction->addErrorFunction(
-        ikProblems[iBatch].limitError.get());
+        ikProblems[iBatch].limitError);
 
-    ikProblems[iBatch].orientationError = std::make_unique<
+    ikProblems[iBatch].orientationError = std::make_shared<
         momentum::FullyDifferentiableOrientationErrorFunctionT<T>>(
         character.skeleton, character.parameterTransform);
     ikProblems[iBatch].solverFunction->addErrorFunction(
-        ikProblems[iBatch].orientationError.get());
+        ikProblems[iBatch].orientationError);
 
     momentum::GaussNewtonSolver solver(
         solverOptions, ikProblems[iBatch].solverFunction.get());
