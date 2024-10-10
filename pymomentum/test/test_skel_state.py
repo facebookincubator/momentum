@@ -9,12 +9,12 @@ import unittest
 
 import pymomentum.geometry as pym_geometry
 import pymomentum.geometry_test_helper as pym_geometry_test_helper
-import pymomentum.quaternion as quaternion
-import pymomentum.skel_state as skel_state
+import pymomentum.quaternion as pym_quaternion
+import pymomentum.skel_state as pym_skel_state
 import torch
 
 
-def generateSkelStateComponents(sz):
+def generate_skel_state_components(sz):
     trans = torch.normal(
         mean=0,
         std=4,
@@ -23,7 +23,7 @@ def generateSkelStateComponents(sz):
         requires_grad=True,
     )
 
-    rot = quaternion.normalize(
+    rot = pym_quaternion.normalize(
         torch.normal(
             mean=0,
             std=4,
@@ -37,13 +37,13 @@ def generateSkelStateComponents(sz):
     return (trans, rot, scale)
 
 
-def generateRandomSkelState(sz):
-    (trans, rot, scale) = generateSkelStateComponents(sz)
+def generate_random_skel_state(sz):
+    (trans, rot, scale) = generate_skel_state_components(sz)
     return torch.cat([trans, rot, scale], -1)
 
 
 class TestSkelState(unittest.TestCase):
-    def test_skelStateToTransforms(self) -> None:
+    def test_skel_state_to_transforms(self) -> None:
         character = pym_geometry_test_helper.test_character()
         nBatch = 2
         modelParams = 0.2 * torch.ones(
@@ -52,29 +52,34 @@ class TestSkelState(unittest.TestCase):
             requires_grad=True,
             dtype=torch.float64,
         )
-        jointParams = character.parameter_transform.apply(modelParams)
-        skelState = pym_geometry.joint_parameters_to_skeleton_state(
-            character, jointParams
+        joint_params = character.parameter_transform.apply(modelParams)
+        skel_state = pym_geometry.joint_parameters_to_skeleton_state(
+            character, joint_params
         )
-        inputs = [skelState]
+        skel_state_d = pym_geometry.joint_parameters_to_skeleton_state(
+            character, joint_params.to(torch.double)
+        )
+        inputs = [skel_state_d]
         torch.autograd.gradcheck(
-            skel_state.to_matrix,
+            pym_skel_state.to_matrix,
             inputs,
-            eps=1e-2,
-            atol=1e-3,
+            eps=1e-3,
+            atol=1e-4,
             raise_exception=True,
         )
 
+        self.assertTrue(torch.allclose(skel_state, skel_state_d, atol=1e-3))
+
     def test_multiply(self) -> None:
         nMats = 6
-        s1 = generateRandomSkelState(nMats)
-        s2 = generateRandomSkelState(nMats)
+        s1 = generate_random_skel_state(nMats)
+        s2 = generate_random_skel_state(nMats)
 
-        s12 = skel_state.multiply(s1, s2)
-        m12 = skel_state.to_matrix(s12)
+        s12 = pym_skel_state.multiply(s1, s2)
+        m12 = pym_skel_state.to_matrix(s12)
 
-        m1 = skel_state.to_matrix(s1)
-        m2 = skel_state.to_matrix(s2)
+        m1 = pym_skel_state.to_matrix(s1)
+        m2 = pym_skel_state.to_matrix(s2)
 
         self.assertLess(
             torch.norm(torch.bmm(m1, m2) - m12),
@@ -84,11 +89,11 @@ class TestSkelState(unittest.TestCase):
 
     def test_inverse(self) -> None:
         nMats = 6
-        s = generateRandomSkelState(nMats)
-        s_inv = skel_state.inverse(s)
+        s = generate_random_skel_state(nMats)
+        s_inv = pym_skel_state.inverse(s)
 
-        m = skel_state.to_matrix(s)
-        m_inv = skel_state.to_matrix(s_inv)
+        m = pym_skel_state.to_matrix(s)
+        m_inv = pym_skel_state.to_matrix(s_inv)
         m_inv2 = torch.linalg.inv(m)
 
         self.assertLess(
@@ -99,12 +104,12 @@ class TestSkelState(unittest.TestCase):
 
     def test_transform_points(self) -> None:
         nMats = 6
-        s = generateRandomSkelState(nMats)
-        m = skel_state.to_matrix(s)
+        s = generate_random_skel_state(nMats)
+        m = pym_skel_state.to_matrix(s)
         pts = torch.rand(size=(nMats, 3), dtype=torch.float64, requires_grad=False)
         hpts = torch.cat([pts, torch.ones(nMats, 1)], -1)
         transformed1 = torch.bmm(m, hpts.unsqueeze(-1))[:, 0:3].squeeze(-1)
-        transformed2 = skel_state.transform_points(s, pts)
+        transformed2 = pym_skel_state.transform_points(s, pts)
 
         self.assertLess(
             torch.norm(transformed1 - transformed2),
@@ -114,13 +119,13 @@ class TestSkelState(unittest.TestCase):
 
     def test_construct(self) -> None:
         nMats = 4
-        (trans, rot, scale) = generateSkelStateComponents(nMats)
+        (trans, rot, scale) = generate_skel_state_components(nMats)
 
         s1 = torch.cat([trans, rot, scale], -1)
-        s2 = skel_state.multiply(
-            skel_state.from_translation(trans),
-            skel_state.multiply(
-                skel_state.from_quaternion(rot), skel_state.from_scale(scale)
+        s2 = pym_skel_state.multiply(
+            pym_skel_state.from_translation(trans),
+            pym_skel_state.multiply(
+                pym_skel_state.from_quaternion(rot), pym_skel_state.from_scale(scale)
             ),
         )
 
@@ -132,10 +137,10 @@ class TestSkelState(unittest.TestCase):
 
     def test_matrix_to_skel_state(self) -> None:
         nMats = 6
-        s1 = generateRandomSkelState(nMats)
-        m1 = skel_state.to_matrix(s1)
-        s2 = skel_state.from_matrix(m1)
-        m2 = skel_state.to_matrix(s2)
+        s1 = generate_random_skel_state(nMats)
+        m1 = pym_skel_state.to_matrix(s1)
+        s2 = pym_skel_state.from_matrix(m1)
+        m2 = pym_skel_state.to_matrix(s2)
         self.assertLess(
             torch.norm(m1 - m2),
             1e-4,
@@ -158,12 +163,12 @@ class TestSkelState(unittest.TestCase):
         t1 = torch.Tensor([1, 0, 0])
         t2 = torch.Tensor([0, 1, 0])
 
-        s1 = skel_state.from_translation(t1)
-        s2 = skel_state.from_translation(t2)
-        s_test = skel_state.from_translation(torch.Tensor([0.25, 0.75, 0]))
+        s1 = pym_skel_state.from_translation(t1)
+        s2 = pym_skel_state.from_translation(t2)
+        s_test = pym_skel_state.from_translation(torch.Tensor([0.25, 0.75, 0]))
 
         weights = torch.Tensor([0.25, 0.75])
-        s_blended = skel_state.blend(torch.stack([s1, s2], 0), weights)
+        s_blended = pym_skel_state.blend(torch.stack([s1, s2], 0), weights)
 
         self.assertLess(
             torch.norm(s_blended - s_test),
@@ -173,18 +178,18 @@ class TestSkelState(unittest.TestCase):
 
     def test_skel_state_splitting(self) -> None:
         t1 = torch.Tensor([1, 0, 0])
-        skel_state1 = skel_state.from_translation(t1)
-        t2, r2, s2 = skel_state.split(skel_state1)
+        skel_state1 = pym_skel_state.from_translation(t1)
+        t2, r2, s2 = pym_skel_state.split(skel_state1)
         self.assertTrue(torch.allclose(t2, t2))
 
         r3 = torch.Tensor([0, 1, 0, 0])
-        skel_state3 = skel_state.from_quaternion(r3)
-        t4, r4, s4 = skel_state.split(skel_state3)
+        skel_state3 = pym_skel_state.from_quaternion(r3)
+        t4, r4, s4 = pym_skel_state.split(skel_state3)
         self.assertTrue(torch.allclose(r3, r4))
 
         s5 = torch.Tensor([2])
-        skel_state5 = skel_state.from_scale(s5)
-        t6, r6, s6 = skel_state.split(skel_state5)
+        skel_state5 = pym_skel_state.from_scale(s5)
+        t6, r6, s6 = pym_skel_state.split(skel_state5)
         self.assertTrue(torch.allclose(s5, s6))
 
 
