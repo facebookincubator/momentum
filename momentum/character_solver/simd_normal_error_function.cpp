@@ -35,8 +35,10 @@ SimdNormalConstraints::SimdNormalConstraints(const Skeleton* skel) {
   MT_CHECK(dataSize % kSimdAlignment == 0);
 
   // create memory for all floats
-  data = makeAlignedUnique<float, kSimdAlignment>(dataSize * 10);
+  constexpr size_t nBlocks = 10;
+  data = makeAlignedUnique<float, kSimdAlignment>(dataSize * nBlocks);
   float* dataPtr = data.get();
+  std::fill_n(dataPtr, dataSize * nBlocks, 0.0f);
 
   offsetX = dataPtr + dataSize * 0;
   offsetY = dataPtr + dataSize * 1;
