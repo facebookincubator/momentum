@@ -561,8 +561,9 @@ void addMotionToModel(
     return;
   }
 
+  // **** Save animation to Momentum extension ****
   // add motion if we have poses
-  bool fullAnimation = true;
+  bool fullAnimation = false;
   if (addExtension) {
     auto& def = addMomentumExtension(model.extensionsAndExtras);
     // store motion array and offsets as metadata
@@ -571,25 +572,21 @@ void addMotionToModel(
       def["motion"]["parameterNames"] = parameterNames;
       def["motion"]["poses"] = createAccessorBuffer<const float>(
           model, gsl::span<const float>(motion.data(), motion.size()));
-    } else {
-      fullAnimation = false;
+      fullAnimation = true;
     }
 
     if (!jointNames.empty() && identity.size() > 0) {
       def["motion"]["jointNames"] = jointNames;
       def["motion"]["offsets"] = createAccessorBuffer<const float>(
           model, gsl::span<const float>(identity.data(), identity.size()));
-    } else {
-      fullAnimation = false;
+      fullAnimation = true;
     }
+  } else {
+    // There may be animation outside of the momentum machinery
+    fullAnimation = true;
   }
 
-  // check for valid character and stuff before adding things
-  if (!fullAnimation || character.skeleton.joints.empty() ||
-      character.parameterTransform.numAllModelParameters() == 0) {
-    return;
-  }
-
+  // **** Save animation to gltf ****
   // add blenshapes (that are used) if available
   if (meshIndex != kInvalidIndex && character.blendShape != nullptr) {
     addMorphTargetsToModel(
@@ -599,6 +596,11 @@ void addMotionToModel(
         meshIndex);
 
     addMorphWeightsToModel(model, character, fps, motion, meshIndex, motionName);
+  }
+
+  // check for valid character and motion before adding joint animation
+  if (!fullAnimation || character.skeleton.joints.empty()) {
+    return;
   }
 
   // map data to character
