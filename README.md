@@ -47,16 +47,16 @@ pixi add momentum
 #### Conda
 
 ```
-conda install conda-forge::momentum-cpp
-conda install conda-forge::pymomentum
-conda install conda-forge::momentum
+conda install -c conda-forge momentum-cpp
+conda install -c conda-forge pymomentum # Linux only
+conda install -c conda-forge momentum
 ```
 
 #### Micromamba
 
 ```
 micromamba install -c conda-forge momentum-cpp
-micromamba install -c conda-forge pymomentum
+micromamba install -c conda-forge pymomentum # Linux only
 micromamba install -c conda-forge momentum
 ```
 
@@ -133,7 +133,7 @@ Momentum uses the `build/` directory for CMake builds, `.pixi/` for the Pixi vir
 
 ## 📖 Documentation
 
-The full documentation for Momentum can be found on our [website][https://facebookincubator.github.io/momentum] and the C++ API documentation is available [here][https://facebookincubator.github.io/momentum/doxygen/index.html].
+The full documentation for Momentum can be found on our [website](https://facebookincubator.github.io/momentum) and the C++ API documentation is available [here](https://facebookincubator.github.io/momentum/doxygen/index.html).
 
 ## Contributing
 
