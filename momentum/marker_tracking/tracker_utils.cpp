@@ -116,10 +116,15 @@ Character createLocatorCharacter(const Character& sourceCharacter, const std::st
     newTransform.offsets.conservativeResize(newTransform.offsets.size() + kParametersPerJoint);
     newTransform.activeJointParams.conservativeResize(
         newTransform.activeJointParams.size() + kParametersPerJoint);
-    for (auto j = newTransform.offsets.size() - gsl::narrow<int>(kParametersPerJoint);
+    for (size_t j = newTransform.offsets.size() - gsl::narrow<int>(kParametersPerJoint);
          j < newTransform.offsets.size();
-         j++) {
+         ++j) {
       newTransform.offsets(j) = 0.0;
+    }
+
+    for (size_t j = newTransform.activeJointParams.size() - gsl::narrow<int>(kParametersPerJoint);
+         j < newTransform.activeJointParams.size();
+         ++j) {
       newTransform.activeJointParams(j) = true;
     }
 
