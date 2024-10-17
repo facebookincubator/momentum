@@ -1,0 +1,137 @@
+[[fwd]]
+subdirectory = "common"
+classes = [
+    "ProgressBar"
+]
+
+[[fwd]]
+subdirectory = "math"
+template_structs = [
+    "Mesh",
+    "Mppca",
+    "Transform"
+]
+template_classes = [
+    "LowRankCovarianceMatrix",
+    "GeneralizedLoss",
+    "SimdGeneralizedLoss"
+]
+
+[[fwd]]
+subdirectory = "character"
+structs = [
+    "BlendShape",
+    "BlendShapeBase",
+    "PoseShape",
+    "SkinWeights"
+]
+template_structs = [
+    "Character",
+    "CharacterState",
+    "CollisionGeometryState",
+    "Joint",
+    "JointState",
+    "ParameterTransform",
+    "Skeleton",
+    "SkeletonState",
+    "TaperedCapsule"
+]
+
+[[fwd]]
+subdirectory = "character_solver"
+structs = [
+    "ConstraintData",
+    "GaussNewtonSolverQROptions",
+    "SimdNormalConstraints",
+    "SimdPlaneConstraints",
+    "SimdPositionConstraints",
+]
+template_structs = [
+    "AimData",
+    "FixedAxisData",
+    "NormalData",
+    "OrientationData",
+    "PlaneData",
+    "PositionData",
+    "VertexConstraint",
+]
+classes = [
+    "SimdNormalErrorFunction",
+    "SimdPlaneErrorFunction",
+    "SimdPositionErrorFunction",
+    "SimdNormalErrorFunctionAVX",
+    "SimdPlaneErrorFunctionAVX",
+    "SimdPositionErrorFunctionAVX",
+]
+template_classes = [
+    "AimDirErrorFunction",
+    "AimDistErrorFunction",
+    "CollisionErrorFunction",
+    "CollisionErrorFunctionStateless",
+    "FixedAxisAngleErrorFunction",
+    "FixedAxisCosErrorFunction",
+    "FixedAxisDiffErrorFunction",
+    "GaussNewtonSolverQR",
+    "LimitErrorFunction",
+    "ModelParametersErrorFunction",
+    "NormalErrorFunction",
+    "OrientationErrorFunction",
+    "PlaneErrorFunction",
+    "PosePriorErrorFunction",
+    "PositionErrorFunction",
+    "SimdCollisionErrorFunction",
+    "SkeletonErrorFunction",
+    "SkeletonSolverFunction",
+    "StateErrorFunction",
+    "TrustRegionQR",
+    "VertexErrorFunction",
+]
+
+[[fwd]]
+subdirectory = "character_sequence_solver"
+structs = [
+    "MultiposeSolverOptions",
+    "SequenceSolverOptions",
+]
+template_classes = [
+    "SequenceErrorFunction",
+    "ModelParametersSequenceErrorFunction",
+    "MultiposeSolver",
+    "MultiposeSolverFunction",
+    "SequenceSolver",
+    "SequenceSolverFunction",
+    "StateSequenceErrorFunction",
+]
+
+[[fwd]]
+subdirectory = "solver"
+structs = [
+    "SolverOptions",
+    "GaussNewtonSolverOptions",
+]
+template_classes = [
+    "Solver",
+    "SolverFunction",
+    "GaussNewtonSolver",
+    "GradientDescentSolver",
+    "SubsetGaussNewtonSolver",
+]
+
+[[fwd]]
+subdirectory = "diff_ik"
+template_structs = [
+    "ErrorFunctionDerivatives",
+    "OrientationConstraint",
+    "OrientationConstraintState",
+    "PositionConstraint",
+    "PositionConstraintState",
+]
+template_classes = [
+    "FullyDifferentiableMotionErrorFunction",
+    "FullyDifferentiableOrientationErrorFunction",
+    "FullyDifferentiablePosePriorErrorFunction",
+    "FullyDifferentiablePositionErrorFunction",
+    "FullyDifferentiableSkeletonErrorFunction",
+    "FullyDifferentiableStateErrorFunction",
+    "UnionErrorFunction",
+]

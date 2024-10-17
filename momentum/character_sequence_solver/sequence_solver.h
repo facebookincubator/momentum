@@ -8,6 +8,7 @@
 #pragma once
 
 #include <momentum/character_sequence_solver/fwd.h>
+#include <momentum/common/fwd.h>
 #include <momentum/math/fwd.h>
 #include <momentum/math/online_householder_qr.h>
 #include <momentum/solver/solver.h>
