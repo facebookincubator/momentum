@@ -93,11 +93,11 @@ $(function() {
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacemomentum.html">momentum</a> {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;Character <a class="code" href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">loadGltfCharacter</a>(fx::gltf::Document&amp; model);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a> <a class="code" href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">loadGltfCharacter</a>(fx::gltf::Document&amp; model);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;Character <a class="code" href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">loadGltfCharacter</a>(<span class="keyword">const</span> filesystem::path&amp; gltfFilename);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a> <a class="code" href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">loadGltfCharacter</a>(<span class="keyword">const</span> filesystem::path&amp; gltfFilename);</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;Character <a class="code" href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">loadGltfCharacter</a>(gsl::span&lt;const std::byte&gt; byteSpan);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a> <a class="code" href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">loadGltfCharacter</a>(gsl::span&lt;const std::byte&gt; byteSpan);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;std::tuple&lt;MotionParameters, IdentityParameters, float&gt; <a class="code" href="namespacemomentum.html#a06ff22b041f41c37ec0793777c9ce93e">loadMotion</a>(</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">const</span> filesystem::path&amp; gltfFilename);</div>
@@ -110,16 +110,16 @@ $(function() {
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;std::tuple&lt;MatrixXf, VectorXf, float&gt; <a class="code" href="namespacemomentum.html#ac95e977c8e17fcca2dc99db7fabaedb5">loadMotionOnCharacter</a>(</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">const</span> filesystem::path&amp; gltfFilename,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">const</span> Character&amp; character);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>&amp; character);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;std::tuple&lt;MatrixXf, VectorXf, float&gt; <a class="code" href="namespacemomentum.html#ac95e977c8e17fcca2dc99db7fabaedb5">loadMotionOnCharacter</a>(</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    gsl::span&lt;const std::byte&gt; byteSpan,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">const</span> Character&amp; character);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>&amp; character);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;MarkerSequence <a class="code" href="namespacemomentum.html#aaf255ac6caa4128f5a31c7cfb089774d">loadMarkerSequence</a>(<span class="keyword">const</span> filesystem::path&amp; filename);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;fx::gltf::Document <a class="code" href="namespacemomentum.html#ae02e0502adc26ee182affd0baf7d711d">makeCharacterDocument</a>(</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">const</span> Character&amp; character,</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>&amp; character,</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">float</span> fps = 120.0f,</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#afdca80b52fef9cdaee8e5d253833bd8b">MotionParameters</a>&amp; motion = {},</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a50bf418242216f94d8c770a15c647a92">IdentityParameters</a>&amp; offsets = {},</div>
@@ -128,7 +128,7 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacemomentum.html#a405dfc3f4bf46e944f3d081e413cc400">saveCharacter</a>(</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">const</span> filesystem::path&amp; filename,</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">const</span> Character&amp; Character,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>&amp; <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>,</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">float</span> fps = 120.0f,</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#afdca80b52fef9cdaee8e5d253833bd8b">MotionParameters</a>&amp; motion = {},</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a50bf418242216f94d8c770a15c647a92">IdentityParameters</a>&amp; offsets = {},</div>
@@ -137,7 +137,7 @@ $(function() {
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacemomentum.html#a405dfc3f4bf46e944f3d081e413cc400">saveCharacter</a>(</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">const</span> filesystem::path&amp; filename,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">const</span> Character&amp; Character,</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>&amp; <a class="code" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>,</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">float</span> fps,</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    gsl::span&lt;const SkeletonState&gt; skeletonStates,</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keyword">const</span> std::vector&lt;std::vector&lt;Marker&gt;&gt;&amp; markerSequence = {},</div>
@@ -153,6 +153,7 @@ $(function() {
 <div class="ttc" id="anamespacemomentum_html_a06ff22b041f41c37ec0793777c9ce93e"><div class="ttname"><a href="namespacemomentum.html#a06ff22b041f41c37ec0793777c9ce93e">momentum::loadMotion</a></div><div class="ttdeci">std::tuple&lt; MotionParameters, IdentityParameters, float &gt; loadMotion(const filesystem::path &amp;gltfFilename)</div><div class="ttdef"><b>Definition:</b> gltf_io.cpp:895</div></div>
 <div class="ttc" id="anamespacemomentum_html_a405dfc3f4bf46e944f3d081e413cc400"><div class="ttname"><a href="namespacemomentum.html#a405dfc3f4bf46e944f3d081e413cc400">momentum::saveCharacter</a></div><div class="ttdeci">void saveCharacter(const filesystem::path &amp;filename, const Character &amp;character, const float fps, const MotionParameters &amp;motion, const IdentityParameters &amp;offsets, const std::vector&lt; std::vector&lt; Marker &gt;&gt; &amp;markerSequence, const GltfFileFormat fileFormat)</div><div class="ttdoc">Saves character motion to a glb file.</div><div class="ttdef"><b>Definition:</b> gltf_io.cpp:1035</div></div>
 <div class="ttc" id="anamespacemomentum_html_a50bf418242216f94d8c770a15c647a92"><div class="ttname"><a href="namespacemomentum.html#a50bf418242216f94d8c770a15c647a92">momentum::IdentityParameters</a></div><div class="ttdeci">std::tuple&lt; std::vector&lt; std::string &gt;, Eigen::VectorXf &gt; IdentityParameters</div><div class="ttdef"><b>Definition:</b> types.h:197</div></div>
+<div class="ttc" id="anamespacemomentum_html_a9f4c67a24d6c5afccf7ec31801df8e6e"><div class="ttname"><a href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">momentum::Character</a></div><div class="ttdeci">CharacterT&lt; float &gt; Character</div><div class="ttdef"><b>Definition:</b> fwd.h:62</div></div>
 <div class="ttc" id="anamespacemomentum_html_aa298f42f1c066aa336d3dfe6041291c5"><div class="ttname"><a href="namespacemomentum.html#aa298f42f1c066aa336d3dfe6041291c5">momentum::loadGltfCharacter</a></div><div class="ttdeci">Character loadGltfCharacter(fx::gltf::Document &amp;model)</div><div class="ttdef"><b>Definition:</b> gltf_io.cpp:873</div></div>
 <div class="ttc" id="anamespacemomentum_html_aaf255ac6caa4128f5a31c7cfb089774d"><div class="ttname"><a href="namespacemomentum.html#aaf255ac6caa4128f5a31c7cfb089774d">momentum::loadMarkerSequence</a></div><div class="ttdeci">MarkerSequence loadMarkerSequence(const filesystem::path &amp;filename)</div><div class="ttdoc">Loads a MarkerSequence from a file.</div><div class="ttdef"><b>Definition:</b> gltf_io.cpp:971</div></div>
 <div class="ttc" id="anamespacemomentum_html_ab4c06c8408d6bc9e0f322065a9ec93e8"><div class="ttname"><a href="namespacemomentum.html#ab4c06c8408d6bc9e0f322065a9ec93e8">momentum::GltfFileFormat</a></div><div class="ttdeci">GltfFileFormat</div><div class="ttdef"><b>Definition:</b> gltf_file_format.h:13</div></div>

@@ -68,12 +68,12 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">fwd.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="common_2fwd_8h_source.html">momentum/common/fwd.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
 </div>
 <p><a href="math_2fwd_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -82,20 +82,176 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacemomentum"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html">momentum</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a72f89b67681e36a73a615ebbcc04971f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a72f89b67681e36a73a615ebbcc04971f">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT</a> (Mesh)</td></tr>
-<tr class="separator:a72f89b67681e36a73a615ebbcc04971f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e27c8a95baaa20b070592a086d05228"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a5e27c8a95baaa20b070592a086d05228">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT</a> (Mppca)</td></tr>
-<tr class="separator:a5e27c8a95baaa20b070592a086d05228"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c05a0a469e6050a162bcaf3277fcfa1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a9c05a0a469e6050a162bcaf3277fcfa1">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_STRUCT</a> (Transform)</td></tr>
-<tr class="separator:a9c05a0a469e6050a162bcaf3277fcfa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37f4cc310014e28fc1989b404e1cf431"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a37f4cc310014e28fc1989b404e1cf431">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS</a> (LowRankCovarianceMatrix)</td></tr>
-<tr class="separator:a37f4cc310014e28fc1989b404e1cf431"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0edb68f3252b6ed2c941de5854d5a5f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0edb68f3252b6ed2c941de5854d5a5f5">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS</a> (GeneralizedLoss)</td></tr>
-<tr class="separator:a0edb68f3252b6ed2c941de5854d5a5f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a568cf9cfc1b6ef5b99968571d3fc47fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a568cf9cfc1b6ef5b99968571d3fc47fe">momentum::MOMENTUM_FWD_DECLARE_TEMPLATE_CLASS</a> (SimdGeneralizedLoss)</td></tr>
-<tr class="separator:a568cf9cfc1b6ef5b99968571d3fc47fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ad6c97613c9fc58260459b5c954e75e98"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ad6c97613c9fc58260459b5c954e75e98">momentum::Mesh</a> = MeshT&lt; float &gt;</td></tr>
+<tr class="separator:ad6c97613c9fc58260459b5c954e75e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc1bd5021be780ddbfc80ee6c61b29eb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#abc1bd5021be780ddbfc80ee6c61b29eb">momentum::Meshd</a> = MeshT&lt; double &gt;</td></tr>
+<tr class="separator:abc1bd5021be780ddbfc80ee6c61b29eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69193e9ef3a00ff9d45886a247cede6e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a69193e9ef3a00ff9d45886a247cede6e">momentum::Mesh_p</a> = ::std::shared_ptr&lt; Mesh &gt;</td></tr>
+<tr class="separator:a69193e9ef3a00ff9d45886a247cede6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dd3ccb3985dcd25de270120edd5702c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1dd3ccb3985dcd25de270120edd5702c">momentum::Mesh_u</a> = ::std::unique_ptr&lt; Mesh &gt;</td></tr>
+<tr class="separator:a1dd3ccb3985dcd25de270120edd5702c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e88698a7e4c5c632caaef5c4723ce88"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a3e88698a7e4c5c632caaef5c4723ce88">momentum::Mesh_w</a> = ::std::weak_ptr&lt; Mesh &gt;</td></tr>
+<tr class="separator:a3e88698a7e4c5c632caaef5c4723ce88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1270c19d41f6d6408ba3d5642c131239"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1270c19d41f6d6408ba3d5642c131239">momentum::Mesh_const_p</a> = ::std::shared_ptr&lt; const Mesh &gt;</td></tr>
+<tr class="separator:a1270c19d41f6d6408ba3d5642c131239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a19307cae12d07df34a52787e3a01a8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a4a19307cae12d07df34a52787e3a01a8">momentum::Mesh_const_u</a> = ::std::unique_ptr&lt; const Mesh &gt;</td></tr>
+<tr class="separator:a4a19307cae12d07df34a52787e3a01a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29799d38d09bbdbf63829b32d43a883b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a29799d38d09bbdbf63829b32d43a883b">momentum::Mesh_const_w</a> = ::std::weak_ptr&lt; const Mesh &gt;</td></tr>
+<tr class="separator:a29799d38d09bbdbf63829b32d43a883b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa19b72ba77b00b3a428848411a4f5718"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aa19b72ba77b00b3a428848411a4f5718">momentum::Meshd_p</a> = ::std::shared_ptr&lt; Meshd &gt;</td></tr>
+<tr class="separator:aa19b72ba77b00b3a428848411a4f5718"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f67c816293d4c244bf47843f604d638"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a0f67c816293d4c244bf47843f604d638">momentum::Meshd_u</a> = ::std::unique_ptr&lt; Meshd &gt;</td></tr>
+<tr class="separator:a0f67c816293d4c244bf47843f604d638"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e130efafc0d41ce593e63f1eb2d60cd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1e130efafc0d41ce593e63f1eb2d60cd">momentum::Meshd_w</a> = ::std::weak_ptr&lt; Meshd &gt;</td></tr>
+<tr class="separator:a1e130efafc0d41ce593e63f1eb2d60cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab34cc9c1dc617873b946cfa439b9db13"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab34cc9c1dc617873b946cfa439b9db13">momentum::Meshd_const_p</a> = ::std::shared_ptr&lt; const Meshd &gt;</td></tr>
+<tr class="separator:ab34cc9c1dc617873b946cfa439b9db13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa25917351fbde4f2ce337abb53d6169"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aaa25917351fbde4f2ce337abb53d6169">momentum::Meshd_const_u</a> = ::std::unique_ptr&lt; const Meshd &gt;</td></tr>
+<tr class="separator:aaa25917351fbde4f2ce337abb53d6169"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8ac6546da7900d73ff7fe2d7b59be5f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aa8ac6546da7900d73ff7fe2d7b59be5f">momentum::Meshd_const_w</a> = ::std::weak_ptr&lt; const Meshd &gt;</td></tr>
+<tr class="separator:aa8ac6546da7900d73ff7fe2d7b59be5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4152be9f3a221c20be9fe6c81118aa1e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a4152be9f3a221c20be9fe6c81118aa1e">momentum::Mppca</a> = MppcaT&lt; float &gt;</td></tr>
+<tr class="separator:a4152be9f3a221c20be9fe6c81118aa1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4724ccff6fa4515bdee2c459740d448"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab4724ccff6fa4515bdee2c459740d448">momentum::Mppcad</a> = MppcaT&lt; double &gt;</td></tr>
+<tr class="separator:ab4724ccff6fa4515bdee2c459740d448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab285e07cc02abae4980e961e26e009cd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab285e07cc02abae4980e961e26e009cd">momentum::Mppca_p</a> = ::std::shared_ptr&lt; Mppca &gt;</td></tr>
+<tr class="separator:ab285e07cc02abae4980e961e26e009cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea61ab850086382e3e72ad0a7ba45b54"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aea61ab850086382e3e72ad0a7ba45b54">momentum::Mppca_u</a> = ::std::unique_ptr&lt; Mppca &gt;</td></tr>
+<tr class="separator:aea61ab850086382e3e72ad0a7ba45b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ceb0581ecbe66ceae9bab2391d1f6f6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1ceb0581ecbe66ceae9bab2391d1f6f6">momentum::Mppca_w</a> = ::std::weak_ptr&lt; Mppca &gt;</td></tr>
+<tr class="separator:a1ceb0581ecbe66ceae9bab2391d1f6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0dac76499a3da771668699d7027dd69"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab0dac76499a3da771668699d7027dd69">momentum::Mppca_const_p</a> = ::std::shared_ptr&lt; const Mppca &gt;</td></tr>
+<tr class="separator:ab0dac76499a3da771668699d7027dd69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c677c8158a31ebc23e179711628dc87"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a7c677c8158a31ebc23e179711628dc87">momentum::Mppca_const_u</a> = ::std::unique_ptr&lt; const Mppca &gt;</td></tr>
+<tr class="separator:a7c677c8158a31ebc23e179711628dc87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bc7f7a911982f753c68a5e9d22f14ad"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2bc7f7a911982f753c68a5e9d22f14ad">momentum::Mppca_const_w</a> = ::std::weak_ptr&lt; const Mppca &gt;</td></tr>
+<tr class="separator:a2bc7f7a911982f753c68a5e9d22f14ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19b94285eeb4b9277a5e63fbc4563e38"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a19b94285eeb4b9277a5e63fbc4563e38">momentum::Mppcad_p</a> = ::std::shared_ptr&lt; Mppcad &gt;</td></tr>
+<tr class="separator:a19b94285eeb4b9277a5e63fbc4563e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14df4b831078d43fd4b1883f4d8697f5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a14df4b831078d43fd4b1883f4d8697f5">momentum::Mppcad_u</a> = ::std::unique_ptr&lt; Mppcad &gt;</td></tr>
+<tr class="separator:a14df4b831078d43fd4b1883f4d8697f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822e2675c8851a03fe3c5cef1d655048"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a822e2675c8851a03fe3c5cef1d655048">momentum::Mppcad_w</a> = ::std::weak_ptr&lt; Mppcad &gt;</td></tr>
+<tr class="separator:a822e2675c8851a03fe3c5cef1d655048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cf4c6705b6764f9452b4576bbfc55e1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2cf4c6705b6764f9452b4576bbfc55e1">momentum::Mppcad_const_p</a> = ::std::shared_ptr&lt; const Mppcad &gt;</td></tr>
+<tr class="separator:a2cf4c6705b6764f9452b4576bbfc55e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4f0b1c25ac06f33fdd361a007669e0c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ad4f0b1c25ac06f33fdd361a007669e0c">momentum::Mppcad_const_u</a> = ::std::unique_ptr&lt; const Mppcad &gt;</td></tr>
+<tr class="separator:ad4f0b1c25ac06f33fdd361a007669e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff05669e8ad2257083d6bef213738a94"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aff05669e8ad2257083d6bef213738a94">momentum::Mppcad_const_w</a> = ::std::weak_ptr&lt; const Mppcad &gt;</td></tr>
+<tr class="separator:aff05669e8ad2257083d6bef213738a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc9d4c85c9802731926f11e9c09a438"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aacc9d4c85c9802731926f11e9c09a438">momentum::Transform</a> = TransformT&lt; float &gt;</td></tr>
+<tr class="separator:aacc9d4c85c9802731926f11e9c09a438"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7055b66cb4fa056c45de0c5c29d0a5b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab7055b66cb4fa056c45de0c5c29d0a5b">momentum::Transformd</a> = TransformT&lt; double &gt;</td></tr>
+<tr class="separator:ab7055b66cb4fa056c45de0c5c29d0a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1603db334773c6388e8fe0c4c09b2847"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1603db334773c6388e8fe0c4c09b2847">momentum::Transform_p</a> = ::std::shared_ptr&lt; Transform &gt;</td></tr>
+<tr class="separator:a1603db334773c6388e8fe0c4c09b2847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae369f00558d177c09c92cbdeb4c93ba6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ae369f00558d177c09c92cbdeb4c93ba6">momentum::Transform_u</a> = ::std::unique_ptr&lt; Transform &gt;</td></tr>
+<tr class="separator:ae369f00558d177c09c92cbdeb4c93ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cd54507cb41a1893e939bbe429599c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a6cd54507cb41a1893e939bbe429599c9">momentum::Transform_w</a> = ::std::weak_ptr&lt; Transform &gt;</td></tr>
+<tr class="separator:a6cd54507cb41a1893e939bbe429599c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea18815243ac40479fb641f23d7b74f7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aea18815243ac40479fb641f23d7b74f7">momentum::Transform_const_p</a> = ::std::shared_ptr&lt; const Transform &gt;</td></tr>
+<tr class="separator:aea18815243ac40479fb641f23d7b74f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a888d6fc82076053fe0e534d27b69b451"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a888d6fc82076053fe0e534d27b69b451">momentum::Transform_const_u</a> = ::std::unique_ptr&lt; const Transform &gt;</td></tr>
+<tr class="separator:a888d6fc82076053fe0e534d27b69b451"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589bf59ce3966334b03c46f69e81778f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a589bf59ce3966334b03c46f69e81778f">momentum::Transform_const_w</a> = ::std::weak_ptr&lt; const Transform &gt;</td></tr>
+<tr class="separator:a589bf59ce3966334b03c46f69e81778f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec3b1ec82a33131169876089c96dfeb4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aec3b1ec82a33131169876089c96dfeb4">momentum::Transformd_p</a> = ::std::shared_ptr&lt; Transformd &gt;</td></tr>
+<tr class="separator:aec3b1ec82a33131169876089c96dfeb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77a4e67fc7b032864ada1f0f8e928ee4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a77a4e67fc7b032864ada1f0f8e928ee4">momentum::Transformd_u</a> = ::std::unique_ptr&lt; Transformd &gt;</td></tr>
+<tr class="separator:a77a4e67fc7b032864ada1f0f8e928ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68b2d34b9c35e50e09ee1671fcc4c2ea"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a68b2d34b9c35e50e09ee1671fcc4c2ea">momentum::Transformd_w</a> = ::std::weak_ptr&lt; Transformd &gt;</td></tr>
+<tr class="separator:a68b2d34b9c35e50e09ee1671fcc4c2ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a065734d6b57ee9d28adbd183798c9b11"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a065734d6b57ee9d28adbd183798c9b11">momentum::Transformd_const_p</a> = ::std::shared_ptr&lt; const Transformd &gt;</td></tr>
+<tr class="separator:a065734d6b57ee9d28adbd183798c9b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7994cdeeefd87dc57a9f211a90087859"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a7994cdeeefd87dc57a9f211a90087859">momentum::Transformd_const_u</a> = ::std::unique_ptr&lt; const Transformd &gt;</td></tr>
+<tr class="separator:a7994cdeeefd87dc57a9f211a90087859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c81d3ad144f95810efca49040da4c25"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1c81d3ad144f95810efca49040da4c25">momentum::Transformd_const_w</a> = ::std::weak_ptr&lt; const Transformd &gt;</td></tr>
+<tr class="separator:a1c81d3ad144f95810efca49040da4c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a812e3be8a13d50dfe8b8b9be2c03a006"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a812e3be8a13d50dfe8b8b9be2c03a006">momentum::LowRankCovarianceMatrix</a> = LowRankCovarianceMatrixT&lt; float &gt;</td></tr>
+<tr class="separator:a812e3be8a13d50dfe8b8b9be2c03a006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb723169342abc6c4dee93ece1d98ebb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#abb723169342abc6c4dee93ece1d98ebb">momentum::LowRankCovarianceMatrixd</a> = LowRankCovarianceMatrixT&lt; double &gt;</td></tr>
+<tr class="separator:abb723169342abc6c4dee93ece1d98ebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cee0663b153cc6ddb119f6dd00761b4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a7cee0663b153cc6ddb119f6dd00761b4">momentum::LowRankCovarianceMatrix_p</a> = ::std::shared_ptr&lt; LowRankCovarianceMatrix &gt;</td></tr>
+<tr class="separator:a7cee0663b153cc6ddb119f6dd00761b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fa3be5441fed27f6146a904f6da3ef9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2fa3be5441fed27f6146a904f6da3ef9">momentum::LowRankCovarianceMatrix_u</a> = ::std::unique_ptr&lt; LowRankCovarianceMatrix &gt;</td></tr>
+<tr class="separator:a2fa3be5441fed27f6146a904f6da3ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af086fbe5d697a6cf6d349cc5029cc713"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af086fbe5d697a6cf6d349cc5029cc713">momentum::LowRankCovarianceMatrix_w</a> = ::std::weak_ptr&lt; LowRankCovarianceMatrix &gt;</td></tr>
+<tr class="separator:af086fbe5d697a6cf6d349cc5029cc713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b958ceec37ee4adf3898a335f02aff3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1b958ceec37ee4adf3898a335f02aff3">momentum::LowRankCovarianceMatrix_const_p</a> = ::std::shared_ptr&lt; const LowRankCovarianceMatrix &gt;</td></tr>
+<tr class="separator:a1b958ceec37ee4adf3898a335f02aff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4e5bf04910eefaf16f9f76f0682fa7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aef4e5bf04910eefaf16f9f76f0682fa7">momentum::LowRankCovarianceMatrix_const_u</a> = ::std::unique_ptr&lt; const LowRankCovarianceMatrix &gt;</td></tr>
+<tr class="separator:aef4e5bf04910eefaf16f9f76f0682fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9d9b67a0ab4fb703311ffebb6dcbc57"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab9d9b67a0ab4fb703311ffebb6dcbc57">momentum::LowRankCovarianceMatrix_const_w</a> = ::std::weak_ptr&lt; const LowRankCovarianceMatrix &gt;</td></tr>
+<tr class="separator:ab9d9b67a0ab4fb703311ffebb6dcbc57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a768a5c41566cdfea947a79852ede8482"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a768a5c41566cdfea947a79852ede8482">momentum::LowRankCovarianceMatrixd_p</a> = ::std::shared_ptr&lt; LowRankCovarianceMatrixd &gt;</td></tr>
+<tr class="separator:a768a5c41566cdfea947a79852ede8482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94fd69720bf8cf73548786de702f0c91"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a94fd69720bf8cf73548786de702f0c91">momentum::LowRankCovarianceMatrixd_u</a> = ::std::unique_ptr&lt; LowRankCovarianceMatrixd &gt;</td></tr>
+<tr class="separator:a94fd69720bf8cf73548786de702f0c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62774fc4f4917c472f2e7772ff4fd5b2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a62774fc4f4917c472f2e7772ff4fd5b2">momentum::LowRankCovarianceMatrixd_w</a> = ::std::weak_ptr&lt; LowRankCovarianceMatrixd &gt;</td></tr>
+<tr class="separator:a62774fc4f4917c472f2e7772ff4fd5b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f67a15efdb11be01e7785a15ca42245"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1f67a15efdb11be01e7785a15ca42245">momentum::LowRankCovarianceMatrixd_const_p</a> = ::std::shared_ptr&lt; const LowRankCovarianceMatrixd &gt;</td></tr>
+<tr class="separator:a1f67a15efdb11be01e7785a15ca42245"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03a425a5b31cd7ca5cb299de1b07c041"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a03a425a5b31cd7ca5cb299de1b07c041">momentum::LowRankCovarianceMatrixd_const_u</a> = ::std::unique_ptr&lt; const LowRankCovarianceMatrixd &gt;</td></tr>
+<tr class="separator:a03a425a5b31cd7ca5cb299de1b07c041"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b296b8f41f7a7526db6f31650f04f18"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a9b296b8f41f7a7526db6f31650f04f18">momentum::LowRankCovarianceMatrixd_const_w</a> = ::std::weak_ptr&lt; const LowRankCovarianceMatrixd &gt;</td></tr>
+<tr class="separator:a9b296b8f41f7a7526db6f31650f04f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80b5cfd8782e1aa67daa3d1c20c7fa8a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a80b5cfd8782e1aa67daa3d1c20c7fa8a">momentum::GeneralizedLoss</a> = GeneralizedLossT&lt; float &gt;</td></tr>
+<tr class="separator:a80b5cfd8782e1aa67daa3d1c20c7fa8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a310c4cb66a13ef299be7c08966f5de50"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a310c4cb66a13ef299be7c08966f5de50">momentum::GeneralizedLossd</a> = GeneralizedLossT&lt; double &gt;</td></tr>
+<tr class="separator:a310c4cb66a13ef299be7c08966f5de50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74b57dd543cdca9b65143c6d608a290"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab74b57dd543cdca9b65143c6d608a290">momentum::GeneralizedLoss_p</a> = ::std::shared_ptr&lt; GeneralizedLoss &gt;</td></tr>
+<tr class="separator:ab74b57dd543cdca9b65143c6d608a290"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2fce0f8b7e1b58661d401baf7d1f06f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aa2fce0f8b7e1b58661d401baf7d1f06f">momentum::GeneralizedLoss_u</a> = ::std::unique_ptr&lt; GeneralizedLoss &gt;</td></tr>
+<tr class="separator:aa2fce0f8b7e1b58661d401baf7d1f06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f6c6b9b3a2132524e1663e8222a8fd7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a3f6c6b9b3a2132524e1663e8222a8fd7">momentum::GeneralizedLoss_w</a> = ::std::weak_ptr&lt; GeneralizedLoss &gt;</td></tr>
+<tr class="separator:a3f6c6b9b3a2132524e1663e8222a8fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9960ef0933c1989f8f2dc22c9c212027"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a9960ef0933c1989f8f2dc22c9c212027">momentum::GeneralizedLoss_const_p</a> = ::std::shared_ptr&lt; const GeneralizedLoss &gt;</td></tr>
+<tr class="separator:a9960ef0933c1989f8f2dc22c9c212027"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43d71d5406f175770fc105e914a0b666"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a43d71d5406f175770fc105e914a0b666">momentum::GeneralizedLoss_const_u</a> = ::std::unique_ptr&lt; const GeneralizedLoss &gt;</td></tr>
+<tr class="separator:a43d71d5406f175770fc105e914a0b666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1c004d685fce0b34583d36eb357d839"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ad1c004d685fce0b34583d36eb357d839">momentum::GeneralizedLoss_const_w</a> = ::std::weak_ptr&lt; const GeneralizedLoss &gt;</td></tr>
+<tr class="separator:ad1c004d685fce0b34583d36eb357d839"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a9defcbe46e4531723af96985a0146f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1a9defcbe46e4531723af96985a0146f">momentum::GeneralizedLossd_p</a> = ::std::shared_ptr&lt; GeneralizedLossd &gt;</td></tr>
+<tr class="separator:a1a9defcbe46e4531723af96985a0146f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a916a2028d4be8d1f7697ddbd0b8af069"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a916a2028d4be8d1f7697ddbd0b8af069">momentum::GeneralizedLossd_u</a> = ::std::unique_ptr&lt; GeneralizedLossd &gt;</td></tr>
+<tr class="separator:a916a2028d4be8d1f7697ddbd0b8af069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c70948a72a0d6036b54e6ac7363ddfc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a8c70948a72a0d6036b54e6ac7363ddfc">momentum::GeneralizedLossd_w</a> = ::std::weak_ptr&lt; GeneralizedLossd &gt;</td></tr>
+<tr class="separator:a8c70948a72a0d6036b54e6ac7363ddfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5882d5dafa5adfd96adf03a7163fe470"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a5882d5dafa5adfd96adf03a7163fe470">momentum::GeneralizedLossd_const_p</a> = ::std::shared_ptr&lt; const GeneralizedLossd &gt;</td></tr>
+<tr class="separator:a5882d5dafa5adfd96adf03a7163fe470"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f614b7d62b006a78653e680eefc5a0d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2f614b7d62b006a78653e680eefc5a0d">momentum::GeneralizedLossd_const_u</a> = ::std::unique_ptr&lt; const GeneralizedLossd &gt;</td></tr>
+<tr class="separator:a2f614b7d62b006a78653e680eefc5a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af17a9183cc886b54d15f878aa9ce3498"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af17a9183cc886b54d15f878aa9ce3498">momentum::GeneralizedLossd_const_w</a> = ::std::weak_ptr&lt; const GeneralizedLossd &gt;</td></tr>
+<tr class="separator:af17a9183cc886b54d15f878aa9ce3498"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a757b8b67db7572bd7fd9a30e69e6437d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a757b8b67db7572bd7fd9a30e69e6437d">momentum::SimdGeneralizedLoss</a> = SimdGeneralizedLossT&lt; float &gt;</td></tr>
+<tr class="separator:a757b8b67db7572bd7fd9a30e69e6437d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cfde8f9f73a516ba2fc5ab05b20d018"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a3cfde8f9f73a516ba2fc5ab05b20d018">momentum::SimdGeneralizedLossd</a> = SimdGeneralizedLossT&lt; double &gt;</td></tr>
+<tr class="separator:a3cfde8f9f73a516ba2fc5ab05b20d018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcdbe956094426e74dcc27d1a1036aa1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#adcdbe956094426e74dcc27d1a1036aa1">momentum::SimdGeneralizedLoss_p</a> = ::std::shared_ptr&lt; SimdGeneralizedLoss &gt;</td></tr>
+<tr class="separator:adcdbe956094426e74dcc27d1a1036aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5381e331d9d007d1df7001edfc6c5b3a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a5381e331d9d007d1df7001edfc6c5b3a">momentum::SimdGeneralizedLoss_u</a> = ::std::unique_ptr&lt; SimdGeneralizedLoss &gt;</td></tr>
+<tr class="separator:a5381e331d9d007d1df7001edfc6c5b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e8ea6426f1740c01bd21bed6edb6d41"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a3e8ea6426f1740c01bd21bed6edb6d41">momentum::SimdGeneralizedLoss_w</a> = ::std::weak_ptr&lt; SimdGeneralizedLoss &gt;</td></tr>
+<tr class="separator:a3e8ea6426f1740c01bd21bed6edb6d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a085233ead0b9f4216de2e804e1680e25"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a085233ead0b9f4216de2e804e1680e25">momentum::SimdGeneralizedLoss_const_p</a> = ::std::shared_ptr&lt; const SimdGeneralizedLoss &gt;</td></tr>
+<tr class="separator:a085233ead0b9f4216de2e804e1680e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a254a2dd6f090e31ebb28d45315dd9330"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a254a2dd6f090e31ebb28d45315dd9330">momentum::SimdGeneralizedLoss_const_u</a> = ::std::unique_ptr&lt; const SimdGeneralizedLoss &gt;</td></tr>
+<tr class="separator:a254a2dd6f090e31ebb28d45315dd9330"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac76c842e57d14586ecbcca9bb1136dd2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ac76c842e57d14586ecbcca9bb1136dd2">momentum::SimdGeneralizedLoss_const_w</a> = ::std::weak_ptr&lt; const SimdGeneralizedLoss &gt;</td></tr>
+<tr class="separator:ac76c842e57d14586ecbcca9bb1136dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c4406fb4ef6a71128dee9ada39e38d8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a8c4406fb4ef6a71128dee9ada39e38d8">momentum::SimdGeneralizedLossd_p</a> = ::std::shared_ptr&lt; SimdGeneralizedLossd &gt;</td></tr>
+<tr class="separator:a8c4406fb4ef6a71128dee9ada39e38d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83968d2ebc45ba46e150839475462530"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a83968d2ebc45ba46e150839475462530">momentum::SimdGeneralizedLossd_u</a> = ::std::unique_ptr&lt; SimdGeneralizedLossd &gt;</td></tr>
+<tr class="separator:a83968d2ebc45ba46e150839475462530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbf4d24be9dcd3e789581201773366e4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#abbf4d24be9dcd3e789581201773366e4">momentum::SimdGeneralizedLossd_w</a> = ::std::weak_ptr&lt; SimdGeneralizedLossd &gt;</td></tr>
+<tr class="separator:abbf4d24be9dcd3e789581201773366e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae62bf5eb072b01e7ab53fb2dd9c09356"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ae62bf5eb072b01e7ab53fb2dd9c09356">momentum::SimdGeneralizedLossd_const_p</a> = ::std::shared_ptr&lt; const SimdGeneralizedLossd &gt;</td></tr>
+<tr class="separator:ae62bf5eb072b01e7ab53fb2dd9c09356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a063327a0b0ef9a73eff1a0d7ede96c42"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a063327a0b0ef9a73eff1a0d7ede96c42">momentum::SimdGeneralizedLossd_const_u</a> = ::std::unique_ptr&lt; const SimdGeneralizedLossd &gt;</td></tr>
+<tr class="separator:a063327a0b0ef9a73eff1a0d7ede96c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28c9b404a90fbe81f1a2f528baed280a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a28c9b404a90fbe81f1a2f528baed280a">momentum::SimdGeneralizedLossd_const_w</a> = ::std::weak_ptr&lt; const SimdGeneralizedLossd &gt;</td></tr>
+<tr class="separator:a28c9b404a90fbe81f1a2f528baed280a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
