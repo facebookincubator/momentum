@@ -11,8 +11,6 @@
 
 #pragma once
 
-#include <momentum/common/memory.h>
-
 #include <memory>
 
 namespace momentum {
