@@ -81,12 +81,7 @@ def main():
             subdirectory = root_dir / module["subdirectory"]
 
             namespace = module.get("namespace", "momentum")
-            headers = (
-                module.get("headers", [])
-                # TODO: Remove including common/memory.h
-                + ["<momentum/common/memory.h>"]
-                + ["<memory>"]
-            )
+            headers = module.get("headers", []) + ["<memory>"]
             structs = module.get("structs", [])
             template_structs = module.get("template_structs", [])
             classes = module.get("classes", [])
