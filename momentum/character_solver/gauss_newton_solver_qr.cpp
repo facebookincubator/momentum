@@ -10,7 +10,7 @@
 #include "momentum/character_solver/skeleton_error_function.h"
 #include "momentum/common/profile.h"
 
-#include <gsl/gsl_util>
+#include <gsl/util>
 
 namespace momentum {
 
