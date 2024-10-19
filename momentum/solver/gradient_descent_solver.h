@@ -12,7 +12,7 @@
 
 namespace momentum {
 
-/// Gauss-Newton solver specific options.
+/// Gradient descent solver specific options.
 struct GradientDescentSolverOptions : SolverOptions {
   /// Learning rate, fixed
   float learningRate = 0.01f;

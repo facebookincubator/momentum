@@ -203,7 +203,7 @@ void parameterLimitsToJson(const Character& character, nlohmann::json& j) {
         li["limits"] = lim.data.minMaxJoint.limits;
         break;
       case Linear:
-        li["type"] = "limit";
+        li["type"] = "linear";
         li["referenceParameter"] =
             character.parameterTransform.name[lim.data.linear.referenceIndex];
         li["targetParameter"] = character.parameterTransform.name[lim.data.linear.targetIndex];

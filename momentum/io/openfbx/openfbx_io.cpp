@@ -210,9 +210,7 @@ static double resolveDoubleProperty(const ofbx::Object& object, const char* name
     return x->getValue().toFloat();
   } else {
     MT_THROW(
-        "For property {}, expected float/double array but got {}.",
-        name,
-        propertyTypeStr(x->getType()));
+        "For property {}, expected float/double but got {}.", name, propertyTypeStr(x->getType()));
   }
 }
 
