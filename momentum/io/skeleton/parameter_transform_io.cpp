@@ -271,6 +271,13 @@ ParameterTransform parseParameterTransform(const std::string& data, const Skelet
       static_cast<int>(pt.name.size()));
 
   // finish parameter setup by creating sparse matrix
+  triplets.erase(
+      std::remove_if(
+          std::begin(triplets),
+          std::end(triplets),
+          [](const Eigen::Triplet<float>& t) { return t.value() == 0.0f; }),
+      std::end(triplets));
+
   pt.transform.setFromTriplets(triplets.begin(), triplets.end());
 
   return pt;
