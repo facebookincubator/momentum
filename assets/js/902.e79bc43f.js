@@ -1,6 +1,6 @@
 "use strict";
-exports.id = 426;
-exports.ids = [426];
+exports.id = 902;
+exports.ids = [902];
 exports.modules = {
 
 /***/ 21176:
@@ -30,7 +30,7 @@ var map = __webpack_require__(52341);
 var range = __webpack_require__(91395);
 // EXTERNAL MODULE: ./node_modules/dagre-d3-es/src/graphlib/index.js
 var graphlib = __webpack_require__(697);
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/data/list.js
+;// ./node_modules/dagre-d3-es/src/dagre/data/list.js
 /*
  * Simple doubly linked list implementation derived from Cormen, et al.,
  * "Introduction to Algorithms".
@@ -87,7 +87,7 @@ function filterOutLinks(k, v) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/greedy-fas.js
+;// ./node_modules/dagre-d3-es/src/dagre/greedy-fas.js
 
 
 
@@ -215,7 +215,7 @@ function assignBucket(buckets, zeroIdx, entry) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/acyclic.js
+;// ./node_modules/dagre-d3-es/src/dagre/acyclic.js
 
 
 
@@ -285,7 +285,7 @@ var pick = __webpack_require__(81942);
 var defaults = __webpack_require__(23068);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isSymbol.js
 var isSymbol = __webpack_require__(61882);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseExtremum.js
+;// ./node_modules/lodash-es/_baseExtremum.js
 
 
 /**
@@ -319,7 +319,7 @@ function baseExtremum(array, iteratee, comparator) {
 
 /* harmony default export */ const _baseExtremum = (baseExtremum);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseGt.js
+;// ./node_modules/lodash-es/_baseGt.js
 /**
  * The base implementation of `_.gt` which doesn't coerce arguments.
  *
@@ -337,7 +337,7 @@ function baseGt(value, other) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/identity.js
 var identity = __webpack_require__(29008);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/max.js
+;// ./node_modules/lodash-es/max.js
 
 
 
@@ -368,7 +368,7 @@ function max(array) {
 
 /* harmony default export */ const lodash_es_max = (max);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/last.js
+;// ./node_modules/lodash-es/last.js
 /**
  * Gets the last element of `array`.
  *
@@ -396,7 +396,7 @@ var _baseAssignValue = __webpack_require__(52528);
 var _baseForOwn = __webpack_require__(79841);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseIteratee.js + 16 modules
 var _baseIteratee = __webpack_require__(49574);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/mapValues.js
+;// ./node_modules/lodash-es/mapValues.js
 
 
 
@@ -443,7 +443,7 @@ function mapValues(object, iteratee) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isUndefined.js
 var isUndefined = __webpack_require__(69592);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseLt.js
+;// ./node_modules/lodash-es/_baseLt.js
 /**
  * The base implementation of `_.lt` which doesn't coerce arguments.
  *
@@ -459,7 +459,7 @@ function baseLt(value, other) {
 
 /* harmony default export */ const _baseLt = (baseLt);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/min.js
+;// ./node_modules/lodash-es/min.js
 
 
 
@@ -492,7 +492,7 @@ function min(array) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_root.js
 var _root = __webpack_require__(41917);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/now.js
+;// ./node_modules/lodash-es/now.js
 
 
 /**
@@ -517,7 +517,7 @@ var now = function() {
 
 /* harmony default export */ const lodash_es_now = (now);
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/util.js
+;// ./node_modules/dagre-d3-es/src/dagre/util.js
 
 
 
@@ -754,7 +754,7 @@ function notime(name, fn) {
   return fn();
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/add-border-segments.js
+;// ./node_modules/dagre-d3-es/src/dagre/add-border-segments.js
 
 
 
@@ -792,7 +792,7 @@ function add_border_segments_addBorderNode(g, prop, prefix, sg, sgNode, rank) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/coordinate-system.js
+;// ./node_modules/dagre-d3-es/src/dagre/coordinate-system.js
 
 
 
@@ -869,7 +869,7 @@ function swapXYOne(attrs) {
   attrs.y = x;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/normalize.js
+;// ./node_modules/dagre-d3-es/src/dagre/normalize.js
 
 
 
@@ -962,7 +962,7 @@ function normalize_undo(g) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/minBy.js
+;// ./node_modules/lodash-es/minBy.js
 
 
 
@@ -998,7 +998,7 @@ function minBy(array, iteratee) {
 
 /* harmony default export */ const lodash_es_minBy = (minBy);
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/rank/util.js
+;// ./node_modules/dagre-d3-es/src/dagre/rank/util.js
 
 
 
@@ -1063,7 +1063,7 @@ function slack(g, e) {
   return g.node(e.w).rank - g.node(e.v).rank - g.edge(e).minlen;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/rank/feasible-tree.js
+;// ./node_modules/dagre-d3-es/src/dagre/rank/feasible-tree.js
 
 
 
@@ -1156,7 +1156,7 @@ function shiftRanks(t, g, delta) {
 var isArrayLike = __webpack_require__(38446);
 // EXTERNAL MODULE: ./node_modules/lodash-es/keys.js
 var keys = __webpack_require__(27422);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_createFind.js
+;// ./node_modules/lodash-es/_createFind.js
 
 
 
@@ -1187,7 +1187,7 @@ function createFind(findIndexFunc) {
 var _baseFindIndex = __webpack_require__(25707);
 // EXTERNAL MODULE: ./node_modules/lodash-es/toFinite.js + 3 modules
 var toFinite = __webpack_require__(74342);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/toInteger.js
+;// ./node_modules/lodash-es/toInteger.js
 
 
 /**
@@ -1225,7 +1225,7 @@ function toInteger(value) {
 
 /* harmony default export */ const lodash_es_toInteger = (toInteger);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/findIndex.js
+;// ./node_modules/lodash-es/findIndex.js
 
 
 
@@ -1282,7 +1282,7 @@ function findIndex(array, predicate, fromIndex) {
 
 /* harmony default export */ const lodash_es_findIndex = (findIndex);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/find.js
+;// ./node_modules/lodash-es/find.js
 
 
 
@@ -1328,7 +1328,7 @@ var find = _createFind(lodash_es_findIndex);
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/filter.js + 1 modules
 var filter = __webpack_require__(11662);
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/dijkstra.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/dijkstra.js
 
 
 
@@ -1395,7 +1395,7 @@ function runDijkstra(g, source, weightFn, edgeFn) {
   return results;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/dijkstra-all.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/dijkstra-all.js
 
 
 
@@ -1411,7 +1411,7 @@ function dijkstraAll(g, weightFunc, edgeFunc) {
   );
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/floyd-warshall.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/floyd-warshall.js
 
 
 
@@ -1478,7 +1478,7 @@ var _baseGetTag = __webpack_require__(88496);
 var isArray = __webpack_require__(92049);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObjectLike.js
 var isObjectLike = __webpack_require__(53098);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/isString.js
+;// ./node_modules/lodash-es/isString.js
 
 
 
@@ -1512,7 +1512,7 @@ function isString(value) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseProperty.js
 var _baseProperty = __webpack_require__(70805);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_asciiSize.js
+;// ./node_modules/lodash-es/_asciiSize.js
 
 
 /**
@@ -1526,7 +1526,7 @@ var asciiSize = (0,_baseProperty/* default */.A)('length');
 
 /* harmony default export */ const _asciiSize = (asciiSize);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_hasUnicode.js
+;// ./node_modules/lodash-es/_hasUnicode.js
 /** Used to compose unicode character classes. */
 var rsAstralRange = '\\ud800-\\udfff',
     rsComboMarksRange = '\\u0300-\\u036f',
@@ -1554,7 +1554,7 @@ function hasUnicode(string) {
 
 /* harmony default export */ const _hasUnicode = (hasUnicode);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_unicodeSize.js
+;// ./node_modules/lodash-es/_unicodeSize.js
 /** Used to compose unicode character classes. */
 var _unicodeSize_rsAstralRange = '\\ud800-\\udfff',
     _unicodeSize_rsComboMarksRange = '\\u0300-\\u036f',
@@ -1600,7 +1600,7 @@ function unicodeSize(string) {
 
 /* harmony default export */ const _unicodeSize = (unicodeSize);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_stringSize.js
+;// ./node_modules/lodash-es/_stringSize.js
 
 
 
@@ -1620,7 +1620,7 @@ function stringSize(string) {
 
 /* harmony default export */ const _stringSize = (stringSize);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/size.js
+;// ./node_modules/lodash-es/size.js
 
 
 
@@ -1668,7 +1668,7 @@ function size(collection) {
 
 /* harmony default export */ const lodash_es_size = (size);
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/topsort.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/topsort.js
 
 
 
@@ -1706,7 +1706,7 @@ function topsort_topsort(g) {
 function topsort_CycleException() {}
 topsort_CycleException.prototype = new Error(); // must be an instance of Error to pass testing
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/is-acyclic.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/is-acyclic.js
 
 
 
@@ -1723,7 +1723,7 @@ function isAcyclic(g) {
   return true;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/dfs.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/dfs.js
 
 
 
@@ -1771,7 +1771,7 @@ function doDfs(g, v, postorder, visited, navigation, acc) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/postorder.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/postorder.js
 
 
 
@@ -1780,7 +1780,7 @@ function postorder(g, vs) {
   return dfs(g, vs, 'post');
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/preorder.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/preorder.js
 
 
 
@@ -1791,7 +1791,7 @@ function preorder(g, vs) {
 
 // EXTERNAL MODULE: ./node_modules/dagre-d3-es/src/graphlib/graph.js + 9 modules
 var graph = __webpack_require__(73046);
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/prim.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/prim.js
 
 
 
@@ -1845,7 +1845,7 @@ function prim(g, weightFunc) {
   return result;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/alg/index.js
+;// ./node_modules/dagre-d3-es/src/graphlib/alg/index.js
 
 
 
@@ -1860,7 +1860,7 @@ function prim(g, weightFunc) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/rank/network-simplex.js
+;// ./node_modules/dagre-d3-es/src/dagre/rank/network-simplex.js
 
 
 
@@ -2098,7 +2098,7 @@ function isDescendant(tree, vLabel, rootLabel) {
   return rootLabel.low <= vLabel.lim && vLabel.lim <= rootLabel.lim;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/rank/index.js
+;// ./node_modules/dagre-d3-es/src/dagre/rank/index.js
 
 
 
@@ -2156,7 +2156,7 @@ function networkSimplexRanker(g) {
 var values = __webpack_require__(38207);
 // EXTERNAL MODULE: ./node_modules/lodash-es/reduce.js + 2 modules
 var reduce = __webpack_require__(89463);
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/nesting-graph.js
+;// ./node_modules/dagre-d3-es/src/dagre/nesting-graph.js
 
 
 
@@ -2297,7 +2297,7 @@ function cleanup(g) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseClone.js + 15 modules
 var _baseClone = __webpack_require__(91641);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/cloneDeep.js
+;// ./node_modules/lodash-es/cloneDeep.js
 
 
 /** Used to compose bitmasks for cloning. */
@@ -2328,7 +2328,7 @@ function cloneDeep(value) {
 
 /* harmony default export */ const lodash_es_cloneDeep = (cloneDeep);
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/add-subgraph-constraints.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/add-subgraph-constraints.js
 
 
 
@@ -2383,7 +2383,7 @@ function addSubgraphConstraints(g, cg, vs) {
   */
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/build-layer-graph.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/build-layer-graph.js
 
 
 
@@ -2463,7 +2463,7 @@ function createRootNode(g) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_assignValue.js
 var _assignValue = __webpack_require__(52851);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseZipObject.js
+;// ./node_modules/lodash-es/_baseZipObject.js
 /**
  * This base implementation of `_.zipObject` which assigns values using `assignFunc`.
  *
@@ -2488,7 +2488,7 @@ function baseZipObject(props, values, assignFunc) {
 
 /* harmony default export */ const _baseZipObject = (baseZipObject);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/zipObject.js
+;// ./node_modules/lodash-es/zipObject.js
 
 
 
@@ -2522,7 +2522,7 @@ var _arrayMap = __webpack_require__(45572);
 var _baseGet = __webpack_require__(66318);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseMap.js
 var _baseMap = __webpack_require__(52568);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseSortBy.js
+;// ./node_modules/lodash-es/_baseSortBy.js
 /**
  * The base implementation of `_.sortBy` which uses `comparer` to define the
  * sort order of `array` and replaces criteria objects with their corresponding
@@ -2547,7 +2547,7 @@ function baseSortBy(array, comparer) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseUnary.js
 var _baseUnary = __webpack_require__(52789);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_compareAscending.js
+;// ./node_modules/lodash-es/_compareAscending.js
 
 
 /**
@@ -2590,7 +2590,7 @@ function compareAscending(value, other) {
 
 /* harmony default export */ const _compareAscending = (compareAscending);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_compareMultiple.js
+;// ./node_modules/lodash-es/_compareMultiple.js
 
 
 /**
@@ -2636,7 +2636,7 @@ function compareMultiple(object, other, orders) {
 
 /* harmony default export */ const _compareMultiple = (compareMultiple);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseOrderBy.js
+;// ./node_modules/lodash-es/_baseOrderBy.js
 
 
 
@@ -2691,7 +2691,7 @@ function baseOrderBy(collection, iteratees, orders) {
 var _baseRest = __webpack_require__(24326);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_isIterateeCall.js
 var _isIterateeCall = __webpack_require__(6832);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/sortBy.js
+;// ./node_modules/lodash-es/sortBy.js
 
 
 
@@ -2741,7 +2741,7 @@ var sortBy = (0,_baseRest/* default */.A)(function(collection, iteratees) {
 
 /* harmony default export */ const lodash_es_sortBy = (sortBy);
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/cross-count.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/cross-count.js
 
 
 
@@ -2825,7 +2825,7 @@ function twoLayerCrossCount(g, northLayer, southLayer) {
   return cc;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/init-order.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/init-order.js
 
 
 
@@ -2871,7 +2871,7 @@ function initOrder(g) {
   return layers;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/barycenter.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/barycenter.js
 
 
 
@@ -2904,7 +2904,7 @@ function barycenter(g, movable) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/resolve-conflicts.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/resolve-conflicts.js
 
 
 
@@ -3034,7 +3034,7 @@ function mergeEntries(target, source) {
   source.merged = true;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/sort.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/sort.js
 
 
 
@@ -3095,7 +3095,7 @@ function compareWithBias(bias) {
   };
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/sort-subgraph.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/sort-subgraph.js
 
 
 
@@ -3175,7 +3175,7 @@ function mergeBarycenters(target, other) {
   }
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/order/index.js
+;// ./node_modules/dagre-d3-es/src/dagre/order/index.js
 
 
 
@@ -3254,7 +3254,7 @@ function assignOrder(g, layering) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/parent-dummy-chains.js
+;// ./node_modules/dagre-d3-es/src/dagre/parent-dummy-chains.js
 
 
 
@@ -3344,7 +3344,7 @@ function parent_dummy_chains_postorder(g) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_castFunction.js
 var _castFunction = __webpack_require__(99922);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/forOwn.js
+;// ./node_modules/lodash-es/forOwn.js
 
 
 
@@ -3386,7 +3386,7 @@ function forOwn(object, iteratee) {
 var _baseFor = __webpack_require__(4574);
 // EXTERNAL MODULE: ./node_modules/lodash-es/keysIn.js + 2 modules
 var keysIn = __webpack_require__(55615);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/forIn.js
+;// ./node_modules/lodash-es/forIn.js
 
 
 
@@ -3427,7 +3427,7 @@ function forIn(object, iteratee) {
 
 /* harmony default export */ const lodash_es_forIn = (forIn);
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/position/bk.js
+;// ./node_modules/dagre-d3-es/src/dagre/position/bk.js
 
 
 
@@ -3841,7 +3841,7 @@ function width(g, v) {
   return g.node(v).width;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/position/index.js
+;// ./node_modules/dagre-d3-es/src/dagre/position/index.js
 
 
 
@@ -3874,7 +3874,7 @@ function positionY(g) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/layout.js
+;// ./node_modules/dagre-d3-es/src/dagre/layout.js
 
 
 
@@ -4342,7 +4342,7 @@ function canonicalize(attrs) {
   return newAttrs;
 }
 
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/dagre/index.js
+;// ./node_modules/dagre-d3-es/src/dagre/index.js
 
 
 
@@ -4386,7 +4386,7 @@ var _baseRest = __webpack_require__(24326);
 var _SetCache = __webpack_require__(62062);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseFindIndex.js
 var _baseFindIndex = __webpack_require__(25707);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsNaN.js
+;// ./node_modules/lodash-es/_baseIsNaN.js
 /**
  * The base implementation of `_.isNaN` without support for number objects.
  *
@@ -4400,7 +4400,7 @@ function baseIsNaN(value) {
 
 /* harmony default export */ const _baseIsNaN = (baseIsNaN);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_strictIndexOf.js
+;// ./node_modules/lodash-es/_strictIndexOf.js
 /**
  * A specialized version of `_.indexOf` which performs strict equality
  * comparisons of values, i.e. `===`.
@@ -4425,7 +4425,7 @@ function strictIndexOf(array, value, fromIndex) {
 
 /* harmony default export */ const _strictIndexOf = (strictIndexOf);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIndexOf.js
+;// ./node_modules/lodash-es/_baseIndexOf.js
 
 
 
@@ -4447,7 +4447,7 @@ function baseIndexOf(array, value, fromIndex) {
 
 /* harmony default export */ const _baseIndexOf = (baseIndexOf);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_arrayIncludes.js
+;// ./node_modules/lodash-es/_arrayIncludes.js
 
 
 /**
@@ -4466,7 +4466,7 @@ function arrayIncludes(array, value) {
 
 /* harmony default export */ const _arrayIncludes = (arrayIncludes);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_arrayIncludesWith.js
+;// ./node_modules/lodash-es/_arrayIncludesWith.js
 /**
  * This function is like `arrayIncludes` except that it accepts a comparator.
  *
@@ -4494,7 +4494,7 @@ function arrayIncludesWith(array, value, comparator) {
 var _cacheHas = __webpack_require__(64099);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_Set.js
 var _Set = __webpack_require__(39857);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/noop.js
+;// ./node_modules/lodash-es/noop.js
 /**
  * This method returns `undefined`.
  *
@@ -4515,7 +4515,7 @@ function noop() {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_setToArray.js
 var _setToArray = __webpack_require__(29959);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_createSet.js
+;// ./node_modules/lodash-es/_createSet.js
 
 
 
@@ -4536,7 +4536,7 @@ var createSet = !(_Set/* default */.A && (1 / (0,_setToArray/* default */.A)(new
 
 /* harmony default export */ const _createSet = (createSet);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseUniq.js
+;// ./node_modules/lodash-es/_baseUniq.js
 
 
 
@@ -4612,7 +4612,7 @@ function baseUniq(array, iteratee, comparator) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLikeObject.js
 var isArrayLikeObject = __webpack_require__(53533);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/union.js
+;// ./node_modules/lodash-es/union.js
 
 
 
@@ -4644,7 +4644,7 @@ var union = (0,_baseRest/* default */.A)(function(arrays) {
 var values = __webpack_require__(38207);
 // EXTERNAL MODULE: ./node_modules/lodash-es/reduce.js + 2 modules
 var reduce = __webpack_require__(89463);
-;// CONCATENATED MODULE: ./node_modules/dagre-d3-es/src/graphlib/graph.js
+;// ./node_modules/dagre-d3-es/src/graphlib/graph.js
 
 
 var DEFAULT_EDGE_NAME = '\x00';
@@ -5189,7 +5189,7 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_MapCache.js + 14 modules
 var _MapCache = __webpack_require__(29471);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_setCacheAdd.js
+;// ./node_modules/lodash-es/_setCacheAdd.js
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
@@ -5210,7 +5210,7 @@ function setCacheAdd(value) {
 
 /* harmony default export */ const _setCacheAdd = (setCacheAdd);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_setCacheHas.js
+;// ./node_modules/lodash-es/_setCacheHas.js
 /**
  * Checks if `value` is in the array cache.
  *
@@ -5226,7 +5226,7 @@ function setCacheHas(value) {
 
 /* harmony default export */ const _setCacheHas = (setCacheHas);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_SetCache.js
+;// ./node_modules/lodash-es/_SetCache.js
 
 
 
@@ -5405,7 +5405,7 @@ var _assignValue = __webpack_require__(52851);
 var _copyObject = __webpack_require__(22031);
 // EXTERNAL MODULE: ./node_modules/lodash-es/keys.js
 var keys = __webpack_require__(27422);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseAssign.js
+;// ./node_modules/lodash-es/_baseAssign.js
 
 
 
@@ -5426,7 +5426,7 @@ function baseAssign(object, source) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/keysIn.js + 2 modules
 var keysIn = __webpack_require__(55615);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseAssignIn.js
+;// ./node_modules/lodash-es/_baseAssignIn.js
 
 
 
@@ -5451,7 +5451,7 @@ var _cloneBuffer = __webpack_require__(80154);
 var _copyArray = __webpack_require__(39759);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_getSymbols.js
 var _getSymbols = __webpack_require__(14792);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_copySymbols.js
+;// ./node_modules/lodash-es/_copySymbols.js
 
 
 
@@ -5475,7 +5475,7 @@ var _arrayPush = __webpack_require__(76912);
 var _getPrototype = __webpack_require__(15647);
 // EXTERNAL MODULE: ./node_modules/lodash-es/stubArray.js
 var stubArray = __webpack_require__(13153);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_getSymbolsIn.js
+;// ./node_modules/lodash-es/_getSymbolsIn.js
 
 
 
@@ -5502,7 +5502,7 @@ var getSymbolsIn = !nativeGetSymbols ? stubArray/* default */.A : function(objec
 
 /* harmony default export */ const _getSymbolsIn = (getSymbolsIn);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_copySymbolsIn.js
+;// ./node_modules/lodash-es/_copySymbolsIn.js
 
 
 
@@ -5524,7 +5524,7 @@ function copySymbolsIn(source, object) {
 var _getAllKeys = __webpack_require__(19042);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseGetAllKeys.js
 var _baseGetAllKeys = __webpack_require__(33831);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_getAllKeysIn.js
+;// ./node_modules/lodash-es/_getAllKeysIn.js
 
 
 
@@ -5545,7 +5545,7 @@ function getAllKeysIn(object) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_getTag.js + 3 modules
 var _getTag = __webpack_require__(9779);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_initCloneArray.js
+;// ./node_modules/lodash-es/_initCloneArray.js
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -5575,7 +5575,7 @@ function initCloneArray(array) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_cloneArrayBuffer.js
 var _cloneArrayBuffer = __webpack_require__(90565);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_cloneDataView.js
+;// ./node_modules/lodash-es/_cloneDataView.js
 
 
 /**
@@ -5593,7 +5593,7 @@ function cloneDataView(dataView, isDeep) {
 
 /* harmony default export */ const _cloneDataView = (cloneDataView);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_cloneRegExp.js
+;// ./node_modules/lodash-es/_cloneRegExp.js
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -5614,7 +5614,7 @@ function cloneRegExp(regexp) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_Symbol.js
 var _Symbol = __webpack_require__(241);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_cloneSymbol.js
+;// ./node_modules/lodash-es/_cloneSymbol.js
 
 
 /** Used to convert symbols to primitives and strings. */
@@ -5636,7 +5636,7 @@ function cloneSymbol(symbol) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_cloneTypedArray.js
 var _cloneTypedArray = __webpack_require__(1801);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_initCloneByTag.js
+;// ./node_modules/lodash-es/_initCloneByTag.js
 
 
 
@@ -5723,7 +5723,7 @@ var isArray = __webpack_require__(92049);
 var isBuffer = __webpack_require__(99912);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObjectLike.js
 var isObjectLike = __webpack_require__(53098);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsMap.js
+;// ./node_modules/lodash-es/_baseIsMap.js
 
 
 
@@ -5747,7 +5747,7 @@ function baseIsMap(value) {
 var _baseUnary = __webpack_require__(52789);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_nodeUtil.js
 var _nodeUtil = __webpack_require__(64841);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/isMap.js
+;// ./node_modules/lodash-es/isMap.js
 
 
 
@@ -5778,7 +5778,7 @@ var isMap = nodeIsMap ? (0,_baseUnary/* default */.A)(nodeIsMap) : _baseIsMap;
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObject.js
 var isObject = __webpack_require__(23149);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsSet.js
+;// ./node_modules/lodash-es/_baseIsSet.js
 
 
 
@@ -5798,7 +5798,7 @@ function baseIsSet(value) {
 
 /* harmony default export */ const _baseIsSet = (baseIsSet);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/isSet.js
+;// ./node_modules/lodash-es/isSet.js
 
 
 
@@ -5827,7 +5827,7 @@ var isSet = nodeIsSet ? (0,_baseUnary/* default */.A)(nodeIsSet) : _baseIsSet;
 
 /* harmony default export */ const lodash_es_isSet = (isSet);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseClone.js
+;// ./node_modules/lodash-es/_baseClone.js
 
 
 
@@ -6011,7 +6011,7 @@ __webpack_require__.d(__webpack_exports__, {
 var _baseForOwn = __webpack_require__(79841);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArrayLike.js
 var isArrayLike = __webpack_require__(38446);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_createBaseEach.js
+;// ./node_modules/lodash-es/_createBaseEach.js
 
 
 /**
@@ -6045,7 +6045,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 /* harmony default export */ const _createBaseEach = (createBaseEach);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseEach.js
+;// ./node_modules/lodash-es/_baseEach.js
 
 
 
@@ -6115,7 +6115,7 @@ var _Symbol = __webpack_require__(241);
 var isArguments = __webpack_require__(52274);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArray.js
 var isArray = __webpack_require__(92049);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_isFlattenable.js
+;// ./node_modules/lodash-es/_isFlattenable.js
 
 
 
@@ -6137,7 +6137,7 @@ function isFlattenable(value) {
 
 /* harmony default export */ const _isFlattenable = (isFlattenable);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseFlatten.js
+;// ./node_modules/lodash-es/_baseFlatten.js
 
 
 
@@ -6289,7 +6289,7 @@ __webpack_require__.d(__webpack_exports__, {
 var _Stack = __webpack_require__(11754);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_SetCache.js + 2 modules
 var _SetCache = __webpack_require__(62062);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_arraySome.js
+;// ./node_modules/lodash-es/_arraySome.js
 /**
  * A specialized version of `_.some` for arrays without support for iteratee
  * shorthands.
@@ -6316,7 +6316,7 @@ function arraySome(array, predicate) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_cacheHas.js
 var _cacheHas = __webpack_require__(64099);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_equalArrays.js
+;// ./node_modules/lodash-es/_equalArrays.js
 
 
 
@@ -6408,7 +6408,7 @@ var _Symbol = __webpack_require__(241);
 var _Uint8Array = __webpack_require__(43988);
 // EXTERNAL MODULE: ./node_modules/lodash-es/eq.js
 var eq = __webpack_require__(66984);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_mapToArray.js
+;// ./node_modules/lodash-es/_mapToArray.js
 /**
  * Converts `map` to its key-value pairs.
  *
@@ -6430,7 +6430,7 @@ function mapToArray(map) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_setToArray.js
 var _setToArray = __webpack_require__(29959);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_equalByTag.js
+;// ./node_modules/lodash-es/_equalByTag.js
 
 
 
@@ -6546,7 +6546,7 @@ function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_getAllKeys.js
 var _getAllKeys = __webpack_require__(19042);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_equalObjects.js
+;// ./node_modules/lodash-es/_equalObjects.js
 
 
 /** Used to compose bitmasks for value comparisons. */
@@ -6646,7 +6646,7 @@ var isArray = __webpack_require__(92049);
 var isBuffer = __webpack_require__(99912);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isTypedArray.js + 1 modules
 var isTypedArray = __webpack_require__(33858);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsEqualDeep.js
+;// ./node_modules/lodash-es/_baseIsEqualDeep.js
 
 
 
@@ -6733,7 +6733,7 @@ function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObjectLike.js
 var isObjectLike = __webpack_require__(53098);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsEqual.js
+;// ./node_modules/lodash-es/_baseIsEqual.js
 
 
 
@@ -6763,7 +6763,7 @@ function baseIsEqual(value, other, bitmask, customizer, stack) {
 
 /* harmony default export */ const _baseIsEqual = (baseIsEqual);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsMatch.js
+;// ./node_modules/lodash-es/_baseIsMatch.js
 
 
 
@@ -6829,7 +6829,7 @@ function baseIsMatch(object, source, matchData, customizer) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isObject.js
 var isObject = __webpack_require__(23149);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_isStrictComparable.js
+;// ./node_modules/lodash-es/_isStrictComparable.js
 
 
 /**
@@ -6848,7 +6848,7 @@ function isStrictComparable(value) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/keys.js
 var keys = __webpack_require__(27422);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_getMatchData.js
+;// ./node_modules/lodash-es/_getMatchData.js
 
 
 
@@ -6874,7 +6874,7 @@ function getMatchData(object) {
 
 /* harmony default export */ const _getMatchData = (getMatchData);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_matchesStrictComparable.js
+;// ./node_modules/lodash-es/_matchesStrictComparable.js
 /**
  * A specialized version of `matchesProperty` for source values suitable
  * for strict equality comparisons, i.e. `===`.
@@ -6896,7 +6896,7 @@ function matchesStrictComparable(key, srcValue) {
 
 /* harmony default export */ const _matchesStrictComparable = (matchesStrictComparable);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseMatches.js
+;// ./node_modules/lodash-es/_baseMatches.js
 
 
 
@@ -6922,7 +6922,7 @@ function baseMatches(source) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseGet.js
 var _baseGet = __webpack_require__(66318);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/get.js
+;// ./node_modules/lodash-es/get.js
 
 
 /**
@@ -6963,7 +6963,7 @@ var hasIn = __webpack_require__(39188);
 var _isKey = __webpack_require__(86586);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_toKey.js
 var _toKey = __webpack_require__(30901);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseMatchesProperty.js
+;// ./node_modules/lodash-es/_baseMatchesProperty.js
 
 
 
@@ -7002,7 +7002,7 @@ function baseMatchesProperty(path, srcValue) {
 var identity = __webpack_require__(29008);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseProperty.js
 var _baseProperty = __webpack_require__(70805);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_basePropertyDeep.js
+;// ./node_modules/lodash-es/_basePropertyDeep.js
 
 
 /**
@@ -7020,7 +7020,7 @@ function basePropertyDeep(path) {
 
 /* harmony default export */ const _basePropertyDeep = (basePropertyDeep);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/property.js
+;// ./node_modules/lodash-es/property.js
 
 
 
@@ -7054,7 +7054,7 @@ function property(path) {
 
 /* harmony default export */ const lodash_es_property = (property);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIteratee.js
+;// ./node_modules/lodash-es/_baseIteratee.js
 
 
 
@@ -7211,7 +7211,7 @@ var isArray = __webpack_require__(92049);
 var _isKey = __webpack_require__(86586);
 // EXTERNAL MODULE: ./node_modules/lodash-es/memoize.js
 var memoize = __webpack_require__(46632);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_memoizeCapped.js
+;// ./node_modules/lodash-es/_memoizeCapped.js
 
 
 /** Used as the maximum memoize cache size. */
@@ -7239,7 +7239,7 @@ function memoizeCapped(func) {
 
 /* harmony default export */ const _memoizeCapped = (memoizeCapped);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_stringToPath.js
+;// ./node_modules/lodash-es/_stringToPath.js
 
 
 /** Used to match property names within property paths. */
@@ -7270,7 +7270,7 @@ var stringToPath = _memoizeCapped(function(string) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/toString.js + 1 modules
 var lodash_es_toString = __webpack_require__(28894);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_castPath.js
+;// ./node_modules/lodash-es/_castPath.js
 
 
 
@@ -7614,7 +7614,7 @@ __webpack_require__.d(__webpack_exports__, {
 var _arrayFilter = __webpack_require__(2634);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseEach.js + 1 modules
 var _baseEach = __webpack_require__(6240);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseFilter.js
+;// ./node_modules/lodash-es/_baseFilter.js
 
 
 /**
@@ -7641,7 +7641,7 @@ function baseFilter(collection, predicate) {
 var _baseIteratee = __webpack_require__(49574);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArray.js
 var isArray = __webpack_require__(92049);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/filter.js
+;// ./node_modules/lodash-es/filter.js
 
 
 
@@ -7795,7 +7795,7 @@ __webpack_require__.d(__webpack_exports__, {
   A: () => (/* binding */ lodash_es_has)
 });
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseHas.js
+;// ./node_modules/lodash-es/_baseHas.js
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -7818,7 +7818,7 @@ function baseHas(object, key) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_hasPath.js
 var _hasPath = __webpack_require__(85054);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/has.js
+;// ./node_modules/lodash-es/has.js
 
 
 
@@ -7867,7 +7867,7 @@ __webpack_require__.d(__webpack_exports__, {
   A: () => (/* binding */ lodash_es_hasIn)
 });
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseHasIn.js
+;// ./node_modules/lodash-es/_baseHasIn.js
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -7884,7 +7884,7 @@ function baseHasIn(object, key) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_hasPath.js
 var _hasPath = __webpack_require__(85054);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/hasIn.js
+;// ./node_modules/lodash-es/hasIn.js
 
 
 
@@ -8134,7 +8134,7 @@ var _isIndex = __webpack_require__(25353);
 var isObject = __webpack_require__(23149);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_toKey.js
 var _toKey = __webpack_require__(30901);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseSet.js
+;// ./node_modules/lodash-es/_baseSet.js
 
 
 
@@ -8187,7 +8187,7 @@ function baseSet(object, path, value, customizer) {
 
 /* harmony default export */ const _baseSet = (baseSet);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_basePickBy.js
+;// ./node_modules/lodash-es/_basePickBy.js
 
 
 
@@ -8221,7 +8221,7 @@ function basePickBy(object, paths, predicate) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/hasIn.js + 1 modules
 var hasIn = __webpack_require__(39188);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_basePick.js
+;// ./node_modules/lodash-es/_basePick.js
 
 
 
@@ -8248,7 +8248,7 @@ var flatten = __webpack_require__(34098);
 var _overRest = __webpack_require__(76875);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_setToString.js + 2 modules
 var _setToString = __webpack_require__(67525);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_flatRest.js
+;// ./node_modules/lodash-es/_flatRest.js
 
 
 
@@ -8266,7 +8266,7 @@ function flatRest(func) {
 
 /* harmony default export */ const _flatRest = (flatRest);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/pick.js
+;// ./node_modules/lodash-es/pick.js
 
 
 
@@ -8305,7 +8305,7 @@ __webpack_require__.d(__webpack_exports__, {
   A: () => (/* binding */ lodash_es_range)
 });
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseRange.js
+;// ./node_modules/lodash-es/_baseRange.js
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeCeil = Math.ceil,
     nativeMax = Math.max;
@@ -8339,7 +8339,7 @@ function baseRange(start, end, step, fromRight) {
 var _isIterateeCall = __webpack_require__(6832);
 // EXTERNAL MODULE: ./node_modules/lodash-es/toFinite.js + 3 modules
 var toFinite = __webpack_require__(74342);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_createRange.js
+;// ./node_modules/lodash-es/_createRange.js
 
 
 
@@ -8371,7 +8371,7 @@ function createRange(fromRight) {
 
 /* harmony default export */ const _createRange = (createRange);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/range.js
+;// ./node_modules/lodash-es/range.js
 
 
 /**
@@ -8431,7 +8431,7 @@ __webpack_require__.d(__webpack_exports__, {
   A: () => (/* binding */ lodash_es_reduce)
 });
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_arrayReduce.js
+;// ./node_modules/lodash-es/_arrayReduce.js
 /**
  * A specialized version of `_.reduce` for arrays without support for
  * iteratee shorthands.
@@ -8463,7 +8463,7 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 var _baseEach = __webpack_require__(6240);
 // EXTERNAL MODULE: ./node_modules/lodash-es/_baseIteratee.js + 16 modules
 var _baseIteratee = __webpack_require__(49574);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseReduce.js
+;// ./node_modules/lodash-es/_baseReduce.js
 /**
  * The base implementation of `_.reduce` and `_.reduceRight`, without support
  * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
@@ -8490,7 +8490,7 @@ function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/isArray.js
 var isArray = __webpack_require__(92049);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/reduce.js
+;// ./node_modules/lodash-es/reduce.js
 
 
 
@@ -8588,7 +8588,7 @@ __webpack_require__.d(__webpack_exports__, {
   A: () => (/* binding */ lodash_es_toFinite)
 });
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_trimmedEndIndex.js
+;// ./node_modules/lodash-es/_trimmedEndIndex.js
 /** Used to match a single whitespace character. */
 var reWhitespace = /\s/;
 
@@ -8609,7 +8609,7 @@ function trimmedEndIndex(string) {
 
 /* harmony default export */ const _trimmedEndIndex = (trimmedEndIndex);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseTrim.js
+;// ./node_modules/lodash-es/_baseTrim.js
 
 
 /** Used to match leading whitespace. */
@@ -8634,7 +8634,7 @@ function baseTrim(string) {
 var isObject = __webpack_require__(23149);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isSymbol.js
 var isSymbol = __webpack_require__(61882);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/toNumber.js
+;// ./node_modules/lodash-es/toNumber.js
 
 
 
@@ -8700,7 +8700,7 @@ function toNumber(value) {
 
 /* harmony default export */ const lodash_es_toNumber = (toNumber);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/toFinite.js
+;// ./node_modules/lodash-es/toFinite.js
 
 
 /** Used as references for various `Number` constants. */
@@ -8764,7 +8764,7 @@ var _arrayMap = __webpack_require__(45572);
 var isArray = __webpack_require__(92049);
 // EXTERNAL MODULE: ./node_modules/lodash-es/isSymbol.js
 var isSymbol = __webpack_require__(61882);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseToString.js
+;// ./node_modules/lodash-es/_baseToString.js
 
 
 
@@ -8803,7 +8803,7 @@ function baseToString(value) {
 
 /* harmony default export */ const _baseToString = (baseToString);
 
-;// CONCATENATED MODULE: ./node_modules/lodash-es/toString.js
+;// ./node_modules/lodash-es/toString.js
 
 
 /**
@@ -8886,7 +8886,7 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/_arrayMap.js
 var _arrayMap = __webpack_require__(45572);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/_baseValues.js
+;// ./node_modules/lodash-es/_baseValues.js
 
 
 /**
@@ -8909,7 +8909,7 @@ function baseValues(object, props) {
 
 // EXTERNAL MODULE: ./node_modules/lodash-es/keys.js
 var keys = __webpack_require__(27422);
-;// CONCATENATED MODULE: ./node_modules/lodash-es/values.js
+;// ./node_modules/lodash-es/values.js
 
 
 
@@ -8948,395 +8948,211 @@ function values(object) {
 
 /***/ }),
 
-/***/ 87426:
+/***/ 26902:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   diagram: () => (/* binding */ diagram)
-/* harmony export */ });
-/* harmony import */ var _styles_b83b31c9_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(63626);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26312);
-/* harmony import */ var dagre_d3_es_src_dagre_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21176);
-/* harmony import */ var dagre_d3_es_src_graphlib_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(697);
-/* harmony import */ var _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(99702);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(74353);
-/* harmony import */ var _braintree_sanitize_url__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(16750);
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(99418);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  diagram: () => (/* binding */ diagram)
+});
+
+// EXTERNAL MODULE: ./node_modules/mermaid/dist/mermaid-6dc72991.js + 8 modules
+var mermaid_6dc72991 = __webpack_require__(99702);
+// EXTERNAL MODULE: ./node_modules/dagre-d3-es/src/graphlib/index.js
+var graphlib = __webpack_require__(697);
+// EXTERNAL MODULE: ./node_modules/d3/src/index.js + 197 modules
+var src = __webpack_require__(26312);
+// EXTERNAL MODULE: ./node_modules/dagre-d3-es/src/dagre/index.js + 64 modules
+var dagre = __webpack_require__(21176);
+;// ./node_modules/uuid/dist/esm-node/stringify.js
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+
+const byteToHex = [];
+
+for (let i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).slice(1));
+}
+
+function unsafeStringify(arr, offset = 0) {
+  // Note: Be careful editing this code!  It's been tuned for performance
+  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+  return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
+}
+
+function stringify(arr, offset = 0) {
+  const uuid = unsafeStringify(arr, offset); // Consistency check for valid UUID.  If this throws, it's likely due to one
+  // of the following:
+  // - One or more input array values don't map to a hex octet (leading to
+  // "undefined" in the uuid)
+  // - Invalid input values for the RFC `version` or `variant` fields
+
+  if (!validate(uuid)) {
+    throw TypeError('Stringified UUID is invalid');
+  }
+
+  return uuid;
+}
+
+/* harmony default export */ const esm_node_stringify = ((/* unused pure expression or super */ null && (stringify)));
+;// ./node_modules/uuid/dist/esm-node/regex.js
+/* harmony default export */ const regex = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
+;// ./node_modules/uuid/dist/esm-node/validate.js
+
+
+function validate_validate(uuid) {
+  return typeof uuid === 'string' && regex.test(uuid);
+}
+
+/* harmony default export */ const esm_node_validate = (validate_validate);
+;// ./node_modules/uuid/dist/esm-node/parse.js
+
+
+function parse(uuid) {
+  if (!esm_node_validate(uuid)) {
+    throw TypeError('Invalid UUID');
+  }
+
+  let v;
+  const arr = new Uint8Array(16); // Parse ########-....-....-....-............
+
+  arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
+  arr[1] = v >>> 16 & 0xff;
+  arr[2] = v >>> 8 & 0xff;
+  arr[3] = v & 0xff; // Parse ........-####-....-....-............
+
+  arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
+  arr[5] = v & 0xff; // Parse ........-....-####-....-............
+
+  arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
+  arr[7] = v & 0xff; // Parse ........-....-....-####-............
+
+  arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
+  arr[9] = v & 0xff; // Parse ........-....-....-....-############
+  // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
+
+  arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000 & 0xff;
+  arr[11] = v / 0x100000000 & 0xff;
+  arr[12] = v >>> 24 & 0xff;
+  arr[13] = v >>> 16 & 0xff;
+  arr[14] = v >>> 8 & 0xff;
+  arr[15] = v & 0xff;
+  return arr;
+}
+
+/* harmony default export */ const esm_node_parse = (parse);
+;// ./node_modules/uuid/dist/esm-node/v35.js
 
 
 
+function stringToBytes(str) {
+  str = unescape(encodeURIComponent(str)); // UTF8 escape
 
+  const bytes = [];
 
+  for (let i = 0; i < str.length; ++i) {
+    bytes.push(str.charCodeAt(i));
+  }
 
+  return bytes;
+}
 
+const DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+const URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+function v35(name, version, hashfunc) {
+  function generateUUID(value, namespace, buf, offset) {
+    var _namespace;
 
-
-
-
-
-
-
-let edgeCount = 0;
-const drawEdge = function(elem, path, relation, conf, diagObj) {
-  const getRelationType = function(type) {
-    switch (type) {
-      case diagObj.db.relationType.AGGREGATION:
-        return "aggregation";
-      case diagObj.db.relationType.EXTENSION:
-        return "extension";
-      case diagObj.db.relationType.COMPOSITION:
-        return "composition";
-      case diagObj.db.relationType.DEPENDENCY:
-        return "dependency";
-      case diagObj.db.relationType.LOLLIPOP:
-        return "lollipop";
+    if (typeof value === 'string') {
+      value = stringToBytes(value);
     }
-  };
-  path.points = path.points.filter((p) => !Number.isNaN(p.y));
-  const lineData = path.points;
-  const lineFunction = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .line */ .n8j)().x(function(d) {
-    return d.x;
-  }).y(function(d) {
-    return d.y;
-  }).curve(d3__WEBPACK_IMPORTED_MODULE_0__/* .curveBasis */ .qrM);
-  const svgPath = elem.append("path").attr("d", lineFunction(lineData)).attr("id", "edge" + edgeCount).attr("class", "relation");
-  let url = "";
-  if (conf.arrowMarkerAbsolute) {
-    url = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-    url = url.replace(/\(/g, "\\(");
-    url = url.replace(/\)/g, "\\)");
-  }
-  if (relation.relation.lineType == 1) {
-    svgPath.attr("class", "relation dashed-line");
-  }
-  if (relation.relation.lineType == 10) {
-    svgPath.attr("class", "relation dotted-line");
-  }
-  if (relation.relation.type1 !== "none") {
-    svgPath.attr(
-      "marker-start",
-      "url(" + url + "#" + getRelationType(relation.relation.type1) + "Start)"
-    );
-  }
-  if (relation.relation.type2 !== "none") {
-    svgPath.attr(
-      "marker-end",
-      "url(" + url + "#" + getRelationType(relation.relation.type2) + "End)"
-    );
-  }
-  let x, y;
-  const l = path.points.length;
-  let labelPosition = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.u.calcLabelPosition(path.points);
-  x = labelPosition.x;
-  y = labelPosition.y;
-  let p1_card_x, p1_card_y;
-  let p2_card_x, p2_card_y;
-  if (l % 2 !== 0 && l > 1) {
-    let cardinality_1_point = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.u.calcCardinalityPosition(
-      relation.relation.type1 !== "none",
-      path.points,
-      path.points[0]
-    );
-    let cardinality_2_point = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.u.calcCardinalityPosition(
-      relation.relation.type2 !== "none",
-      path.points,
-      path.points[l - 1]
-    );
-    _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug("cardinality_1_point " + JSON.stringify(cardinality_1_point));
-    _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug("cardinality_2_point " + JSON.stringify(cardinality_2_point));
-    p1_card_x = cardinality_1_point.x;
-    p1_card_y = cardinality_1_point.y;
-    p2_card_x = cardinality_2_point.x;
-    p2_card_y = cardinality_2_point.y;
-  }
-  if (relation.title !== void 0) {
-    const g = elem.append("g").attr("class", "classLabel");
-    const label = g.append("text").attr("class", "label").attr("x", x).attr("y", y).attr("fill", "red").attr("text-anchor", "middle").text(relation.title);
-    window.label = label;
-    const bounds = label.node().getBBox();
-    g.insert("rect", ":first-child").attr("class", "box").attr("x", bounds.x - conf.padding / 2).attr("y", bounds.y - conf.padding / 2).attr("width", bounds.width + conf.padding).attr("height", bounds.height + conf.padding);
-  }
-  _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.info("Rendering relation " + JSON.stringify(relation));
-  if (relation.relationTitle1 !== void 0 && relation.relationTitle1 !== "none") {
-    const g = elem.append("g").attr("class", "cardinality");
-    g.append("text").attr("class", "type1").attr("x", p1_card_x).attr("y", p1_card_y).attr("fill", "black").attr("font-size", "6").text(relation.relationTitle1);
-  }
-  if (relation.relationTitle2 !== void 0 && relation.relationTitle2 !== "none") {
-    const g = elem.append("g").attr("class", "cardinality");
-    g.append("text").attr("class", "type2").attr("x", p2_card_x).attr("y", p2_card_y).attr("fill", "black").attr("font-size", "6").text(relation.relationTitle2);
-  }
-  edgeCount++;
-};
-const drawClass = function(elem, classDef, conf, diagObj) {
-  _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug("Rendering class ", classDef, conf);
-  const id = classDef.id;
-  const classInfo = {
-    id,
-    label: classDef.id,
-    width: 0,
-    height: 0
-  };
-  const g = elem.append("g").attr("id", diagObj.db.lookUpDomId(id)).attr("class", "classGroup");
-  let title;
-  if (classDef.link) {
-    title = g.append("svg:a").attr("xlink:href", classDef.link).attr("target", classDef.linkTarget).append("text").attr("y", conf.textHeight + conf.padding).attr("x", 0);
-  } else {
-    title = g.append("text").attr("y", conf.textHeight + conf.padding).attr("x", 0);
-  }
-  let isFirst = true;
-  classDef.annotations.forEach(function(member) {
-    const titleText2 = title.append("tspan").text("«" + member + "»");
-    if (!isFirst) {
-      titleText2.attr("dy", conf.textHeight);
+
+    if (typeof namespace === 'string') {
+      namespace = esm_node_parse(namespace);
     }
-    isFirst = false;
-  });
-  let classTitleString = getClassTitleString(classDef);
-  const classTitle = title.append("tspan").text(classTitleString).attr("class", "title");
-  if (!isFirst) {
-    classTitle.attr("dy", conf.textHeight);
-  }
-  const titleHeight = title.node().getBBox().height;
-  let membersLine;
-  let membersBox;
-  let methodsLine;
-  if (classDef.members.length > 0) {
-    membersLine = g.append("line").attr("x1", 0).attr("y1", conf.padding + titleHeight + conf.dividerMargin / 2).attr("y2", conf.padding + titleHeight + conf.dividerMargin / 2);
-    const members = g.append("text").attr("x", conf.padding).attr("y", titleHeight + conf.dividerMargin + conf.textHeight).attr("fill", "white").attr("class", "classText");
-    isFirst = true;
-    classDef.members.forEach(function(member) {
-      addTspan(members, member, isFirst, conf);
-      isFirst = false;
-    });
-    membersBox = members.node().getBBox();
-  }
-  if (classDef.methods.length > 0) {
-    methodsLine = g.append("line").attr("x1", 0).attr("y1", conf.padding + titleHeight + conf.dividerMargin + membersBox.height).attr("y2", conf.padding + titleHeight + conf.dividerMargin + membersBox.height);
-    const methods = g.append("text").attr("x", conf.padding).attr("y", titleHeight + 2 * conf.dividerMargin + membersBox.height + conf.textHeight).attr("fill", "white").attr("class", "classText");
-    isFirst = true;
-    classDef.methods.forEach(function(method) {
-      addTspan(methods, method, isFirst, conf);
-      isFirst = false;
-    });
-  }
-  const classBox = g.node().getBBox();
-  var cssClassStr = " ";
-  if (classDef.cssClasses.length > 0) {
-    cssClassStr = cssClassStr + classDef.cssClasses.join(" ");
-  }
-  const rect = g.insert("rect", ":first-child").attr("x", 0).attr("y", 0).attr("width", classBox.width + 2 * conf.padding).attr("height", classBox.height + conf.padding + 0.5 * conf.dividerMargin).attr("class", cssClassStr);
-  const rectWidth = rect.node().getBBox().width;
-  title.node().childNodes.forEach(function(x) {
-    x.setAttribute("x", (rectWidth - x.getBBox().width) / 2);
-  });
-  if (classDef.tooltip) {
-    title.insert("title").text(classDef.tooltip);
-  }
-  if (membersLine) {
-    membersLine.attr("x2", rectWidth);
-  }
-  if (methodsLine) {
-    methodsLine.attr("x2", rectWidth);
-  }
-  classInfo.width = rectWidth;
-  classInfo.height = classBox.height + conf.padding + 0.5 * conf.dividerMargin;
-  return classInfo;
-};
-const getClassTitleString = function(classDef) {
-  let classTitleString = classDef.id;
-  if (classDef.type) {
-    classTitleString += "<" + (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.x)(classDef.type) + ">";
-  }
-  return classTitleString;
-};
-const drawNote = function(elem, note, conf, diagObj) {
-  _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug("Rendering note ", note, conf);
-  const id = note.id;
-  const noteInfo = {
-    id,
-    text: note.text,
-    width: 0,
-    height: 0
-  };
-  const g = elem.append("g").attr("id", id).attr("class", "classGroup");
-  let text = g.append("text").attr("y", conf.textHeight + conf.padding).attr("x", 0);
-  const lines = JSON.parse(`"${note.text}"`).split("\n");
-  lines.forEach(function(line2) {
-    _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug(`Adding line: ${line2}`);
-    text.append("tspan").text(line2).attr("class", "title").attr("dy", conf.textHeight);
-  });
-  const noteBox = g.node().getBBox();
-  const rect = g.insert("rect", ":first-child").attr("x", 0).attr("y", 0).attr("width", noteBox.width + 2 * conf.padding).attr(
-    "height",
-    noteBox.height + lines.length * conf.textHeight + conf.padding + 0.5 * conf.dividerMargin
-  );
-  const rectWidth = rect.node().getBBox().width;
-  text.node().childNodes.forEach(function(x) {
-    x.setAttribute("x", (rectWidth - x.getBBox().width) / 2);
-  });
-  noteInfo.width = rectWidth;
-  noteInfo.height = noteBox.height + lines.length * conf.textHeight + conf.padding + 0.5 * conf.dividerMargin;
-  return noteInfo;
-};
-const addTspan = function(textEl, member, isFirst, conf) {
-  const { displayText, cssStyle } = member.getDisplayDetails();
-  const tSpan = textEl.append("tspan").attr("x", conf.padding).text(displayText);
-  if (cssStyle !== "") {
-    tSpan.attr("style", member.cssStyle);
-  }
-  if (!isFirst) {
-    tSpan.attr("dy", conf.textHeight);
-  }
-};
-const svgDraw = {
-  getClassTitleString,
-  drawClass,
-  drawEdge,
-  drawNote
-};
-let idCache = {};
-const padding = 20;
-const getGraphId = function(label) {
-  const foundEntry = Object.entries(idCache).find((entry) => entry[1].label === label);
-  if (foundEntry) {
-    return foundEntry[0];
-  }
-};
-const insertMarkers = function(elem) {
-  elem.append("defs").append("marker").attr("id", "extensionStart").attr("class", "extension").attr("refX", 0).attr("refY", 7).attr("markerWidth", 190).attr("markerHeight", 240).attr("orient", "auto").append("path").attr("d", "M 1,7 L18,13 V 1 Z");
-  elem.append("defs").append("marker").attr("id", "extensionEnd").attr("refX", 19).attr("refY", 7).attr("markerWidth", 20).attr("markerHeight", 28).attr("orient", "auto").append("path").attr("d", "M 1,1 V 13 L18,7 Z");
-  elem.append("defs").append("marker").attr("id", "compositionStart").attr("class", "extension").attr("refX", 0).attr("refY", 7).attr("markerWidth", 190).attr("markerHeight", 240).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L1,7 L9,1 Z");
-  elem.append("defs").append("marker").attr("id", "compositionEnd").attr("refX", 19).attr("refY", 7).attr("markerWidth", 20).attr("markerHeight", 28).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L1,7 L9,1 Z");
-  elem.append("defs").append("marker").attr("id", "aggregationStart").attr("class", "extension").attr("refX", 0).attr("refY", 7).attr("markerWidth", 190).attr("markerHeight", 240).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L1,7 L9,1 Z");
-  elem.append("defs").append("marker").attr("id", "aggregationEnd").attr("refX", 19).attr("refY", 7).attr("markerWidth", 20).attr("markerHeight", 28).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L1,7 L9,1 Z");
-  elem.append("defs").append("marker").attr("id", "dependencyStart").attr("class", "extension").attr("refX", 0).attr("refY", 7).attr("markerWidth", 190).attr("markerHeight", 240).attr("orient", "auto").append("path").attr("d", "M 5,7 L9,13 L1,7 L9,1 Z");
-  elem.append("defs").append("marker").attr("id", "dependencyEnd").attr("refX", 19).attr("refY", 7).attr("markerWidth", 20).attr("markerHeight", 28).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L14,7 L9,1 Z");
-};
-const draw = function(text, id, _version, diagObj) {
-  const conf = (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.c)().class;
-  idCache = {};
-  _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.info("Rendering diagram " + text);
-  const securityLevel = (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.c)().securityLevel;
-  let sandboxElement;
-  if (securityLevel === "sandbox") {
-    sandboxElement = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)("#i" + id);
-  }
-  const root = securityLevel === "sandbox" ? (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)(sandboxElement.nodes()[0].contentDocument.body) : (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)("body");
-  const diagram2 = root.select(`[id='${id}']`);
-  insertMarkers(diagram2);
-  const g = new dagre_d3_es_src_graphlib_index_js__WEBPACK_IMPORTED_MODULE_2__/* .Graph */ .T({
-    multigraph: true
-  });
-  g.setGraph({
-    isMultiGraph: true
-  });
-  g.setDefaultEdgeLabel(function() {
-    return {};
-  });
-  const classes = diagObj.db.getClasses();
-  const keys = Object.keys(classes);
-  for (const key of keys) {
-    const classDef = classes[key];
-    const node = svgDraw.drawClass(diagram2, classDef, conf, diagObj);
-    idCache[node.id] = node;
-    g.setNode(node.id, node);
-    _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.info("Org height: " + node.height);
-  }
-  const relations = diagObj.db.getRelations();
-  relations.forEach(function(relation) {
-    _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.info(
-      // cspell:ignore tjoho
-      "tjoho" + getGraphId(relation.id1) + getGraphId(relation.id2) + JSON.stringify(relation)
-    );
-    g.setEdge(
-      getGraphId(relation.id1),
-      getGraphId(relation.id2),
-      {
-        relation
-      },
-      relation.title || "DEFAULT"
-    );
-  });
-  const notes = diagObj.db.getNotes();
-  notes.forEach(function(note) {
-    _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug(`Adding note: ${JSON.stringify(note)}`);
-    const node = svgDraw.drawNote(diagram2, note, conf, diagObj);
-    idCache[node.id] = node;
-    g.setNode(node.id, node);
-    if (note.class && note.class in classes) {
-      g.setEdge(
-        note.id,
-        getGraphId(note.class),
-        {
-          relation: {
-            id1: note.id,
-            id2: note.class,
-            relation: {
-              type1: "none",
-              type2: "none",
-              lineType: 10
-            }
-          }
-        },
-        "DEFAULT"
-      );
+
+    if (((_namespace = namespace) === null || _namespace === void 0 ? void 0 : _namespace.length) !== 16) {
+      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
+    } // Compute hash of namespace and value, Per 4.3
+    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
+    // hashfunc([...namespace, ... value])`
+
+
+    let bytes = new Uint8Array(16 + value.length);
+    bytes.set(namespace);
+    bytes.set(value, namespace.length);
+    bytes = hashfunc(bytes);
+    bytes[6] = bytes[6] & 0x0f | version;
+    bytes[8] = bytes[8] & 0x3f | 0x80;
+
+    if (buf) {
+      offset = offset || 0;
+
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = bytes[i];
+      }
+
+      return buf;
     }
-  });
-  (0,dagre_d3_es_src_dagre_index_js__WEBPACK_IMPORTED_MODULE_1__/* .layout */ .Zp)(g);
-  g.nodes().forEach(function(v) {
-    if (v !== void 0 && g.node(v) !== void 0) {
-      _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug("Node " + v + ": " + JSON.stringify(g.node(v)));
-      root.select("#" + (diagObj.db.lookUpDomId(v) || v)).attr(
-        "transform",
-        "translate(" + (g.node(v).x - g.node(v).width / 2) + "," + (g.node(v).y - g.node(v).height / 2) + " )"
-      );
-    }
-  });
-  g.edges().forEach(function(e) {
-    if (e !== void 0 && g.edge(e) !== void 0) {
-      _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug("Edge " + e.v + " -> " + e.w + ": " + JSON.stringify(g.edge(e)));
-      svgDraw.drawEdge(diagram2, g.edge(e), g.edge(e).relation, conf, diagObj);
-    }
-  });
-  const svgBounds = diagram2.node().getBBox();
-  const width = svgBounds.width + padding * 2;
-  const height = svgBounds.height + padding * 2;
-  (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.i)(diagram2, height, width, conf.useMaxWidth);
-  const vBox = `${svgBounds.x - padding} ${svgBounds.y - padding} ${width} ${height}`;
-  _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_6__.l.debug(`viewBox ${vBox}`);
-  diagram2.attr("viewBox", vBox);
-};
-const renderer = {
-  draw
-};
-const diagram = {
-  parser: _styles_b83b31c9_js__WEBPACK_IMPORTED_MODULE_7__.p,
-  db: _styles_b83b31c9_js__WEBPACK_IMPORTED_MODULE_7__.d,
-  renderer,
-  styles: _styles_b83b31c9_js__WEBPACK_IMPORTED_MODULE_7__.s,
-  init: (cnf) => {
-    if (!cnf.class) {
-      cnf.class = {};
-    }
-    cnf.class.arrowMarkerAbsolute = cnf.arrowMarkerAbsolute;
-    _styles_b83b31c9_js__WEBPACK_IMPORTED_MODULE_7__.d.clear();
+
+    return unsafeStringify(bytes);
+  } // Function#name is not settable on some platforms (#270)
+
+
+  try {
+    generateUUID.name = name; // eslint-disable-next-line no-empty
+  } catch (err) {} // For CommonJS default export support
+
+
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL;
+  return generateUUID;
+}
+// EXTERNAL MODULE: external "crypto"
+var external_crypto_ = __webpack_require__(76982);
+var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto_);
+;// ./node_modules/uuid/dist/esm-node/sha1.js
+
+
+function sha1(bytes) {
+  if (Array.isArray(bytes)) {
+    bytes = Buffer.from(bytes);
+  } else if (typeof bytes === 'string') {
+    bytes = Buffer.from(bytes, 'utf8');
   }
-};
+
+  return external_crypto_default().createHash('sha1').update(bytes).digest();
+}
+
+/* harmony default export */ const esm_node_sha1 = (sha1);
+;// ./node_modules/uuid/dist/esm-node/v5.js
+
+
+const v5 = v35('v5', 0x50, esm_node_sha1);
+/* harmony default export */ const esm_node_v5 = (v5);
+// EXTERNAL MODULE: ./node_modules/dayjs/dayjs.min.js
+var dayjs_min = __webpack_require__(74353);
+// EXTERNAL MODULE: ./node_modules/@braintree/sanitize-url/dist/index.js
+var dist = __webpack_require__(16750);
+// EXTERNAL MODULE: ./node_modules/dompurify/dist/purify.es.mjs
+var purify_es = __webpack_require__(99418);
+;// ./node_modules/mermaid/dist/erDiagram-09d1c15f.js
 
 
 
-/***/ }),
 
-/***/ 63626:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   d: () => (/* binding */ db),
-/* harmony export */   p: () => (/* binding */ parser$1),
-/* harmony export */   s: () => (/* binding */ styles)
-/* harmony export */ });
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26312);
-/* harmony import */ var _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(99702);
+
+
+
+
+
+
+
 
 
 var parser = function() {
@@ -9344,247 +9160,138 @@ var parser = function() {
     for (o2 = o2 || {}, l = k.length; l--; o2[k[l]] = v)
       ;
     return o2;
-  }, $V0 = [1, 17], $V1 = [1, 18], $V2 = [1, 19], $V3 = [1, 39], $V4 = [1, 40], $V5 = [1, 25], $V6 = [1, 23], $V7 = [1, 24], $V8 = [1, 31], $V9 = [1, 32], $Va = [1, 33], $Vb = [1, 34], $Vc = [1, 35], $Vd = [1, 36], $Ve = [1, 26], $Vf = [1, 27], $Vg = [1, 28], $Vh = [1, 29], $Vi = [1, 43], $Vj = [1, 30], $Vk = [1, 42], $Vl = [1, 44], $Vm = [1, 41], $Vn = [1, 45], $Vo = [1, 9], $Vp = [1, 8, 9], $Vq = [1, 56], $Vr = [1, 57], $Vs = [1, 58], $Vt = [1, 59], $Vu = [1, 60], $Vv = [1, 61], $Vw = [1, 62], $Vx = [1, 8, 9, 39], $Vy = [1, 74], $Vz = [1, 8, 9, 12, 13, 21, 37, 39, 42, 59, 60, 61, 62, 63, 64, 65, 70, 72], $VA = [1, 8, 9, 12, 13, 19, 21, 37, 39, 42, 46, 59, 60, 61, 62, 63, 64, 65, 70, 72, 74, 80, 95, 97, 98], $VB = [13, 74, 80, 95, 97, 98], $VC = [13, 64, 65, 74, 80, 95, 97, 98], $VD = [13, 59, 60, 61, 62, 63, 74, 80, 95, 97, 98], $VE = [1, 93], $VF = [1, 110], $VG = [1, 108], $VH = [1, 102], $VI = [1, 103], $VJ = [1, 104], $VK = [1, 105], $VL = [1, 106], $VM = [1, 107], $VN = [1, 109], $VO = [1, 8, 9, 37, 39, 42], $VP = [1, 8, 9, 21], $VQ = [1, 8, 9, 78], $VR = [1, 8, 9, 21, 73, 74, 78, 80, 81, 82, 83, 84, 85];
+  }, $V0 = [6, 8, 10, 20, 22, 24, 26, 27, 28], $V1 = [1, 10], $V2 = [1, 11], $V3 = [1, 12], $V4 = [1, 13], $V5 = [1, 14], $V6 = [1, 15], $V7 = [1, 21], $V8 = [1, 22], $V9 = [1, 23], $Va = [1, 24], $Vb = [1, 25], $Vc = [6, 8, 10, 13, 15, 18, 19, 20, 22, 24, 26, 27, 28, 41, 42, 43, 44, 45], $Vd = [1, 34], $Ve = [27, 28, 46, 47], $Vf = [41, 42, 43, 44, 45], $Vg = [17, 34], $Vh = [1, 54], $Vi = [1, 53], $Vj = [17, 34, 36, 38];
   var parser2 = {
     trace: function trace() {
     },
     yy: {},
-    symbols_: { "error": 2, "start": 3, "mermaidDoc": 4, "statements": 5, "graphConfig": 6, "CLASS_DIAGRAM": 7, "NEWLINE": 8, "EOF": 9, "statement": 10, "classLabel": 11, "SQS": 12, "STR": 13, "SQE": 14, "namespaceName": 15, "alphaNumToken": 16, "className": 17, "classLiteralName": 18, "GENERICTYPE": 19, "relationStatement": 20, "LABEL": 21, "namespaceStatement": 22, "classStatement": 23, "memberStatement": 24, "annotationStatement": 25, "clickStatement": 26, "styleStatement": 27, "cssClassStatement": 28, "noteStatement": 29, "direction": 30, "acc_title": 31, "acc_title_value": 32, "acc_descr": 33, "acc_descr_value": 34, "acc_descr_multiline_value": 35, "namespaceIdentifier": 36, "STRUCT_START": 37, "classStatements": 38, "STRUCT_STOP": 39, "NAMESPACE": 40, "classIdentifier": 41, "STYLE_SEPARATOR": 42, "members": 43, "CLASS": 44, "ANNOTATION_START": 45, "ANNOTATION_END": 46, "MEMBER": 47, "SEPARATOR": 48, "relation": 49, "NOTE_FOR": 50, "noteText": 51, "NOTE": 52, "direction_tb": 53, "direction_bt": 54, "direction_rl": 55, "direction_lr": 56, "relationType": 57, "lineType": 58, "AGGREGATION": 59, "EXTENSION": 60, "COMPOSITION": 61, "DEPENDENCY": 62, "LOLLIPOP": 63, "LINE": 64, "DOTTED_LINE": 65, "CALLBACK": 66, "LINK": 67, "LINK_TARGET": 68, "CLICK": 69, "CALLBACK_NAME": 70, "CALLBACK_ARGS": 71, "HREF": 72, "STYLE": 73, "ALPHA": 74, "stylesOpt": 75, "CSSCLASS": 76, "style": 77, "COMMA": 78, "styleComponent": 79, "NUM": 80, "COLON": 81, "UNIT": 82, "SPACE": 83, "BRKT": 84, "PCT": 85, "commentToken": 86, "textToken": 87, "graphCodeTokens": 88, "textNoTagsToken": 89, "TAGSTART": 90, "TAGEND": 91, "==": 92, "--": 93, "DEFAULT": 94, "MINUS": 95, "keywords": 96, "UNICODE_TEXT": 97, "BQUOTE_STR": 98, "$accept": 0, "$end": 1 },
-    terminals_: { 2: "error", 7: "CLASS_DIAGRAM", 8: "NEWLINE", 9: "EOF", 12: "SQS", 13: "STR", 14: "SQE", 19: "GENERICTYPE", 21: "LABEL", 31: "acc_title", 32: "acc_title_value", 33: "acc_descr", 34: "acc_descr_value", 35: "acc_descr_multiline_value", 37: "STRUCT_START", 39: "STRUCT_STOP", 40: "NAMESPACE", 42: "STYLE_SEPARATOR", 44: "CLASS", 45: "ANNOTATION_START", 46: "ANNOTATION_END", 47: "MEMBER", 48: "SEPARATOR", 50: "NOTE_FOR", 52: "NOTE", 53: "direction_tb", 54: "direction_bt", 55: "direction_rl", 56: "direction_lr", 59: "AGGREGATION", 60: "EXTENSION", 61: "COMPOSITION", 62: "DEPENDENCY", 63: "LOLLIPOP", 64: "LINE", 65: "DOTTED_LINE", 66: "CALLBACK", 67: "LINK", 68: "LINK_TARGET", 69: "CLICK", 70: "CALLBACK_NAME", 71: "CALLBACK_ARGS", 72: "HREF", 73: "STYLE", 74: "ALPHA", 76: "CSSCLASS", 78: "COMMA", 80: "NUM", 81: "COLON", 82: "UNIT", 83: "SPACE", 84: "BRKT", 85: "PCT", 88: "graphCodeTokens", 90: "TAGSTART", 91: "TAGEND", 92: "==", 93: "--", 94: "DEFAULT", 95: "MINUS", 96: "keywords", 97: "UNICODE_TEXT", 98: "BQUOTE_STR" },
-    productions_: [0, [3, 1], [3, 1], [4, 1], [6, 4], [5, 1], [5, 2], [5, 3], [11, 3], [15, 1], [15, 2], [17, 1], [17, 1], [17, 2], [17, 2], [17, 2], [10, 1], [10, 2], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 1], [10, 2], [10, 2], [10, 1], [22, 4], [22, 5], [36, 2], [38, 1], [38, 2], [38, 3], [23, 1], [23, 3], [23, 4], [23, 6], [41, 2], [41, 3], [25, 4], [43, 1], [43, 2], [24, 1], [24, 2], [24, 1], [24, 1], [20, 3], [20, 4], [20, 4], [20, 5], [29, 3], [29, 2], [30, 1], [30, 1], [30, 1], [30, 1], [49, 3], [49, 2], [49, 2], [49, 1], [57, 1], [57, 1], [57, 1], [57, 1], [57, 1], [58, 1], [58, 1], [26, 3], [26, 4], [26, 3], [26, 4], [26, 4], [26, 5], [26, 3], [26, 4], [26, 4], [26, 5], [26, 4], [26, 5], [26, 5], [26, 6], [27, 3], [28, 3], [75, 1], [75, 3], [77, 1], [77, 2], [79, 1], [79, 1], [79, 1], [79, 1], [79, 1], [79, 1], [79, 1], [79, 1], [79, 1], [86, 1], [86, 1], [87, 1], [87, 1], [87, 1], [87, 1], [87, 1], [87, 1], [87, 1], [89, 1], [89, 1], [89, 1], [89, 1], [16, 1], [16, 1], [16, 1], [16, 1], [18, 1], [51, 1]],
+    symbols_: { "error": 2, "start": 3, "ER_DIAGRAM": 4, "document": 5, "EOF": 6, "line": 7, "SPACE": 8, "statement": 9, "NEWLINE": 10, "entityName": 11, "relSpec": 12, ":": 13, "role": 14, "BLOCK_START": 15, "attributes": 16, "BLOCK_STOP": 17, "SQS": 18, "SQE": 19, "title": 20, "title_value": 21, "acc_title": 22, "acc_title_value": 23, "acc_descr": 24, "acc_descr_value": 25, "acc_descr_multiline_value": 26, "ALPHANUM": 27, "ENTITY_NAME": 28, "attribute": 29, "attributeType": 30, "attributeName": 31, "attributeKeyTypeList": 32, "attributeComment": 33, "ATTRIBUTE_WORD": 34, "attributeKeyType": 35, "COMMA": 36, "ATTRIBUTE_KEY": 37, "COMMENT": 38, "cardinality": 39, "relType": 40, "ZERO_OR_ONE": 41, "ZERO_OR_MORE": 42, "ONE_OR_MORE": 43, "ONLY_ONE": 44, "MD_PARENT": 45, "NON_IDENTIFYING": 46, "IDENTIFYING": 47, "WORD": 48, "$accept": 0, "$end": 1 },
+    terminals_: { 2: "error", 4: "ER_DIAGRAM", 6: "EOF", 8: "SPACE", 10: "NEWLINE", 13: ":", 15: "BLOCK_START", 17: "BLOCK_STOP", 18: "SQS", 19: "SQE", 20: "title", 21: "title_value", 22: "acc_title", 23: "acc_title_value", 24: "acc_descr", 25: "acc_descr_value", 26: "acc_descr_multiline_value", 27: "ALPHANUM", 28: "ENTITY_NAME", 34: "ATTRIBUTE_WORD", 36: "COMMA", 37: "ATTRIBUTE_KEY", 38: "COMMENT", 41: "ZERO_OR_ONE", 42: "ZERO_OR_MORE", 43: "ONE_OR_MORE", 44: "ONLY_ONE", 45: "MD_PARENT", 46: "NON_IDENTIFYING", 47: "IDENTIFYING", 48: "WORD" },
+    productions_: [0, [3, 3], [5, 0], [5, 2], [7, 2], [7, 1], [7, 1], [7, 1], [9, 5], [9, 4], [9, 3], [9, 1], [9, 7], [9, 6], [9, 4], [9, 2], [9, 2], [9, 2], [9, 1], [11, 1], [11, 1], [16, 1], [16, 2], [29, 2], [29, 3], [29, 3], [29, 4], [30, 1], [31, 1], [32, 1], [32, 3], [35, 1], [33, 1], [12, 3], [39, 1], [39, 1], [39, 1], [39, 1], [39, 1], [40, 1], [40, 1], [14, 1], [14, 1], [14, 1]],
     performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate, $$, _$) {
       var $0 = $$.length - 1;
       switch (yystate) {
-        case 8:
+        case 1:
+          break;
+        case 2:
+          this.$ = [];
+          break;
+        case 3:
+          $$[$0 - 1].push($$[$0]);
           this.$ = $$[$0 - 1];
           break;
-        case 9:
-        case 11:
-        case 12:
+        case 4:
+        case 5:
           this.$ = $$[$0];
           break;
+        case 6:
+        case 7:
+          this.$ = [];
+          break;
+        case 8:
+          yy.addEntity($$[$0 - 4]);
+          yy.addEntity($$[$0 - 2]);
+          yy.addRelationship($$[$0 - 4], $$[$0], $$[$0 - 2], $$[$0 - 3]);
+          break;
+        case 9:
+          yy.addEntity($$[$0 - 3]);
+          yy.addAttributes($$[$0 - 3], $$[$0 - 1]);
+          break;
         case 10:
+          yy.addEntity($$[$0 - 2]);
+          break;
+        case 11:
+          yy.addEntity($$[$0]);
+          break;
+        case 12:
+          yy.addEntity($$[$0 - 6], $$[$0 - 4]);
+          yy.addAttributes($$[$0 - 6], $$[$0 - 1]);
+          break;
         case 13:
-          this.$ = $$[$0 - 1] + $$[$0];
+          yy.addEntity($$[$0 - 5], $$[$0 - 3]);
           break;
         case 14:
+          yy.addEntity($$[$0 - 3], $$[$0 - 1]);
+          break;
         case 15:
-          this.$ = $$[$0 - 1] + "~" + $$[$0] + "~";
-          break;
         case 16:
-          yy.addRelation($$[$0]);
-          break;
-        case 17:
-          $$[$0 - 1].title = yy.cleanupLabel($$[$0]);
-          yy.addRelation($$[$0 - 1]);
-          break;
-        case 27:
           this.$ = $$[$0].trim();
           yy.setAccTitle(this.$);
           break;
-        case 28:
-        case 29:
+        case 17:
+        case 18:
           this.$ = $$[$0].trim();
           yy.setAccDescription(this.$);
           break;
-        case 30:
-          yy.addClassesToNamespace($$[$0 - 3], $$[$0 - 1]);
-          break;
-        case 31:
-          yy.addClassesToNamespace($$[$0 - 4], $$[$0 - 1]);
-          break;
-        case 32:
-          this.$ = $$[$0];
-          yy.addNamespace($$[$0]);
-          break;
-        case 33:
-          this.$ = [$$[$0]];
-          break;
-        case 34:
-          this.$ = [$$[$0 - 1]];
-          break;
-        case 35:
-          $$[$0].unshift($$[$0 - 2]);
-          this.$ = $$[$0];
-          break;
-        case 37:
-          yy.setCssClass($$[$0 - 2], $$[$0]);
-          break;
-        case 38:
-          yy.addMembers($$[$0 - 3], $$[$0 - 1]);
-          break;
-        case 39:
-          yy.setCssClass($$[$0 - 5], $$[$0 - 3]);
-          yy.addMembers($$[$0 - 5], $$[$0 - 1]);
-          break;
-        case 40:
-          this.$ = $$[$0];
-          yy.addClass($$[$0]);
-          break;
-        case 41:
-          this.$ = $$[$0 - 1];
-          yy.addClass($$[$0 - 1]);
-          yy.setClassLabel($$[$0 - 1], $$[$0]);
-          break;
-        case 42:
-          yy.addAnnotation($$[$0], $$[$0 - 2]);
-          break;
+        case 19:
         case 43:
+          this.$ = $$[$0];
+          break;
+        case 20:
+        case 41:
+        case 42:
+          this.$ = $$[$0].replace(/"/g, "");
+          break;
+        case 21:
+        case 29:
           this.$ = [$$[$0]];
           break;
-        case 44:
+        case 22:
           $$[$0].push($$[$0 - 1]);
           this.$ = $$[$0];
           break;
-        case 45:
+        case 23:
+          this.$ = { attributeType: $$[$0 - 1], attributeName: $$[$0] };
           break;
-        case 46:
-          yy.addMember($$[$0 - 1], yy.cleanupLabel($$[$0]));
+        case 24:
+          this.$ = { attributeType: $$[$0 - 2], attributeName: $$[$0 - 1], attributeKeyTypeList: $$[$0] };
           break;
-        case 47:
+        case 25:
+          this.$ = { attributeType: $$[$0 - 2], attributeName: $$[$0 - 1], attributeComment: $$[$0] };
           break;
-        case 48:
+        case 26:
+          this.$ = { attributeType: $$[$0 - 3], attributeName: $$[$0 - 2], attributeKeyTypeList: $$[$0 - 1], attributeComment: $$[$0] };
           break;
-        case 49:
-          this.$ = { "id1": $$[$0 - 2], "id2": $$[$0], relation: $$[$0 - 1], relationTitle1: "none", relationTitle2: "none" };
+        case 27:
+        case 28:
+        case 31:
+          this.$ = $$[$0];
           break;
-        case 50:
-          this.$ = { id1: $$[$0 - 3], id2: $$[$0], relation: $$[$0 - 1], relationTitle1: $$[$0 - 2], relationTitle2: "none" };
-          break;
-        case 51:
-          this.$ = { id1: $$[$0 - 3], id2: $$[$0], relation: $$[$0 - 2], relationTitle1: "none", relationTitle2: $$[$0 - 1] };
-          break;
-        case 52:
-          this.$ = { id1: $$[$0 - 4], id2: $$[$0], relation: $$[$0 - 2], relationTitle1: $$[$0 - 3], relationTitle2: $$[$0 - 1] };
-          break;
-        case 53:
-          yy.addNote($$[$0], $$[$0 - 1]);
-          break;
-        case 54:
-          yy.addNote($$[$0]);
-          break;
-        case 55:
-          yy.setDirection("TB");
-          break;
-        case 56:
-          yy.setDirection("BT");
-          break;
-        case 57:
-          yy.setDirection("RL");
-          break;
-        case 58:
-          yy.setDirection("LR");
-          break;
-        case 59:
-          this.$ = { type1: $$[$0 - 2], type2: $$[$0], lineType: $$[$0 - 1] };
-          break;
-        case 60:
-          this.$ = { type1: "none", type2: $$[$0], lineType: $$[$0 - 1] };
-          break;
-        case 61:
-          this.$ = { type1: $$[$0 - 1], type2: "none", lineType: $$[$0] };
-          break;
-        case 62:
-          this.$ = { type1: "none", type2: "none", lineType: $$[$0] };
-          break;
-        case 63:
-          this.$ = yy.relationType.AGGREGATION;
-          break;
-        case 64:
-          this.$ = yy.relationType.EXTENSION;
-          break;
-        case 65:
-          this.$ = yy.relationType.COMPOSITION;
-          break;
-        case 66:
-          this.$ = yy.relationType.DEPENDENCY;
-          break;
-        case 67:
-          this.$ = yy.relationType.LOLLIPOP;
-          break;
-        case 68:
-          this.$ = yy.lineType.LINE;
-          break;
-        case 69:
-          this.$ = yy.lineType.DOTTED_LINE;
-          break;
-        case 70:
-        case 76:
-          this.$ = $$[$0 - 2];
-          yy.setClickEvent($$[$0 - 1], $$[$0]);
-          break;
-        case 71:
-        case 77:
-          this.$ = $$[$0 - 3];
-          yy.setClickEvent($$[$0 - 2], $$[$0 - 1]);
-          yy.setTooltip($$[$0 - 2], $$[$0]);
-          break;
-        case 72:
-          this.$ = $$[$0 - 2];
-          yy.setLink($$[$0 - 1], $$[$0]);
-          break;
-        case 73:
-          this.$ = $$[$0 - 3];
-          yy.setLink($$[$0 - 2], $$[$0 - 1], $$[$0]);
-          break;
-        case 74:
-          this.$ = $$[$0 - 3];
-          yy.setLink($$[$0 - 2], $$[$0 - 1]);
-          yy.setTooltip($$[$0 - 2], $$[$0]);
-          break;
-        case 75:
-          this.$ = $$[$0 - 4];
-          yy.setLink($$[$0 - 3], $$[$0 - 2], $$[$0]);
-          yy.setTooltip($$[$0 - 3], $$[$0 - 1]);
-          break;
-        case 78:
-          this.$ = $$[$0 - 3];
-          yy.setClickEvent($$[$0 - 2], $$[$0 - 1], $$[$0]);
-          break;
-        case 79:
-          this.$ = $$[$0 - 4];
-          yy.setClickEvent($$[$0 - 3], $$[$0 - 2], $$[$0 - 1]);
-          yy.setTooltip($$[$0 - 3], $$[$0]);
-          break;
-        case 80:
-          this.$ = $$[$0 - 3];
-          yy.setLink($$[$0 - 2], $$[$0]);
-          break;
-        case 81:
-          this.$ = $$[$0 - 4];
-          yy.setLink($$[$0 - 3], $$[$0 - 1], $$[$0]);
-          break;
-        case 82:
-          this.$ = $$[$0 - 4];
-          yy.setLink($$[$0 - 3], $$[$0 - 1]);
-          yy.setTooltip($$[$0 - 3], $$[$0]);
-          break;
-        case 83:
-          this.$ = $$[$0 - 5];
-          yy.setLink($$[$0 - 4], $$[$0 - 2], $$[$0]);
-          yy.setTooltip($$[$0 - 4], $$[$0 - 1]);
-          break;
-        case 84:
-          this.$ = $$[$0 - 2];
-          yy.setCssStyle($$[$0 - 1], $$[$0]);
-          break;
-        case 85:
-          yy.setCssClass($$[$0 - 1], $$[$0]);
-          break;
-        case 86:
-          this.$ = [$$[$0]];
-          break;
-        case 87:
+        case 30:
           $$[$0 - 2].push($$[$0]);
           this.$ = $$[$0 - 2];
           break;
-        case 89:
-          this.$ = $$[$0 - 1] + $$[$0];
+        case 32:
+          this.$ = $$[$0].replace(/"/g, "");
+          break;
+        case 33:
+          this.$ = { cardA: $$[$0], relType: $$[$0 - 1], cardB: $$[$0 - 2] };
+          break;
+        case 34:
+          this.$ = yy.Cardinality.ZERO_OR_ONE;
+          break;
+        case 35:
+          this.$ = yy.Cardinality.ZERO_OR_MORE;
+          break;
+        case 36:
+          this.$ = yy.Cardinality.ONE_OR_MORE;
+          break;
+        case 37:
+          this.$ = yy.Cardinality.ONLY_ONE;
+          break;
+        case 38:
+          this.$ = yy.Cardinality.MD_PARENT;
+          break;
+        case 39:
+          this.$ = yy.Identification.NON_IDENTIFYING;
+          break;
+        case 40:
+          this.$ = yy.Identification.IDENTIFYING;
           break;
       }
     },
-    table: [{ 3: 1, 4: 2, 5: 3, 6: 4, 7: [1, 6], 10: 5, 16: 37, 17: 20, 18: 38, 20: 7, 22: 8, 23: 9, 24: 10, 25: 11, 26: 12, 27: 13, 28: 14, 29: 15, 30: 16, 31: $V0, 33: $V1, 35: $V2, 36: 21, 40: $V3, 41: 22, 44: $V4, 45: $V5, 47: $V6, 48: $V7, 50: $V8, 52: $V9, 53: $Va, 54: $Vb, 55: $Vc, 56: $Vd, 66: $Ve, 67: $Vf, 69: $Vg, 73: $Vh, 74: $Vi, 76: $Vj, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 1: [3] }, { 1: [2, 1] }, { 1: [2, 2] }, { 1: [2, 3] }, o($Vo, [2, 5], { 8: [1, 46] }), { 8: [1, 47] }, o($Vp, [2, 16], { 21: [1, 48] }), o($Vp, [2, 18]), o($Vp, [2, 19]), o($Vp, [2, 20]), o($Vp, [2, 21]), o($Vp, [2, 22]), o($Vp, [2, 23]), o($Vp, [2, 24]), o($Vp, [2, 25]), o($Vp, [2, 26]), { 32: [1, 49] }, { 34: [1, 50] }, o($Vp, [2, 29]), o($Vp, [2, 45], { 49: 51, 57: 54, 58: 55, 13: [1, 52], 21: [1, 53], 59: $Vq, 60: $Vr, 61: $Vs, 62: $Vt, 63: $Vu, 64: $Vv, 65: $Vw }), { 37: [1, 63] }, o($Vx, [2, 36], { 37: [1, 65], 42: [1, 64] }), o($Vp, [2, 47]), o($Vp, [2, 48]), { 16: 66, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm }, { 16: 37, 17: 67, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 16: 37, 17: 68, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 16: 37, 17: 69, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 74: [1, 70] }, { 13: [1, 71] }, { 16: 37, 17: 72, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 13: $Vy, 51: 73 }, o($Vp, [2, 55]), o($Vp, [2, 56]), o($Vp, [2, 57]), o($Vp, [2, 58]), o($Vz, [2, 11], { 16: 37, 18: 38, 17: 75, 19: [1, 76], 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }), o($Vz, [2, 12], { 19: [1, 77] }), { 15: 78, 16: 79, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm }, { 16: 37, 17: 80, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, o($VA, [2, 112]), o($VA, [2, 113]), o($VA, [2, 114]), o($VA, [2, 115]), o([1, 8, 9, 12, 13, 19, 21, 37, 39, 42, 59, 60, 61, 62, 63, 64, 65, 70, 72], [2, 116]), o($Vo, [2, 6], { 10: 5, 20: 7, 22: 8, 23: 9, 24: 10, 25: 11, 26: 12, 27: 13, 28: 14, 29: 15, 30: 16, 17: 20, 36: 21, 41: 22, 16: 37, 18: 38, 5: 81, 31: $V0, 33: $V1, 35: $V2, 40: $V3, 44: $V4, 45: $V5, 47: $V6, 48: $V7, 50: $V8, 52: $V9, 53: $Va, 54: $Vb, 55: $Vc, 56: $Vd, 66: $Ve, 67: $Vf, 69: $Vg, 73: $Vh, 74: $Vi, 76: $Vj, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }), { 5: 82, 10: 5, 16: 37, 17: 20, 18: 38, 20: 7, 22: 8, 23: 9, 24: 10, 25: 11, 26: 12, 27: 13, 28: 14, 29: 15, 30: 16, 31: $V0, 33: $V1, 35: $V2, 36: 21, 40: $V3, 41: 22, 44: $V4, 45: $V5, 47: $V6, 48: $V7, 50: $V8, 52: $V9, 53: $Va, 54: $Vb, 55: $Vc, 56: $Vd, 66: $Ve, 67: $Vf, 69: $Vg, 73: $Vh, 74: $Vi, 76: $Vj, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, o($Vp, [2, 17]), o($Vp, [2, 27]), o($Vp, [2, 28]), { 13: [1, 84], 16: 37, 17: 83, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 49: 85, 57: 54, 58: 55, 59: $Vq, 60: $Vr, 61: $Vs, 62: $Vt, 63: $Vu, 64: $Vv, 65: $Vw }, o($Vp, [2, 46]), { 58: 86, 64: $Vv, 65: $Vw }, o($VB, [2, 62], { 57: 87, 59: $Vq, 60: $Vr, 61: $Vs, 62: $Vt, 63: $Vu }), o($VC, [2, 63]), o($VC, [2, 64]), o($VC, [2, 65]), o($VC, [2, 66]), o($VC, [2, 67]), o($VD, [2, 68]), o($VD, [2, 69]), { 8: [1, 89], 23: 90, 38: 88, 41: 22, 44: $V4 }, { 16: 91, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm }, { 43: 92, 47: $VE }, { 46: [1, 94] }, { 13: [1, 95] }, { 13: [1, 96] }, { 70: [1, 97], 72: [1, 98] }, { 21: $VF, 73: $VG, 74: $VH, 75: 99, 77: 100, 79: 101, 80: $VI, 81: $VJ, 82: $VK, 83: $VL, 84: $VM, 85: $VN }, { 74: [1, 111] }, { 13: $Vy, 51: 112 }, o($Vp, [2, 54]), o($Vp, [2, 117]), o($Vz, [2, 13]), o($Vz, [2, 14]), o($Vz, [2, 15]), { 37: [2, 32] }, { 15: 113, 16: 79, 37: [2, 9], 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm }, o($VO, [2, 40], { 11: 114, 12: [1, 115] }), o($Vo, [2, 7]), { 9: [1, 116] }, o($VP, [2, 49]), { 16: 37, 17: 117, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, { 13: [1, 119], 16: 37, 17: 118, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, o($VB, [2, 61], { 57: 120, 59: $Vq, 60: $Vr, 61: $Vs, 62: $Vt, 63: $Vu }), o($VB, [2, 60]), { 39: [1, 121] }, { 23: 90, 38: 122, 41: 22, 44: $V4 }, { 8: [1, 123], 39: [2, 33] }, o($Vx, [2, 37], { 37: [1, 124] }), { 39: [1, 125] }, { 39: [2, 43], 43: 126, 47: $VE }, { 16: 37, 17: 127, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, o($Vp, [2, 70], { 13: [1, 128] }), o($Vp, [2, 72], { 13: [1, 130], 68: [1, 129] }), o($Vp, [2, 76], { 13: [1, 131], 71: [1, 132] }), { 13: [1, 133] }, o($Vp, [2, 84], { 78: [1, 134] }), o($VQ, [2, 86], { 79: 135, 21: $VF, 73: $VG, 74: $VH, 80: $VI, 81: $VJ, 82: $VK, 83: $VL, 84: $VM, 85: $VN }), o($VR, [2, 88]), o($VR, [2, 90]), o($VR, [2, 91]), o($VR, [2, 92]), o($VR, [2, 93]), o($VR, [2, 94]), o($VR, [2, 95]), o($VR, [2, 96]), o($VR, [2, 97]), o($VR, [2, 98]), o($Vp, [2, 85]), o($Vp, [2, 53]), { 37: [2, 10] }, o($VO, [2, 41]), { 13: [1, 136] }, { 1: [2, 4] }, o($VP, [2, 51]), o($VP, [2, 50]), { 16: 37, 17: 137, 18: 38, 74: $Vi, 80: $Vk, 95: $Vl, 97: $Vm, 98: $Vn }, o($VB, [2, 59]), o($Vp, [2, 30]), { 39: [1, 138] }, { 23: 90, 38: 139, 39: [2, 34], 41: 22, 44: $V4 }, { 43: 140, 47: $VE }, o($Vx, [2, 38]), { 39: [2, 44] }, o($Vp, [2, 42]), o($Vp, [2, 71]), o($Vp, [2, 73]), o($Vp, [2, 74], { 68: [1, 141] }), o($Vp, [2, 77]), o($Vp, [2, 78], { 13: [1, 142] }), o($Vp, [2, 80], { 13: [1, 144], 68: [1, 143] }), { 21: $VF, 73: $VG, 74: $VH, 77: 145, 79: 101, 80: $VI, 81: $VJ, 82: $VK, 83: $VL, 84: $VM, 85: $VN }, o($VR, [2, 89]), { 14: [1, 146] }, o($VP, [2, 52]), o($Vp, [2, 31]), { 39: [2, 35] }, { 39: [1, 147] }, o($Vp, [2, 75]), o($Vp, [2, 79]), o($Vp, [2, 81]), o($Vp, [2, 82], { 68: [1, 148] }), o($VQ, [2, 87], { 79: 135, 21: $VF, 73: $VG, 74: $VH, 80: $VI, 81: $VJ, 82: $VK, 83: $VL, 84: $VM, 85: $VN }), o($VO, [2, 8]), o($Vx, [2, 39]), o($Vp, [2, 83])],
-    defaultActions: { 2: [2, 1], 3: [2, 2], 4: [2, 3], 78: [2, 32], 113: [2, 10], 116: [2, 4], 126: [2, 44], 139: [2, 35] },
+    table: [{ 3: 1, 4: [1, 2] }, { 1: [3] }, o($V0, [2, 2], { 5: 3 }), { 6: [1, 4], 7: 5, 8: [1, 6], 9: 7, 10: [1, 8], 11: 9, 20: $V1, 22: $V2, 24: $V3, 26: $V4, 27: $V5, 28: $V6 }, o($V0, [2, 7], { 1: [2, 1] }), o($V0, [2, 3]), { 9: 16, 11: 9, 20: $V1, 22: $V2, 24: $V3, 26: $V4, 27: $V5, 28: $V6 }, o($V0, [2, 5]), o($V0, [2, 6]), o($V0, [2, 11], { 12: 17, 39: 20, 15: [1, 18], 18: [1, 19], 41: $V7, 42: $V8, 43: $V9, 44: $Va, 45: $Vb }), { 21: [1, 26] }, { 23: [1, 27] }, { 25: [1, 28] }, o($V0, [2, 18]), o($Vc, [2, 19]), o($Vc, [2, 20]), o($V0, [2, 4]), { 11: 29, 27: $V5, 28: $V6 }, { 16: 30, 17: [1, 31], 29: 32, 30: 33, 34: $Vd }, { 11: 35, 27: $V5, 28: $V6 }, { 40: 36, 46: [1, 37], 47: [1, 38] }, o($Ve, [2, 34]), o($Ve, [2, 35]), o($Ve, [2, 36]), o($Ve, [2, 37]), o($Ve, [2, 38]), o($V0, [2, 15]), o($V0, [2, 16]), o($V0, [2, 17]), { 13: [1, 39] }, { 17: [1, 40] }, o($V0, [2, 10]), { 16: 41, 17: [2, 21], 29: 32, 30: 33, 34: $Vd }, { 31: 42, 34: [1, 43] }, { 34: [2, 27] }, { 19: [1, 44] }, { 39: 45, 41: $V7, 42: $V8, 43: $V9, 44: $Va, 45: $Vb }, o($Vf, [2, 39]), o($Vf, [2, 40]), { 14: 46, 27: [1, 49], 28: [1, 48], 48: [1, 47] }, o($V0, [2, 9]), { 17: [2, 22] }, o($Vg, [2, 23], { 32: 50, 33: 51, 35: 52, 37: $Vh, 38: $Vi }), o([17, 34, 37, 38], [2, 28]), o($V0, [2, 14], { 15: [1, 55] }), o([27, 28], [2, 33]), o($V0, [2, 8]), o($V0, [2, 41]), o($V0, [2, 42]), o($V0, [2, 43]), o($Vg, [2, 24], { 33: 56, 36: [1, 57], 38: $Vi }), o($Vg, [2, 25]), o($Vj, [2, 29]), o($Vg, [2, 32]), o($Vj, [2, 31]), { 16: 58, 17: [1, 59], 29: 32, 30: 33, 34: $Vd }, o($Vg, [2, 26]), { 35: 60, 37: $Vh }, { 17: [1, 61] }, o($V0, [2, 13]), o($Vj, [2, 30]), o($V0, [2, 12])],
+    defaultActions: { 34: [2, 27], 41: [2, 22] },
     parseError: function parseError(str, hash) {
       if (hash.recoverable) {
         this.trace(str);
@@ -10003,234 +9710,133 @@ var parser = function() {
       stateStackSize: function stateStackSize() {
         return this.conditionStack.length;
       },
-      options: {},
+      options: { "case-insensitive": true },
       performAction: function anonymous(yy, yy_, $avoiding_name_collisions, YY_START) {
         switch ($avoiding_name_collisions) {
           case 0:
-            return 53;
-          case 1:
-            return 54;
-          case 2:
-            return 55;
-          case 3:
-            return 56;
-          case 4:
-            break;
-          case 5:
-            break;
-          case 6:
             this.begin("acc_title");
-            return 31;
-          case 7:
+            return 22;
+          case 1:
             this.popState();
             return "acc_title_value";
-          case 8:
+          case 2:
             this.begin("acc_descr");
-            return 33;
-          case 9:
+            return 24;
+          case 3:
             this.popState();
             return "acc_descr_value";
-          case 10:
+          case 4:
             this.begin("acc_descr_multiline");
             break;
-          case 11:
+          case 5:
             this.popState();
             break;
-          case 12:
+          case 6:
             return "acc_descr_multiline_value";
-          case 13:
+          case 7:
+            return 10;
+          case 8:
+            break;
+          case 9:
             return 8;
+          case 10:
+            return 28;
+          case 11:
+            return 48;
+          case 12:
+            return 4;
+          case 13:
+            this.begin("block");
+            return 15;
           case 14:
-            break;
+            return 36;
           case 15:
-            return 7;
+            break;
           case 16:
-            return 7;
+            return 37;
           case 17:
-            return "EDGE_STATE";
+            return 34;
           case 18:
-            this.begin("callback_name");
-            break;
+            return 34;
           case 19:
-            this.popState();
-            break;
+            return 38;
           case 20:
-            this.popState();
-            this.begin("callback_args");
             break;
           case 21:
-            return 70;
+            this.popState();
+            return 17;
           case 22:
-            this.popState();
-            break;
+            return yy_.yytext[0];
           case 23:
-            return 71;
+            return 18;
           case 24:
-            this.popState();
-            break;
+            return 19;
           case 25:
-            return "STR";
+            return 41;
           case 26:
-            this.begin("string");
-            break;
+            return 43;
           case 27:
-            return 73;
+            return 43;
           case 28:
-            this.begin("namespace");
-            return 40;
+            return 43;
           case 29:
-            this.popState();
-            return 8;
+            return 41;
           case 30:
-            break;
+            return 41;
           case 31:
-            this.begin("namespace-body");
-            return 37;
-          case 32:
-            this.popState();
-            return 39;
-          case 33:
-            return "EOF_IN_STRUCT";
-          case 34:
-            return 8;
-          case 35:
-            break;
-          case 36:
-            return "EDGE_STATE";
-          case 37:
-            this.begin("class");
-            return 44;
-          case 38:
-            this.popState();
-            return 8;
-          case 39:
-            break;
-          case 40:
-            this.popState();
-            this.popState();
-            return 39;
-          case 41:
-            this.begin("class-body");
-            return 37;
-          case 42:
-            this.popState();
-            return 39;
-          case 43:
-            return "EOF_IN_STRUCT";
-          case 44:
-            return "EDGE_STATE";
-          case 45:
-            return "OPEN_IN_STRUCT";
-          case 46:
-            break;
-          case 47:
-            return "MEMBER";
-          case 48:
-            return 76;
-          case 49:
-            return 66;
-          case 50:
-            return 67;
-          case 51:
-            return 69;
-          case 52:
-            return 50;
-          case 53:
-            return 52;
-          case 54:
-            return 45;
-          case 55:
-            return 46;
-          case 56:
-            return 72;
-          case 57:
-            this.popState();
-            break;
-          case 58:
-            return "GENERICTYPE";
-          case 59:
-            this.begin("generic");
-            break;
-          case 60:
-            this.popState();
-            break;
-          case 61:
-            return "BQUOTE_STR";
-          case 62:
-            this.begin("bqstring");
-            break;
-          case 63:
-            return 68;
-          case 64:
-            return 68;
-          case 65:
-            return 68;
-          case 66:
-            return 68;
-          case 67:
-            return 60;
-          case 68:
-            return 60;
-          case 69:
-            return 62;
-          case 70:
-            return 62;
-          case 71:
-            return 61;
-          case 72:
-            return 59;
-          case 73:
-            return 63;
-          case 74:
-            return 64;
-          case 75:
-            return 65;
-          case 76:
-            return 21;
-          case 77:
             return 42;
-          case 78:
-            return 95;
-          case 79:
-            return "DOT";
-          case 80:
-            return "PLUS";
-          case 81:
-            return 81;
-          case 82:
-            return 78;
-          case 83:
-            return 84;
-          case 84:
-            return 84;
-          case 85:
-            return 85;
-          case 86:
-            return "EQUALS";
-          case 87:
-            return "EQUALS";
-          case 88:
-            return 74;
-          case 89:
-            return 12;
-          case 90:
-            return 14;
-          case 91:
-            return "PUNCTUATION";
-          case 92:
-            return 80;
-          case 93:
-            return 97;
-          case 94:
-            return 83;
-          case 95:
-            return 83;
-          case 96:
-            return 9;
+          case 32:
+            return 42;
+          case 33:
+            return 42;
+          case 34:
+            return 42;
+          case 35:
+            return 42;
+          case 36:
+            return 43;
+          case 37:
+            return 42;
+          case 38:
+            return 43;
+          case 39:
+            return 44;
+          case 40:
+            return 44;
+          case 41:
+            return 44;
+          case 42:
+            return 44;
+          case 43:
+            return 41;
+          case 44:
+            return 42;
+          case 45:
+            return 43;
+          case 46:
+            return 45;
+          case 47:
+            return 46;
+          case 48:
+            return 47;
+          case 49:
+            return 47;
+          case 50:
+            return 46;
+          case 51:
+            return 46;
+          case 52:
+            return 46;
+          case 53:
+            return 27;
+          case 54:
+            return yy_.yytext[0];
+          case 55:
+            return 6;
         }
       },
-      rules: [/^(?:.*direction\s+TB[^\n]*)/, /^(?:.*direction\s+BT[^\n]*)/, /^(?:.*direction\s+RL[^\n]*)/, /^(?:.*direction\s+LR[^\n]*)/, /^(?:%%(?!\{)*[^\n]*(\r?\n?)+)/, /^(?:%%[^\n]*(\r?\n)*)/, /^(?:accTitle\s*:\s*)/, /^(?:(?!\n||)*[^\n]*)/, /^(?:accDescr\s*:\s*)/, /^(?:(?!\n||)*[^\n]*)/, /^(?:accDescr\s*\{\s*)/, /^(?:[\}])/, /^(?:[^\}]*)/, /^(?:\s*(\r?\n)+)/, /^(?:\s+)/, /^(?:classDiagram-v2\b)/, /^(?:classDiagram\b)/, /^(?:\[\*\])/, /^(?:call[\s]+)/, /^(?:\([\s]*\))/, /^(?:\()/, /^(?:[^(]*)/, /^(?:\))/, /^(?:[^)]*)/, /^(?:["])/, /^(?:[^"]*)/, /^(?:["])/, /^(?:style\b)/, /^(?:namespace\b)/, /^(?:\s*(\r?\n)+)/, /^(?:\s+)/, /^(?:[{])/, /^(?:[}])/, /^(?:$)/, /^(?:\s*(\r?\n)+)/, /^(?:\s+)/, /^(?:\[\*\])/, /^(?:class\b)/, /^(?:\s*(\r?\n)+)/, /^(?:\s+)/, /^(?:[}])/, /^(?:[{])/, /^(?:[}])/, /^(?:$)/, /^(?:\[\*\])/, /^(?:[{])/, /^(?:[\n])/, /^(?:[^{}\n]*)/, /^(?:cssClass\b)/, /^(?:callback\b)/, /^(?:link\b)/, /^(?:click\b)/, /^(?:note for\b)/, /^(?:note\b)/, /^(?:<<)/, /^(?:>>)/, /^(?:href\b)/, /^(?:[~])/, /^(?:[^~]*)/, /^(?:~)/, /^(?:[`])/, /^(?:[^`]+)/, /^(?:[`])/, /^(?:_self\b)/, /^(?:_blank\b)/, /^(?:_parent\b)/, /^(?:_top\b)/, /^(?:\s*<\|)/, /^(?:\s*\|>)/, /^(?:\s*>)/, /^(?:\s*<)/, /^(?:\s*\*)/, /^(?:\s*o\b)/, /^(?:\s*\(\))/, /^(?:--)/, /^(?:\.\.)/, /^(?::{1}[^:\n;]+)/, /^(?::{3})/, /^(?:-)/, /^(?:\.)/, /^(?:\+)/, /^(?::)/, /^(?:,)/, /^(?:#)/, /^(?:#)/, /^(?:%)/, /^(?:=)/, /^(?:=)/, /^(?:\w+)/, /^(?:\[)/, /^(?:\])/, /^(?:[!"#$%&'*+,-.`?\\/])/, /^(?:[0-9]+)/, /^(?:[\u00AA\u00B5\u00BA\u00C0-\u00D6\u00D8-\u00F6]|[\u00F8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377]|[\u037A-\u037D\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5]|[\u03F7-\u0481\u048A-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA]|[\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE]|[\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA]|[\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0]|[\u08A2-\u08AC\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0977]|[\u0979-\u097F\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2]|[\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A]|[\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39]|[\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8]|[\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0B05-\u0B0C]|[\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C]|[\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99]|[\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0]|[\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C33\u0C35-\u0C39\u0C3D]|[\u0C58\u0C59\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3]|[\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10]|[\u0D12-\u0D3A\u0D3D\u0D4E\u0D60\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1]|[\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81]|[\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3]|[\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6]|[\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A]|[\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081]|[\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D]|[\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0]|[\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310]|[\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F4\u1401-\u166C]|[\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u1700-\u170C\u170E-\u1711]|[\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7]|[\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191C]|[\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19C1-\u19C7\u1A00-\u1A16]|[\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF]|[\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC]|[\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D]|[\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D]|[\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3]|[\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F]|[\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128]|[\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2183\u2184]|[\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3]|[\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6]|[\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE]|[\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005\u3006\u3031-\u3035\u303B\u303C]|[\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D]|[\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FCC]|[\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B]|[\uA640-\uA66E\uA67F-\uA697\uA6A0-\uA6E5\uA717-\uA71F\uA722-\uA788]|[\uA78B-\uA78E\uA790-\uA793\uA7A0-\uA7AA\uA7F8-\uA801\uA803-\uA805]|[\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB]|[\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uAA00-\uAA28]|[\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA80-\uAAAF\uAAB1\uAAB5]|[\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4]|[\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E]|[\uABC0-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D]|[\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36]|[\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D]|[\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC]|[\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF]|[\uFFD2-\uFFD7\uFFDA-\uFFDC])/, /^(?:\s)/, /^(?:\s)/, /^(?:$)/],
-      conditions: { "namespace-body": { "rules": [26, 32, 33, 34, 35, 36, 37, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "namespace": { "rules": [26, 28, 29, 30, 31, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "class-body": { "rules": [26, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "class": { "rules": [26, 38, 39, 40, 41, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "acc_descr_multiline": { "rules": [11, 12, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "acc_descr": { "rules": [9, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "acc_title": { "rules": [7, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "callback_args": { "rules": [22, 23, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "callback_name": { "rules": [19, 20, 21, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "href": { "rules": [26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "struct": { "rules": [26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "generic": { "rules": [26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "bqstring": { "rules": [26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "string": { "rules": [24, 25, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96], "inclusive": false }, "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 8, 10, 13, 14, 15, 16, 17, 18, 26, 27, 28, 37, 48, 49, 50, 51, 52, 53, 54, 55, 56, 59, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96], "inclusive": true } }
+      rules: [/^(?:accTitle\s*:\s*)/i, /^(?:(?!\n||)*[^\n]*)/i, /^(?:accDescr\s*:\s*)/i, /^(?:(?!\n||)*[^\n]*)/i, /^(?:accDescr\s*\{\s*)/i, /^(?:[\}])/i, /^(?:[^\}]*)/i, /^(?:[\n]+)/i, /^(?:\s+)/i, /^(?:[\s]+)/i, /^(?:"[^"%\r\n\v\b\\]+")/i, /^(?:"[^"]*")/i, /^(?:erDiagram\b)/i, /^(?:\{)/i, /^(?:,)/i, /^(?:\s+)/i, /^(?:\b((?:PK)|(?:FK)|(?:UK))\b)/i, /^(?:(.*?)[~](.*?)*[~])/i, /^(?:[\*A-Za-z_][A-Za-z0-9\-_\[\]\(\)]*)/i, /^(?:"[^"]*")/i, /^(?:[\n]+)/i, /^(?:\})/i, /^(?:.)/i, /^(?:\[)/i, /^(?:\])/i, /^(?:one or zero\b)/i, /^(?:one or more\b)/i, /^(?:one or many\b)/i, /^(?:1\+)/i, /^(?:\|o\b)/i, /^(?:zero or one\b)/i, /^(?:zero or more\b)/i, /^(?:zero or many\b)/i, /^(?:0\+)/i, /^(?:\}o\b)/i, /^(?:many\(0\))/i, /^(?:many\(1\))/i, /^(?:many\b)/i, /^(?:\}\|)/i, /^(?:one\b)/i, /^(?:only one\b)/i, /^(?:1\b)/i, /^(?:\|\|)/i, /^(?:o\|)/i, /^(?:o\{)/i, /^(?:\|\{)/i, /^(?:\s*u\b)/i, /^(?:\.\.)/i, /^(?:--)/i, /^(?:to\b)/i, /^(?:optionally to\b)/i, /^(?:\.-)/i, /^(?:-\.)/i, /^(?:[A-Za-z_][A-Za-z0-9\-_]*)/i, /^(?:.)/i, /^(?:$)/i],
+      conditions: { "acc_descr_multiline": { "rules": [5, 6], "inclusive": false }, "acc_descr": { "rules": [3], "inclusive": false }, "acc_title": { "rules": [1], "inclusive": false }, "block": { "rules": [14, 15, 16, 17, 18, 19, 20, 21, 22], "inclusive": false }, "INITIAL": { "rules": [0, 2, 4, 7, 8, 9, 10, 11, 12, 13, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55], "inclusive": true } }
     };
     return lexer2;
   }();
@@ -10243,579 +9849,471 @@ var parser = function() {
   return new Parser();
 }();
 parser.parser = parser;
-const parser$1 = parser;
-const visibilityValues = ["#", "+", "~", "-", ""];
-class ClassMember {
-  constructor(input, memberType) {
-    this.memberType = memberType;
-    this.visibility = "";
-    this.classifier = "";
-    const sanitizedInput = (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.d)(input, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-    this.parseMember(sanitizedInput);
+const erParser = parser;
+let entities = {};
+let relationships = [];
+const Cardinality = {
+  ZERO_OR_ONE: "ZERO_OR_ONE",
+  ZERO_OR_MORE: "ZERO_OR_MORE",
+  ONE_OR_MORE: "ONE_OR_MORE",
+  ONLY_ONE: "ONLY_ONE",
+  MD_PARENT: "MD_PARENT"
+};
+const Identification = {
+  NON_IDENTIFYING: "NON_IDENTIFYING",
+  IDENTIFYING: "IDENTIFYING"
+};
+const addEntity = function(name, alias = void 0) {
+  if (entities[name] === void 0) {
+    entities[name] = { attributes: [], alias };
+    mermaid_6dc72991.l.info("Added new entity :", name);
+  } else if (entities[name] && !entities[name].alias && alias) {
+    entities[name].alias = alias;
+    mermaid_6dc72991.l.info(`Add alias '${alias}' to entity '${name}'`);
   }
-  getDisplayDetails() {
-    let displayText = this.visibility + (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.x)(this.id);
-    if (this.memberType === "method") {
-      displayText += `(${(0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.x)(this.parameters.trim())})`;
-      if (this.returnType) {
-        displayText += " : " + (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.x)(this.returnType);
-      }
+  return entities[name];
+};
+const getEntities = () => entities;
+const addAttributes = function(entityName, attribs) {
+  let entity = addEntity(entityName);
+  let i;
+  for (i = attribs.length - 1; i >= 0; i--) {
+    entity.attributes.push(attribs[i]);
+    mermaid_6dc72991.l.debug("Added attribute ", attribs[i].attributeName);
+  }
+};
+const addRelationship = function(entA, rolA, entB, rSpec) {
+  let rel = {
+    entityA: entA,
+    roleA: rolA,
+    entityB: entB,
+    relSpec: rSpec
+  };
+  relationships.push(rel);
+  mermaid_6dc72991.l.debug("Added new relationship :", rel);
+};
+const getRelationships = () => relationships;
+const clear = function() {
+  entities = {};
+  relationships = [];
+  (0,mermaid_6dc72991.v)();
+};
+const erDb = {
+  Cardinality,
+  Identification,
+  getConfig: () => (0,mermaid_6dc72991.c)().er,
+  addEntity,
+  addAttributes,
+  getEntities,
+  addRelationship,
+  getRelationships,
+  clear,
+  setAccTitle: mermaid_6dc72991.s,
+  getAccTitle: mermaid_6dc72991.g,
+  setAccDescription: mermaid_6dc72991.b,
+  getAccDescription: mermaid_6dc72991.a,
+  setDiagramTitle: mermaid_6dc72991.q,
+  getDiagramTitle: mermaid_6dc72991.t
+};
+const ERMarkers = {
+  ONLY_ONE_START: "ONLY_ONE_START",
+  ONLY_ONE_END: "ONLY_ONE_END",
+  ZERO_OR_ONE_START: "ZERO_OR_ONE_START",
+  ZERO_OR_ONE_END: "ZERO_OR_ONE_END",
+  ONE_OR_MORE_START: "ONE_OR_MORE_START",
+  ONE_OR_MORE_END: "ONE_OR_MORE_END",
+  ZERO_OR_MORE_START: "ZERO_OR_MORE_START",
+  ZERO_OR_MORE_END: "ZERO_OR_MORE_END",
+  MD_PARENT_END: "MD_PARENT_END",
+  MD_PARENT_START: "MD_PARENT_START"
+};
+const insertMarkers = function(elem, conf2) {
+  let marker;
+  elem.append("defs").append("marker").attr("id", ERMarkers.MD_PARENT_START).attr("refX", 0).attr("refY", 7).attr("markerWidth", 190).attr("markerHeight", 240).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L1,7 L9,1 Z");
+  elem.append("defs").append("marker").attr("id", ERMarkers.MD_PARENT_END).attr("refX", 19).attr("refY", 7).attr("markerWidth", 20).attr("markerHeight", 28).attr("orient", "auto").append("path").attr("d", "M 18,7 L9,13 L1,7 L9,1 Z");
+  elem.append("defs").append("marker").attr("id", ERMarkers.ONLY_ONE_START).attr("refX", 0).attr("refY", 9).attr("markerWidth", 18).attr("markerHeight", 18).attr("orient", "auto").append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M9,0 L9,18 M15,0 L15,18");
+  elem.append("defs").append("marker").attr("id", ERMarkers.ONLY_ONE_END).attr("refX", 18).attr("refY", 9).attr("markerWidth", 18).attr("markerHeight", 18).attr("orient", "auto").append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M3,0 L3,18 M9,0 L9,18");
+  marker = elem.append("defs").append("marker").attr("id", ERMarkers.ZERO_OR_ONE_START).attr("refX", 0).attr("refY", 9).attr("markerWidth", 30).attr("markerHeight", 18).attr("orient", "auto");
+  marker.append("circle").attr("stroke", conf2.stroke).attr("fill", "white").attr("cx", 21).attr("cy", 9).attr("r", 6);
+  marker.append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M9,0 L9,18");
+  marker = elem.append("defs").append("marker").attr("id", ERMarkers.ZERO_OR_ONE_END).attr("refX", 30).attr("refY", 9).attr("markerWidth", 30).attr("markerHeight", 18).attr("orient", "auto");
+  marker.append("circle").attr("stroke", conf2.stroke).attr("fill", "white").attr("cx", 9).attr("cy", 9).attr("r", 6);
+  marker.append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M21,0 L21,18");
+  elem.append("defs").append("marker").attr("id", ERMarkers.ONE_OR_MORE_START).attr("refX", 18).attr("refY", 18).attr("markerWidth", 45).attr("markerHeight", 36).attr("orient", "auto").append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M0,18 Q 18,0 36,18 Q 18,36 0,18 M42,9 L42,27");
+  elem.append("defs").append("marker").attr("id", ERMarkers.ONE_OR_MORE_END).attr("refX", 27).attr("refY", 18).attr("markerWidth", 45).attr("markerHeight", 36).attr("orient", "auto").append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M3,9 L3,27 M9,18 Q27,0 45,18 Q27,36 9,18");
+  marker = elem.append("defs").append("marker").attr("id", ERMarkers.ZERO_OR_MORE_START).attr("refX", 18).attr("refY", 18).attr("markerWidth", 57).attr("markerHeight", 36).attr("orient", "auto");
+  marker.append("circle").attr("stroke", conf2.stroke).attr("fill", "white").attr("cx", 48).attr("cy", 18).attr("r", 6);
+  marker.append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M0,18 Q18,0 36,18 Q18,36 0,18");
+  marker = elem.append("defs").append("marker").attr("id", ERMarkers.ZERO_OR_MORE_END).attr("refX", 39).attr("refY", 18).attr("markerWidth", 57).attr("markerHeight", 36).attr("orient", "auto");
+  marker.append("circle").attr("stroke", conf2.stroke).attr("fill", "white").attr("cx", 9).attr("cy", 18).attr("r", 6);
+  marker.append("path").attr("stroke", conf2.stroke).attr("fill", "none").attr("d", "M21,18 Q39,0 57,18 Q39,36 21,18");
+  return;
+};
+const erMarkers = {
+  ERMarkers,
+  insertMarkers
+};
+const BAD_ID_CHARS_REGEXP = /[^\dA-Za-z](\W)*/g;
+let conf = {};
+let entityNameIds = /* @__PURE__ */ new Map();
+const setConf = function(cnf) {
+  const keys = Object.keys(cnf);
+  for (const key of keys) {
+    conf[key] = cnf[key];
+  }
+};
+const drawAttributes = (groupNode, entityTextNode, attributes) => {
+  const heightPadding = conf.entityPadding / 3;
+  const widthPadding = conf.entityPadding / 3;
+  const attrFontSize = conf.fontSize * 0.85;
+  const labelBBox = entityTextNode.node().getBBox();
+  const attributeNodes = [];
+  let hasKeyType = false;
+  let hasComment = false;
+  let maxTypeWidth = 0;
+  let maxNameWidth = 0;
+  let maxKeyWidth = 0;
+  let maxCommentWidth = 0;
+  let cumulativeHeight = labelBBox.height + heightPadding * 2;
+  let attrNum = 1;
+  attributes.forEach((item) => {
+    if (item.attributeKeyTypeList !== void 0 && item.attributeKeyTypeList.length > 0) {
+      hasKeyType = true;
     }
-    displayText = displayText.trim();
-    const cssStyle = this.parseClassifier();
-    return {
-      displayText,
-      cssStyle
-    };
+    if (item.attributeComment !== void 0) {
+      hasComment = true;
+    }
+  });
+  attributes.forEach((item) => {
+    const attrPrefix = `${entityTextNode.node().id}-attr-${attrNum}`;
+    let nodeHeight = 0;
+    const attributeType = (0,mermaid_6dc72991.x)(item.attributeType);
+    const typeNode = groupNode.append("text").classed("er entityLabel", true).attr("id", `${attrPrefix}-type`).attr("x", 0).attr("y", 0).style("dominant-baseline", "middle").style("text-anchor", "left").style("font-family", (0,mermaid_6dc72991.c)().fontFamily).style("font-size", attrFontSize + "px").text(attributeType);
+    const nameNode = groupNode.append("text").classed("er entityLabel", true).attr("id", `${attrPrefix}-name`).attr("x", 0).attr("y", 0).style("dominant-baseline", "middle").style("text-anchor", "left").style("font-family", (0,mermaid_6dc72991.c)().fontFamily).style("font-size", attrFontSize + "px").text(item.attributeName);
+    const attributeNode = {};
+    attributeNode.tn = typeNode;
+    attributeNode.nn = nameNode;
+    const typeBBox = typeNode.node().getBBox();
+    const nameBBox = nameNode.node().getBBox();
+    maxTypeWidth = Math.max(maxTypeWidth, typeBBox.width);
+    maxNameWidth = Math.max(maxNameWidth, nameBBox.width);
+    nodeHeight = Math.max(typeBBox.height, nameBBox.height);
+    if (hasKeyType) {
+      const keyTypeNodeText = item.attributeKeyTypeList !== void 0 ? item.attributeKeyTypeList.join(",") : "";
+      const keyTypeNode = groupNode.append("text").classed("er entityLabel", true).attr("id", `${attrPrefix}-key`).attr("x", 0).attr("y", 0).style("dominant-baseline", "middle").style("text-anchor", "left").style("font-family", (0,mermaid_6dc72991.c)().fontFamily).style("font-size", attrFontSize + "px").text(keyTypeNodeText);
+      attributeNode.kn = keyTypeNode;
+      const keyTypeBBox = keyTypeNode.node().getBBox();
+      maxKeyWidth = Math.max(maxKeyWidth, keyTypeBBox.width);
+      nodeHeight = Math.max(nodeHeight, keyTypeBBox.height);
+    }
+    if (hasComment) {
+      const commentNode = groupNode.append("text").classed("er entityLabel", true).attr("id", `${attrPrefix}-comment`).attr("x", 0).attr("y", 0).style("dominant-baseline", "middle").style("text-anchor", "left").style("font-family", (0,mermaid_6dc72991.c)().fontFamily).style("font-size", attrFontSize + "px").text(item.attributeComment || "");
+      attributeNode.cn = commentNode;
+      const commentNodeBBox = commentNode.node().getBBox();
+      maxCommentWidth = Math.max(maxCommentWidth, commentNodeBBox.width);
+      nodeHeight = Math.max(nodeHeight, commentNodeBBox.height);
+    }
+    attributeNode.height = nodeHeight;
+    attributeNodes.push(attributeNode);
+    cumulativeHeight += nodeHeight + heightPadding * 2;
+    attrNum += 1;
+  });
+  let widthPaddingFactor = 4;
+  if (hasKeyType) {
+    widthPaddingFactor += 2;
   }
-  parseMember(input) {
-    let potentialClassifier = "";
-    if (this.memberType === "method") {
-      const methodRegEx = /([#+~-])?(.+)\((.*)\)([\s$*])?(.*)([$*])?/;
-      const match = input.match(methodRegEx);
-      if (match) {
-        const detectedVisibility = match[1] ? match[1].trim() : "";
-        if (visibilityValues.includes(detectedVisibility)) {
-          this.visibility = detectedVisibility;
-        }
-        this.id = match[2].trim();
-        this.parameters = match[3] ? match[3].trim() : "";
-        potentialClassifier = match[4] ? match[4].trim() : "";
-        this.returnType = match[5] ? match[5].trim() : "";
-        if (potentialClassifier === "") {
-          const lastChar = this.returnType.substring(this.returnType.length - 1);
-          if (lastChar.match(/[$*]/)) {
-            potentialClassifier = lastChar;
-            this.returnType = this.returnType.substring(0, this.returnType.length - 1);
-          }
-        }
+  if (hasComment) {
+    widthPaddingFactor += 2;
+  }
+  const maxWidth = maxTypeWidth + maxNameWidth + maxKeyWidth + maxCommentWidth;
+  const bBox = {
+    width: Math.max(
+      conf.minEntityWidth,
+      Math.max(
+        labelBBox.width + conf.entityPadding * 2,
+        maxWidth + widthPadding * widthPaddingFactor
+      )
+    ),
+    height: attributes.length > 0 ? cumulativeHeight : Math.max(conf.minEntityHeight, labelBBox.height + conf.entityPadding * 2)
+  };
+  if (attributes.length > 0) {
+    const spareColumnWidth = Math.max(
+      0,
+      (bBox.width - maxWidth - widthPadding * widthPaddingFactor) / (widthPaddingFactor / 2)
+    );
+    entityTextNode.attr(
+      "transform",
+      "translate(" + bBox.width / 2 + "," + (heightPadding + labelBBox.height / 2) + ")"
+    );
+    let heightOffset = labelBBox.height + heightPadding * 2;
+    let attribStyle = "attributeBoxOdd";
+    attributeNodes.forEach((attributeNode) => {
+      const alignY = heightOffset + heightPadding + attributeNode.height / 2;
+      attributeNode.tn.attr("transform", "translate(" + widthPadding + "," + alignY + ")");
+      const typeRect = groupNode.insert("rect", "#" + attributeNode.tn.node().id).classed(`er ${attribStyle}`, true).attr("x", 0).attr("y", heightOffset).attr("width", maxTypeWidth + widthPadding * 2 + spareColumnWidth).attr("height", attributeNode.height + heightPadding * 2);
+      const nameXOffset = parseFloat(typeRect.attr("x")) + parseFloat(typeRect.attr("width"));
+      attributeNode.nn.attr(
+        "transform",
+        "translate(" + (nameXOffset + widthPadding) + "," + alignY + ")"
+      );
+      const nameRect = groupNode.insert("rect", "#" + attributeNode.nn.node().id).classed(`er ${attribStyle}`, true).attr("x", nameXOffset).attr("y", heightOffset).attr("width", maxNameWidth + widthPadding * 2 + spareColumnWidth).attr("height", attributeNode.height + heightPadding * 2);
+      let keyTypeAndCommentXOffset = parseFloat(nameRect.attr("x")) + parseFloat(nameRect.attr("width"));
+      if (hasKeyType) {
+        attributeNode.kn.attr(
+          "transform",
+          "translate(" + (keyTypeAndCommentXOffset + widthPadding) + "," + alignY + ")"
+        );
+        const keyTypeRect = groupNode.insert("rect", "#" + attributeNode.kn.node().id).classed(`er ${attribStyle}`, true).attr("x", keyTypeAndCommentXOffset).attr("y", heightOffset).attr("width", maxKeyWidth + widthPadding * 2 + spareColumnWidth).attr("height", attributeNode.height + heightPadding * 2);
+        keyTypeAndCommentXOffset = parseFloat(keyTypeRect.attr("x")) + parseFloat(keyTypeRect.attr("width"));
       }
-    } else {
-      const length = input.length;
-      const firstChar = input.substring(0, 1);
-      const lastChar = input.substring(length - 1);
-      if (visibilityValues.includes(firstChar)) {
-        this.visibility = firstChar;
+      if (hasComment) {
+        attributeNode.cn.attr(
+          "transform",
+          "translate(" + (keyTypeAndCommentXOffset + widthPadding) + "," + alignY + ")"
+        );
+        groupNode.insert("rect", "#" + attributeNode.cn.node().id).classed(`er ${attribStyle}`, "true").attr("x", keyTypeAndCommentXOffset).attr("y", heightOffset).attr("width", maxCommentWidth + widthPadding * 2 + spareColumnWidth).attr("height", attributeNode.height + heightPadding * 2);
       }
-      if (lastChar.match(/[$*]/)) {
-        potentialClassifier = lastChar;
-      }
-      this.id = input.substring(
-        this.visibility === "" ? 0 : 1,
-        potentialClassifier === "" ? length : length - 1
+      heightOffset += attributeNode.height + heightPadding * 2;
+      attribStyle = attribStyle === "attributeBoxOdd" ? "attributeBoxEven" : "attributeBoxOdd";
+    });
+  } else {
+    bBox.height = Math.max(conf.minEntityHeight, cumulativeHeight);
+    entityTextNode.attr("transform", "translate(" + bBox.width / 2 + "," + bBox.height / 2 + ")");
+  }
+  return bBox;
+};
+const drawEntities = function(svgNode, entities2, graph) {
+  const keys = Object.keys(entities2);
+  let firstOne;
+  keys.forEach(function(entityName) {
+    const entityId = generateId(entityName, "entity");
+    entityNameIds.set(entityName, entityId);
+    const groupNode = svgNode.append("g").attr("id", entityId);
+    firstOne = firstOne === void 0 ? entityId : firstOne;
+    const textId = "text-" + entityId;
+    const textNode = groupNode.append("text").classed("er entityLabel", true).attr("id", textId).attr("x", 0).attr("y", 0).style("dominant-baseline", "middle").style("text-anchor", "middle").style("font-family", (0,mermaid_6dc72991.c)().fontFamily).style("font-size", conf.fontSize + "px").text(entities2[entityName].alias ?? entityName);
+    const { width: entityWidth, height: entityHeight } = drawAttributes(
+      groupNode,
+      textNode,
+      entities2[entityName].attributes
+    );
+    const rectNode = groupNode.insert("rect", "#" + textId).classed("er entityBox", true).attr("x", 0).attr("y", 0).attr("width", entityWidth).attr("height", entityHeight);
+    const rectBBox = rectNode.node().getBBox();
+    graph.setNode(entityId, {
+      width: rectBBox.width,
+      height: rectBBox.height,
+      shape: "rect",
+      id: entityId
+    });
+  });
+  return firstOne;
+};
+const adjustEntities = function(svgNode, graph) {
+  graph.nodes().forEach(function(v) {
+    if (v !== void 0 && graph.node(v) !== void 0) {
+      svgNode.select("#" + v).attr(
+        "transform",
+        "translate(" + (graph.node(v).x - graph.node(v).width / 2) + "," + (graph.node(v).y - graph.node(v).height / 2) + " )"
       );
     }
-    this.classifier = potentialClassifier;
-  }
-  parseClassifier() {
-    switch (this.classifier) {
-      case "*":
-        return "font-style:italic;";
-      case "$":
-        return "text-decoration:underline;";
-      default:
-        return "";
-    }
-  }
-}
-const MERMAID_DOM_ID_PREFIX = "classId-";
-let relations = [];
-let classes = {};
-let notes = [];
-let classCounter = 0;
-let namespaces = {};
-let namespaceCounter = 0;
-let functions = [];
-const sanitizeText = (txt) => _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(txt, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-const splitClassNameAndType = function(_id) {
-  const id = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(_id, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  let genericType = "";
-  let className = id;
-  if (id.indexOf("~") > 0) {
-    const split = id.split("~");
-    className = sanitizeText(split[0]);
-    genericType = sanitizeText(split[1]);
-  }
-  return { className, type: genericType };
-};
-const setClassLabel = function(_id, label) {
-  const id = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(_id, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  if (label) {
-    label = sanitizeText(label);
-  }
-  const { className } = splitClassNameAndType(id);
-  classes[className].label = label;
-};
-const addClass = function(_id) {
-  const id = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(_id, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  const { className, type } = splitClassNameAndType(id);
-  if (Object.hasOwn(classes, className)) {
-    return;
-  }
-  const name = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(className, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  classes[name] = {
-    id: name,
-    type,
-    label: name,
-    cssClasses: [],
-    methods: [],
-    members: [],
-    annotations: [],
-    styles: [],
-    domId: MERMAID_DOM_ID_PREFIX + name + "-" + classCounter
-  };
-  classCounter++;
-};
-const lookUpDomId = function(_id) {
-  const id = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(_id, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  if (id in classes) {
-    return classes[id].domId;
-  }
-  throw new Error("Class not found: " + id);
-};
-const clear = function() {
-  relations = [];
-  classes = {};
-  notes = [];
-  functions = [];
-  functions.push(setupToolTips);
-  namespaces = {};
-  namespaceCounter = 0;
-  (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.v)();
-};
-const getClass = function(id) {
-  return classes[id];
-};
-const getClasses = function() {
-  return classes;
-};
-const getRelations = function() {
-  return relations;
-};
-const getNotes = function() {
-  return notes;
-};
-const addRelation = function(relation) {
-  _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.l.debug("Adding relation: " + JSON.stringify(relation));
-  addClass(relation.id1);
-  addClass(relation.id2);
-  relation.id1 = splitClassNameAndType(relation.id1).className;
-  relation.id2 = splitClassNameAndType(relation.id2).className;
-  relation.relationTitle1 = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(relation.relationTitle1.trim(), (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  relation.relationTitle2 = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(relation.relationTitle2.trim(), (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  relations.push(relation);
-};
-const addAnnotation = function(className, annotation) {
-  const validatedClassName = splitClassNameAndType(className).className;
-  classes[validatedClassName].annotations.push(annotation);
-};
-const addMember = function(className, member) {
-  addClass(className);
-  const validatedClassName = splitClassNameAndType(className).className;
-  const theClass = classes[validatedClassName];
-  if (typeof member === "string") {
-    const memberString = member.trim();
-    if (memberString.startsWith("<<") && memberString.endsWith(">>")) {
-      theClass.annotations.push(sanitizeText(memberString.substring(2, memberString.length - 2)));
-    } else if (memberString.indexOf(")") > 0) {
-      theClass.methods.push(new ClassMember(memberString, "method"));
-    } else if (memberString) {
-      theClass.members.push(new ClassMember(memberString, "attribute"));
-    }
-  }
-};
-const addMembers = function(className, members) {
-  if (Array.isArray(members)) {
-    members.reverse();
-    members.forEach((member) => addMember(className, member));
-  }
-};
-const addNote = function(text, className) {
-  const note = {
-    id: `note${notes.length}`,
-    class: className,
-    text
-  };
-  notes.push(note);
-};
-const cleanupLabel = function(label) {
-  if (label.startsWith(":")) {
-    label = label.substring(1);
-  }
-  return sanitizeText(label.trim());
-};
-const setCssClass = function(ids, className) {
-  ids.split(",").forEach(function(_id) {
-    let id = _id;
-    if (_id[0].match(/\d/)) {
-      id = MERMAID_DOM_ID_PREFIX + id;
-    }
-    if (classes[id] !== void 0) {
-      classes[id].cssClasses.push(className);
-    }
   });
 };
-const setTooltip = function(ids, tooltip) {
-  ids.split(",").forEach(function(id) {
-    if (tooltip !== void 0) {
-      classes[id].tooltip = sanitizeText(tooltip);
-    }
+const getEdgeName = function(rel) {
+  return (rel.entityA + rel.roleA + rel.entityB).replace(/\s/g, "");
+};
+const addRelationships = function(relationships2, g) {
+  relationships2.forEach(function(r) {
+    g.setEdge(
+      entityNameIds.get(r.entityA),
+      entityNameIds.get(r.entityB),
+      { relationship: r },
+      getEdgeName(r)
+    );
   });
+  return relationships2;
 };
-const getTooltip = function(id, namespace) {
-  if (namespace) {
-    return namespaces[namespace].classes[id].tooltip;
+let relCnt = 0;
+const drawRelationshipFromLayout = function(svg, rel, g, insert, diagObj) {
+  relCnt++;
+  const edge = g.edge(
+    entityNameIds.get(rel.entityA),
+    entityNameIds.get(rel.entityB),
+    getEdgeName(rel)
+  );
+  const lineFunction = (0,src/* line */.n8j)().x(function(d) {
+    return d.x;
+  }).y(function(d) {
+    return d.y;
+  }).curve(src/* curveBasis */.qrM);
+  const svgPath = svg.insert("path", "#" + insert).classed("er relationshipLine", true).attr("d", lineFunction(edge.points)).style("stroke", conf.stroke).style("fill", "none");
+  if (rel.relSpec.relType === diagObj.db.Identification.NON_IDENTIFYING) {
+    svgPath.attr("stroke-dasharray", "8,8");
   }
-  return classes[id].tooltip;
+  let url = "";
+  if (conf.arrowMarkerAbsolute) {
+    url = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+    url = url.replace(/\(/g, "\\(");
+    url = url.replace(/\)/g, "\\)");
+  }
+  switch (rel.relSpec.cardA) {
+    case diagObj.db.Cardinality.ZERO_OR_ONE:
+      svgPath.attr("marker-end", "url(" + url + "#" + erMarkers.ERMarkers.ZERO_OR_ONE_END + ")");
+      break;
+    case diagObj.db.Cardinality.ZERO_OR_MORE:
+      svgPath.attr("marker-end", "url(" + url + "#" + erMarkers.ERMarkers.ZERO_OR_MORE_END + ")");
+      break;
+    case diagObj.db.Cardinality.ONE_OR_MORE:
+      svgPath.attr("marker-end", "url(" + url + "#" + erMarkers.ERMarkers.ONE_OR_MORE_END + ")");
+      break;
+    case diagObj.db.Cardinality.ONLY_ONE:
+      svgPath.attr("marker-end", "url(" + url + "#" + erMarkers.ERMarkers.ONLY_ONE_END + ")");
+      break;
+    case diagObj.db.Cardinality.MD_PARENT:
+      svgPath.attr("marker-end", "url(" + url + "#" + erMarkers.ERMarkers.MD_PARENT_END + ")");
+      break;
+  }
+  switch (rel.relSpec.cardB) {
+    case diagObj.db.Cardinality.ZERO_OR_ONE:
+      svgPath.attr(
+        "marker-start",
+        "url(" + url + "#" + erMarkers.ERMarkers.ZERO_OR_ONE_START + ")"
+      );
+      break;
+    case diagObj.db.Cardinality.ZERO_OR_MORE:
+      svgPath.attr(
+        "marker-start",
+        "url(" + url + "#" + erMarkers.ERMarkers.ZERO_OR_MORE_START + ")"
+      );
+      break;
+    case diagObj.db.Cardinality.ONE_OR_MORE:
+      svgPath.attr(
+        "marker-start",
+        "url(" + url + "#" + erMarkers.ERMarkers.ONE_OR_MORE_START + ")"
+      );
+      break;
+    case diagObj.db.Cardinality.ONLY_ONE:
+      svgPath.attr("marker-start", "url(" + url + "#" + erMarkers.ERMarkers.ONLY_ONE_START + ")");
+      break;
+    case diagObj.db.Cardinality.MD_PARENT:
+      svgPath.attr("marker-start", "url(" + url + "#" + erMarkers.ERMarkers.MD_PARENT_START + ")");
+      break;
+  }
+  const len = svgPath.node().getTotalLength();
+  const labelPoint = svgPath.node().getPointAtLength(len * 0.5);
+  const labelId = "rel" + relCnt;
+  const labelNode = svg.append("text").classed("er relationshipLabel", true).attr("id", labelId).attr("x", labelPoint.x).attr("y", labelPoint.y).style("text-anchor", "middle").style("dominant-baseline", "middle").style("font-family", (0,mermaid_6dc72991.c)().fontFamily).style("font-size", conf.fontSize + "px").text(rel.roleA);
+  const labelBBox = labelNode.node().getBBox();
+  svg.insert("rect", "#" + labelId).classed("er relationshipLabelBox", true).attr("x", labelPoint.x - labelBBox.width / 2).attr("y", labelPoint.y - labelBBox.height / 2).attr("width", labelBBox.width).attr("height", labelBBox.height);
 };
-const setLink = function(ids, linkStr, target) {
-  const config = (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)();
-  ids.split(",").forEach(function(_id) {
-    let id = _id;
-    if (_id[0].match(/\d/)) {
-      id = MERMAID_DOM_ID_PREFIX + id;
-    }
-    if (classes[id] !== void 0) {
-      classes[id].link = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.u.formatUrl(linkStr, config);
-      if (config.securityLevel === "sandbox") {
-        classes[id].linkTarget = "_top";
-      } else if (typeof target === "string") {
-        classes[id].linkTarget = sanitizeText(target);
-      } else {
-        classes[id].linkTarget = "_blank";
-      }
-    }
+const draw = function(text, id, _version, diagObj) {
+  conf = (0,mermaid_6dc72991.c)().er;
+  mermaid_6dc72991.l.info("Drawing ER diagram");
+  const securityLevel = (0,mermaid_6dc72991.c)().securityLevel;
+  let sandboxElement;
+  if (securityLevel === "sandbox") {
+    sandboxElement = (0,src/* select */.Ltv)("#i" + id);
+  }
+  const root = securityLevel === "sandbox" ? (0,src/* select */.Ltv)(sandboxElement.nodes()[0].contentDocument.body) : (0,src/* select */.Ltv)("body");
+  const svg = root.select(`[id='${id}']`);
+  erMarkers.insertMarkers(svg, conf);
+  let g;
+  g = new graphlib/* Graph */.T({
+    multigraph: true,
+    directed: true,
+    compound: false
+  }).setGraph({
+    rankdir: conf.layoutDirection,
+    marginx: 20,
+    marginy: 20,
+    nodesep: 100,
+    edgesep: 100,
+    ranksep: 100
+  }).setDefaultEdgeLabel(function() {
+    return {};
   });
-  setCssClass(ids, "clickable");
-};
-const setClickEvent = function(ids, functionName, functionArgs) {
-  ids.split(",").forEach(function(id) {
-    setClickFunc(id, functionName, functionArgs);
-    classes[id].haveCallback = true;
+  const firstEntity = drawEntities(svg, diagObj.db.getEntities(), g);
+  const relationships2 = addRelationships(diagObj.db.getRelationships(), g);
+  (0,dagre/* layout */.Zp)(g);
+  adjustEntities(svg, g);
+  relationships2.forEach(function(rel) {
+    drawRelationshipFromLayout(svg, rel, g, firstEntity, diagObj);
   });
-  setCssClass(ids, "clickable");
+  const padding = conf.diagramPadding;
+  mermaid_6dc72991.u.insertTitle(svg, "entityTitleText", conf.titleTopMargin, diagObj.db.getDiagramTitle());
+  const svgBounds = svg.node().getBBox();
+  const width = svgBounds.width + padding * 2;
+  const height = svgBounds.height + padding * 2;
+  (0,mermaid_6dc72991.i)(svg, height, width, conf.useMaxWidth);
+  svg.attr("viewBox", `${svgBounds.x - padding} ${svgBounds.y - padding} ${width} ${height}`);
 };
-const setClickFunc = function(_domId, functionName, functionArgs) {
-  const domId = _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.e.sanitizeText(_domId, (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)());
-  const config = (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)();
-  if (config.securityLevel !== "loose") {
-    return;
-  }
-  if (functionName === void 0) {
-    return;
-  }
-  const id = domId;
-  if (classes[id] !== void 0) {
-    const elemId = lookUpDomId(id);
-    let argList = [];
-    if (typeof functionArgs === "string") {
-      argList = functionArgs.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-      for (let i = 0; i < argList.length; i++) {
-        let item = argList[i].trim();
-        if (item.charAt(0) === '"' && item.charAt(item.length - 1) === '"') {
-          item = item.substr(1, item.length - 2);
-        }
-        argList[i] = item;
-      }
-    }
-    if (argList.length === 0) {
-      argList.push(elemId);
-    }
-    functions.push(function() {
-      const elem = document.querySelector(`[id="${elemId}"]`);
-      if (elem !== null) {
-        elem.addEventListener(
-          "click",
-          function() {
-            _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.u.runFunc(functionName, ...argList);
-          },
-          false
-        );
-      }
-    });
-  }
-};
-const bindFunctions = function(element) {
-  functions.forEach(function(fun) {
-    fun(element);
-  });
-};
-const lineType = {
-  LINE: 0,
-  DOTTED_LINE: 1
-};
-const relationType = {
-  AGGREGATION: 0,
-  EXTENSION: 1,
-  COMPOSITION: 2,
-  DEPENDENCY: 3,
-  LOLLIPOP: 4
-};
-const setupToolTips = function(element) {
-  let tooltipElem = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)(".mermaidTooltip");
-  if ((tooltipElem._groups || tooltipElem)[0][0] === null) {
-    tooltipElem = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)("body").append("div").attr("class", "mermaidTooltip").style("opacity", 0);
-  }
-  const svg = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)(element).select("svg");
-  const nodes = svg.selectAll("g.node");
-  nodes.on("mouseover", function() {
-    const el = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)(this);
-    const title = el.attr("title");
-    if (title === null) {
-      return;
-    }
-    const rect = this.getBoundingClientRect();
-    tooltipElem.transition().duration(200).style("opacity", ".9");
-    tooltipElem.text(el.attr("title")).style("left", window.scrollX + rect.left + (rect.right - rect.left) / 2 + "px").style("top", window.scrollY + rect.top - 14 + document.body.scrollTop + "px");
-    tooltipElem.html(tooltipElem.html().replace(/&lt;br\/&gt;/g, "<br/>"));
-    el.classed("hover", true);
-  }).on("mouseout", function() {
-    tooltipElem.transition().duration(500).style("opacity", 0);
-    const el = (0,d3__WEBPACK_IMPORTED_MODULE_0__/* .select */ .Ltv)(this);
-    el.classed("hover", false);
-  });
-};
-functions.push(setupToolTips);
-let direction = "TB";
-const getDirection = () => direction;
-const setDirection = (dir) => {
-  direction = dir;
-};
-const addNamespace = function(id) {
-  if (namespaces[id] !== void 0) {
-    return;
-  }
-  namespaces[id] = {
-    id,
-    classes: {},
-    children: {},
-    domId: MERMAID_DOM_ID_PREFIX + id + "-" + namespaceCounter
-  };
-  namespaceCounter++;
-};
-const getNamespace = function(name) {
-  return namespaces[name];
-};
-const getNamespaces = function() {
-  return namespaces;
-};
-const addClassesToNamespace = function(id, classNames) {
-  if (namespaces[id] === void 0) {
-    return;
-  }
-  for (const name of classNames) {
-    const { className } = splitClassNameAndType(name);
-    classes[className].parent = id;
-    namespaces[id].classes[className] = classes[className];
-  }
-};
-const setCssStyle = function(id, styles2) {
-  const thisClass = classes[id];
-  if (!styles2 || !thisClass) {
-    return;
-  }
-  for (const s of styles2) {
-    if (s.includes(",")) {
-      thisClass.styles.push(...s.split(","));
-    } else {
-      thisClass.styles.push(s);
-    }
-  }
-};
-const db = {
-  setAccTitle: _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.s,
-  getAccTitle: _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.g,
-  getAccDescription: _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.a,
-  setAccDescription: _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.b,
-  getConfig: () => (0,_mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.c)().class,
-  addClass,
-  bindFunctions,
-  clear,
-  getClass,
-  getClasses,
-  getNotes,
-  addAnnotation,
-  addNote,
-  getRelations,
-  addRelation,
-  getDirection,
-  setDirection,
-  addMember,
-  addMembers,
-  cleanupLabel,
-  lineType,
-  relationType,
-  setClickEvent,
-  setCssClass,
-  setLink,
-  getTooltip,
-  setTooltip,
-  lookUpDomId,
-  setDiagramTitle: _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.q,
-  getDiagramTitle: _mermaid_6dc72991_js__WEBPACK_IMPORTED_MODULE_1__.t,
-  setClassLabel,
-  addNamespace,
-  addClassesToNamespace,
-  getNamespace,
-  getNamespaces,
-  setCssStyle
-};
-const getStyles = (options) => `g.classGroup text {
-  fill: ${options.nodeBorder || options.classText};
-  stroke: none;
-  font-family: ${options.fontFamily};
-  font-size: 10px;
-
-  .title {
-    font-weight: bolder;
-  }
-
+const MERMAID_ERDIAGRAM_UUID = "28e9f9db-3c8d-5aa5-9faf-44286ae5937c";
+function generateId(str = "", prefix = "") {
+  const simplifiedStr = str.replace(BAD_ID_CHARS_REGEXP, "");
+  return `${strWithHyphen(prefix)}${strWithHyphen(simplifiedStr)}${esm_node_v5(
+    str,
+    MERMAID_ERDIAGRAM_UUID
+  )}`;
 }
-
-.nodeLabel, .edgeLabel {
-  color: ${options.classText};
+function strWithHyphen(str = "") {
+  return str.length > 0 ? `${str}-` : "";
 }
-.edgeLabel .label rect {
-  fill: ${options.mainBkg};
-}
-.label text {
-  fill: ${options.classText};
-}
-.edgeLabel .label span {
-  background: ${options.mainBkg};
-}
-
-.classTitle {
-  font-weight: bolder;
-}
-.node rect,
-  .node circle,
-  .node ellipse,
-  .node polygon,
-  .node path {
+const erRenderer = {
+  setConf,
+  draw
+};
+const getStyles = (options) => `
+  .entityBox {
     fill: ${options.mainBkg};
     stroke: ${options.nodeBorder};
-    stroke-width: 1px;
   }
 
+  .attributeBoxOdd {
+    fill: ${options.attributeBackgroundColorOdd};
+    stroke: ${options.nodeBorder};
+  }
 
-.divider {
-  stroke: ${options.nodeBorder};
-  stroke-width: 1;
-}
+  .attributeBoxEven {
+    fill:  ${options.attributeBackgroundColorEven};
+    stroke: ${options.nodeBorder};
+  }
 
-g.clickable {
-  cursor: pointer;
-}
+  .relationshipLabelBox {
+    fill: ${options.tertiaryColor};
+    opacity: 0.7;
+    background-color: ${options.tertiaryColor};
+      rect {
+        opacity: 0.5;
+      }
+  }
 
-g.classGroup rect {
-  fill: ${options.mainBkg};
-  stroke: ${options.nodeBorder};
-}
+    .relationshipLine {
+      stroke: ${options.lineColor};
+    }
 
-g.classGroup line {
-  stroke: ${options.nodeBorder};
-  stroke-width: 1;
-}
-
-.classLabel .box {
-  stroke: none;
-  stroke-width: 0;
-  fill: ${options.mainBkg};
-  opacity: 0.5;
-}
-
-.classLabel .label {
-  fill: ${options.nodeBorder};
-  font-size: 10px;
-}
-
-.relation {
-  stroke: ${options.lineColor};
-  stroke-width: 1;
-  fill: none;
-}
-
-.dashed-line{
-  stroke-dasharray: 3;
-}
-
-.dotted-line{
-  stroke-dasharray: 1 2;
-}
-
-#compositionStart, .composition {
-  fill: ${options.lineColor} !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#compositionEnd, .composition {
-  fill: ${options.lineColor} !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#dependencyStart, .dependency {
-  fill: ${options.lineColor} !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#dependencyStart, .dependency {
-  fill: ${options.lineColor} !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#extensionStart, .extension {
-  fill: transparent !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#extensionEnd, .extension {
-  fill: transparent !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#aggregationStart, .aggregation {
-  fill: transparent !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#aggregationEnd, .aggregation {
-  fill: transparent !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#lollipopStart, .lollipop {
-  fill: ${options.mainBkg} !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-#lollipopEnd, .lollipop {
-  fill: ${options.mainBkg} !important;
-  stroke: ${options.lineColor} !important;
-  stroke-width: 1;
-}
-
-.edgeTerminals {
-  font-size: 11px;
-  line-height: initial;
-}
-
-.classTitleText {
-  text-anchor: middle;
-  font-size: 18px;
-  fill: ${options.textColor};
-}
+  .entityTitleText {
+    text-anchor: middle;
+    font-size: 18px;
+    fill: ${options.textColor};
+  }    
+  #MD_PARENT_START {
+    fill: #f5f5f5 !important;
+    stroke: ${options.lineColor} !important;
+    stroke-width: 1;
+  }
+  #MD_PARENT_END {
+    fill: #f5f5f5 !important;
+    stroke: ${options.lineColor} !important;
+    stroke-width: 1;
+  }
+  
 `;
-const styles = getStyles;
+const erStyles = getStyles;
+const diagram = {
+  parser: erParser,
+  db: erDb,
+  renderer: erRenderer,
+  styles: erStyles
+};
 
 
 
