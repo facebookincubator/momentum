@@ -80,7 +80,7 @@ struct ParameterLimit {
 
 using ParameterLimits = std::vector<ParameterLimit>; // a list of limits
 
-JointParameters applyJointParameterLimits(
+JointParameters applyPassiveJointParameterLimits(
     const ParameterLimits& limits,
     const JointParameters& jointParams);
 

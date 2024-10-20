@@ -96,7 +96,7 @@ void CharacterStateT<T>::set(
   // create skeleton state first
   JointParameters jointParams = referenceCharacter.parameterTransform.apply(parameters);
   if (applyLimits) {
-    jointParams = applyJointParameterLimits(referenceCharacter.parameterLimits, jointParams);
+    jointParams = applyPassiveJointParameterLimits(referenceCharacter.parameterLimits, jointParams);
   }
   skeletonState.set(jointParams, referenceCharacter.skeleton);
 

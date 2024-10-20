@@ -31,7 +31,7 @@ std::string_view toString(const LimitType type) {
   }
 }
 
-JointParameters applyJointParameterLimits(
+JointParameters applyPassiveJointParameterLimits(
     const ParameterLimits& limits,
     const JointParameters& jointParams) {
   JointParameters res = jointParams;
