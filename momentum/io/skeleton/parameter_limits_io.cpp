@@ -27,14 +27,9 @@ void parseMinmaxWithParameterIndex(
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = MinMax;
+  // "[<min>, <max>] <optional weight>"
   static const re2::RE2 minmaxRegex(
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches
-                                                                                                            // [<float>
-                                                                                                            // ,
-                                                                                                            // <float>]
-                                                                                                            // <optional
-                                                                                                            // weight>
-  std::array<std::string, 3> values;
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
   std::string valueX, valueY, weight;
   MT_THROW_IF(
       !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
@@ -42,8 +37,9 @@ void parseMinmaxWithParameterIndex(
       valueStr);
   p.data.minMax.parameterIndex = parameterIndex;
   p.data.minMax.limits = Vector2f(std::stof(valueX), std::stof(valueY));
-  if (!weight.empty())
+  if (!weight.empty()) {
     p.weight = std::stof(weight);
+  }
   pl.push_back(std::move(p));
 }
 
@@ -56,13 +52,9 @@ void parseMinmaxWithJointIndex(
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = MinMaxJoint;
+  // "[<min>, <max>] <optional weight>"
   static const re2::RE2 minmaxRegex(
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches
-                                                                                                            // [<float>
-                                                                                                            // ,
-                                                                                                            // <float>]
-                                                                                                            // <optional
-                                                                                                            // weight>
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
   std::string valueX, valueY, weight;
   MT_THROW_IF(
       !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
@@ -71,8 +63,9 @@ void parseMinmaxWithJointIndex(
   p.data.minMaxJoint.jointIndex = jointIndex;
   p.data.minMaxJoint.jointParameter = jointParameter;
   p.data.minMaxJoint.limits = Vector2f(std::stof(valueX), std::stof(valueY));
-  if (!weight.empty())
+  if (!weight.empty()) {
     p.weight = std::stof(weight);
+  }
   pl.push_back(std::move(p));
 }
 
@@ -85,13 +78,9 @@ void parseMinmaxPassive(
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = MinMaxJointPassive;
+  // "[<min>, <max>] <optional weight>"
   static const re2::RE2 minmaxRegex(
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches
-                                                                                                            // [<float>
-                                                                                                            // ,
-                                                                                                            // <float>]
-                                                                                                            // <optional
-                                                                                                            // weight>
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
   std::string valueX, valueY, weight;
   MT_THROW_IF(
       !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
@@ -100,8 +89,9 @@ void parseMinmaxPassive(
   p.data.minMaxJoint.jointIndex = jointIndex;
   p.data.minMaxJoint.jointParameter = jointParameter;
   p.data.minMaxJoint.limits = Vector2f(std::stof(valueX), std::stof(valueY));
-  if (!weight.empty())
+  if (!weight.empty()) {
     p.weight = std::stof(weight);
+  }
   pl.push_back(std::move(p));
 }
 
@@ -114,13 +104,12 @@ void parseLinear(
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = Linear;
+  // "<model parameter name> [<scale>, <offset>] <optional weight>"
   static const re2::RE2 linearRegex(
-      "(\\w+)\\s*\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\](\\s*[-+]?[0-9]*\\.?[0-9]+)?"); // matches <parametername> [<float> , <float>] <optional weight>
-  std::array<std::string, 4> values;
-  std::string name, scaleAndOffset, notUsed,
-      weight; // TODO: Check if the second and third parameters are being correctly parsed
+      R"((\w+)\s*\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
+  std::string name, scale, offset, weight;
   MT_THROW_IF(
-      !re2::RE2::FullMatch(valueStr, linearRegex, &name, &scaleAndOffset, &notUsed, &weight),
+      !re2::RE2::FullMatch(valueStr, linearRegex, &name, &scale, &offset, &weight),
       "Unrecognized linear limit token in parameter configuration : {}",
       valueStr);
 
@@ -138,10 +127,11 @@ void parseLinear(
 
   p.data.linear.referenceIndex = parameterIndex;
   p.data.linear.targetIndex = otherParameterIndex;
-  p.data.linear.scale = std::stof(scaleAndOffset);
-  p.data.linear.offset = std::stof(scaleAndOffset);
-  if (!weight.empty())
+  p.data.linear.scale = std::stof(scale);
+  p.data.linear.offset = std::stof(offset);
+  if (!weight.empty()) {
     p.weight = std::stof(weight);
+  }
   pl.push_back(std::move(p));
 }
 
@@ -154,15 +144,14 @@ void parseEllipsoid(
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = Ellipsoid;
-  // format is is [offset] parent [translation] [rotation] [scale] <optional weight>
+  // "[offset] parent [translation] [rotation] [scale] <optional weight>"
   static const re2::RE2 ellipsoidRegex(
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\]\\s*"
-      "(\\w+)\\s*"
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\]\\s*"
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\]\\s*"
-      "\\[\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*,\\s*([-+]?[0-9]*\\.?[0-9]+)\\s*\\]\\s*"
-      "(\\s*[-+]?[0-9]*\\.?[0-9]+)?");
-  std::array<std::string, 14> values;
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
+      R"((\w+)\s*)"
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
+      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
+      R"((\s*[-+]?[0-9]*\.?[0-9]+)?)");
   std::string offsetX, offsetY, offsetZ, jointName, transX, transY, transZ, eulerZ, eulerY, eulerX,
       scaleX, scaleY, scaleZ, weight;
   MT_THROW_IF(
@@ -206,8 +195,9 @@ void parseEllipsoid(
       Eigen::Scaling(std::stof(scaleX), std::stof(scaleY), std::stof(scaleZ));
   p.data.ellipsoid.ellipsoidInv = p.data.ellipsoid.ellipsoid.inverse();
 
-  if (!weight.empty())
+  if (!weight.empty()) {
     p.weight = std::stof(weight);
+  }
   pl.push_back(std::move(p));
 }
 
@@ -226,8 +216,9 @@ ParameterLimits parseParameterLimits(
     line = line.substr(0, line.find_first_of('#'));
 
     // ignore everything but limits
-    if (line.find("limit") != 0)
+    if (line.find("limit") != 0) {
       continue;
+    }
 
     // parse limits
     // token 1 = parameter name, token 2 = type, token 3 = value
@@ -280,8 +271,8 @@ ParameterLimits parseParameterLimits(
           "Deprecated parameter limit type: {} (typo). Please use 'ellipsoid' instead.", type);
       parseEllipsoid(pl, valueStr, skeleton, jointIndex);
     } else {
-      MT_THROW(
-          "Failed to parse parameter configuration '{}'. This could be due to an unsupported limit type '{}' or failure to find the parameter name '{}'.",
+      MT_LOGE(
+          "Failed to parse parameter configuration '{}'. It will be ignored. This could be due to an unsupported limit type '{}' or failure to find the parameter name '{}'.",
           line,
           type,
           parameterName);
