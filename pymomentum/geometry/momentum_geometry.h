@@ -11,8 +11,8 @@
 #include <momentum/math/mppca.h>
 
 #include <ATen/ATen.h>
-#include <pybind11/numpy.h>
-#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
+#include <pybind11/pybind11.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
 
 #include <string>
 

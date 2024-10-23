@@ -9,7 +9,7 @@
 
 #include <momentum/math/mesh.h>
 
-#include <pybind11/pybind11.h> // @manual
+#include <pybind11/pybind11.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11 // @manual
 
 #include <cstdint>
 #include <vector>
