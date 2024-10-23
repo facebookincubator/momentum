@@ -845,10 +845,10 @@ isAncestor(id, id) returns true. )",
                       const RowMatrixf& normals,
                       const RowMatrixi& faces,
                       const std::vector<std::vector<int32_t>>& lines,
-                      const RowMatrixb& colors,
+                      std::optional<RowMatrixb> colors,
                       const std::vector<float>& confidence,
-                      const RowMatrixf& texcoords,
-                      const RowMatrixi& texcoord_faces,
+                      std::optional<RowMatrixf> texcoords,
+                      std::optional<RowMatrixi> texcoord_faces,
                       const std::vector<std::vector<int32_t>>& texcoord_lines) {
             mm::Mesh mesh;
             const auto nVerts = vertices.rows();
@@ -874,36 +874,45 @@ isAncestor(id, id) returns true. )",
             }
             mesh.lines = lines;
 
-            MT_THROW_IF(
-                colors.rows() != 0 && colors.cols() != nVerts,
-                "colors should be empty or equal to the number of vertices");
-            mesh.colors = asVectorList<uint8_t, 3>(colors);
+            if (colors) {
+              MT_THROW_IF(
+                  colors->rows() != 0 && colors->cols() != nVerts,
+                  "colors should be empty or equal to the number of vertices");
+              mesh.colors = asVectorList<uint8_t, 3>(*colors);
+            }
 
             MT_THROW_IF(
                 confidence.size() != 0 && confidence.size() != nVerts,
                 "confidence should be empty or equal to the number of vertices");
             mesh.confidence = confidence;
 
-            MT_THROW_IF(
-                texcoords.size() != 0 && texcoords.cols() != 2,
-                "texcoords should be empty or must have size n x 2");
+            int nTextureCoords = 0;
+            if (texcoords) {
+              MT_THROW_IF(
+                  texcoords->size() != 0 && texcoords->cols() != 2,
+                  "texcoords should be empty or must have size n x 2");
+              nTextureCoords = texcoords->rows();
+              mesh.texcoords = asVectorList<float, 2>(*texcoords);
+            }
 
-            const auto nTextureCoords = texcoords.rows();
-            MT_THROW_IF(
-                texcoord_faces.size() != 0 &&
-                    texcoord_faces.rows() != faces.rows(),
-                "texcoords_faces should be empty or equal to the size of faces");
+            if (texcoord_faces) {
+              MT_THROW_IF(
+                  texcoord_faces->size() != 0 &&
+                      texcoord_faces->rows() != faces.rows(),
+                  "texcoords_faces should be empty or equal to the size of faces");
 
-            MT_THROW_IF(
-                texcoord_faces.size() != 0 && texcoord_faces.cols() != 3,
-                "texcoord_faces should be empty or must have size n x 3");
+              MT_THROW_IF(
+                  texcoord_faces->size() != 0 && texcoord_faces->cols() != 3,
+                  "texcoord_faces should be empty or must have size n x 3");
 
-            MT_THROW_IF(
-                texcoord_faces.size() > 0 &&
-                    texcoord_faces.maxCoeff() >= nTextureCoords,
-                "texcoord_face index exceeded texcoord count");
-            mesh.texcoords = asVectorList<float, 2>(texcoords);
-            mesh.texcoord_faces = asVectorList<int32_t, 3>(texcoord_faces);
+              MT_THROW_IF(
+                  texcoord_faces->size() > 0 &&
+                      texcoord_faces->maxCoeff() >= nTextureCoords,
+                  "texcoord_face index exceeded texcoord count");
+
+              mesh.texcoord_faces = asVectorList<int32_t, 3>(*texcoord_faces);
+            }
+
             mesh.texcoord_lines = texcoord_lines;
 
             return mesh;
@@ -923,12 +932,12 @@ isAncestor(id, id) returns true. )",
           py::arg("normals"),
           py::arg("faces"),
           py::kw_only(),
-          py::arg("lines") = std::vector<std::vector<int>>{},
-          py::arg("colors") = RowMatrixb{},
+          py::arg("lines") = std::vector<std::vector<int32_t>>{},
+          py::arg("colors") = std::optional<RowMatrixb>{},
           py::arg("confidence") = std::vector<float>{},
-          py::arg("texcoords") = RowMatrixf{},
-          py::arg("texcoord_faces") = RowMatrixi{},
-          py::arg("texcoord_lines") = RowMatrixf{})
+          py::arg("texcoords") = std::optional<RowMatrixf>{},
+          py::arg("texcoord_faces") = std::optional<RowMatrixi>{},
+          py::arg("texcoord_lines") = std::vector<std::vector<int32_t>>{})
       .def_property_readonly(
           "n_vertices",
           [](const mm::Mesh& mesh) { return mesh.vertices.size(); },
