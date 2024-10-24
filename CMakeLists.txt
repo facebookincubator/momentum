@@ -318,36 +318,39 @@ mt_library(
 if(MOMENTUM_BUILD_IO_FBX)
   if(DEFINED ENV{FBXSDK_PATH})
     set(fbxsdk_path $ENV{FBXSDK_PATH})
-
-    if(NOT EXISTS "${fbxsdk_path}")
-      message(FATAL_ERROR "FBXSDK_PATH does not exist: ${fbxsdk_path}")
-    endif()
-
-    if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-      set(io_fbx_sources_var io_fbx_sources_windows)
-      set(fbxsdk_libs
-        "${fbxsdk_path}/lib/vs2017/x64/release/libfbxsdk-md.lib"
-        "${fbxsdk_path}/lib/vs2017/x64/release/libxml2-md.lib"
-        "${fbxsdk_path}/lib/vs2017/x64/release/zlib-md.lib"
-      )
-    else()
-      message(FATAL_ERROR "Unsupported platform")
-    endif()
-
-    mt_library(
-      NAME fbxsdk
-      PUBLIC_INCLUDE_DIRECTORIES
-        "${fbxsdk_path}/include"
-      PUBLIC_LINK_LIBRARIES
-        ${fbxsdk_libs}
-    )
-
-    set(io_fbx_private_link_libraries fbxsdk)
   else()
-    message(WARNING "MOMENTUM_BUILD_IO_FBX is enabled, but the FBXSDK_PATH environment variable is not defined. The build will proceed without the FBX SDK. Please download the required FBX SDK 2019.2 from the Autodesk Developer Network: https://aps.autodesk.com/developer/overview/fbx-sdk. After installation, set FBXSDK_PATH to the installation directory, for example, 'C:\\Program Files\\Autodesk\\FBX\\FBX SDK\\2019.2'.")
-    set(io_fbx_sources_var io_fbx_sources_unsupported)
-    set(io_fbx_private_link_libraries )
+    set(fbxsdk_path "C:/Program Files/Autodesk/FBX/FBX SDK/2020.3.7/lib/x64/release")
   endif()
+
+  if(NOT EXISTS "${fbxsdk_path}")
+    message(FATAL_ERROR "FBXSDK_PATH does not exist: ${fbxsdk_path}")
+  endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(io_fbx_sources_var io_fbx_sources_windows)
+    set(fbxsdk_libs
+      "${fbxsdk_path}/libfbxsdk-md.lib"
+      "${fbxsdk_path}/libxml2-md.lib"
+      "${fbxsdk_path}/zlib-md.lib"
+    )
+  else()
+    message(FATAL_ERROR "Unsupported platform")
+  endif()
+
+  mt_library(
+    NAME fbxsdk
+    PUBLIC_INCLUDE_DIRECTORIES
+      "${fbxsdk_path}/include"
+    PUBLIC_LINK_LIBRARIES
+      ${fbxsdk_libs}
+  )
+
+  set(io_fbx_private_link_libraries fbxsdk)
+  # else()
+  #   message(WARNING "MOMENTUM_BUILD_IO_FBX is enabled, but the FBXSDK_PATH environment variable is not defined. The build will proceed without the FBX SDK. Please download the required FBX SDK 2019.2 from the Autodesk Developer Network: https://aps.autodesk.com/developer/overview/fbx-sdk. After installation, set FBXSDK_PATH to the installation directory, for example, 'C:\\Program Files\\Autodesk\\FBX\\FBX SDK\\2019.2'.")
+  #   set(io_fbx_sources_var io_fbx_sources_unsupported)
+  #   set(io_fbx_private_link_libraries )
+  # endif()
 else()
   set(io_fbx_sources_var io_fbx_sources_unsupported)
   set(io_fbx_private_link_libraries )
