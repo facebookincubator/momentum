@@ -319,7 +319,7 @@ if(MOMENTUM_BUILD_IO_FBX)
   if(DEFINED ENV{FBXSDK_PATH})
     set(fbxsdk_path $ENV{FBXSDK_PATH})
   else()
-    set(fbxsdk_path "C:/Program Files/Autodesk/FBX/FBX SDK/2020.3.7/lib/x64/release")
+    set(fbxsdk_path "C:/Program Files/Autodesk/FBX/FBX SDK/2019.2")
   endif()
 
   if(NOT EXISTS "${fbxsdk_path}")
@@ -329,9 +329,9 @@ if(MOMENTUM_BUILD_IO_FBX)
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(io_fbx_sources_var io_fbx_sources_windows)
     set(fbxsdk_libs
-      "${fbxsdk_path}/libfbxsdk-md.lib"
-      "${fbxsdk_path}/libxml2-md.lib"
-      "${fbxsdk_path}/zlib-md.lib"
+      "${fbxsdk_path}/lib/vs2017/x64/release/libfbxsdk-md.lib"
+      "${fbxsdk_path}/lib/vs2017/x64/release/libxml2-md.lib"
+      "${fbxsdk_path}/lib/vs2017/x64/release/zlib-md.lib"
     )
   else()
     message(FATAL_ERROR "Unsupported platform")
@@ -354,6 +354,10 @@ if(MOMENTUM_BUILD_IO_FBX)
 else()
   set(io_fbx_sources_var io_fbx_sources_unsupported)
   set(io_fbx_private_link_libraries )
+endif()
+
+if(NOT TARGET fbxsdk)
+  message(FATAL_ERROR "FBX SDK is not properly configured")
 endif()
 
 mt_library(
