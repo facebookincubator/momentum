@@ -11,8 +11,9 @@ repository = "https://github.com/facebookincubator/momentum"
 
 [build-dependencies]
 boost = ">=1.84.0"
-cmake = ">=3.23"
 c-compiler = ">=1.7.0"
+clang-format = ">=18,<19"
+cmake = ">=3.23"
 cxx-compiler = ">=1.7.0"
 gtest = ">=1.15.2"
 ninja = ">=1.11.1"
@@ -43,6 +44,7 @@ spdlog = ">=1.12.0"
 
 [tasks]
 clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
+lint = { cmd = "clang-format -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 config = { cmd = """
     cmake \
         -S . \
@@ -78,14 +80,12 @@ install = { cmd = "cmake --build build -j --target install", depends_on = [
 #===========
 
 [target.linux-64.build-dependencies]
-clang-format-18 = ">=18.1.2,<19"
 
 [target.linux-64.dependencies]
 pytorch = ">=2.4.0"
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
-lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build_pymomentum = { cmd = "pip install -e ." }
 test_pymomentum = { cmd = """
     pytest \
@@ -104,13 +104,11 @@ test_pymomentum = { cmd = """
 #============
 
 [target.osx.build-dependencies]
-clang-format-18 = ">=18.1.2,<19"
 
 [target.osx.dependencies]
 pytorch = ">=2.4.0"
 
 [target.osx.tasks]
-lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 build_pymomentum = { cmd = "pip install -e ." }
 # TODO: Add test_pymomentum once segfault on import is fixed
@@ -120,13 +118,11 @@ build_pymomentum = { cmd = "pip install -e ." }
 #============
 
 [target.osx-arm64.build-dependencies]
-clang-format-18 = ">=18.1.2,<19"
 
 [target.osx-arm64.dependencies]
 pytorch = ">=2.4.0"
 
 [target.osx-arm64.tasks]
-lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 build_pymomentum = { cmd = "pip install -e ." }
 # TODO: Add test_pymomentum once segfault on import is fixed
