@@ -31,6 +31,8 @@ This page guides you through the process of building Momentum and running the ex
 
 Momentum binary builds are available for Windows, macOS, and Linux via [Pixi](https://prefix.dev/) or the Conda package manager.
 
+For Windows, please install [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or greater.
+
 #### Pixi
 
 ```
