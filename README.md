@@ -50,16 +50,8 @@ pixi add momentum
 
 ```
 conda install -c conda-forge momentum-cpp
-conda install -c conda-forge pymomentum # Linux only
+conda install -c conda-forge pymomentum # Windows is not supported yet
 conda install -c conda-forge momentum
-```
-
-#### Micromamba
-
-```
-micromamba install -c conda-forge momentum-cpp
-micromamba install -c conda-forge pymomentum # Linux only
-micromamba install -c conda-forge momentum
 ```
 
 ### Building Momentum from Source
