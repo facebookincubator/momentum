@@ -41,6 +41,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -258,6 +259,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-17-17.0.6-default_hb173f14_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-17.0.6-default_he371ed4_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-format-18-18.1.8-default_h0c94c6a_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-format-18.1.8-default_h0c94c6a_5.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang_impl_osx-64-17.0.6-h1af8efd_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang_osx-64-17.0.6-hb91bd55_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clangxx-17.0.6-default_he371ed4_7.conda
@@ -468,6 +470,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-17-17.0.6-default_h146c034_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-17.0.6-default_h360f5da_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-18-18.1.8-default_h5c12605_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-18.1.8-default_h5c12605_5.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang_impl_osx-arm64-17.0.6-he47c785_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang_osx-arm64-17.0.6-h54d7cd3_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clangxx-17.0.6-default_h360f5da_7.conda
@@ -669,6 +672,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/c-compiler-1.8.0-hcfcfb64_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/ca-certificates-2024.8.30-h56e8100_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/ceres-solver-2.2.0-h0d88682_3.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/clang-format-18.1.8-default_hec7ea82_5.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/cli11-2.4.1-h63175ca_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/cmake-3.30.5-h400e5d1_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -847,6 +851,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -1064,6 +1069,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-17-17.0.6-default_hb173f14_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-17.0.6-default_he371ed4_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-format-18-18.1.8-default_h0c94c6a_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/clang-format-18.1.8-default_h0c94c6a_5.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang_impl_osx-64-17.0.6-h1af8efd_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clang_osx-64-17.0.6-hb91bd55_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/clangxx-17.0.6-default_he371ed4_7.conda
@@ -1274,6 +1280,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-17-17.0.6-default_h146c034_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-17.0.6-default_h360f5da_7.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-18-18.1.8-default_h5c12605_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-18.1.8-default_h5c12605_5.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang_impl_osx-arm64-17.0.6-he47c785_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clang_osx-arm64-17.0.6-h54d7cd3_21.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/clangxx-17.0.6-default_h360f5da_7.conda
@@ -1475,6 +1482,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/c-compiler-1.8.0-hcfcfb64_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/ca-certificates-2024.8.30-h56e8100_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/ceres-solver-2.2.0-h0d88682_3.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/clang-format-18.1.8-default_hec7ea82_5.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/cli11-2.4.1-h63175ca_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/cmake-3.30.5-h400e5d1_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -1655,6 +1663,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -1951,6 +1960,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -2248,6 +2258,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -2595,6 +2606,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -2892,6 +2904,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -3239,6 +3252,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -3536,6 +3550,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ca-certificates-2024.8.30-hbcca054_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ceres-solver-2.2.0-ha77e7a2_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18-18.1.8-default_hf981a13_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cli11-2.4.1-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/cmake-3.30.5-hf9cb763_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/colorama-0.4.6-pyhd8ed1ab_0.tar.bz2
@@ -6394,6 +6409,81 @@ packages:
   license_family: Apache
   size: 719083
   timestamp: 1725505951220
+- kind: conda
+  name: clang-format
+  version: 18.1.8
+  build: default_h0c94c6a_5
+  build_number: 5
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/clang-format-18.1.8-default_h0c94c6a_5.conda
+  sha256: 6a952e9a73fdd71a79d8693997afddd64bafbb9443e249e5deb654fb07d26ca2
+  md5: 8aedbaef7a803e2084427dfab55d5745
+  depends:
+  - __osx >=10.13
+  - clang-format-18 18.1.8 default_h0c94c6a_5
+  - libclang-cpp18.1 >=18.1.8,<18.2.0a0
+  - libcxx >=18.1.8
+  - libllvm18 >=18.1.8,<18.2.0a0
+  license: Apache-2.0 WITH LLVM-exception
+  license_family: Apache
+  size: 23843
+  timestamp: 1726904971038
+- kind: conda
+  name: clang-format
+  version: 18.1.8
+  build: default_h5c12605_5
+  build_number: 5
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-18.1.8-default_h5c12605_5.conda
+  sha256: ed8a9f28a9c84140e5bcc0c7fc94d470de300ac3421dc1941e210177df6d1789
+  md5: 6a89d806cf62f6d51f16add61f1eda00
+  depends:
+  - __osx >=11.0
+  - clang-format-18 18.1.8 default_h5c12605_5
+  - libclang-cpp18.1 >=18.1.8,<18.2.0a0
+  - libcxx >=18.1.8
+  - libllvm18 >=18.1.8,<18.2.0a0
+  license: Apache-2.0 WITH LLVM-exception
+  license_family: Apache
+  size: 23952
+  timestamp: 1726862811442
+- kind: conda
+  name: clang-format
+  version: 18.1.8
+  build: default_hec7ea82_5
+  build_number: 5
+  subdir: win-64
+  url: https://conda.anaconda.org/conda-forge/win-64/clang-format-18.1.8-default_hec7ea82_5.conda
+  sha256: c8fd142868594afb87a76885572ea143ad78a255d7ac1a08823d5c7a5f2f0599
+  md5: 14efe49654e257a17471f1c887c9b12a
+  depends:
+  - ucrt >=10.0.20348.0
+  - vc >=14.2,<15
+  - vc14_runtime >=14.29.30139
+  license: Apache-2.0 WITH LLVM-exception
+  license_family: Apache
+  size: 1182952
+  timestamp: 1726916587625
+- kind: conda
+  name: clang-format
+  version: 18.1.8
+  build: default_hf981a13_5
+  build_number: 5
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/clang-format-18.1.8-default_hf981a13_5.conda
+  sha256: b872704ae1f9fb889bf2758399ec89b685cd14ce0c8d1bd62b16a1b4cf460f07
+  md5: 49ea6538b629a5045ed70c8dba1ae572
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - clang-format-18 18.1.8 default_hf981a13_5
+  - libclang-cpp18.1 >=18.1.8,<18.2.0a0
+  - libgcc >=12
+  - libllvm18 >=18.1.8,<18.2.0a0
+  - libstdcxx >=12
+  license: Apache-2.0 WITH LLVM-exception
+  license_family: Apache
+  size: 23824
+  timestamp: 1726867066729
 - kind: conda
   name: clang-format-18
   version: 18.1.8
