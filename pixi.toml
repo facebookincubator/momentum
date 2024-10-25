@@ -43,13 +43,14 @@ spdlog = ">=1.12.0"
 
 [tasks]
 clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
-configure = { cmd = """
+config = { cmd = """
     cmake \
         -S . \
         -B build \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+        -DMOMENTUM_BUILD_IO_FBX=OFF \
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
@@ -58,9 +59,7 @@ configure = { cmd = """
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
-build = { cmd = "cmake --build build -j --target all", depends_on = [
-    "configure",
-] }
+build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
 ] }
@@ -112,9 +111,7 @@ pytorch = ">=2.4.0"
 
 [target.osx.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
-build = { cmd = "cmake --build build -j --target all", depends_on = [
-    "configure",
-] }
+build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 build_pymomentum = { cmd = "pip install -e ." }
 # TODO: Add test_pymomentum once segfault on import is fixed
 
@@ -130,9 +127,7 @@ pytorch = ">=2.4.0"
 
 [target.osx-arm64.tasks]
 lint = { cmd = "clang-format-18 -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
-build = { cmd = "cmake --build build -j --target all", depends_on = [
-    "configure",
-] }
+build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 build_pymomentum = { cmd = "pip install -e ." }
 # TODO: Add test_pymomentum once segfault on import is fixed
 
@@ -143,7 +138,7 @@ build_pymomentum = { cmd = "pip install -e ." }
 [target.win-64.dependencies]
 
 [target.win-64.tasks]
-configure = { cmd = """
+config = { cmd = """
     cmake \
         -S . \
         -B build \
@@ -151,19 +146,17 @@ configure = { cmd = """
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
         -DBUILD_SHARED_LIBS=OFF \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
-        -DMOMENTUM_BUILD_IO_FBX=ON \
+        -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_ENABLE_SIMD=%MOMENTUM_ENABLE_SIMD% \
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
-    """, env = { MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "OFF" } }
-open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = [
-    "configure",
-] }
+    """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_BUILD_PYMOMENTUM = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
+open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = ["config"] }
 build = { cmd = "cmake --build build -j --config Release", depends_on = [
-    "configure",
+    "config",
 ] }
 test = { cmd = "ctest --test-dir build --output-on-failure --build-config Release", depends_on = [
     "build",

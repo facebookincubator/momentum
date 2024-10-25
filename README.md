@@ -129,7 +129,29 @@ If you need to start over for any reason:
 pixi run clean
 ```
 
-Momentum uses the `build/` directory for CMake builds, `.pixi/` for the Pixi virtual environment, and `.deps/` for building dependencies. You can clean up everything by either manually removing these directories or by running the command above.
+Momentum uses the `build/` directory for CMake builds, and `.pixi/` for the Pixi virtual environment. You can clean up everything by either manually removing these directories or by running the command above.
+
+#### FBX support (Windows only)
+
+To load and save Autodesk's FBX file format, you need to install the FBX SDK 2019.2 from Autodesk's [website](https://aps.autodesk.com/developer/overview/fbx-sdk) or [this direct link](https://www.autodesk.com/content/dam/autodesk/www/adn/fbx/20192/fbx20192_fbxsdk_vs2017_win.exe) first. After installing the SDK, you can build with `MOMENTUM_BUILD_IO_FBX=ON`:
+
+```
+# Powershell
+$env:MOMENTUM_BUILD_IO_FBX = "ON"; pixi run <target>
+
+# cmd
+set MOMENTUM_BUILD_IO_FBX=ON && pixi run <target>
+```
+
+For example, file conversion can be run as follows:
+
+```
+# Powershell
+$env:MOMENTUM_BUILD_IO_FBX = "ON"; pixi run convert_model -d <input.glb> -o <out.fbx>
+
+# cmd
+set MOMENTUM_BUILD_IO_FBX=ON && pixi run convert_model -d <input.glb> -o <out.fbx>
+```
 
 ## 📖 Documentation
 
