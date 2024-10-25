@@ -111,7 +111,17 @@ pytorch = ">=2.4.0"
 [target.osx.tasks]
 build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 build_pymomentum = { cmd = "pip install -e ." }
-# TODO: Add test_pymomentum once segfault on import is fixed
+test_pymomentum = { cmd = """
+    pytest \
+        pymomentum/test/test_closest_points.py \
+        pymomentum/test/test_fbx.py \
+        pymomentum/test/test_parameter_transform.py \
+        pymomentum/test/test_quaternion.py \
+        pymomentum/test/test_skel_state.py \
+        pymomentum/test/test_skeleton.py
+    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends_on = [
+    "build_pymomentum",
+] }
 
 #============
 # osx-arm64
@@ -125,7 +135,17 @@ pytorch = ">=2.4.0"
 [target.osx-arm64.tasks]
 build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 build_pymomentum = { cmd = "pip install -e ." }
-# TODO: Add test_pymomentum once segfault on import is fixed
+test_pymomentum = { cmd = """
+    pytest \
+        pymomentum/test/test_closest_points.py \
+        pymomentum/test/test_fbx.py \
+        pymomentum/test/test_parameter_transform.py \
+        pymomentum/test/test_quaternion.py \
+        pymomentum/test/test_skel_state.py \
+        pymomentum/test/test_skeleton.py
+    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends_on = [
+    "build_pymomentum",
+] }
 
 #=========
 # win-64

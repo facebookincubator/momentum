@@ -72,7 +72,7 @@ mt_library(
     momentum
     nlohmann_json::nlohmann_json
     pybind11::pybind11
-    Python3::Python
+    Python3::Module
   EXCLUDE_FROM_INSTALL
 )
 
