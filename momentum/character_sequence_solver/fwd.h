@@ -15,7 +15,6 @@
 
 namespace momentum {
 
-
 struct MultiposeSolverOptions;
 
 using MultiposeSolverOptions_p = ::std::shared_ptr<MultiposeSolverOptions>;
@@ -25,7 +24,6 @@ using MultiposeSolverOptions_const_p = ::std::shared_ptr<const MultiposeSolverOp
 using MultiposeSolverOptions_const_u = ::std::unique_ptr<const MultiposeSolverOptions>;
 using MultiposeSolverOptions_const_w = ::std::weak_ptr<const MultiposeSolverOptions>;
 
-
 struct SequenceSolverOptions;
 
 using SequenceSolverOptions_p = ::std::shared_ptr<SequenceSolverOptions>;
@@ -34,10 +32,6 @@ using SequenceSolverOptions_w = ::std::weak_ptr<SequenceSolverOptions>;
 using SequenceSolverOptions_const_p = ::std::shared_ptr<const SequenceSolverOptions>;
 using SequenceSolverOptions_const_u = ::std::unique_ptr<const SequenceSolverOptions>;
 using SequenceSolverOptions_const_w = ::std::weak_ptr<const SequenceSolverOptions>;
-
-
-
-
 
 template <typename T>
 class SequenceErrorFunctionT;
@@ -51,7 +45,6 @@ using SequenceErrorFunction_const_p = ::std::shared_ptr<const SequenceErrorFunct
 using SequenceErrorFunction_const_u = ::std::unique_ptr<const SequenceErrorFunction>;
 using SequenceErrorFunction_const_w = ::std::weak_ptr<const SequenceErrorFunction>;
 
-
 using SequenceErrorFunctiond_p = ::std::shared_ptr<SequenceErrorFunctiond>;
 using SequenceErrorFunctiond_u = ::std::unique_ptr<SequenceErrorFunctiond>;
 using SequenceErrorFunctiond_w = ::std::weak_ptr<SequenceErrorFunctiond>;
@@ -59,27 +52,36 @@ using SequenceErrorFunctiond_const_p = ::std::shared_ptr<const SequenceErrorFunc
 using SequenceErrorFunctiond_const_u = ::std::unique_ptr<const SequenceErrorFunctiond>;
 using SequenceErrorFunctiond_const_w = ::std::weak_ptr<const SequenceErrorFunctiond>;
 
-
 template <typename T>
 class ModelParametersSequenceErrorFunctionT;
 using ModelParametersSequenceErrorFunction = ModelParametersSequenceErrorFunctionT<float>;
 using ModelParametersSequenceErrorFunctiond = ModelParametersSequenceErrorFunctionT<double>;
 
-using ModelParametersSequenceErrorFunction_p = ::std::shared_ptr<ModelParametersSequenceErrorFunction>;
-using ModelParametersSequenceErrorFunction_u = ::std::unique_ptr<ModelParametersSequenceErrorFunction>;
-using ModelParametersSequenceErrorFunction_w = ::std::weak_ptr<ModelParametersSequenceErrorFunction>;
-using ModelParametersSequenceErrorFunction_const_p = ::std::shared_ptr<const ModelParametersSequenceErrorFunction>;
-using ModelParametersSequenceErrorFunction_const_u = ::std::unique_ptr<const ModelParametersSequenceErrorFunction>;
-using ModelParametersSequenceErrorFunction_const_w = ::std::weak_ptr<const ModelParametersSequenceErrorFunction>;
+using ModelParametersSequenceErrorFunction_p =
+    ::std::shared_ptr<ModelParametersSequenceErrorFunction>;
+using ModelParametersSequenceErrorFunction_u =
+    ::std::unique_ptr<ModelParametersSequenceErrorFunction>;
+using ModelParametersSequenceErrorFunction_w =
+    ::std::weak_ptr<ModelParametersSequenceErrorFunction>;
+using ModelParametersSequenceErrorFunction_const_p =
+    ::std::shared_ptr<const ModelParametersSequenceErrorFunction>;
+using ModelParametersSequenceErrorFunction_const_u =
+    ::std::unique_ptr<const ModelParametersSequenceErrorFunction>;
+using ModelParametersSequenceErrorFunction_const_w =
+    ::std::weak_ptr<const ModelParametersSequenceErrorFunction>;
 
-
-using ModelParametersSequenceErrorFunctiond_p = ::std::shared_ptr<ModelParametersSequenceErrorFunctiond>;
-using ModelParametersSequenceErrorFunctiond_u = ::std::unique_ptr<ModelParametersSequenceErrorFunctiond>;
-using ModelParametersSequenceErrorFunctiond_w = ::std::weak_ptr<ModelParametersSequenceErrorFunctiond>;
-using ModelParametersSequenceErrorFunctiond_const_p = ::std::shared_ptr<const ModelParametersSequenceErrorFunctiond>;
-using ModelParametersSequenceErrorFunctiond_const_u = ::std::unique_ptr<const ModelParametersSequenceErrorFunctiond>;
-using ModelParametersSequenceErrorFunctiond_const_w = ::std::weak_ptr<const ModelParametersSequenceErrorFunctiond>;
-
+using ModelParametersSequenceErrorFunctiond_p =
+    ::std::shared_ptr<ModelParametersSequenceErrorFunctiond>;
+using ModelParametersSequenceErrorFunctiond_u =
+    ::std::unique_ptr<ModelParametersSequenceErrorFunctiond>;
+using ModelParametersSequenceErrorFunctiond_w =
+    ::std::weak_ptr<ModelParametersSequenceErrorFunctiond>;
+using ModelParametersSequenceErrorFunctiond_const_p =
+    ::std::shared_ptr<const ModelParametersSequenceErrorFunctiond>;
+using ModelParametersSequenceErrorFunctiond_const_u =
+    ::std::unique_ptr<const ModelParametersSequenceErrorFunctiond>;
+using ModelParametersSequenceErrorFunctiond_const_w =
+    ::std::weak_ptr<const ModelParametersSequenceErrorFunctiond>;
 
 template <typename T>
 class MultiposeSolverT;
@@ -93,14 +95,12 @@ using MultiposeSolver_const_p = ::std::shared_ptr<const MultiposeSolver>;
 using MultiposeSolver_const_u = ::std::unique_ptr<const MultiposeSolver>;
 using MultiposeSolver_const_w = ::std::weak_ptr<const MultiposeSolver>;
 
-
 using MultiposeSolverd_p = ::std::shared_ptr<MultiposeSolverd>;
 using MultiposeSolverd_u = ::std::unique_ptr<MultiposeSolverd>;
 using MultiposeSolverd_w = ::std::weak_ptr<MultiposeSolverd>;
 using MultiposeSolverd_const_p = ::std::shared_ptr<const MultiposeSolverd>;
 using MultiposeSolverd_const_u = ::std::unique_ptr<const MultiposeSolverd>;
 using MultiposeSolverd_const_w = ::std::weak_ptr<const MultiposeSolverd>;
-
 
 template <typename T>
 class MultiposeSolverFunctionT;
@@ -114,14 +114,12 @@ using MultiposeSolverFunction_const_p = ::std::shared_ptr<const MultiposeSolverF
 using MultiposeSolverFunction_const_u = ::std::unique_ptr<const MultiposeSolverFunction>;
 using MultiposeSolverFunction_const_w = ::std::weak_ptr<const MultiposeSolverFunction>;
 
-
 using MultiposeSolverFunctiond_p = ::std::shared_ptr<MultiposeSolverFunctiond>;
 using MultiposeSolverFunctiond_u = ::std::unique_ptr<MultiposeSolverFunctiond>;
 using MultiposeSolverFunctiond_w = ::std::weak_ptr<MultiposeSolverFunctiond>;
 using MultiposeSolverFunctiond_const_p = ::std::shared_ptr<const MultiposeSolverFunctiond>;
 using MultiposeSolverFunctiond_const_u = ::std::unique_ptr<const MultiposeSolverFunctiond>;
 using MultiposeSolverFunctiond_const_w = ::std::weak_ptr<const MultiposeSolverFunctiond>;
-
 
 template <typename T>
 class SequenceSolverT;
@@ -135,14 +133,12 @@ using SequenceSolver_const_p = ::std::shared_ptr<const SequenceSolver>;
 using SequenceSolver_const_u = ::std::unique_ptr<const SequenceSolver>;
 using SequenceSolver_const_w = ::std::weak_ptr<const SequenceSolver>;
 
-
 using SequenceSolverd_p = ::std::shared_ptr<SequenceSolverd>;
 using SequenceSolverd_u = ::std::unique_ptr<SequenceSolverd>;
 using SequenceSolverd_w = ::std::weak_ptr<SequenceSolverd>;
 using SequenceSolverd_const_p = ::std::shared_ptr<const SequenceSolverd>;
 using SequenceSolverd_const_u = ::std::unique_ptr<const SequenceSolverd>;
 using SequenceSolverd_const_w = ::std::weak_ptr<const SequenceSolverd>;
-
 
 template <typename T>
 class SequenceSolverFunctionT;
@@ -156,14 +152,12 @@ using SequenceSolverFunction_const_p = ::std::shared_ptr<const SequenceSolverFun
 using SequenceSolverFunction_const_u = ::std::unique_ptr<const SequenceSolverFunction>;
 using SequenceSolverFunction_const_w = ::std::weak_ptr<const SequenceSolverFunction>;
 
-
 using SequenceSolverFunctiond_p = ::std::shared_ptr<SequenceSolverFunctiond>;
 using SequenceSolverFunctiond_u = ::std::unique_ptr<SequenceSolverFunctiond>;
 using SequenceSolverFunctiond_w = ::std::weak_ptr<SequenceSolverFunctiond>;
 using SequenceSolverFunctiond_const_p = ::std::shared_ptr<const SequenceSolverFunctiond>;
 using SequenceSolverFunctiond_const_u = ::std::unique_ptr<const SequenceSolverFunctiond>;
 using SequenceSolverFunctiond_const_w = ::std::weak_ptr<const SequenceSolverFunctiond>;
-
 
 template <typename T>
 class StateSequenceErrorFunctionT;
@@ -177,13 +171,11 @@ using StateSequenceErrorFunction_const_p = ::std::shared_ptr<const StateSequence
 using StateSequenceErrorFunction_const_u = ::std::unique_ptr<const StateSequenceErrorFunction>;
 using StateSequenceErrorFunction_const_w = ::std::weak_ptr<const StateSequenceErrorFunction>;
 
-
 using StateSequenceErrorFunctiond_p = ::std::shared_ptr<StateSequenceErrorFunctiond>;
 using StateSequenceErrorFunctiond_u = ::std::unique_ptr<StateSequenceErrorFunctiond>;
 using StateSequenceErrorFunctiond_w = ::std::weak_ptr<StateSequenceErrorFunctiond>;
 using StateSequenceErrorFunctiond_const_p = ::std::shared_ptr<const StateSequenceErrorFunctiond>;
 using StateSequenceErrorFunctiond_const_u = ::std::unique_ptr<const StateSequenceErrorFunctiond>;
 using StateSequenceErrorFunctiond_const_w = ::std::weak_ptr<const StateSequenceErrorFunctiond>;
-
 
 } // namespace momentum

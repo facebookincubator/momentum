@@ -15,9 +15,6 @@
 
 namespace momentum {
 
-
-
-
 class ProgressBar;
 
 using ProgressBar_p = ::std::shared_ptr<ProgressBar>;
@@ -26,7 +23,5 @@ using ProgressBar_w = ::std::weak_ptr<ProgressBar>;
 using ProgressBar_const_p = ::std::shared_ptr<const ProgressBar>;
 using ProgressBar_const_u = ::std::unique_ptr<const ProgressBar>;
 using ProgressBar_const_w = ::std::weak_ptr<const ProgressBar>;
-
-
 
 } // namespace momentum
