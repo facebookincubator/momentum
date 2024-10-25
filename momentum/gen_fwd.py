@@ -3,6 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import subprocess
 from pathlib import Path
 
 import tomlkit
@@ -105,6 +106,7 @@ def main():
             output_path = subdirectory / "fwd.h"
             with open(output_path, "w") as file:
                 file.write(header_content)
+            subprocess.run(["clang-format", "-i", output_path])
             print(f"Header file '{output_path}' has been generated.")
 
     except Exception as e:

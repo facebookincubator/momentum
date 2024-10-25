@@ -15,7 +15,6 @@
 
 namespace momentum {
 
-
 struct ConstraintData;
 
 using ConstraintData_p = ::std::shared_ptr<ConstraintData>;
@@ -24,7 +23,6 @@ using ConstraintData_w = ::std::weak_ptr<ConstraintData>;
 using ConstraintData_const_p = ::std::shared_ptr<const ConstraintData>;
 using ConstraintData_const_u = ::std::unique_ptr<const ConstraintData>;
 using ConstraintData_const_w = ::std::weak_ptr<const ConstraintData>;
-
 
 struct GaussNewtonSolverQROptions;
 
@@ -35,7 +33,6 @@ using GaussNewtonSolverQROptions_const_p = ::std::shared_ptr<const GaussNewtonSo
 using GaussNewtonSolverQROptions_const_u = ::std::unique_ptr<const GaussNewtonSolverQROptions>;
 using GaussNewtonSolverQROptions_const_w = ::std::weak_ptr<const GaussNewtonSolverQROptions>;
 
-
 struct SimdNormalConstraints;
 
 using SimdNormalConstraints_p = ::std::shared_ptr<SimdNormalConstraints>;
@@ -44,7 +41,6 @@ using SimdNormalConstraints_w = ::std::weak_ptr<SimdNormalConstraints>;
 using SimdNormalConstraints_const_p = ::std::shared_ptr<const SimdNormalConstraints>;
 using SimdNormalConstraints_const_u = ::std::unique_ptr<const SimdNormalConstraints>;
 using SimdNormalConstraints_const_w = ::std::weak_ptr<const SimdNormalConstraints>;
-
 
 struct SimdPlaneConstraints;
 
@@ -55,7 +51,6 @@ using SimdPlaneConstraints_const_p = ::std::shared_ptr<const SimdPlaneConstraint
 using SimdPlaneConstraints_const_u = ::std::unique_ptr<const SimdPlaneConstraints>;
 using SimdPlaneConstraints_const_w = ::std::weak_ptr<const SimdPlaneConstraints>;
 
-
 struct SimdPositionConstraints;
 
 using SimdPositionConstraints_p = ::std::shared_ptr<SimdPositionConstraints>;
@@ -64,8 +59,6 @@ using SimdPositionConstraints_w = ::std::weak_ptr<SimdPositionConstraints>;
 using SimdPositionConstraints_const_p = ::std::shared_ptr<const SimdPositionConstraints>;
 using SimdPositionConstraints_const_u = ::std::unique_ptr<const SimdPositionConstraints>;
 using SimdPositionConstraints_const_w = ::std::weak_ptr<const SimdPositionConstraints>;
-
-
 
 template <typename T>
 struct AimDataT;
@@ -79,14 +72,12 @@ using AimData_const_p = ::std::shared_ptr<const AimData>;
 using AimData_const_u = ::std::unique_ptr<const AimData>;
 using AimData_const_w = ::std::weak_ptr<const AimData>;
 
-
 using AimDatad_p = ::std::shared_ptr<AimDatad>;
 using AimDatad_u = ::std::unique_ptr<AimDatad>;
 using AimDatad_w = ::std::weak_ptr<AimDatad>;
 using AimDatad_const_p = ::std::shared_ptr<const AimDatad>;
 using AimDatad_const_u = ::std::unique_ptr<const AimDatad>;
 using AimDatad_const_w = ::std::weak_ptr<const AimDatad>;
-
 
 template <typename T>
 struct FixedAxisDataT;
@@ -100,14 +91,12 @@ using FixedAxisData_const_p = ::std::shared_ptr<const FixedAxisData>;
 using FixedAxisData_const_u = ::std::unique_ptr<const FixedAxisData>;
 using FixedAxisData_const_w = ::std::weak_ptr<const FixedAxisData>;
 
-
 using FixedAxisDatad_p = ::std::shared_ptr<FixedAxisDatad>;
 using FixedAxisDatad_u = ::std::unique_ptr<FixedAxisDatad>;
 using FixedAxisDatad_w = ::std::weak_ptr<FixedAxisDatad>;
 using FixedAxisDatad_const_p = ::std::shared_ptr<const FixedAxisDatad>;
 using FixedAxisDatad_const_u = ::std::unique_ptr<const FixedAxisDatad>;
 using FixedAxisDatad_const_w = ::std::weak_ptr<const FixedAxisDatad>;
-
 
 template <typename T>
 struct NormalDataT;
@@ -121,14 +110,12 @@ using NormalData_const_p = ::std::shared_ptr<const NormalData>;
 using NormalData_const_u = ::std::unique_ptr<const NormalData>;
 using NormalData_const_w = ::std::weak_ptr<const NormalData>;
 
-
 using NormalDatad_p = ::std::shared_ptr<NormalDatad>;
 using NormalDatad_u = ::std::unique_ptr<NormalDatad>;
 using NormalDatad_w = ::std::weak_ptr<NormalDatad>;
 using NormalDatad_const_p = ::std::shared_ptr<const NormalDatad>;
 using NormalDatad_const_u = ::std::unique_ptr<const NormalDatad>;
 using NormalDatad_const_w = ::std::weak_ptr<const NormalDatad>;
-
 
 template <typename T>
 struct OrientationDataT;
@@ -142,14 +129,12 @@ using OrientationData_const_p = ::std::shared_ptr<const OrientationData>;
 using OrientationData_const_u = ::std::unique_ptr<const OrientationData>;
 using OrientationData_const_w = ::std::weak_ptr<const OrientationData>;
 
-
 using OrientationDatad_p = ::std::shared_ptr<OrientationDatad>;
 using OrientationDatad_u = ::std::unique_ptr<OrientationDatad>;
 using OrientationDatad_w = ::std::weak_ptr<OrientationDatad>;
 using OrientationDatad_const_p = ::std::shared_ptr<const OrientationDatad>;
 using OrientationDatad_const_u = ::std::unique_ptr<const OrientationDatad>;
 using OrientationDatad_const_w = ::std::weak_ptr<const OrientationDatad>;
-
 
 template <typename T>
 struct PlaneDataT;
@@ -163,14 +148,12 @@ using PlaneData_const_p = ::std::shared_ptr<const PlaneData>;
 using PlaneData_const_u = ::std::unique_ptr<const PlaneData>;
 using PlaneData_const_w = ::std::weak_ptr<const PlaneData>;
 
-
 using PlaneDatad_p = ::std::shared_ptr<PlaneDatad>;
 using PlaneDatad_u = ::std::unique_ptr<PlaneDatad>;
 using PlaneDatad_w = ::std::weak_ptr<PlaneDatad>;
 using PlaneDatad_const_p = ::std::shared_ptr<const PlaneDatad>;
 using PlaneDatad_const_u = ::std::unique_ptr<const PlaneDatad>;
 using PlaneDatad_const_w = ::std::weak_ptr<const PlaneDatad>;
-
 
 template <typename T>
 struct PositionDataT;
@@ -184,14 +167,12 @@ using PositionData_const_p = ::std::shared_ptr<const PositionData>;
 using PositionData_const_u = ::std::unique_ptr<const PositionData>;
 using PositionData_const_w = ::std::weak_ptr<const PositionData>;
 
-
 using PositionDatad_p = ::std::shared_ptr<PositionDatad>;
 using PositionDatad_u = ::std::unique_ptr<PositionDatad>;
 using PositionDatad_w = ::std::weak_ptr<PositionDatad>;
 using PositionDatad_const_p = ::std::shared_ptr<const PositionDatad>;
 using PositionDatad_const_u = ::std::unique_ptr<const PositionDatad>;
 using PositionDatad_const_w = ::std::weak_ptr<const PositionDatad>;
-
 
 template <typename T>
 struct VertexConstraintT;
@@ -205,15 +186,12 @@ using VertexConstraint_const_p = ::std::shared_ptr<const VertexConstraint>;
 using VertexConstraint_const_u = ::std::unique_ptr<const VertexConstraint>;
 using VertexConstraint_const_w = ::std::weak_ptr<const VertexConstraint>;
 
-
 using VertexConstraintd_p = ::std::shared_ptr<VertexConstraintd>;
 using VertexConstraintd_u = ::std::unique_ptr<VertexConstraintd>;
 using VertexConstraintd_w = ::std::weak_ptr<VertexConstraintd>;
 using VertexConstraintd_const_p = ::std::shared_ptr<const VertexConstraintd>;
 using VertexConstraintd_const_u = ::std::unique_ptr<const VertexConstraintd>;
 using VertexConstraintd_const_w = ::std::weak_ptr<const VertexConstraintd>;
-
-
 
 class SimdNormalErrorFunction;
 
@@ -224,7 +202,6 @@ using SimdNormalErrorFunction_const_p = ::std::shared_ptr<const SimdNormalErrorF
 using SimdNormalErrorFunction_const_u = ::std::unique_ptr<const SimdNormalErrorFunction>;
 using SimdNormalErrorFunction_const_w = ::std::weak_ptr<const SimdNormalErrorFunction>;
 
-
 class SimdPlaneErrorFunction;
 
 using SimdPlaneErrorFunction_p = ::std::shared_ptr<SimdPlaneErrorFunction>;
@@ -233,7 +210,6 @@ using SimdPlaneErrorFunction_w = ::std::weak_ptr<SimdPlaneErrorFunction>;
 using SimdPlaneErrorFunction_const_p = ::std::shared_ptr<const SimdPlaneErrorFunction>;
 using SimdPlaneErrorFunction_const_u = ::std::unique_ptr<const SimdPlaneErrorFunction>;
 using SimdPlaneErrorFunction_const_w = ::std::weak_ptr<const SimdPlaneErrorFunction>;
-
 
 class SimdPositionErrorFunction;
 
@@ -244,7 +220,6 @@ using SimdPositionErrorFunction_const_p = ::std::shared_ptr<const SimdPositionEr
 using SimdPositionErrorFunction_const_u = ::std::unique_ptr<const SimdPositionErrorFunction>;
 using SimdPositionErrorFunction_const_w = ::std::weak_ptr<const SimdPositionErrorFunction>;
 
-
 class SimdNormalErrorFunctionAVX;
 
 using SimdNormalErrorFunctionAVX_p = ::std::shared_ptr<SimdNormalErrorFunctionAVX>;
@@ -253,7 +228,6 @@ using SimdNormalErrorFunctionAVX_w = ::std::weak_ptr<SimdNormalErrorFunctionAVX>
 using SimdNormalErrorFunctionAVX_const_p = ::std::shared_ptr<const SimdNormalErrorFunctionAVX>;
 using SimdNormalErrorFunctionAVX_const_u = ::std::unique_ptr<const SimdNormalErrorFunctionAVX>;
 using SimdNormalErrorFunctionAVX_const_w = ::std::weak_ptr<const SimdNormalErrorFunctionAVX>;
-
 
 class SimdPlaneErrorFunctionAVX;
 
@@ -264,7 +238,6 @@ using SimdPlaneErrorFunctionAVX_const_p = ::std::shared_ptr<const SimdPlaneError
 using SimdPlaneErrorFunctionAVX_const_u = ::std::unique_ptr<const SimdPlaneErrorFunctionAVX>;
 using SimdPlaneErrorFunctionAVX_const_w = ::std::weak_ptr<const SimdPlaneErrorFunctionAVX>;
 
-
 class SimdPositionErrorFunctionAVX;
 
 using SimdPositionErrorFunctionAVX_p = ::std::shared_ptr<SimdPositionErrorFunctionAVX>;
@@ -273,8 +246,6 @@ using SimdPositionErrorFunctionAVX_w = ::std::weak_ptr<SimdPositionErrorFunction
 using SimdPositionErrorFunctionAVX_const_p = ::std::shared_ptr<const SimdPositionErrorFunctionAVX>;
 using SimdPositionErrorFunctionAVX_const_u = ::std::unique_ptr<const SimdPositionErrorFunctionAVX>;
 using SimdPositionErrorFunctionAVX_const_w = ::std::weak_ptr<const SimdPositionErrorFunctionAVX>;
-
-
 
 template <typename T>
 class AimDirErrorFunctionT;
@@ -288,14 +259,12 @@ using AimDirErrorFunction_const_p = ::std::shared_ptr<const AimDirErrorFunction>
 using AimDirErrorFunction_const_u = ::std::unique_ptr<const AimDirErrorFunction>;
 using AimDirErrorFunction_const_w = ::std::weak_ptr<const AimDirErrorFunction>;
 
-
 using AimDirErrorFunctiond_p = ::std::shared_ptr<AimDirErrorFunctiond>;
 using AimDirErrorFunctiond_u = ::std::unique_ptr<AimDirErrorFunctiond>;
 using AimDirErrorFunctiond_w = ::std::weak_ptr<AimDirErrorFunctiond>;
 using AimDirErrorFunctiond_const_p = ::std::shared_ptr<const AimDirErrorFunctiond>;
 using AimDirErrorFunctiond_const_u = ::std::unique_ptr<const AimDirErrorFunctiond>;
 using AimDirErrorFunctiond_const_w = ::std::weak_ptr<const AimDirErrorFunctiond>;
-
 
 template <typename T>
 class AimDistErrorFunctionT;
@@ -309,14 +278,12 @@ using AimDistErrorFunction_const_p = ::std::shared_ptr<const AimDistErrorFunctio
 using AimDistErrorFunction_const_u = ::std::unique_ptr<const AimDistErrorFunction>;
 using AimDistErrorFunction_const_w = ::std::weak_ptr<const AimDistErrorFunction>;
 
-
 using AimDistErrorFunctiond_p = ::std::shared_ptr<AimDistErrorFunctiond>;
 using AimDistErrorFunctiond_u = ::std::unique_ptr<AimDistErrorFunctiond>;
 using AimDistErrorFunctiond_w = ::std::weak_ptr<AimDistErrorFunctiond>;
 using AimDistErrorFunctiond_const_p = ::std::shared_ptr<const AimDistErrorFunctiond>;
 using AimDistErrorFunctiond_const_u = ::std::unique_ptr<const AimDistErrorFunctiond>;
 using AimDistErrorFunctiond_const_w = ::std::weak_ptr<const AimDistErrorFunctiond>;
-
 
 template <typename T>
 class CollisionErrorFunctionT;
@@ -330,14 +297,12 @@ using CollisionErrorFunction_const_p = ::std::shared_ptr<const CollisionErrorFun
 using CollisionErrorFunction_const_u = ::std::unique_ptr<const CollisionErrorFunction>;
 using CollisionErrorFunction_const_w = ::std::weak_ptr<const CollisionErrorFunction>;
 
-
 using CollisionErrorFunctiond_p = ::std::shared_ptr<CollisionErrorFunctiond>;
 using CollisionErrorFunctiond_u = ::std::unique_ptr<CollisionErrorFunctiond>;
 using CollisionErrorFunctiond_w = ::std::weak_ptr<CollisionErrorFunctiond>;
 using CollisionErrorFunctiond_const_p = ::std::shared_ptr<const CollisionErrorFunctiond>;
 using CollisionErrorFunctiond_const_u = ::std::unique_ptr<const CollisionErrorFunctiond>;
 using CollisionErrorFunctiond_const_w = ::std::weak_ptr<const CollisionErrorFunctiond>;
-
 
 template <typename T>
 class CollisionErrorFunctionStatelessT;
@@ -347,18 +312,22 @@ using CollisionErrorFunctionStatelessd = CollisionErrorFunctionStatelessT<double
 using CollisionErrorFunctionStateless_p = ::std::shared_ptr<CollisionErrorFunctionStateless>;
 using CollisionErrorFunctionStateless_u = ::std::unique_ptr<CollisionErrorFunctionStateless>;
 using CollisionErrorFunctionStateless_w = ::std::weak_ptr<CollisionErrorFunctionStateless>;
-using CollisionErrorFunctionStateless_const_p = ::std::shared_ptr<const CollisionErrorFunctionStateless>;
-using CollisionErrorFunctionStateless_const_u = ::std::unique_ptr<const CollisionErrorFunctionStateless>;
-using CollisionErrorFunctionStateless_const_w = ::std::weak_ptr<const CollisionErrorFunctionStateless>;
-
+using CollisionErrorFunctionStateless_const_p =
+    ::std::shared_ptr<const CollisionErrorFunctionStateless>;
+using CollisionErrorFunctionStateless_const_u =
+    ::std::unique_ptr<const CollisionErrorFunctionStateless>;
+using CollisionErrorFunctionStateless_const_w =
+    ::std::weak_ptr<const CollisionErrorFunctionStateless>;
 
 using CollisionErrorFunctionStatelessd_p = ::std::shared_ptr<CollisionErrorFunctionStatelessd>;
 using CollisionErrorFunctionStatelessd_u = ::std::unique_ptr<CollisionErrorFunctionStatelessd>;
 using CollisionErrorFunctionStatelessd_w = ::std::weak_ptr<CollisionErrorFunctionStatelessd>;
-using CollisionErrorFunctionStatelessd_const_p = ::std::shared_ptr<const CollisionErrorFunctionStatelessd>;
-using CollisionErrorFunctionStatelessd_const_u = ::std::unique_ptr<const CollisionErrorFunctionStatelessd>;
-using CollisionErrorFunctionStatelessd_const_w = ::std::weak_ptr<const CollisionErrorFunctionStatelessd>;
-
+using CollisionErrorFunctionStatelessd_const_p =
+    ::std::shared_ptr<const CollisionErrorFunctionStatelessd>;
+using CollisionErrorFunctionStatelessd_const_u =
+    ::std::unique_ptr<const CollisionErrorFunctionStatelessd>;
+using CollisionErrorFunctionStatelessd_const_w =
+    ::std::weak_ptr<const CollisionErrorFunctionStatelessd>;
 
 template <typename T>
 class FixedAxisAngleErrorFunctionT;
@@ -372,14 +341,12 @@ using FixedAxisAngleErrorFunction_const_p = ::std::shared_ptr<const FixedAxisAng
 using FixedAxisAngleErrorFunction_const_u = ::std::unique_ptr<const FixedAxisAngleErrorFunction>;
 using FixedAxisAngleErrorFunction_const_w = ::std::weak_ptr<const FixedAxisAngleErrorFunction>;
 
-
 using FixedAxisAngleErrorFunctiond_p = ::std::shared_ptr<FixedAxisAngleErrorFunctiond>;
 using FixedAxisAngleErrorFunctiond_u = ::std::unique_ptr<FixedAxisAngleErrorFunctiond>;
 using FixedAxisAngleErrorFunctiond_w = ::std::weak_ptr<FixedAxisAngleErrorFunctiond>;
 using FixedAxisAngleErrorFunctiond_const_p = ::std::shared_ptr<const FixedAxisAngleErrorFunctiond>;
 using FixedAxisAngleErrorFunctiond_const_u = ::std::unique_ptr<const FixedAxisAngleErrorFunctiond>;
 using FixedAxisAngleErrorFunctiond_const_w = ::std::weak_ptr<const FixedAxisAngleErrorFunctiond>;
-
 
 template <typename T>
 class FixedAxisCosErrorFunctionT;
@@ -393,14 +360,12 @@ using FixedAxisCosErrorFunction_const_p = ::std::shared_ptr<const FixedAxisCosEr
 using FixedAxisCosErrorFunction_const_u = ::std::unique_ptr<const FixedAxisCosErrorFunction>;
 using FixedAxisCosErrorFunction_const_w = ::std::weak_ptr<const FixedAxisCosErrorFunction>;
 
-
 using FixedAxisCosErrorFunctiond_p = ::std::shared_ptr<FixedAxisCosErrorFunctiond>;
 using FixedAxisCosErrorFunctiond_u = ::std::unique_ptr<FixedAxisCosErrorFunctiond>;
 using FixedAxisCosErrorFunctiond_w = ::std::weak_ptr<FixedAxisCosErrorFunctiond>;
 using FixedAxisCosErrorFunctiond_const_p = ::std::shared_ptr<const FixedAxisCosErrorFunctiond>;
 using FixedAxisCosErrorFunctiond_const_u = ::std::unique_ptr<const FixedAxisCosErrorFunctiond>;
 using FixedAxisCosErrorFunctiond_const_w = ::std::weak_ptr<const FixedAxisCosErrorFunctiond>;
-
 
 template <typename T>
 class FixedAxisDiffErrorFunctionT;
@@ -414,14 +379,12 @@ using FixedAxisDiffErrorFunction_const_p = ::std::shared_ptr<const FixedAxisDiff
 using FixedAxisDiffErrorFunction_const_u = ::std::unique_ptr<const FixedAxisDiffErrorFunction>;
 using FixedAxisDiffErrorFunction_const_w = ::std::weak_ptr<const FixedAxisDiffErrorFunction>;
 
-
 using FixedAxisDiffErrorFunctiond_p = ::std::shared_ptr<FixedAxisDiffErrorFunctiond>;
 using FixedAxisDiffErrorFunctiond_u = ::std::unique_ptr<FixedAxisDiffErrorFunctiond>;
 using FixedAxisDiffErrorFunctiond_w = ::std::weak_ptr<FixedAxisDiffErrorFunctiond>;
 using FixedAxisDiffErrorFunctiond_const_p = ::std::shared_ptr<const FixedAxisDiffErrorFunctiond>;
 using FixedAxisDiffErrorFunctiond_const_u = ::std::unique_ptr<const FixedAxisDiffErrorFunctiond>;
 using FixedAxisDiffErrorFunctiond_const_w = ::std::weak_ptr<const FixedAxisDiffErrorFunctiond>;
-
 
 template <typename T>
 class GaussNewtonSolverQRT;
@@ -435,14 +398,12 @@ using GaussNewtonSolverQR_const_p = ::std::shared_ptr<const GaussNewtonSolverQR>
 using GaussNewtonSolverQR_const_u = ::std::unique_ptr<const GaussNewtonSolverQR>;
 using GaussNewtonSolverQR_const_w = ::std::weak_ptr<const GaussNewtonSolverQR>;
 
-
 using GaussNewtonSolverQRd_p = ::std::shared_ptr<GaussNewtonSolverQRd>;
 using GaussNewtonSolverQRd_u = ::std::unique_ptr<GaussNewtonSolverQRd>;
 using GaussNewtonSolverQRd_w = ::std::weak_ptr<GaussNewtonSolverQRd>;
 using GaussNewtonSolverQRd_const_p = ::std::shared_ptr<const GaussNewtonSolverQRd>;
 using GaussNewtonSolverQRd_const_u = ::std::unique_ptr<const GaussNewtonSolverQRd>;
 using GaussNewtonSolverQRd_const_w = ::std::weak_ptr<const GaussNewtonSolverQRd>;
-
 
 template <typename T>
 class LimitErrorFunctionT;
@@ -456,14 +417,12 @@ using LimitErrorFunction_const_p = ::std::shared_ptr<const LimitErrorFunction>;
 using LimitErrorFunction_const_u = ::std::unique_ptr<const LimitErrorFunction>;
 using LimitErrorFunction_const_w = ::std::weak_ptr<const LimitErrorFunction>;
 
-
 using LimitErrorFunctiond_p = ::std::shared_ptr<LimitErrorFunctiond>;
 using LimitErrorFunctiond_u = ::std::unique_ptr<LimitErrorFunctiond>;
 using LimitErrorFunctiond_w = ::std::weak_ptr<LimitErrorFunctiond>;
 using LimitErrorFunctiond_const_p = ::std::shared_ptr<const LimitErrorFunctiond>;
 using LimitErrorFunctiond_const_u = ::std::unique_ptr<const LimitErrorFunctiond>;
 using LimitErrorFunctiond_const_w = ::std::weak_ptr<const LimitErrorFunctiond>;
-
 
 template <typename T>
 class ModelParametersErrorFunctionT;
@@ -477,14 +436,14 @@ using ModelParametersErrorFunction_const_p = ::std::shared_ptr<const ModelParame
 using ModelParametersErrorFunction_const_u = ::std::unique_ptr<const ModelParametersErrorFunction>;
 using ModelParametersErrorFunction_const_w = ::std::weak_ptr<const ModelParametersErrorFunction>;
 
-
 using ModelParametersErrorFunctiond_p = ::std::shared_ptr<ModelParametersErrorFunctiond>;
 using ModelParametersErrorFunctiond_u = ::std::unique_ptr<ModelParametersErrorFunctiond>;
 using ModelParametersErrorFunctiond_w = ::std::weak_ptr<ModelParametersErrorFunctiond>;
-using ModelParametersErrorFunctiond_const_p = ::std::shared_ptr<const ModelParametersErrorFunctiond>;
-using ModelParametersErrorFunctiond_const_u = ::std::unique_ptr<const ModelParametersErrorFunctiond>;
+using ModelParametersErrorFunctiond_const_p =
+    ::std::shared_ptr<const ModelParametersErrorFunctiond>;
+using ModelParametersErrorFunctiond_const_u =
+    ::std::unique_ptr<const ModelParametersErrorFunctiond>;
 using ModelParametersErrorFunctiond_const_w = ::std::weak_ptr<const ModelParametersErrorFunctiond>;
-
 
 template <typename T>
 class NormalErrorFunctionT;
@@ -498,14 +457,12 @@ using NormalErrorFunction_const_p = ::std::shared_ptr<const NormalErrorFunction>
 using NormalErrorFunction_const_u = ::std::unique_ptr<const NormalErrorFunction>;
 using NormalErrorFunction_const_w = ::std::weak_ptr<const NormalErrorFunction>;
 
-
 using NormalErrorFunctiond_p = ::std::shared_ptr<NormalErrorFunctiond>;
 using NormalErrorFunctiond_u = ::std::unique_ptr<NormalErrorFunctiond>;
 using NormalErrorFunctiond_w = ::std::weak_ptr<NormalErrorFunctiond>;
 using NormalErrorFunctiond_const_p = ::std::shared_ptr<const NormalErrorFunctiond>;
 using NormalErrorFunctiond_const_u = ::std::unique_ptr<const NormalErrorFunctiond>;
 using NormalErrorFunctiond_const_w = ::std::weak_ptr<const NormalErrorFunctiond>;
-
 
 template <typename T>
 class OrientationErrorFunctionT;
@@ -519,14 +476,12 @@ using OrientationErrorFunction_const_p = ::std::shared_ptr<const OrientationErro
 using OrientationErrorFunction_const_u = ::std::unique_ptr<const OrientationErrorFunction>;
 using OrientationErrorFunction_const_w = ::std::weak_ptr<const OrientationErrorFunction>;
 
-
 using OrientationErrorFunctiond_p = ::std::shared_ptr<OrientationErrorFunctiond>;
 using OrientationErrorFunctiond_u = ::std::unique_ptr<OrientationErrorFunctiond>;
 using OrientationErrorFunctiond_w = ::std::weak_ptr<OrientationErrorFunctiond>;
 using OrientationErrorFunctiond_const_p = ::std::shared_ptr<const OrientationErrorFunctiond>;
 using OrientationErrorFunctiond_const_u = ::std::unique_ptr<const OrientationErrorFunctiond>;
 using OrientationErrorFunctiond_const_w = ::std::weak_ptr<const OrientationErrorFunctiond>;
-
 
 template <typename T>
 class PlaneErrorFunctionT;
@@ -540,14 +495,12 @@ using PlaneErrorFunction_const_p = ::std::shared_ptr<const PlaneErrorFunction>;
 using PlaneErrorFunction_const_u = ::std::unique_ptr<const PlaneErrorFunction>;
 using PlaneErrorFunction_const_w = ::std::weak_ptr<const PlaneErrorFunction>;
 
-
 using PlaneErrorFunctiond_p = ::std::shared_ptr<PlaneErrorFunctiond>;
 using PlaneErrorFunctiond_u = ::std::unique_ptr<PlaneErrorFunctiond>;
 using PlaneErrorFunctiond_w = ::std::weak_ptr<PlaneErrorFunctiond>;
 using PlaneErrorFunctiond_const_p = ::std::shared_ptr<const PlaneErrorFunctiond>;
 using PlaneErrorFunctiond_const_u = ::std::unique_ptr<const PlaneErrorFunctiond>;
 using PlaneErrorFunctiond_const_w = ::std::weak_ptr<const PlaneErrorFunctiond>;
-
 
 template <typename T>
 class PosePriorErrorFunctionT;
@@ -561,14 +514,12 @@ using PosePriorErrorFunction_const_p = ::std::shared_ptr<const PosePriorErrorFun
 using PosePriorErrorFunction_const_u = ::std::unique_ptr<const PosePriorErrorFunction>;
 using PosePriorErrorFunction_const_w = ::std::weak_ptr<const PosePriorErrorFunction>;
 
-
 using PosePriorErrorFunctiond_p = ::std::shared_ptr<PosePriorErrorFunctiond>;
 using PosePriorErrorFunctiond_u = ::std::unique_ptr<PosePriorErrorFunctiond>;
 using PosePriorErrorFunctiond_w = ::std::weak_ptr<PosePriorErrorFunctiond>;
 using PosePriorErrorFunctiond_const_p = ::std::shared_ptr<const PosePriorErrorFunctiond>;
 using PosePriorErrorFunctiond_const_u = ::std::unique_ptr<const PosePriorErrorFunctiond>;
 using PosePriorErrorFunctiond_const_w = ::std::weak_ptr<const PosePriorErrorFunctiond>;
-
 
 template <typename T>
 class PositionErrorFunctionT;
@@ -582,14 +533,12 @@ using PositionErrorFunction_const_p = ::std::shared_ptr<const PositionErrorFunct
 using PositionErrorFunction_const_u = ::std::unique_ptr<const PositionErrorFunction>;
 using PositionErrorFunction_const_w = ::std::weak_ptr<const PositionErrorFunction>;
 
-
 using PositionErrorFunctiond_p = ::std::shared_ptr<PositionErrorFunctiond>;
 using PositionErrorFunctiond_u = ::std::unique_ptr<PositionErrorFunctiond>;
 using PositionErrorFunctiond_w = ::std::weak_ptr<PositionErrorFunctiond>;
 using PositionErrorFunctiond_const_p = ::std::shared_ptr<const PositionErrorFunctiond>;
 using PositionErrorFunctiond_const_u = ::std::unique_ptr<const PositionErrorFunctiond>;
 using PositionErrorFunctiond_const_w = ::std::weak_ptr<const PositionErrorFunctiond>;
-
 
 template <typename T>
 class SimdCollisionErrorFunctionT;
@@ -603,14 +552,12 @@ using SimdCollisionErrorFunction_const_p = ::std::shared_ptr<const SimdCollision
 using SimdCollisionErrorFunction_const_u = ::std::unique_ptr<const SimdCollisionErrorFunction>;
 using SimdCollisionErrorFunction_const_w = ::std::weak_ptr<const SimdCollisionErrorFunction>;
 
-
 using SimdCollisionErrorFunctiond_p = ::std::shared_ptr<SimdCollisionErrorFunctiond>;
 using SimdCollisionErrorFunctiond_u = ::std::unique_ptr<SimdCollisionErrorFunctiond>;
 using SimdCollisionErrorFunctiond_w = ::std::weak_ptr<SimdCollisionErrorFunctiond>;
 using SimdCollisionErrorFunctiond_const_p = ::std::shared_ptr<const SimdCollisionErrorFunctiond>;
 using SimdCollisionErrorFunctiond_const_u = ::std::unique_ptr<const SimdCollisionErrorFunctiond>;
 using SimdCollisionErrorFunctiond_const_w = ::std::weak_ptr<const SimdCollisionErrorFunctiond>;
-
 
 template <typename T>
 class SkeletonErrorFunctionT;
@@ -624,14 +571,12 @@ using SkeletonErrorFunction_const_p = ::std::shared_ptr<const SkeletonErrorFunct
 using SkeletonErrorFunction_const_u = ::std::unique_ptr<const SkeletonErrorFunction>;
 using SkeletonErrorFunction_const_w = ::std::weak_ptr<const SkeletonErrorFunction>;
 
-
 using SkeletonErrorFunctiond_p = ::std::shared_ptr<SkeletonErrorFunctiond>;
 using SkeletonErrorFunctiond_u = ::std::unique_ptr<SkeletonErrorFunctiond>;
 using SkeletonErrorFunctiond_w = ::std::weak_ptr<SkeletonErrorFunctiond>;
 using SkeletonErrorFunctiond_const_p = ::std::shared_ptr<const SkeletonErrorFunctiond>;
 using SkeletonErrorFunctiond_const_u = ::std::unique_ptr<const SkeletonErrorFunctiond>;
 using SkeletonErrorFunctiond_const_w = ::std::weak_ptr<const SkeletonErrorFunctiond>;
-
 
 template <typename T>
 class SkeletonSolverFunctionT;
@@ -645,14 +590,12 @@ using SkeletonSolverFunction_const_p = ::std::shared_ptr<const SkeletonSolverFun
 using SkeletonSolverFunction_const_u = ::std::unique_ptr<const SkeletonSolverFunction>;
 using SkeletonSolverFunction_const_w = ::std::weak_ptr<const SkeletonSolverFunction>;
 
-
 using SkeletonSolverFunctiond_p = ::std::shared_ptr<SkeletonSolverFunctiond>;
 using SkeletonSolverFunctiond_u = ::std::unique_ptr<SkeletonSolverFunctiond>;
 using SkeletonSolverFunctiond_w = ::std::weak_ptr<SkeletonSolverFunctiond>;
 using SkeletonSolverFunctiond_const_p = ::std::shared_ptr<const SkeletonSolverFunctiond>;
 using SkeletonSolverFunctiond_const_u = ::std::unique_ptr<const SkeletonSolverFunctiond>;
 using SkeletonSolverFunctiond_const_w = ::std::weak_ptr<const SkeletonSolverFunctiond>;
-
 
 template <typename T>
 class StateErrorFunctionT;
@@ -666,14 +609,12 @@ using StateErrorFunction_const_p = ::std::shared_ptr<const StateErrorFunction>;
 using StateErrorFunction_const_u = ::std::unique_ptr<const StateErrorFunction>;
 using StateErrorFunction_const_w = ::std::weak_ptr<const StateErrorFunction>;
 
-
 using StateErrorFunctiond_p = ::std::shared_ptr<StateErrorFunctiond>;
 using StateErrorFunctiond_u = ::std::unique_ptr<StateErrorFunctiond>;
 using StateErrorFunctiond_w = ::std::weak_ptr<StateErrorFunctiond>;
 using StateErrorFunctiond_const_p = ::std::shared_ptr<const StateErrorFunctiond>;
 using StateErrorFunctiond_const_u = ::std::unique_ptr<const StateErrorFunctiond>;
 using StateErrorFunctiond_const_w = ::std::weak_ptr<const StateErrorFunctiond>;
-
 
 template <typename T>
 class TrustRegionQRT;
@@ -687,14 +628,12 @@ using TrustRegionQR_const_p = ::std::shared_ptr<const TrustRegionQR>;
 using TrustRegionQR_const_u = ::std::unique_ptr<const TrustRegionQR>;
 using TrustRegionQR_const_w = ::std::weak_ptr<const TrustRegionQR>;
 
-
 using TrustRegionQRd_p = ::std::shared_ptr<TrustRegionQRd>;
 using TrustRegionQRd_u = ::std::unique_ptr<TrustRegionQRd>;
 using TrustRegionQRd_w = ::std::weak_ptr<TrustRegionQRd>;
 using TrustRegionQRd_const_p = ::std::shared_ptr<const TrustRegionQRd>;
 using TrustRegionQRd_const_u = ::std::unique_ptr<const TrustRegionQRd>;
 using TrustRegionQRd_const_w = ::std::weak_ptr<const TrustRegionQRd>;
-
 
 template <typename T>
 class VertexErrorFunctionT;
@@ -708,13 +647,11 @@ using VertexErrorFunction_const_p = ::std::shared_ptr<const VertexErrorFunction>
 using VertexErrorFunction_const_u = ::std::unique_ptr<const VertexErrorFunction>;
 using VertexErrorFunction_const_w = ::std::weak_ptr<const VertexErrorFunction>;
 
-
 using VertexErrorFunctiond_p = ::std::shared_ptr<VertexErrorFunctiond>;
 using VertexErrorFunctiond_u = ::std::unique_ptr<VertexErrorFunctiond>;
 using VertexErrorFunctiond_w = ::std::weak_ptr<VertexErrorFunctiond>;
 using VertexErrorFunctiond_const_p = ::std::shared_ptr<const VertexErrorFunctiond>;
 using VertexErrorFunctiond_const_u = ::std::unique_ptr<const VertexErrorFunctiond>;
 using VertexErrorFunctiond_const_w = ::std::weak_ptr<const VertexErrorFunctiond>;
-
 
 } // namespace momentum

@@ -15,8 +15,6 @@
 
 namespace momentum {
 
-
-
 template <typename T>
 struct MeshT;
 using Mesh = MeshT<float>;
@@ -29,14 +27,12 @@ using Mesh_const_p = ::std::shared_ptr<const Mesh>;
 using Mesh_const_u = ::std::unique_ptr<const Mesh>;
 using Mesh_const_w = ::std::weak_ptr<const Mesh>;
 
-
 using Meshd_p = ::std::shared_ptr<Meshd>;
 using Meshd_u = ::std::unique_ptr<Meshd>;
 using Meshd_w = ::std::weak_ptr<Meshd>;
 using Meshd_const_p = ::std::shared_ptr<const Meshd>;
 using Meshd_const_u = ::std::unique_ptr<const Meshd>;
 using Meshd_const_w = ::std::weak_ptr<const Meshd>;
-
 
 template <typename T>
 struct MppcaT;
@@ -50,14 +46,12 @@ using Mppca_const_p = ::std::shared_ptr<const Mppca>;
 using Mppca_const_u = ::std::unique_ptr<const Mppca>;
 using Mppca_const_w = ::std::weak_ptr<const Mppca>;
 
-
 using Mppcad_p = ::std::shared_ptr<Mppcad>;
 using Mppcad_u = ::std::unique_ptr<Mppcad>;
 using Mppcad_w = ::std::weak_ptr<Mppcad>;
 using Mppcad_const_p = ::std::shared_ptr<const Mppcad>;
 using Mppcad_const_u = ::std::unique_ptr<const Mppcad>;
 using Mppcad_const_w = ::std::weak_ptr<const Mppcad>;
-
 
 template <typename T>
 struct TransformT;
@@ -71,16 +65,12 @@ using Transform_const_p = ::std::shared_ptr<const Transform>;
 using Transform_const_u = ::std::unique_ptr<const Transform>;
 using Transform_const_w = ::std::weak_ptr<const Transform>;
 
-
 using Transformd_p = ::std::shared_ptr<Transformd>;
 using Transformd_u = ::std::unique_ptr<Transformd>;
 using Transformd_w = ::std::weak_ptr<Transformd>;
 using Transformd_const_p = ::std::shared_ptr<const Transformd>;
 using Transformd_const_u = ::std::unique_ptr<const Transformd>;
 using Transformd_const_w = ::std::weak_ptr<const Transformd>;
-
-
-
 
 template <typename T>
 class LowRankCovarianceMatrixT;
@@ -94,14 +84,12 @@ using LowRankCovarianceMatrix_const_p = ::std::shared_ptr<const LowRankCovarianc
 using LowRankCovarianceMatrix_const_u = ::std::unique_ptr<const LowRankCovarianceMatrix>;
 using LowRankCovarianceMatrix_const_w = ::std::weak_ptr<const LowRankCovarianceMatrix>;
 
-
 using LowRankCovarianceMatrixd_p = ::std::shared_ptr<LowRankCovarianceMatrixd>;
 using LowRankCovarianceMatrixd_u = ::std::unique_ptr<LowRankCovarianceMatrixd>;
 using LowRankCovarianceMatrixd_w = ::std::weak_ptr<LowRankCovarianceMatrixd>;
 using LowRankCovarianceMatrixd_const_p = ::std::shared_ptr<const LowRankCovarianceMatrixd>;
 using LowRankCovarianceMatrixd_const_u = ::std::unique_ptr<const LowRankCovarianceMatrixd>;
 using LowRankCovarianceMatrixd_const_w = ::std::weak_ptr<const LowRankCovarianceMatrixd>;
-
 
 template <typename T>
 class GeneralizedLossT;
@@ -115,14 +103,12 @@ using GeneralizedLoss_const_p = ::std::shared_ptr<const GeneralizedLoss>;
 using GeneralizedLoss_const_u = ::std::unique_ptr<const GeneralizedLoss>;
 using GeneralizedLoss_const_w = ::std::weak_ptr<const GeneralizedLoss>;
 
-
 using GeneralizedLossd_p = ::std::shared_ptr<GeneralizedLossd>;
 using GeneralizedLossd_u = ::std::unique_ptr<GeneralizedLossd>;
 using GeneralizedLossd_w = ::std::weak_ptr<GeneralizedLossd>;
 using GeneralizedLossd_const_p = ::std::shared_ptr<const GeneralizedLossd>;
 using GeneralizedLossd_const_u = ::std::unique_ptr<const GeneralizedLossd>;
 using GeneralizedLossd_const_w = ::std::weak_ptr<const GeneralizedLossd>;
-
 
 template <typename T>
 class SimdGeneralizedLossT;
@@ -136,13 +122,11 @@ using SimdGeneralizedLoss_const_p = ::std::shared_ptr<const SimdGeneralizedLoss>
 using SimdGeneralizedLoss_const_u = ::std::unique_ptr<const SimdGeneralizedLoss>;
 using SimdGeneralizedLoss_const_w = ::std::weak_ptr<const SimdGeneralizedLoss>;
 
-
 using SimdGeneralizedLossd_p = ::std::shared_ptr<SimdGeneralizedLossd>;
 using SimdGeneralizedLossd_u = ::std::unique_ptr<SimdGeneralizedLossd>;
 using SimdGeneralizedLossd_w = ::std::weak_ptr<SimdGeneralizedLossd>;
 using SimdGeneralizedLossd_const_p = ::std::shared_ptr<const SimdGeneralizedLossd>;
 using SimdGeneralizedLossd_const_u = ::std::unique_ptr<const SimdGeneralizedLossd>;
 using SimdGeneralizedLossd_const_w = ::std::weak_ptr<const SimdGeneralizedLossd>;
-
 
 } // namespace momentum

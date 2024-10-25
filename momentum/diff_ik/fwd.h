@@ -15,8 +15,6 @@
 
 namespace momentum {
 
-
-
 template <typename T>
 struct ErrorFunctionDerivativesT;
 using ErrorFunctionDerivatives = ErrorFunctionDerivativesT<float>;
@@ -29,14 +27,12 @@ using ErrorFunctionDerivatives_const_p = ::std::shared_ptr<const ErrorFunctionDe
 using ErrorFunctionDerivatives_const_u = ::std::unique_ptr<const ErrorFunctionDerivatives>;
 using ErrorFunctionDerivatives_const_w = ::std::weak_ptr<const ErrorFunctionDerivatives>;
 
-
 using ErrorFunctionDerivativesd_p = ::std::shared_ptr<ErrorFunctionDerivativesd>;
 using ErrorFunctionDerivativesd_u = ::std::unique_ptr<ErrorFunctionDerivativesd>;
 using ErrorFunctionDerivativesd_w = ::std::weak_ptr<ErrorFunctionDerivativesd>;
 using ErrorFunctionDerivativesd_const_p = ::std::shared_ptr<const ErrorFunctionDerivativesd>;
 using ErrorFunctionDerivativesd_const_u = ::std::unique_ptr<const ErrorFunctionDerivativesd>;
 using ErrorFunctionDerivativesd_const_w = ::std::weak_ptr<const ErrorFunctionDerivativesd>;
-
 
 template <typename T>
 struct OrientationConstraintT;
@@ -50,14 +46,12 @@ using OrientationConstraint_const_p = ::std::shared_ptr<const OrientationConstra
 using OrientationConstraint_const_u = ::std::unique_ptr<const OrientationConstraint>;
 using OrientationConstraint_const_w = ::std::weak_ptr<const OrientationConstraint>;
 
-
 using OrientationConstraintd_p = ::std::shared_ptr<OrientationConstraintd>;
 using OrientationConstraintd_u = ::std::unique_ptr<OrientationConstraintd>;
 using OrientationConstraintd_w = ::std::weak_ptr<OrientationConstraintd>;
 using OrientationConstraintd_const_p = ::std::shared_ptr<const OrientationConstraintd>;
 using OrientationConstraintd_const_u = ::std::unique_ptr<const OrientationConstraintd>;
 using OrientationConstraintd_const_w = ::std::weak_ptr<const OrientationConstraintd>;
-
 
 template <typename T>
 struct OrientationConstraintStateT;
@@ -71,14 +65,12 @@ using OrientationConstraintState_const_p = ::std::shared_ptr<const OrientationCo
 using OrientationConstraintState_const_u = ::std::unique_ptr<const OrientationConstraintState>;
 using OrientationConstraintState_const_w = ::std::weak_ptr<const OrientationConstraintState>;
 
-
 using OrientationConstraintStated_p = ::std::shared_ptr<OrientationConstraintStated>;
 using OrientationConstraintStated_u = ::std::unique_ptr<OrientationConstraintStated>;
 using OrientationConstraintStated_w = ::std::weak_ptr<OrientationConstraintStated>;
 using OrientationConstraintStated_const_p = ::std::shared_ptr<const OrientationConstraintStated>;
 using OrientationConstraintStated_const_u = ::std::unique_ptr<const OrientationConstraintStated>;
 using OrientationConstraintStated_const_w = ::std::weak_ptr<const OrientationConstraintStated>;
-
 
 template <typename T>
 struct PositionConstraintT;
@@ -92,14 +84,12 @@ using PositionConstraint_const_p = ::std::shared_ptr<const PositionConstraint>;
 using PositionConstraint_const_u = ::std::unique_ptr<const PositionConstraint>;
 using PositionConstraint_const_w = ::std::weak_ptr<const PositionConstraint>;
 
-
 using PositionConstraintd_p = ::std::shared_ptr<PositionConstraintd>;
 using PositionConstraintd_u = ::std::unique_ptr<PositionConstraintd>;
 using PositionConstraintd_w = ::std::weak_ptr<PositionConstraintd>;
 using PositionConstraintd_const_p = ::std::shared_ptr<const PositionConstraintd>;
 using PositionConstraintd_const_u = ::std::unique_ptr<const PositionConstraintd>;
 using PositionConstraintd_const_w = ::std::weak_ptr<const PositionConstraintd>;
-
 
 template <typename T>
 struct PositionConstraintStateT;
@@ -113,7 +103,6 @@ using PositionConstraintState_const_p = ::std::shared_ptr<const PositionConstrai
 using PositionConstraintState_const_u = ::std::unique_ptr<const PositionConstraintState>;
 using PositionConstraintState_const_w = ::std::weak_ptr<const PositionConstraintState>;
 
-
 using PositionConstraintStated_p = ::std::shared_ptr<PositionConstraintStated>;
 using PositionConstraintStated_u = ::std::unique_ptr<PositionConstraintStated>;
 using PositionConstraintStated_w = ::std::weak_ptr<PositionConstraintStated>;
@@ -121,134 +110,194 @@ using PositionConstraintStated_const_p = ::std::shared_ptr<const PositionConstra
 using PositionConstraintStated_const_u = ::std::unique_ptr<const PositionConstraintStated>;
 using PositionConstraintStated_const_w = ::std::weak_ptr<const PositionConstraintStated>;
 
-
-
-
 template <typename T>
 class FullyDifferentiableMotionErrorFunctionT;
 using FullyDifferentiableMotionErrorFunction = FullyDifferentiableMotionErrorFunctionT<float>;
 using FullyDifferentiableMotionErrorFunctiond = FullyDifferentiableMotionErrorFunctionT<double>;
 
-using FullyDifferentiableMotionErrorFunction_p = ::std::shared_ptr<FullyDifferentiableMotionErrorFunction>;
-using FullyDifferentiableMotionErrorFunction_u = ::std::unique_ptr<FullyDifferentiableMotionErrorFunction>;
-using FullyDifferentiableMotionErrorFunction_w = ::std::weak_ptr<FullyDifferentiableMotionErrorFunction>;
-using FullyDifferentiableMotionErrorFunction_const_p = ::std::shared_ptr<const FullyDifferentiableMotionErrorFunction>;
-using FullyDifferentiableMotionErrorFunction_const_u = ::std::unique_ptr<const FullyDifferentiableMotionErrorFunction>;
-using FullyDifferentiableMotionErrorFunction_const_w = ::std::weak_ptr<const FullyDifferentiableMotionErrorFunction>;
+using FullyDifferentiableMotionErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiableMotionErrorFunction>;
+using FullyDifferentiableMotionErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiableMotionErrorFunction>;
+using FullyDifferentiableMotionErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiableMotionErrorFunction>;
+using FullyDifferentiableMotionErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiableMotionErrorFunction>;
+using FullyDifferentiableMotionErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiableMotionErrorFunction>;
+using FullyDifferentiableMotionErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiableMotionErrorFunction>;
 
-
-using FullyDifferentiableMotionErrorFunctiond_p = ::std::shared_ptr<FullyDifferentiableMotionErrorFunctiond>;
-using FullyDifferentiableMotionErrorFunctiond_u = ::std::unique_ptr<FullyDifferentiableMotionErrorFunctiond>;
-using FullyDifferentiableMotionErrorFunctiond_w = ::std::weak_ptr<FullyDifferentiableMotionErrorFunctiond>;
-using FullyDifferentiableMotionErrorFunctiond_const_p = ::std::shared_ptr<const FullyDifferentiableMotionErrorFunctiond>;
-using FullyDifferentiableMotionErrorFunctiond_const_u = ::std::unique_ptr<const FullyDifferentiableMotionErrorFunctiond>;
-using FullyDifferentiableMotionErrorFunctiond_const_w = ::std::weak_ptr<const FullyDifferentiableMotionErrorFunctiond>;
-
+using FullyDifferentiableMotionErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiableMotionErrorFunctiond>;
+using FullyDifferentiableMotionErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiableMotionErrorFunctiond>;
+using FullyDifferentiableMotionErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiableMotionErrorFunctiond>;
+using FullyDifferentiableMotionErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiableMotionErrorFunctiond>;
+using FullyDifferentiableMotionErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiableMotionErrorFunctiond>;
+using FullyDifferentiableMotionErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiableMotionErrorFunctiond>;
 
 template <typename T>
 class FullyDifferentiableOrientationErrorFunctionT;
-using FullyDifferentiableOrientationErrorFunction = FullyDifferentiableOrientationErrorFunctionT<float>;
-using FullyDifferentiableOrientationErrorFunctiond = FullyDifferentiableOrientationErrorFunctionT<double>;
+using FullyDifferentiableOrientationErrorFunction =
+    FullyDifferentiableOrientationErrorFunctionT<float>;
+using FullyDifferentiableOrientationErrorFunctiond =
+    FullyDifferentiableOrientationErrorFunctionT<double>;
 
-using FullyDifferentiableOrientationErrorFunction_p = ::std::shared_ptr<FullyDifferentiableOrientationErrorFunction>;
-using FullyDifferentiableOrientationErrorFunction_u = ::std::unique_ptr<FullyDifferentiableOrientationErrorFunction>;
-using FullyDifferentiableOrientationErrorFunction_w = ::std::weak_ptr<FullyDifferentiableOrientationErrorFunction>;
-using FullyDifferentiableOrientationErrorFunction_const_p = ::std::shared_ptr<const FullyDifferentiableOrientationErrorFunction>;
-using FullyDifferentiableOrientationErrorFunction_const_u = ::std::unique_ptr<const FullyDifferentiableOrientationErrorFunction>;
-using FullyDifferentiableOrientationErrorFunction_const_w = ::std::weak_ptr<const FullyDifferentiableOrientationErrorFunction>;
+using FullyDifferentiableOrientationErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiableOrientationErrorFunction>;
+using FullyDifferentiableOrientationErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiableOrientationErrorFunction>;
+using FullyDifferentiableOrientationErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiableOrientationErrorFunction>;
+using FullyDifferentiableOrientationErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiableOrientationErrorFunction>;
+using FullyDifferentiableOrientationErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiableOrientationErrorFunction>;
+using FullyDifferentiableOrientationErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiableOrientationErrorFunction>;
 
-
-using FullyDifferentiableOrientationErrorFunctiond_p = ::std::shared_ptr<FullyDifferentiableOrientationErrorFunctiond>;
-using FullyDifferentiableOrientationErrorFunctiond_u = ::std::unique_ptr<FullyDifferentiableOrientationErrorFunctiond>;
-using FullyDifferentiableOrientationErrorFunctiond_w = ::std::weak_ptr<FullyDifferentiableOrientationErrorFunctiond>;
-using FullyDifferentiableOrientationErrorFunctiond_const_p = ::std::shared_ptr<const FullyDifferentiableOrientationErrorFunctiond>;
-using FullyDifferentiableOrientationErrorFunctiond_const_u = ::std::unique_ptr<const FullyDifferentiableOrientationErrorFunctiond>;
-using FullyDifferentiableOrientationErrorFunctiond_const_w = ::std::weak_ptr<const FullyDifferentiableOrientationErrorFunctiond>;
-
+using FullyDifferentiableOrientationErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiableOrientationErrorFunctiond>;
+using FullyDifferentiableOrientationErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiableOrientationErrorFunctiond>;
+using FullyDifferentiableOrientationErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiableOrientationErrorFunctiond>;
+using FullyDifferentiableOrientationErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiableOrientationErrorFunctiond>;
+using FullyDifferentiableOrientationErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiableOrientationErrorFunctiond>;
+using FullyDifferentiableOrientationErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiableOrientationErrorFunctiond>;
 
 template <typename T>
 class FullyDifferentiablePosePriorErrorFunctionT;
 using FullyDifferentiablePosePriorErrorFunction = FullyDifferentiablePosePriorErrorFunctionT<float>;
-using FullyDifferentiablePosePriorErrorFunctiond = FullyDifferentiablePosePriorErrorFunctionT<double>;
+using FullyDifferentiablePosePriorErrorFunctiond =
+    FullyDifferentiablePosePriorErrorFunctionT<double>;
 
-using FullyDifferentiablePosePriorErrorFunction_p = ::std::shared_ptr<FullyDifferentiablePosePriorErrorFunction>;
-using FullyDifferentiablePosePriorErrorFunction_u = ::std::unique_ptr<FullyDifferentiablePosePriorErrorFunction>;
-using FullyDifferentiablePosePriorErrorFunction_w = ::std::weak_ptr<FullyDifferentiablePosePriorErrorFunction>;
-using FullyDifferentiablePosePriorErrorFunction_const_p = ::std::shared_ptr<const FullyDifferentiablePosePriorErrorFunction>;
-using FullyDifferentiablePosePriorErrorFunction_const_u = ::std::unique_ptr<const FullyDifferentiablePosePriorErrorFunction>;
-using FullyDifferentiablePosePriorErrorFunction_const_w = ::std::weak_ptr<const FullyDifferentiablePosePriorErrorFunction>;
+using FullyDifferentiablePosePriorErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiablePosePriorErrorFunction>;
+using FullyDifferentiablePosePriorErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiablePosePriorErrorFunction>;
+using FullyDifferentiablePosePriorErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiablePosePriorErrorFunction>;
+using FullyDifferentiablePosePriorErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiablePosePriorErrorFunction>;
+using FullyDifferentiablePosePriorErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiablePosePriorErrorFunction>;
+using FullyDifferentiablePosePriorErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiablePosePriorErrorFunction>;
 
-
-using FullyDifferentiablePosePriorErrorFunctiond_p = ::std::shared_ptr<FullyDifferentiablePosePriorErrorFunctiond>;
-using FullyDifferentiablePosePriorErrorFunctiond_u = ::std::unique_ptr<FullyDifferentiablePosePriorErrorFunctiond>;
-using FullyDifferentiablePosePriorErrorFunctiond_w = ::std::weak_ptr<FullyDifferentiablePosePriorErrorFunctiond>;
-using FullyDifferentiablePosePriorErrorFunctiond_const_p = ::std::shared_ptr<const FullyDifferentiablePosePriorErrorFunctiond>;
-using FullyDifferentiablePosePriorErrorFunctiond_const_u = ::std::unique_ptr<const FullyDifferentiablePosePriorErrorFunctiond>;
-using FullyDifferentiablePosePriorErrorFunctiond_const_w = ::std::weak_ptr<const FullyDifferentiablePosePriorErrorFunctiond>;
-
+using FullyDifferentiablePosePriorErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiablePosePriorErrorFunctiond>;
+using FullyDifferentiablePosePriorErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiablePosePriorErrorFunctiond>;
+using FullyDifferentiablePosePriorErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiablePosePriorErrorFunctiond>;
+using FullyDifferentiablePosePriorErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiablePosePriorErrorFunctiond>;
+using FullyDifferentiablePosePriorErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiablePosePriorErrorFunctiond>;
+using FullyDifferentiablePosePriorErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiablePosePriorErrorFunctiond>;
 
 template <typename T>
 class FullyDifferentiablePositionErrorFunctionT;
 using FullyDifferentiablePositionErrorFunction = FullyDifferentiablePositionErrorFunctionT<float>;
 using FullyDifferentiablePositionErrorFunctiond = FullyDifferentiablePositionErrorFunctionT<double>;
 
-using FullyDifferentiablePositionErrorFunction_p = ::std::shared_ptr<FullyDifferentiablePositionErrorFunction>;
-using FullyDifferentiablePositionErrorFunction_u = ::std::unique_ptr<FullyDifferentiablePositionErrorFunction>;
-using FullyDifferentiablePositionErrorFunction_w = ::std::weak_ptr<FullyDifferentiablePositionErrorFunction>;
-using FullyDifferentiablePositionErrorFunction_const_p = ::std::shared_ptr<const FullyDifferentiablePositionErrorFunction>;
-using FullyDifferentiablePositionErrorFunction_const_u = ::std::unique_ptr<const FullyDifferentiablePositionErrorFunction>;
-using FullyDifferentiablePositionErrorFunction_const_w = ::std::weak_ptr<const FullyDifferentiablePositionErrorFunction>;
+using FullyDifferentiablePositionErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiablePositionErrorFunction>;
+using FullyDifferentiablePositionErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiablePositionErrorFunction>;
+using FullyDifferentiablePositionErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiablePositionErrorFunction>;
+using FullyDifferentiablePositionErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiablePositionErrorFunction>;
+using FullyDifferentiablePositionErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiablePositionErrorFunction>;
+using FullyDifferentiablePositionErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiablePositionErrorFunction>;
 
-
-using FullyDifferentiablePositionErrorFunctiond_p = ::std::shared_ptr<FullyDifferentiablePositionErrorFunctiond>;
-using FullyDifferentiablePositionErrorFunctiond_u = ::std::unique_ptr<FullyDifferentiablePositionErrorFunctiond>;
-using FullyDifferentiablePositionErrorFunctiond_w = ::std::weak_ptr<FullyDifferentiablePositionErrorFunctiond>;
-using FullyDifferentiablePositionErrorFunctiond_const_p = ::std::shared_ptr<const FullyDifferentiablePositionErrorFunctiond>;
-using FullyDifferentiablePositionErrorFunctiond_const_u = ::std::unique_ptr<const FullyDifferentiablePositionErrorFunctiond>;
-using FullyDifferentiablePositionErrorFunctiond_const_w = ::std::weak_ptr<const FullyDifferentiablePositionErrorFunctiond>;
-
+using FullyDifferentiablePositionErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiablePositionErrorFunctiond>;
+using FullyDifferentiablePositionErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiablePositionErrorFunctiond>;
+using FullyDifferentiablePositionErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiablePositionErrorFunctiond>;
+using FullyDifferentiablePositionErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiablePositionErrorFunctiond>;
+using FullyDifferentiablePositionErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiablePositionErrorFunctiond>;
+using FullyDifferentiablePositionErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiablePositionErrorFunctiond>;
 
 template <typename T>
 class FullyDifferentiableSkeletonErrorFunctionT;
 using FullyDifferentiableSkeletonErrorFunction = FullyDifferentiableSkeletonErrorFunctionT<float>;
 using FullyDifferentiableSkeletonErrorFunctiond = FullyDifferentiableSkeletonErrorFunctionT<double>;
 
-using FullyDifferentiableSkeletonErrorFunction_p = ::std::shared_ptr<FullyDifferentiableSkeletonErrorFunction>;
-using FullyDifferentiableSkeletonErrorFunction_u = ::std::unique_ptr<FullyDifferentiableSkeletonErrorFunction>;
-using FullyDifferentiableSkeletonErrorFunction_w = ::std::weak_ptr<FullyDifferentiableSkeletonErrorFunction>;
-using FullyDifferentiableSkeletonErrorFunction_const_p = ::std::shared_ptr<const FullyDifferentiableSkeletonErrorFunction>;
-using FullyDifferentiableSkeletonErrorFunction_const_u = ::std::unique_ptr<const FullyDifferentiableSkeletonErrorFunction>;
-using FullyDifferentiableSkeletonErrorFunction_const_w = ::std::weak_ptr<const FullyDifferentiableSkeletonErrorFunction>;
+using FullyDifferentiableSkeletonErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiableSkeletonErrorFunction>;
+using FullyDifferentiableSkeletonErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiableSkeletonErrorFunction>;
+using FullyDifferentiableSkeletonErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiableSkeletonErrorFunction>;
+using FullyDifferentiableSkeletonErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiableSkeletonErrorFunction>;
+using FullyDifferentiableSkeletonErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiableSkeletonErrorFunction>;
+using FullyDifferentiableSkeletonErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiableSkeletonErrorFunction>;
 
-
-using FullyDifferentiableSkeletonErrorFunctiond_p = ::std::shared_ptr<FullyDifferentiableSkeletonErrorFunctiond>;
-using FullyDifferentiableSkeletonErrorFunctiond_u = ::std::unique_ptr<FullyDifferentiableSkeletonErrorFunctiond>;
-using FullyDifferentiableSkeletonErrorFunctiond_w = ::std::weak_ptr<FullyDifferentiableSkeletonErrorFunctiond>;
-using FullyDifferentiableSkeletonErrorFunctiond_const_p = ::std::shared_ptr<const FullyDifferentiableSkeletonErrorFunctiond>;
-using FullyDifferentiableSkeletonErrorFunctiond_const_u = ::std::unique_ptr<const FullyDifferentiableSkeletonErrorFunctiond>;
-using FullyDifferentiableSkeletonErrorFunctiond_const_w = ::std::weak_ptr<const FullyDifferentiableSkeletonErrorFunctiond>;
-
+using FullyDifferentiableSkeletonErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiableSkeletonErrorFunctiond>;
+using FullyDifferentiableSkeletonErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiableSkeletonErrorFunctiond>;
+using FullyDifferentiableSkeletonErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiableSkeletonErrorFunctiond>;
+using FullyDifferentiableSkeletonErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiableSkeletonErrorFunctiond>;
+using FullyDifferentiableSkeletonErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiableSkeletonErrorFunctiond>;
+using FullyDifferentiableSkeletonErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiableSkeletonErrorFunctiond>;
 
 template <typename T>
 class FullyDifferentiableStateErrorFunctionT;
 using FullyDifferentiableStateErrorFunction = FullyDifferentiableStateErrorFunctionT<float>;
 using FullyDifferentiableStateErrorFunctiond = FullyDifferentiableStateErrorFunctionT<double>;
 
-using FullyDifferentiableStateErrorFunction_p = ::std::shared_ptr<FullyDifferentiableStateErrorFunction>;
-using FullyDifferentiableStateErrorFunction_u = ::std::unique_ptr<FullyDifferentiableStateErrorFunction>;
-using FullyDifferentiableStateErrorFunction_w = ::std::weak_ptr<FullyDifferentiableStateErrorFunction>;
-using FullyDifferentiableStateErrorFunction_const_p = ::std::shared_ptr<const FullyDifferentiableStateErrorFunction>;
-using FullyDifferentiableStateErrorFunction_const_u = ::std::unique_ptr<const FullyDifferentiableStateErrorFunction>;
-using FullyDifferentiableStateErrorFunction_const_w = ::std::weak_ptr<const FullyDifferentiableStateErrorFunction>;
+using FullyDifferentiableStateErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiableStateErrorFunction>;
+using FullyDifferentiableStateErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiableStateErrorFunction>;
+using FullyDifferentiableStateErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiableStateErrorFunction>;
+using FullyDifferentiableStateErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiableStateErrorFunction>;
+using FullyDifferentiableStateErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiableStateErrorFunction>;
+using FullyDifferentiableStateErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiableStateErrorFunction>;
 
-
-using FullyDifferentiableStateErrorFunctiond_p = ::std::shared_ptr<FullyDifferentiableStateErrorFunctiond>;
-using FullyDifferentiableStateErrorFunctiond_u = ::std::unique_ptr<FullyDifferentiableStateErrorFunctiond>;
-using FullyDifferentiableStateErrorFunctiond_w = ::std::weak_ptr<FullyDifferentiableStateErrorFunctiond>;
-using FullyDifferentiableStateErrorFunctiond_const_p = ::std::shared_ptr<const FullyDifferentiableStateErrorFunctiond>;
-using FullyDifferentiableStateErrorFunctiond_const_u = ::std::unique_ptr<const FullyDifferentiableStateErrorFunctiond>;
-using FullyDifferentiableStateErrorFunctiond_const_w = ::std::weak_ptr<const FullyDifferentiableStateErrorFunctiond>;
-
+using FullyDifferentiableStateErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiableStateErrorFunctiond>;
+using FullyDifferentiableStateErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiableStateErrorFunctiond>;
+using FullyDifferentiableStateErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiableStateErrorFunctiond>;
+using FullyDifferentiableStateErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiableStateErrorFunctiond>;
+using FullyDifferentiableStateErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiableStateErrorFunctiond>;
+using FullyDifferentiableStateErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiableStateErrorFunctiond>;
 
 template <typename T>
 class UnionErrorFunctionT;
@@ -262,13 +311,11 @@ using UnionErrorFunction_const_p = ::std::shared_ptr<const UnionErrorFunction>;
 using UnionErrorFunction_const_u = ::std::unique_ptr<const UnionErrorFunction>;
 using UnionErrorFunction_const_w = ::std::weak_ptr<const UnionErrorFunction>;
 
-
 using UnionErrorFunctiond_p = ::std::shared_ptr<UnionErrorFunctiond>;
 using UnionErrorFunctiond_u = ::std::unique_ptr<UnionErrorFunctiond>;
 using UnionErrorFunctiond_w = ::std::weak_ptr<UnionErrorFunctiond>;
 using UnionErrorFunctiond_const_p = ::std::shared_ptr<const UnionErrorFunctiond>;
 using UnionErrorFunctiond_const_u = ::std::unique_ptr<const UnionErrorFunctiond>;
 using UnionErrorFunctiond_const_w = ::std::weak_ptr<const UnionErrorFunctiond>;
-
 
 } // namespace momentum

@@ -15,7 +15,6 @@
 
 namespace momentum {
 
-
 struct BlendShape;
 
 using BlendShape_p = ::std::shared_ptr<BlendShape>;
@@ -24,7 +23,6 @@ using BlendShape_w = ::std::weak_ptr<BlendShape>;
 using BlendShape_const_p = ::std::shared_ptr<const BlendShape>;
 using BlendShape_const_u = ::std::unique_ptr<const BlendShape>;
 using BlendShape_const_w = ::std::weak_ptr<const BlendShape>;
-
 
 struct BlendShapeBase;
 
@@ -35,7 +33,6 @@ using BlendShapeBase_const_p = ::std::shared_ptr<const BlendShapeBase>;
 using BlendShapeBase_const_u = ::std::unique_ptr<const BlendShapeBase>;
 using BlendShapeBase_const_w = ::std::weak_ptr<const BlendShapeBase>;
 
-
 struct PoseShape;
 
 using PoseShape_p = ::std::shared_ptr<PoseShape>;
@@ -45,7 +42,6 @@ using PoseShape_const_p = ::std::shared_ptr<const PoseShape>;
 using PoseShape_const_u = ::std::unique_ptr<const PoseShape>;
 using PoseShape_const_w = ::std::weak_ptr<const PoseShape>;
 
-
 struct SkinWeights;
 
 using SkinWeights_p = ::std::shared_ptr<SkinWeights>;
@@ -54,8 +50,6 @@ using SkinWeights_w = ::std::weak_ptr<SkinWeights>;
 using SkinWeights_const_p = ::std::shared_ptr<const SkinWeights>;
 using SkinWeights_const_u = ::std::unique_ptr<const SkinWeights>;
 using SkinWeights_const_w = ::std::weak_ptr<const SkinWeights>;
-
-
 
 template <typename T>
 struct CharacterT;
@@ -69,14 +63,12 @@ using Character_const_p = ::std::shared_ptr<const Character>;
 using Character_const_u = ::std::unique_ptr<const Character>;
 using Character_const_w = ::std::weak_ptr<const Character>;
 
-
 using Characterd_p = ::std::shared_ptr<Characterd>;
 using Characterd_u = ::std::unique_ptr<Characterd>;
 using Characterd_w = ::std::weak_ptr<Characterd>;
 using Characterd_const_p = ::std::shared_ptr<const Characterd>;
 using Characterd_const_u = ::std::unique_ptr<const Characterd>;
 using Characterd_const_w = ::std::weak_ptr<const Characterd>;
-
 
 template <typename T>
 struct CharacterStateT;
@@ -90,14 +82,12 @@ using CharacterState_const_p = ::std::shared_ptr<const CharacterState>;
 using CharacterState_const_u = ::std::unique_ptr<const CharacterState>;
 using CharacterState_const_w = ::std::weak_ptr<const CharacterState>;
 
-
 using CharacterStated_p = ::std::shared_ptr<CharacterStated>;
 using CharacterStated_u = ::std::unique_ptr<CharacterStated>;
 using CharacterStated_w = ::std::weak_ptr<CharacterStated>;
 using CharacterStated_const_p = ::std::shared_ptr<const CharacterStated>;
 using CharacterStated_const_u = ::std::unique_ptr<const CharacterStated>;
 using CharacterStated_const_w = ::std::weak_ptr<const CharacterStated>;
-
 
 template <typename T>
 struct CollisionGeometryStateT;
@@ -111,14 +101,12 @@ using CollisionGeometryState_const_p = ::std::shared_ptr<const CollisionGeometry
 using CollisionGeometryState_const_u = ::std::unique_ptr<const CollisionGeometryState>;
 using CollisionGeometryState_const_w = ::std::weak_ptr<const CollisionGeometryState>;
 
-
 using CollisionGeometryStated_p = ::std::shared_ptr<CollisionGeometryStated>;
 using CollisionGeometryStated_u = ::std::unique_ptr<CollisionGeometryStated>;
 using CollisionGeometryStated_w = ::std::weak_ptr<CollisionGeometryStated>;
 using CollisionGeometryStated_const_p = ::std::shared_ptr<const CollisionGeometryStated>;
 using CollisionGeometryStated_const_u = ::std::unique_ptr<const CollisionGeometryStated>;
 using CollisionGeometryStated_const_w = ::std::weak_ptr<const CollisionGeometryStated>;
-
 
 template <typename T>
 struct JointT;
@@ -132,14 +120,12 @@ using Joint_const_p = ::std::shared_ptr<const Joint>;
 using Joint_const_u = ::std::unique_ptr<const Joint>;
 using Joint_const_w = ::std::weak_ptr<const Joint>;
 
-
 using Jointd_p = ::std::shared_ptr<Jointd>;
 using Jointd_u = ::std::unique_ptr<Jointd>;
 using Jointd_w = ::std::weak_ptr<Jointd>;
 using Jointd_const_p = ::std::shared_ptr<const Jointd>;
 using Jointd_const_u = ::std::unique_ptr<const Jointd>;
 using Jointd_const_w = ::std::weak_ptr<const Jointd>;
-
 
 template <typename T>
 struct JointStateT;
@@ -153,14 +139,12 @@ using JointState_const_p = ::std::shared_ptr<const JointState>;
 using JointState_const_u = ::std::unique_ptr<const JointState>;
 using JointState_const_w = ::std::weak_ptr<const JointState>;
 
-
 using JointStated_p = ::std::shared_ptr<JointStated>;
 using JointStated_u = ::std::unique_ptr<JointStated>;
 using JointStated_w = ::std::weak_ptr<JointStated>;
 using JointStated_const_p = ::std::shared_ptr<const JointStated>;
 using JointStated_const_u = ::std::unique_ptr<const JointStated>;
 using JointStated_const_w = ::std::weak_ptr<const JointStated>;
-
 
 template <typename T>
 struct ParameterTransformT;
@@ -174,14 +158,12 @@ using ParameterTransform_const_p = ::std::shared_ptr<const ParameterTransform>;
 using ParameterTransform_const_u = ::std::unique_ptr<const ParameterTransform>;
 using ParameterTransform_const_w = ::std::weak_ptr<const ParameterTransform>;
 
-
 using ParameterTransformd_p = ::std::shared_ptr<ParameterTransformd>;
 using ParameterTransformd_u = ::std::unique_ptr<ParameterTransformd>;
 using ParameterTransformd_w = ::std::weak_ptr<ParameterTransformd>;
 using ParameterTransformd_const_p = ::std::shared_ptr<const ParameterTransformd>;
 using ParameterTransformd_const_u = ::std::unique_ptr<const ParameterTransformd>;
 using ParameterTransformd_const_w = ::std::weak_ptr<const ParameterTransformd>;
-
 
 template <typename T>
 struct SkeletonT;
@@ -195,14 +177,12 @@ using Skeleton_const_p = ::std::shared_ptr<const Skeleton>;
 using Skeleton_const_u = ::std::unique_ptr<const Skeleton>;
 using Skeleton_const_w = ::std::weak_ptr<const Skeleton>;
 
-
 using Skeletond_p = ::std::shared_ptr<Skeletond>;
 using Skeletond_u = ::std::unique_ptr<Skeletond>;
 using Skeletond_w = ::std::weak_ptr<Skeletond>;
 using Skeletond_const_p = ::std::shared_ptr<const Skeletond>;
 using Skeletond_const_u = ::std::unique_ptr<const Skeletond>;
 using Skeletond_const_w = ::std::weak_ptr<const Skeletond>;
-
 
 template <typename T>
 struct SkeletonStateT;
@@ -216,14 +196,12 @@ using SkeletonState_const_p = ::std::shared_ptr<const SkeletonState>;
 using SkeletonState_const_u = ::std::unique_ptr<const SkeletonState>;
 using SkeletonState_const_w = ::std::weak_ptr<const SkeletonState>;
 
-
 using SkeletonStated_p = ::std::shared_ptr<SkeletonStated>;
 using SkeletonStated_u = ::std::unique_ptr<SkeletonStated>;
 using SkeletonStated_w = ::std::weak_ptr<SkeletonStated>;
 using SkeletonStated_const_p = ::std::shared_ptr<const SkeletonStated>;
 using SkeletonStated_const_u = ::std::unique_ptr<const SkeletonStated>;
 using SkeletonStated_const_w = ::std::weak_ptr<const SkeletonStated>;
-
 
 template <typename T>
 struct TaperedCapsuleT;
@@ -237,15 +215,11 @@ using TaperedCapsule_const_p = ::std::shared_ptr<const TaperedCapsule>;
 using TaperedCapsule_const_u = ::std::unique_ptr<const TaperedCapsule>;
 using TaperedCapsule_const_w = ::std::weak_ptr<const TaperedCapsule>;
 
-
 using TaperedCapsuled_p = ::std::shared_ptr<TaperedCapsuled>;
 using TaperedCapsuled_u = ::std::unique_ptr<TaperedCapsuled>;
 using TaperedCapsuled_w = ::std::weak_ptr<TaperedCapsuled>;
 using TaperedCapsuled_const_p = ::std::shared_ptr<const TaperedCapsuled>;
 using TaperedCapsuled_const_u = ::std::unique_ptr<const TaperedCapsuled>;
 using TaperedCapsuled_const_w = ::std::weak_ptr<const TaperedCapsuled>;
-
-
-
 
 } // namespace momentum
