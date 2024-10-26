@@ -29,6 +29,12 @@ void logMesh(
     const Mesh& mesh,
     std::optional<rerun::Color> color = std::nullopt);
 
+void logJoints(
+    const rerun::RecordingStream& rec,
+    const std::string& streamName,
+    const Skeleton& skeleton,
+    const JointStateList& jointStates);
+
 void logMarkers(
     const rerun::RecordingStream& rec,
     const std::string& streamName,

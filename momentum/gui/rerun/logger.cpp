@@ -91,6 +91,40 @@ void logMesh(
   }
 }
 
+void logJoints(
+    const rerun::RecordingStream& rec,
+    const std::string& streamName,
+    const Skeleton& skeleton,
+    const JointStateList& jointStates) {
+  const rerun::Color kGrey(180, 180, 180);
+  const auto names = skeleton.getJointNames();
+  std::vector<std::string> labels;
+  std::vector<std::vector<std::array<float, 3>>> lines;
+  labels.reserve(names.size());
+  lines.reserve(names.size());
+
+  for (size_t iJoint = 0; iJoint < jointStates.size(); ++iJoint) {
+    const size_t parentIdx = skeleton.joints[iJoint].parent;
+    if (parentIdx != kInvalidIndex) {
+      lines.push_back(
+          {toStdArray3f(jointStates[parentIdx].transform.translation),
+           toStdArray3f(jointStates[iJoint].transform.translation)});
+      labels.push_back(names[iJoint]);
+    }
+    rec.log(
+        streamName + "/" + names[iJoint],
+        rerun::Transform3D()
+            .with_mat3x3(
+                rerun::datatypes::Mat3x3(jointStates[iJoint].transform.toRotationMatrix().data()))
+            .with_translation(
+                rerun::datatypes::Vec3D(jointStates[iJoint].transform.translation.data()))
+            .with_axis_length(rerun::components::AxisLength(10)));
+  }
+  rec.log(
+      streamName,
+      rerun::LineStrips3D(lines).with_radii(0.2f).with_colors(kGrey).with_labels(labels));
+}
+
 void logMarkers(
     const rerun::RecordingStream& rec,
     const std::string& streamName,
@@ -371,7 +405,9 @@ void logCharacter(
   if (!character.locators.empty()) {
     logLocators(rec, charStreamName + "/locators", character.locators, characterState.locatorState);
   }
-  // TODO: log skeleton
+
+  logJoints(
+      rec, charStreamName + "/joints", character.skeleton, characterState.skeletonState.jointState);
 
   if (const auto& collision = character.collision) {
     logCollisionGeometry(
