@@ -4001,6 +4001,8 @@ Functions</h2></td></tr>
 <tr class="separator:ae21dcbba070a08823c09deae5c131570"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7596a23543cd8d93653461ac6611c1f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a7596a23543cd8d93653461ac6611c1f8">logMesh</a> (const rerun::RecordingStream &amp;rec, const std::string &amp;streamName, const <a class="el" href="namespacemomentum.html#ad6c97613c9fc58260459b5c954e75e98">Mesh</a> &amp;mesh, std::optional&lt; rerun::Color &gt; color)</td></tr>
 <tr class="separator:a7596a23543cd8d93653461ac6611c1f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50891faf75ecdc715dd02f3a2027be53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a50891faf75ecdc715dd02f3a2027be53">logJoints</a> (const rerun::RecordingStream &amp;rec, const std::string &amp;streamName, const <a class="el" href="namespacemomentum.html#ab2f864f0ca7e568dba712163aa8569f2">Skeleton</a> &amp;skeleton, const <a class="el" href="namespacemomentum.html#aa52a8becf3a530c31a11bcf971a4080d">JointStateList</a> &amp;jointStates)</td></tr>
+<tr class="separator:a50891faf75ecdc715dd02f3a2027be53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6a024ee6c6d9971e3f717e598b4aa1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ab6a024ee6c6d9971e3f717e598b4aa1f">logMarkers</a> (const rerun::RecordingStream &amp;rec, const std::string &amp;streamName, gsl::span&lt; const <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt; markers)</td></tr>
 <tr class="separator:ab6a024ee6c6d9971e3f717e598b4aa1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af81b17864797f4a8fbc5d06e8414a835"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af81b17864797f4a8fbc5d06e8414a835">logLocators</a> (const rerun::RecordingStream &amp;rec, const std::string &amp;streamName, const <a class="el" href="namespacemomentum.html#ac06297b73bd818fa28ad4bbc98d2e3ad">LocatorList</a> &amp;locators, const <a class="el" href="structmomentum_1_1LocatorState.html">LocatorState</a> &amp;locatorState)</td></tr>
@@ -28220,6 +28222,46 @@ template&lt;typename T  = float&gt; </div>
           <td></td>
           <td class="paramtype">const Eigen::VectorXf &amp;&#160;</td>
           <td class="paramname"><em>params</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50891faf75ecdc715dd02f3a2027be53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50891faf75ecdc715dd02f3a2027be53">&#9670;&nbsp;</a></span>logJoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void momentum::logJoints </td>
+          <td>(</td>
+          <td class="paramtype">const rerun::RecordingStream &amp;&#160;</td>
+          <td class="paramname"><em>rec</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>streamName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#ab2f864f0ca7e568dba712163aa8569f2">Skeleton</a> &amp;&#160;</td>
+          <td class="paramname"><em>skeleton</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#aa52a8becf3a530c31a11bcf971a4080d">JointStateList</a> &amp;&#160;</td>
+          <td class="paramname"><em>jointStates</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
