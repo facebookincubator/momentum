@@ -24,20 +24,20 @@ class FbxMemoryStream : public FbxStream {
   bool Open(void* pStreamData) override;
   bool Close() override;
   bool Flush() override;
-  int Write(const void* buffer, int count) override;
-  int Read(void* buffer, int count) const override;
+  size_t Write(const void* buffer, FbxUInt64 count) override;
+  size_t Read(void* buffer, FbxUInt64 count) const override;
   int GetReaderID() const override;
   int GetWriterID() const override;
   void Seek(const FbxInt64& pOffset, const FbxFile::ESeekPos& pSeekPos) override;
-  long GetPosition() const override;
-  void SetPosition(long pPosition) override;
+  FbxInt64 GetPosition() const override;
+  void SetPosition(FbxInt64 pPosition) override;
   int GetError() const override;
   void ClearError() override;
 
  private:
   gsl::span<const std::byte> buffer_;
   long length_;
-  mutable long position_;
+  mutable FbxInt64 position_{0};
   EState state_;
   int readerId_;
   mutable int errorCode_;

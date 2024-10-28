@@ -319,19 +319,19 @@ if(MOMENTUM_BUILD_IO_FBX)
   if(DEFINED ENV{FBXSDK_PATH})
     set(fbxsdk_path $ENV{FBXSDK_PATH})
   else()
-    set(fbxsdk_path "C:/Program Files/Autodesk/FBX/FBX SDK/2019.2")
+    set(fbxsdk_path "C:/Program Files/Autodesk/FBX/FBX SDK/2020.3.7")
   endif()
 
   if(NOT EXISTS "${fbxsdk_path}")
-    message(FATAL_ERROR "The FBX SDK path '${fbxsdk_path}' does not exist. Please download the required FBX SDK 2019.2 from https://aps.autodesk.com/developer/overview/fbx-sdk or https://www.autodesk.com/content/dam/autodesk/www/adn/fbx/20192/fbx20192_fbxsdk_vs2017_win.exe. After installation, set FBXSDK_PATH to the installation directory if it's not installed to the default path.")
+    message(FATAL_ERROR "The FBX SDK path '${fbxsdk_path}' does not exist. Please download the required FBX SDK 2020.3 from https://aps.autodesk.com/developer/overview/fbx-sdk or https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_vs2019_win.exe. After installation, set FBXSDK_PATH to the installation directory if it's not installed to the default path.")
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(io_fbx_sources_var io_fbx_sources_windows)
+    set(io_fbx_sources_var io_fbx_sources)
     set(fbxsdk_libs
-      "${fbxsdk_path}/lib/vs2017/x64/release/libfbxsdk-md.lib"
-      "${fbxsdk_path}/lib/vs2017/x64/release/libxml2-md.lib"
-      "${fbxsdk_path}/lib/vs2017/x64/release/zlib-md.lib"
+      "${fbxsdk_path}/lib/x64/release/libfbxsdk-md.lib"
+      "${fbxsdk_path}/lib/x64/release/libxml2-md.lib"
+      "${fbxsdk_path}/lib/x64/release/zlib-md.lib"
     )
   else()
     message(FATAL_ERROR "Unsupported platform")
