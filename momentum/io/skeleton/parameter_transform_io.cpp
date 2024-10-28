@@ -316,8 +316,9 @@ ParameterSets parseParameterSets(const std::string& data, const ParameterTransfo
 
       MT_THROW_IF(
           parameterIndex == kInvalidIndex,
-          "Could not parse parameterset line in parameter configuration : {}",
-          line);
+          "Could not parse parameterset line in parameter configuration : {}. Found unknown parameter name {}.",
+          line,
+          parameterName);
 
       ps.set(parameterIndex, true);
     }
