@@ -52,7 +52,7 @@ config = { cmd = """
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-        -DMOMENTUM_BUILD_IO_FBX=OFF \
+        -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
@@ -60,7 +60,7 @@ config = { cmd = """
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
-    """, env = { MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
+    """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
 build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
@@ -86,6 +86,39 @@ pytorch = ">=2.4.0"
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
+# TODO: Check sha256 of fbx202037_fbxsdk_linux
+install_fbxsdk = { cmd = """
+    mkdir -p .deps \
+        && curl -fsSL https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_gcc_linux.tar.gz -o .deps/fbx_sdk.tar.gz \
+        && mkdir -p .deps/fbxsdk_download \
+        && tar -xzf .deps/fbx_sdk.tar.gz -C .deps/fbxsdk_download \
+        && rm .deps/fbx_sdk.tar.gz \
+        && chmod ugo+x .deps/fbxsdk_download/fbx202037_fbxsdk_linux \
+        && mkdir -p .deps/fbxsdk/2020.3.7 \
+        && yes yes | .deps/fbxsdk_download/fbx202037_fbxsdk_linux .deps/fbxsdk/2020.3.7 \
+        && rm -rf .deps/fbxsdk_download/fbx202037_fbxsdk_linux
+""", outputs = [
+    ".deps/fbxsdk/2020.3.7",
+] }
+install_deps = { depends_on = ["install_fbxsdk"] }
+config = { cmd = """
+    cmake \
+        -S . \
+        -B build \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+        -DMOMENTUM_BUILD_IO_FBX=ON \
+        -DMOMENTUM_BUILD_TESTING=ON \
+        -DMOMENTUM_BUILD_EXAMPLES=ON \
+        -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+        -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+        -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
+        -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+    """, env = { FBXSDK_PATH = ".deps/fbxsdk", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" }, depends_on = [
+    "install_deps",
+] }
 build_pymomentum = { cmd = "pip install -e ." }
 test_pymomentum = { cmd = """
     pytest \
