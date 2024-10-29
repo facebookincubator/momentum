@@ -106,7 +106,7 @@ Momentum uses the `build/` directory for CMake builds, and `.pixi/` for the Pixi
 
 ### FBX support (Windows only)
 
-To load and save Autodesk's FBX file format, you need to install the FBX SDK 2019.2 from Autodesk's [website](https://aps.autodesk.com/developer/overview/fbx-sdk) or [this direct link](https://www.autodesk.com/content/dam/autodesk/www/adn/fbx/20192/fbx20192_fbxsdk_vs2017_win.exe) first. After installing the SDK, you can build with `MOMENTUM_BUILD_IO_FBX=ON`:
+Momentum uses OpenFBX to load Autodesk's FBX file format, which is built by default. To save files in FBX format, you need to install the FBX SDK 2020.3. You can download it from Autodesk's [website](https://aps.autodesk.com/developer/overview/fbx-sdk) or use [this direct link](https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_vs2019_win.exe). After installing the SDK, build Momentum from source with `MOMENTUM_BUILD_IO_FBX=ON` option as:
 
 ```
 # Powershell
