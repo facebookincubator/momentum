@@ -1,0 +1,7 @@
+.pixi/
+build/
+pymomentum.egg-info/
+
+*.so
+*.dylib
+*.dll

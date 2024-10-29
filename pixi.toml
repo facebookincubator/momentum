@@ -43,7 +43,7 @@ re2 = ">=2023.9.1"
 spdlog = ">=1.12.0"
 
 [tasks]
-clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
+clean = { cmd = "rm -rf build && rm -rf pymomentum.egg-info && rm -rf .pixi && rm pixi.lock" }
 lint = { cmd = "clang-format -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 config = { cmd = """
     cmake \
@@ -52,7 +52,7 @@ config = { cmd = """
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-        -DMOMENTUM_BUILD_IO_FBX=OFF \
+        -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
@@ -60,7 +60,7 @@ config = { cmd = """
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
-    """, env = { MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
+    """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
 build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
@@ -190,6 +190,9 @@ process_markers = { cmd = "build/Release/process_markers_app.exe", depends_on = 
 install = { cmd = "cmake --build build -j --target install --config Release", depends_on = [
     "build",
 ] }
+
+docker_build_base = { cmd = "docker build -t momentum-base -f docker/Dockerfile ." }
+docker_run = { cmd = "docker run -it --gpus=all --rm momentum-base" }
 
 #==============
 # Feature: CPU
