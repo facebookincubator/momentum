@@ -1661,7 +1661,8 @@ you will likely want to retarget the parameters using the :meth:`mapParameters` 
       )",
       py::arg("motion_data"),
       py::arg("source_parameter_names"),
-      py::arg("target_character"));
+      py::arg("target_character"),
+      py::arg("verbose") = false);
 
   // mapModelParameters(motionData, sourceCharacter, targetCharacter)
   m.def(
@@ -1672,12 +1673,14 @@ you will likely want to retarget the parameters using the :meth:`mapParameters` 
 :param motionData: The source motion data as a nFrames x nParams torch.Tensor.
 :param sourceCharacter: The source character.
 :param targetCharacter: The target character to remap onto.
+:param verbose: If true, print out warnings about missing parameters.
 
 :return: The motion with the parameters remapped to match the passed-in Character. The fields with no match are filled with zero.
       )",
       py::arg("motion_data"),
       py::arg("source_character"),
-      py::arg("target_character"));
+      py::arg("target_character"),
+      py::arg("verbose") = true);
 
   // mapJointParameters(motionData, sourceCharacter, targetCharacter)
   m.def(

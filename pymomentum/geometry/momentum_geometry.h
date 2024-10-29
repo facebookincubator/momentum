@@ -32,12 +32,14 @@ momentum::Character loadGLTFCharacterFromBytes(const pybind11::bytes& bytes);
 at::Tensor mapModelParameters_names(
     at::Tensor motion_in,
     const std::vector<std::string>& srcParameterNames,
-    const momentum::Character& tgtCharacter);
+    const momentum::Character& tgtCharacter,
+    bool verbose);
 
 at::Tensor mapModelParameters(
     at::Tensor motion_in,
     const momentum::Character& srcCharacter,
-    const momentum::Character& tgtCharacter);
+    const momentum::Character& tgtCharacter,
+    bool verbose);
 
 at::Tensor mapJointParameters(
     at::Tensor motion_in,

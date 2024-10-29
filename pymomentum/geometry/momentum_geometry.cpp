@@ -124,15 +124,17 @@ at::Tensor mapTensor(
 at::Tensor mapModelParameters(
     at::Tensor motion_in,
     const momentum::Character& srcCharacter,
-    const momentum::Character& tgtCharacter) {
+    const momentum::Character& tgtCharacter,
+    bool verbose) {
   return mapModelParameters_names(
-      motion_in, srcCharacter.parameterTransform.name, tgtCharacter);
+      motion_in, srcCharacter.parameterTransform.name, tgtCharacter, verbose);
 }
 
 at::Tensor mapModelParameters_names(
     at::Tensor motion_in,
     const std::vector<std::string>& parameterNames_in,
-    const momentum::Character& character_remap) {
+    const momentum::Character& character_remap,
+    bool verbose) {
   MT_THROW_IF(
       motion_in.size(-1) != parameterNames_in.size(),
       "Mismatch between motion size and parameter name count.");
@@ -147,7 +149,7 @@ at::Tensor mapModelParameters_names(
     }
   }
 
-  if (!missingParams.empty()) {
+  if (verbose && !missingParams.empty()) {
     // TODO better logging:
     py::print(
         "WARNING: missing parameters found during map_model_parameters: ",
