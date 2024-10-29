@@ -104,9 +104,21 @@ pixi run clean
 
 Momentum uses the `build/` directory for CMake builds, and `.pixi/` for the Pixi virtual environment. You can clean up everything by either manually removing these directories or by running the command above.
 
-### FBX support (Windows only)
+### FBX Support
 
-Momentum uses OpenFBX to load Autodesk's FBX file format, which is built by default. To save files in FBX format, you need to install the FBX SDK 2020.3. You can download it from Autodesk's [website](https://aps.autodesk.com/developer/overview/fbx-sdk) or use [this direct link](https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_vs2019_win.exe). After installing the SDK, build Momentum from source with `MOMENTUM_BUILD_IO_FBX=ON` option as:
+Momentum uses OpenFBX to load Autodesk's FBX file format, which is enabled by default. To save files in FBX format, you must install the FBX SDK 2020.3.
+
+#### Linux
+
+The FBX SDK will be automatically installed when you run `pixi run config`, so no additional steps are required.
+
+#### macOS
+
+Currently, building with the FBX SDK on macOS is not supported.
+
+#### Windows
+
+You can download it from Autodesk's [website](https://aps.autodesk.com/developer/overview/fbx-sdk) or use [this direct link](https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_vs2019_win.exe). After installing the SDK, build Momentum from source with `MOMENTUM_BUILD_IO_FBX=ON` option as:
 
 ```
 # Powershell

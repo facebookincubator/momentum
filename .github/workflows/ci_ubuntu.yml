@@ -14,30 +14,29 @@ on:
 
 jobs:
   momentum:
-    name: momentum-simd:${{ matrix.simd }}-ubuntu
+    name: momentum${{ matrix.simd == 'ON' && '-simd' || '' }}-ubuntu
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - simd: "ON"
-            pymomentum: "ON"
-          - simd: "OFF"
-            pymomentum: "OFF"
+        simd: ["ON", "OFF"]
     env:
       MOMENTUM_ENABLE_SIMD: ${{ matrix.simd }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
+
       - name: Build and test Momentum
         run: |
           MOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
             MOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
             pixi run test
+
       - name: Install Momentum and Build hello_world
         run: |
           MOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
