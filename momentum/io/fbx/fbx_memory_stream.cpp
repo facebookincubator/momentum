@@ -40,12 +40,12 @@ bool FbxMemoryStream::Flush() {
   return true;
 }
 
-size_t FbxMemoryStream::Write(const void* /* buffer */, FbxUInt64 /* count */) {
+int FbxMemoryStream::Write(const void* /* buffer */, int /* count */) {
   errorCode_ = 1;
   return 0;
 }
 
-size_t FbxMemoryStream::Read(void* buffer, FbxUInt64 count) const {
+int FbxMemoryStream::Read(void* buffer, int count) const {
   long remaining = length_ - position_;
   if (count > remaining) {
     errorCode_ = 1;
@@ -80,11 +80,11 @@ void FbxMemoryStream::Seek(const FbxInt64& pOffset, const FbxFile::ESeekPos& pSe
   }
 }
 
-FbxInt64 FbxMemoryStream::GetPosition() const {
+long FbxMemoryStream::GetPosition() const {
   return position_;
 }
 
-void FbxMemoryStream::SetPosition(FbxInt64 pPosition) {
+void FbxMemoryStream::SetPosition(long pPosition) {
   position_ = pPosition;
 }
 

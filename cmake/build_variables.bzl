@@ -369,10 +369,12 @@ io_fbx_private_headers = [
     "io/fbx/fbx_memory_stream.h",
 ]
 
-io_fbx_sources = [
+io_fbx_sources_linux = [
     "io/fbx/fbx_io.cpp",
     "io/fbx/fbx_memory_stream.cpp",
 ]
+
+io_fbx_sources_windows = io_fbx_sources_linux
 
 io_fbx_sources_unsupported = [
     "io/fbx/fbx_io_unsupported.cpp",
