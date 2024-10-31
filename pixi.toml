@@ -61,9 +61,33 @@ config = { cmd = """
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
-build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
+config-dev = { cmd = """
+    cmake \
+        -S . \
+        -B build \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
+        -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
+        -DMOMENTUM_BUILD_TESTING=ON \
+        -DMOMENTUM_BUILD_EXAMPLES=ON \
+        -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+        -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+        -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
+        -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+    """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
+build = { cmd = "cmake --build build -j --target all", depends_on = [
+    "config",
+] }
+build-dev = { cmd = "cmake --build build -j --target all", depends_on = [
+    "config-dev",
+] }
 test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
     "build",
+] }
+test-dev = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
+    "build-dev",
 ] }
 hello_world = { cmd = "build/hello_world", depends_on = ["build"] }
 convert_model = { cmd = "build/convert_model", depends_on = ["build"] }
@@ -207,8 +231,14 @@ open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = ["config"] }
 build = { cmd = "cmake --build build -j --config Release", depends_on = [
     "config",
 ] }
+build-dev = { cmd = "cmake --build build -j --config Debug", depends_on = [
+    "config",
+] }
 test = { cmd = "ctest --test-dir build --output-on-failure --build-config Release", depends_on = [
     "build",
+] }
+test-dev = { cmd = "ctest --test-dir build --output-on-failure --build-config Debug", depends_on = [
+    "build-dev",
 ] }
 hello_world = { cmd = "build/Release/hello_world.exe", depends_on = ["build"] }
 convert_model = { cmd = "build/Release/convert_model.exe", depends_on = [
