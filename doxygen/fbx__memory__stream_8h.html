@@ -68,7 +68,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">fbx_memory_stream.h File Reference</div>  </div>
 </div><!--header-->
@@ -89,7 +90,43 @@ Classes</h2></td></tr>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacemomentum"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html">momentum</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a03f73d73e739e1b5c0f86afeb34afb92"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fbx__memory__stream_8h.html#a03f73d73e739e1b5c0f86afeb34afb92">FBX_VERSION_GE</a>(major,  minor)</td></tr>
+<tr class="separator:a03f73d73e739e1b5c0f86afeb34afb92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a03f73d73e739e1b5c0f86afeb34afb92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03f73d73e739e1b5c0f86afeb34afb92">&#9670;&nbsp;</a></span>FBX_VERSION_GE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FBX_VERSION_GE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">major, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">minor&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">  ((FBXSDK_VERSION_MAJOR &gt; (major)) || \</div>
+<div class="line">   (FBXSDK_VERSION_MAJOR == (major) &amp;&amp; FBXSDK_VERSION_MINOR &gt;= (minor)))</div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
