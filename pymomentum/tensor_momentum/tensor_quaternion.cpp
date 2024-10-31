@@ -217,11 +217,9 @@ at::Tensor quaternionNormalize(at::Tensor q) {
 
 at::Tensor quaternionConjugate(at::Tensor q) {
   checkQuaternion(q);
-  const auto scalar_type =
-      at::promote_types(q.scalar_type(), toScalarType<float>());
-  const Eigen::Vector4f tmp(-1, -1, -1, 1);
-  at::Tensor prodMatrix = to1DTensor(tmp).to(scalar_type);
-  return q.to(scalar_type) * prodMatrix;
+  auto [scalar, vec] = splitQuaternion(q);
+
+  return at::concat({-vec, scalar}, -1);
 }
 
 at::Tensor quaternionInverse(at::Tensor q) {
