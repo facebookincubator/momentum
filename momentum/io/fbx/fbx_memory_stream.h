@@ -13,10 +13,6 @@
 
 #include <string_view>
 
-#define FBX_VERSION_GE(major, minor)   \
-  ((FBXSDK_VERSION_MAJOR > (major)) || \
-   (FBXSDK_VERSION_MAJOR == (major) && FBXSDK_VERSION_MINOR >= (minor)))
-
 namespace momentum {
 
 // Simplest FbxStream to read file from a string_view memory buffer
@@ -28,34 +24,20 @@ class FbxMemoryStream : public FbxStream {
   bool Open(void* pStreamData) override;
   bool Close() override;
   bool Flush() override;
-#if FBX_VERSION_GE(2020, 3)
-  size_t Write(const void* buffer, FbxUInt64 count) override;
-  size_t Read(void* buffer, FbxUInt64 count) const override;
-#else
   int Write(const void* buffer, int count) override;
   int Read(void* buffer, int count) const override;
-#endif
   int GetReaderID() const override;
   int GetWriterID() const override;
   void Seek(const FbxInt64& pOffset, const FbxFile::ESeekPos& pSeekPos) override;
-#if FBX_VERSION_GE(2020, 3)
-  FbxInt64 GetPosition() const override;
-  void SetPosition(FbxInt64 pPosition) override;
-#else
   long GetPosition() const override;
   void SetPosition(long pPosition) override;
-#endif
   int GetError() const override;
   void ClearError() override;
 
  private:
   gsl::span<const std::byte> buffer_;
   long length_;
-#if FBX_VERSION_GE(2020, 3)
-  mutable FbxInt64 position_{0};
-#else
   mutable long position_;
-#endif
   EState state_;
   int readerId_;
   mutable int errorCode_;
