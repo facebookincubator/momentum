@@ -14,26 +14,26 @@ on:
 
 jobs:
   momentum:
-    name: momentum-${{ matrix.platform }}
+    name: cpp-${{ matrix.mode == '' && 'opt' || 'dev' }}-${{ matrix.os == 'macos-latest-large' && 'mac-x86_64' || 'mac-arm64' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: macos-latest
-            platform: mac-arm
-          - os: macos-latest-large
-            platform: mac-intel
+        os: [macos-latest, macos-latest-large]
+        mode: ["", "-dev"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
+
       - name: Build and test Momentum
         run: |
-          pixi run test
+          pixi run test${{ matrix.mode }}
+
       - name: Install Momentum and Build hello_world
         run: |
           pixi run install
@@ -44,7 +44,7 @@ jobs:
           pixi run cmake --build momentum/examples/hello_world/build
 
   pymomentum:
-    name: pymomentum-${{ matrix.os == 'macos-latest-large' && 'mac-x86_64' || 'mac-arm64' }}
+    name: py-${{ matrix.os == 'macos-latest-large' && 'mac-x86_64' || 'mac-arm64' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

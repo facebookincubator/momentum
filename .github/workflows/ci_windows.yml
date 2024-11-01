@@ -14,18 +14,25 @@ on:
 
 jobs:
   build:
-    name: win
+    name: cpp-${{ matrix.mode == '' && 'opt' || 'dev' }}-win
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [""]  # TODO: Add -dev model
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
+
       - name: Build and test Momentum
         run: |
-          pixi run test
+          pixi run test${{ matrix.mode }}
+
       - name: Install Momentum and Build hello_world
         run: |
           pixi run install

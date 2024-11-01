@@ -14,12 +14,13 @@ on:
 
 jobs:
   momentum:
-    name: momentum${{ matrix.simd == 'ON' && '-simd' || '' }}-ubuntu
+    name: cpp${{ matrix.simd == 'ON' && '-simd' || '' }}-${{ matrix.mode == '' && 'opt' || 'dev' }}-ubuntu
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         simd: ["ON", "OFF"]
+        mode: ["", "-dev"]
     env:
       MOMENTUM_ENABLE_SIMD: ${{ matrix.simd }}
     steps:
@@ -35,7 +36,7 @@ jobs:
         run: |
           MOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
             MOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-            pixi run test
+            pixi run test${{ matrix.mode }}
 
       - name: Install Momentum and Build hello_world
         run: |
@@ -49,7 +50,7 @@ jobs:
           pixi run cmake --build momentum/examples/hello_world/build
 
   pymomentum:
-    name: pymomentum-${{ matrix.pixi_env }}-ubuntu
+    name: py-${{ matrix.pixi_env }}-ubuntu
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
