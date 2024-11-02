@@ -1,1 +1,1 @@
-var searchData=[["deducespantype_2661",["DeduceSpanType",["../structmomentum_1_1DeduceSpanType.html",1,"momentum"]]]];
+var searchData=[["deducespantype_2662",["DeduceSpanType",["../structmomentum_1_1DeduceSpanType.html",1,"momentum"]]]];
