@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         simd: ["ON", "OFF"]
-        mode: ["", "-dev"]
+        mode: ["", "_dev"]
     env:
       MOMENTUM_ENABLE_SIMD: ${{ matrix.simd }}
     steps:
@@ -102,4 +102,4 @@ jobs:
 
       - name: Build PyMomentum
         run: |
-          pixi run -e ${{ matrix.pixi_env }} test_pymomentum
+          pixi run -e ${{ matrix.pixi_env }} test_py
