@@ -217,10 +217,12 @@ function(mt_library)
 
   if("${_ARG_SOURCES}" STREQUAL "")
     set(library_type INTERFACE)
-    set(type INTERFACE)
+    set(public_or_interface INTERFACE)
+    set(private_or_interface INTERFACE)
   else()
     set(library_type )
-    set(type PUBLIC)
+    set(public_or_interface PUBLIC)
+    set(private_or_interface PRIVATE)
   endif()
 
   add_library(${_ARG_NAME}
@@ -232,46 +234,46 @@ function(mt_library)
     ${_ARG_PRIVATE_HEADERS}
   )
   target_include_directories(${_ARG_NAME}
-    ${type}
+    ${public_or_interface}
       $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
       $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}>
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> # TODO: Remove once momentum/pymomentum/pymomentum is moved to momentum/pymomentum
       $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
       ${_ARG_PUBLIC_INCLUDE_DIRECTORIES}
   )
-  target_include_directories(${_ARG_NAME} PRIVATE ${_ARG_PRIVATE_INCLUDE_DIRECTORIES})
-  target_compile_features(${_ARG_NAME} ${type} cxx_std_17)
-  target_link_libraries(${_ARG_NAME} ${type} ${_ARG_PUBLIC_LINK_LIBRARIES})
-  target_link_libraries(${_ARG_NAME} PRIVATE ${_ARG_PRIVATE_LINK_LIBRARIES})
+  target_include_directories(${_ARG_NAME} ${private_or_interface} ${_ARG_PRIVATE_INCLUDE_DIRECTORIES})
+  target_compile_features(${_ARG_NAME} ${public_or_interface} cxx_std_17)
+  target_link_libraries(${_ARG_NAME} ${public_or_interface} ${_ARG_PUBLIC_LINK_LIBRARIES})
+  target_link_libraries(${_ARG_NAME} ${private_or_interface} ${_ARG_PRIVATE_LINK_LIBRARIES})
   set_target_properties(${_ARG_NAME} PROPERTIES
     OUTPUT_NAME momentum_${_ARG_NAME}
     POSITION_INDEPENDENT_CODE ON
   )
   target_compile_definitions(${_ARG_NAME}
-    ${type} ${_ARG_PUBLIC_COMPILE_DEFINITIONS}
-    PRIVATE ${_ARG_PRIVATE_COMPILE_DEFINITIONS}
+    ${public_or_interface} ${_ARG_PUBLIC_COMPILE_DEFINITIONS}
+    ${private_or_interface} ${_ARG_PRIVATE_COMPILE_DEFINITIONS}
   )
   if(MOMENTUM_ENABLE_SIMD)
     if(MSVC)
-      target_compile_options(${_ARG_NAME} ${type} "/arch:SSE2")
-      target_compile_options(${_ARG_NAME} ${type} "/arch:AVX")
-      target_compile_options(${_ARG_NAME} ${type} "/arch:AVX2")
+      target_compile_options(${_ARG_NAME} ${public_or_interface} "/arch:SSE2")
+      target_compile_options(${_ARG_NAME} ${public_or_interface} "/arch:AVX")
+      target_compile_options(${_ARG_NAME} ${public_or_interface} "/arch:AVX2")
     elseif(APPLE)
       if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
-        target_compile_options(${_ARG_NAME} ${type} -march=armv8-a)
+        target_compile_options(${_ARG_NAME} ${public_or_interface} -march=armv8-a)
       else()
-        target_compile_options(${_ARG_NAME} ${type} -march=native)
+        target_compile_options(${_ARG_NAME} ${public_or_interface} -march=native)
       endif()
     else()
-      target_compile_options(${_ARG_NAME} ${type} -march=native)
+      target_compile_options(${_ARG_NAME} ${public_or_interface} -march=native)
     endif()
     target_compile_definitions(${_ARG_NAME}
-      ${type} -DMOMENTUM_ENABLE_SIMD=1
+      ${public_or_interface} -DMOMENTUM_ENABLE_SIMD=1
     )
   endif()
   target_compile_options(${_ARG_NAME}
-    ${type} ${_ARG_PUBLIC_COMPILE_OPTIONS}
-    PRIVATE ${_ARG_PRIVATE_COMPILE_OPTIONS}
+    ${public_or_interface} ${_ARG_PUBLIC_COMPILE_OPTIONS}
+    ${private_or_interface} ${_ARG_PRIVATE_COMPILE_OPTIONS}
   )
 
   if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
