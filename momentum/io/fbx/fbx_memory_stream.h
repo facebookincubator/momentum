@@ -13,9 +13,11 @@
 
 #include <string_view>
 
-#define FBX_VERSION_GE(major, minor)   \
-  ((FBXSDK_VERSION_MAJOR > (major)) || \
-   (FBXSDK_VERSION_MAJOR == (major) && FBXSDK_VERSION_MINOR >= (minor)))
+#define FBX_VERSION_GE(major, minor, patch)                               \
+  ((FBXSDK_VERSION_MAJOR > (major)) ||                                    \
+   (FBXSDK_VERSION_MAJOR == (major) && FBXSDK_VERSION_MINOR > (minor)) || \
+   (FBXSDK_VERSION_MAJOR == (major) && FBXSDK_VERSION_MINOR == (minor) && \
+    FBXSDK_VERSION_POINT >= (patch)))
 
 namespace momentum {
 
@@ -28,7 +30,7 @@ class FbxMemoryStream : public FbxStream {
   bool Open(void* pStreamData) override;
   bool Close() override;
   bool Flush() override;
-#if FBX_VERSION_GE(2020, 3)
+#if FBX_VERSION_GE(2020, 3, 2)
   size_t Write(const void* buffer, FbxUInt64 count) override;
   size_t Read(void* buffer, FbxUInt64 count) const override;
 #else
@@ -38,7 +40,7 @@ class FbxMemoryStream : public FbxStream {
   int GetReaderID() const override;
   int GetWriterID() const override;
   void Seek(const FbxInt64& pOffset, const FbxFile::ESeekPos& pSeekPos) override;
-#if FBX_VERSION_GE(2020, 3)
+#if FBX_VERSION_GE(2020, 3, 2)
   FbxInt64 GetPosition() const override;
   void SetPosition(FbxInt64 pPosition) override;
 #else
@@ -51,7 +53,7 @@ class FbxMemoryStream : public FbxStream {
  private:
   gsl::span<const std::byte> buffer_;
   long length_;
-#if FBX_VERSION_GE(2020, 3)
+#if FBX_VERSION_GE(2020, 3, 2)
   mutable FbxInt64 position_{0};
 #else
   mutable long position_;
