@@ -25,6 +25,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install FBX SDK
+        run: |
+          curl -O https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_clang_mac.pkg.tgz
+          tar -xvf fbx202037_fbxsdk_clang_mac.pkg.tgz
+          sudo installer -pkg fbx202037_fbxsdk_clang_macos.pkg -target /
+
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
@@ -32,7 +38,8 @@ jobs:
 
       - name: Build and test Momentum
         run: |
-          pixi run test${{ matrix.mode }}
+          MOMENTUM_BUILD_IO_FBX=ON \
+            pixi run test${{ matrix.mode }}
 
       - name: Install Momentum and Build hello_world
         run: |
@@ -53,10 +60,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install FBX SDK
+        run: |
+          curl -O https://damassets.autodesk.net/content/dam/autodesk/www/files/fbx202037_fbxsdk_clang_mac.pkg.tgz
+          tar -xvf fbx202037_fbxsdk_clang_mac.pkg.tgz
+          sudo installer -pkg fbx202037_fbxsdk_clang_macos.pkg -target /
+
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
         with:
           cache: true
+
       - name: Build and test PyMomentum
         run: |
-          pixi run test_py
+          MOMENTUM_BUILD_IO_FBX=ON \
+            pixi run test_py
