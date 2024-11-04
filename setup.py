@@ -23,6 +23,17 @@ class CMakeExtension(Extension):
 
 
 class CMakeBuild(build_ext):
+    user_options = build_ext.user_options + [
+        ("cmake-args=", None, "Additional CMake arguments")
+    ]
+
+    def initialize_options(self):
+        super().initialize_options()
+        self.cmake_args = None
+
+    def finalize_options(self):
+        super().finalize_options()
+
     def run(self):
         try:
             subprocess.check_output(["cmake", "--version"])
@@ -36,43 +47,20 @@ class CMakeBuild(build_ext):
         if not extdir.endswith(os.path.sep):
             extdir += os.path.sep
 
-        if "DEBUG" in os.environ:
-            cfg = "Debug" if os.environ["DEBUG"] == "1" else "Release"
-        else:
-            cfg = "Debug" if self.debug else "Release"
+        cfg = "Debug" if self.debug else "Release"
 
         cmake_args = [
             f"-DCMAKE_BUILD_TYPE={cfg}",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
             f"-DBUILD_SHARED_LIBS=OFF",
-            (
-                f"-DMOMENTUM_BUILD_EXAMPLES="
-                f"{os.environ.get('MOMENTUM_BUILD_EXAMPLES', 'OFF')}"
-            ),
             f"-DMOMENTUM_BUILD_PYMOMENTUM=ON",
-            # TODO: OFF when pym.geometry doesn't depend on testing
-            (
-                f"-DMOMENTUM_BUILD_TESTING="
-                f"{os.environ.get('MOMENTUM_BUILD_TESTING', 'ON')}"
-            ),
-            (
-                f"-DMOMENTUM_ENABLE_SIMD="
-                f"{os.environ.get('MOMENTUM_ENABLE_SIMD', 'ON')}"
-            ),
-            (
-                f"-DMOMENTUM_USE_SYSTEM_GOOGLETEST="
-                f"{os.environ.get('MOMENTUM_USE_SYSTEM_GOOGLETEST', 'ON')}"
-            ),
-            (
-                f"-DMOMENTUM_USE_SYSTEM_PYBIND11="
-                f"{os.environ.get('MOMENTUM_USE_SYSTEM_PYBIND11', 'ON')}"
-            ),
-            (
-                f"-DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK="
-                f"{os.environ.get('MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK', 'ON')}"
-            ),
             f"-DPYTHON_EXECUTABLE={sys.executable}",
         ]
+
+        # Parse additional CMake arguments
+        if self.cmake_args:
+            cmake_args += self.cmake_args.split()
+
         build_args = ["--target", os.path.basename(ext.name)]
 
         if "CMAKE_ARGS" in os.environ:
@@ -121,7 +109,7 @@ def main():
         author="Meta Reality Labs Research",
         license="MIT",
         install_requires=["numpy", "typing", "dataclasses"],  # TODO:
-        python_requires=">=3.7",
+        python_requires=">=3.10",
         packages=find_packages(),
         zip_safe=False,
         ext_modules=[
