@@ -43,12 +43,16 @@ re2 = ">=2023.9.1"
 spdlog = ">=1.12.0"
 
 [tasks]
-clean = { cmd = "rm -rf build && rm -rf .pixi && rm pixi.lock" }
+clean = { cmd = """
+    rm -rf build \
+    && rm -rf .pixi \
+    && rm pixi.lock
+    """ }
 lint = { cmd = "clang-format -i axel/**/*.h axel/**/*.cpp momentum/**/*.h momentum/**/*.cpp pymomentum/**/*.h pymomentum/**/*.cpp" }
 config = { cmd = """
     cmake \
         -S . \
-        -B build \
+        -B build/$PIXI_ENVIRONMENT_NAME/cpp/release \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
@@ -64,7 +68,7 @@ config = { cmd = """
 config_dev = { cmd = """
     cmake \
         -S . \
-        -B build \
+        -B build/$PIXI_ENVIRONMENT_NAME/cpp/debug \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Debug \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
@@ -77,14 +81,14 @@ config_dev = { cmd = """
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
-build = { cmd = "cmake --build build -j --target all", depends_on = ["config"] }
-build_dev = { cmd = "cmake --build build -j --target all", depends_on = [
+build = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target all", depends_on = ["config"] }
+build_dev = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/debug -j --target all", depends_on = [
     "config_dev",
 ] }
-test = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
+test = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp/release --output-on-failure", depends_on = [
     "build",
 ] }
-test_dev = { cmd = "ctest --test-dir build --output-on-failure", depends_on = [
+test_dev = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp/debug --output-on-failure", depends_on = [
     "build_dev",
 ] }
 hello_world = { cmd = "build/hello_world", depends_on = ["build"] }
@@ -93,7 +97,7 @@ c3d_viewer = { cmd = "build/c3d_viewer", depends_on = ["build"] }
 fbx_viewer = { cmd = "build/fbx_viewer", depends_on = ["build"] }
 glb_viewer = { cmd = "build/glb_viewer", depends_on = ["build"] }
 process_markers = { cmd = "build/process_markers_app", depends_on = ["build"] }
-install = { cmd = "cmake --build build -j --target install", depends_on = [
+install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target install", depends_on = [
     "build",
 ] }
 
@@ -102,6 +106,7 @@ install = { cmd = "cmake --build build -j --target install", depends_on = [
 #===========
 
 [target.linux-64.build-dependencies]
+nvtx-c = ">=3.1.0"  # TODO: Add to pytorch as run dep
 
 [target.linux-64.dependencies]
 pytorch = ">=2.4.0"
@@ -126,7 +131,7 @@ install_deps = { depends_on = ["install_fbxsdk"] }
 config = { cmd = """
     cmake \
         -S . \
-        -B build \
+        -B build/$PIXI_ENVIRONMENT_NAME/cpp/release \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
@@ -144,7 +149,7 @@ config = { cmd = """
 config_dev = { cmd = """
     cmake \
         -S . \
-        -B build \
+        -B build/$PIXI_ENVIRONMENT_NAME/cpp/debug \
         -G Ninja \
         -DCMAKE_BUILD_TYPE=Debug \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
@@ -160,14 +165,17 @@ config_dev = { cmd = """
     "install_deps",
 ] }
 build_py = { cmd = """
-    python setup.py build_ext --cmake-args='\
-        -DMOMENTUM_BUILD_IO_FBX=ON \
-        -DMOMENTUM_BUILD_EXAMPLES=OFF \
-        -DMOMENTUM_BUILD_TESTING=ON \
-        -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-        -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
-        -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+    python setup.py build \
+        --build-base build/$PIXI_ENVIRONMENT_NAME/py \
+        build_ext \
+        --cmake-args='\
+            -DMOMENTUM_BUILD_IO_FBX=ON \
+            -DMOMENTUM_BUILD_EXAMPLES=OFF \
+            -DMOMENTUM_BUILD_TESTING=ON \
+            -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+            -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
+            -DMOMENTUM_USE_SYSTEM_PYBIND11=OFF \
+            -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
         '
     """, env = { FBXSDK_PATH = ".deps/fbxsdk", MOMENTUM_ENABLE_SIMD = "ON" }, depends_on = [
     "install_deps",
@@ -195,14 +203,17 @@ pytorch = ">=2.4.0"
 
 [target.osx.tasks]
 build_py = { cmd = """
-    python setup.py build_ext --cmake-args='\
-        -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
-        -DMOMENTUM_BUILD_EXAMPLES=OFF \
-        -DMOMENTUM_BUILD_TESTING=ON \
-        -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-        -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
-        -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+    python setup.py build \
+        --build-base build/$PIXI_ENVIRONMENT_NAME/py \
+        build_ext \
+        --cmake-args='\
+            -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
+            -DMOMENTUM_BUILD_EXAMPLES=OFF \
+            -DMOMENTUM_BUILD_TESTING=ON \
+            -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+            -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
+            -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
+            -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
         '
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 test_py = { cmd = """
@@ -228,14 +239,17 @@ pytorch = ">=2.4.0"
 
 [target.osx-arm64.tasks]
 build_py = { cmd = """
-    python setup.py build_ext --cmake-args='\
-        -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
-        -DMOMENTUM_BUILD_EXAMPLES=OFF \
-        -DMOMENTUM_BUILD_TESTING=ON \
-        -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-        -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
-        -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+    python setup.py build \
+        --build-base build/$PIXI_ENVIRONMENT_NAME/py \
+        build_ext \
+        --cmake-args='\
+            -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
+            -DMOMENTUM_BUILD_EXAMPLES=OFF \
+            -DMOMENTUM_BUILD_TESTING=ON \
+            -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+            -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
+            -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
+            -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
         '
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 test_py = { cmd = """
@@ -260,7 +274,7 @@ test_py = { cmd = """
 config = { cmd = """
     cmake \
         -S . \
-        -B build \
+        -B build/$PIXI_ENVIRONMENT_NAME/cpp \
         -G 'Visual Studio 17 2022' \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
         -DBUILD_SHARED_LIBS=OFF \
@@ -273,30 +287,40 @@ config = { cmd = """
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_BUILD_PYMOMENTUM = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
-open_vs = { cmd = "cmd /c start build\\momentum.sln", depends_on = ["config"] }
-build = { cmd = "cmake --build build -j --config Release", depends_on = [
+open_vs = { cmd = "cmd /c start build\\$PIXI_ENVIRONMENT_NAME\\cpp\\momentum.sln", depends_on = [
     "config",
 ] }
-build_dev = { cmd = "cmake --build build -j --config Debug", depends_on = [
+build = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --config Release", depends_on = [
     "config",
 ] }
-test = { cmd = "ctest --test-dir build --output-on-failure --build-config Release", depends_on = [
+build_dev = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --config Debug", depends_on = [
+    "config",
+] }
+test = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp --output-on-failure --build-config Release", depends_on = [
     "build",
 ] }
-test_dev = { cmd = "ctest --test-dir build --output-on-failure --build-config Debug", depends_on = [
+test_dev = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp --output-on-failure --build-config Debug", depends_on = [
     "build_dev",
 ] }
-hello_world = { cmd = "build/Release/hello_world.exe", depends_on = ["build"] }
-convert_model = { cmd = "build/Release/convert_model.exe", depends_on = [
+hello_world = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/hello_world.exe", depends_on = [
     "build",
 ] }
-c3d_viewer = { cmd = "build/Release/c3d_viewer.exe", depends_on = ["build"] }
-fbx_viewer = { cmd = "build/Release/fbx_viewer.exe", depends_on = ["build"] }
-glb_viewer = { cmd = "build/Release/glb_viewer.exe", depends_on = ["build"] }
-process_markers = { cmd = "build/Release/process_markers_app.exe", depends_on = [
+convert_model = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/convert_model.exe", depends_on = [
     "build",
 ] }
-install = { cmd = "cmake --build build -j --target install --config Release", depends_on = [
+c3d_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/c3d_viewer.exe", depends_on = [
+    "build",
+] }
+fbx_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/fbx_viewer.exe", depends_on = [
+    "build",
+] }
+glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/glb_viewer.exe", depends_on = [
+    "build",
+] }
+process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/process_markers_app.exe", depends_on = [
+    "build",
+] }
+install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --target install --config Release", depends_on = [
     "build",
 ] }
 
@@ -311,13 +335,13 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 # Feature: GPU
 #==============
 
-[feature.py312-cuda120]
+[feature.py312-cuda126]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies.cuda-toolkit = "12.0.*"
-dependencies.pytorch = { version = "2.4.*", build = "cuda120_py312h26b3cf7_301", channel = "conda-forge" }
+dependencies.pytorch = { version = "2.5.*", build = "cuda126_py312hb0dc81f_301", channel = "conda-forge" }
 
 [feature.py312-cuda118]
 channels = ["nvidia", "conda-forge", "pytorch"]
@@ -327,13 +351,13 @@ channel-priority = "disabled"
 dependencies.cuda-toolkit = "12.0.*"
 dependencies.pytorch = { version = "2.4.*", build = "cuda118_py312h3690e1b_301", channel = "conda-forge" }
 
-[feature.py311-cuda120]
+[feature.py311-cuda126]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies.cuda-toolkit = "12.0.*"
-dependencies.pytorch = { version = "2.4.*", build = "cuda120_py311hf6aebf0_301", channel = "conda-forge" }
+dependencies.pytorch = { version = "2.5.*", build = "cuda126_py311h8adc4d4_301", channel = "conda-forge" }
 
 [feature.py311-cuda118]
 channels = ["nvidia", "conda-forge", "pytorch"]
@@ -341,15 +365,15 @@ platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies.cuda-toolkit = "12.0.*"
-dependencies.pytorch = { version = "2.4.*", build = "cuda118_py311h4ee7bbc_301", channel = "conda-forge" }
+dependencies.pytorch = { version = "2.5.*", build = "cuda118_py311h156befe_300", channel = "conda-forge" }
 
-[feature.py310-cuda120]
+[feature.py310-cuda126]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies.cuda-toolkit = "12.0.*"
-dependencies.pytorch = { version = "2.4.*", build = "cuda120_py310h2c91c31_301", channel = "conda-forge" }
+dependencies.pytorch = { version = "2.5.*", build = "cuda126_py310h4acf282_301", channel = "conda-forge" }
 
 [feature.py310-cuda118]
 channels = ["nvidia", "conda-forge", "pytorch"]
@@ -364,12 +388,12 @@ dependencies.pytorch = { version = "2.4.*", build = "cuda118_py310h954aa82_301",
 #==============
 
 [environments]
-py312-cuda120 = ["py312-cuda120"] # TODO: Fix pymomentum build
-py312-cuda118 = ["py312-cuda118"]
-py311-cuda120 = ["py311-cuda120"] # TODO: Fix pymomentum build
+py312-cuda126 = ["py312-cuda126"]
+py312-cuda118 = ["py312-cuda118"] # TODO: Update to pytorch 2.5.1
+py311-cuda126 = ["py311-cuda126"]
 py311-cuda118 = ["py311-cuda118"]
-py310-cuda120 = ["py310-cuda120"] # TODO: Fix pymomentum build
-py310-cuda118 = ["py310-cuda118"]
-gpu = ["py312-cuda118"]
+py310-cuda126 = ["py310-cuda126"]
+py310-cuda118 = ["py310-cuda118"] # TODO: Update to pytorch 2.5.1
+gpu = ["py312-cuda126"]
 cpu = ["cpu"]
 default = ["cpu"]
