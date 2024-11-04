@@ -68,23 +68,33 @@ foreach(libname ${_fbxsdk_libnames_debug})
 endforeach()
 message(DEBUG "FBXSDK_LIBRARIES_DEBUG: ${FBXSDK_LIBRARIES_DEBUG}")
 
+set(
+  required_vars
+    FBXSDK_INCLUDE_DIR
+    FBXSDK_LIBRARIES
+    FBXSDK_LIBRARIES_DEBUG
+)
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   list(APPEND FBXSDK_LIBRARIES "-framework CoreFoundation")
   list(APPEND FBXSDK_LIBRARIES_DEBUG "-framework CoreFoundation")
-  find_package(libxml2 CONFIG QUIET)
+  find_package(LibXml2 CONFIG QUIET)
   find_package(iconv CONFIG QUIET)
   list(APPEND FBXSDK_LIBRARIES LibXml2::LibXml2 Iconv::Iconv)
   list(APPEND FBXSDK_LIBRARIES_DEBUG LibXml2::LibXml2 Iconv::Iconv)
+  list(APPEND required_vars LIBXML2_LIBRARIES iconv_FOUND)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  find_package(LibXml2 MODULE QUIET)
+  list(APPEND FBXSDK_LIBRARIES LibXml2::LibXml2)
+  list(APPEND FBXSDK_LIBRARIES_DEBUG LibXml2::LibXml2)
+  list(APPEND required_vars LibXml2_FOUND)
 endif()
 
 # Set (NAME)_FOUND if all the variables and the version are satisfied.
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(FbxSdk
   FAIL_MESSAGE "Failed to find FBX SDK. Please download the required FBX SDK 2020.3.7 from https://aps.autodesk.com/developer/overview/fbx-sdk. After installation, set FBXSDK_PATH to the installation directory if it's not installed to the default path."
-  REQUIRED_VARS
-    FBXSDK_INCLUDE_DIR
-    FBXSDK_LIBRARIES
-    FBXSDK_LIBRARIES_DEBUG
+  REQUIRED_VARS ${required_vars}
   VERSION_VAR _fbxsdk_version
 )
 

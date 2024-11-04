@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, macos-latest-large]
-        mode: ["", "-dev"]
+        mode: ["", "_dev"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,4 +59,4 @@ jobs:
           cache: true
       - name: Build and test PyMomentum
         run: |
-          pixi run test_pymomentum
+          pixi run test_py
