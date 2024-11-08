@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+#include "momentum/character_solver/transform_pose.h"
 #include "momentum/character/character.h"
 #include "momentum/character/parameter_transform.h"
 #include "momentum/character/skeleton.h"
@@ -16,8 +17,6 @@
 #include "momentum/math/constants.h"
 #include "momentum/math/random.h"
 #include "momentum/solver/gauss_newton_solver.h"
-
-#include <dispenso/parallel_for.h>
 
 #include <numeric>
 #include <tuple>
@@ -85,6 +84,144 @@ std::vector<ModelParametersT<T>> transformPose(
 }
 
 template <typename T>
+PoseTransformSolverT<T>::PoseTransformSolverT(const Character& character) {
+  numModelParametersFull_ = character.parameterTransform.numAllModelParameters();
+
+  characterSimplified_ = createRigidBodySkeleton(character);
+  MT_CHECK(!characterSimplified_.skeleton.joints.empty(), "No joints in simplified character");
+  // Use the farthest joint since it should have all parameters applied to it:
+  rootJointSimplified_ = characterSimplified_.skeleton.joints.size() - 1;
+
+  parameterTransformSimplified_ = characterSimplified_.parameterTransform.cast<T>();
+  rigidParametersSimplified_ = characterSimplified_.parameterTransform.getRigidParameters();
+
+  simplifiedParamToFullParamIdx_.resize(parameterTransformSimplified_.numAllModelParameters());
+  for (Eigen::Index iSimplifiedParam = 0;
+       iSimplifiedParam < characterSimplified_.parameterTransform.numAllModelParameters();
+       ++iSimplifiedParam) {
+    const auto fullParamIdx = character.parameterTransform.getParameterIdByName(
+        characterSimplified_.parameterTransform.name[iSimplifiedParam]);
+    MT_CHECK(fullParamIdx != momentum::kInvalidIndex);
+    simplifiedParamToFullParamIdx_.at(iSimplifiedParam) = fullParamIdx;
+  }
+
+  positionError_ = std::make_shared<momentum::PositionErrorFunctionT<T>>(characterSimplified_);
+  orientationError_ =
+      std::make_shared<momentum::OrientationErrorFunctionT<T>>(characterSimplified_);
+
+  solverFunction_ = std::make_unique<momentum::SkeletonSolverFunctionT<T>>(
+      &characterSimplified_.skeleton, &parameterTransformSimplified_);
+  solverFunction_->addErrorFunction(positionError_);
+  solverFunction_->addErrorFunction(orientationError_);
+
+  momentum::GaussNewtonSolverOptions solverOptions;
+  solverOptions.maxIterations = 1000;
+  solverOptions.minIterations = 10;
+  // It shouldn't need regularization:
+  solverOptions.regularization = std::numeric_limits<T>::epsilon();
+  solverOptions.useBlockJtJ = true;
+
+  solver_ = std::make_unique<GaussNewtonSolverT<T>>(solverOptions, solverFunction_.get());
+  solver_->setEnabledParameters(rigidParametersSimplified_);
+
+  solvedParametersSimplified_ =
+      ModelParametersT<T>::Zero(parameterTransformSimplified_.numAllModelParameters());
+}
+
+template <typename T>
+PoseTransformSolverT<T>::~PoseTransformSolverT() = default;
+
+template <typename T>
+void PoseTransformSolverT<T>::transformPose(
+    ModelParametersT<T>& modelParameters_full,
+    const TransformT<T>& transform,
+    const ModelParametersT<T>& modelParameters_prev) {
+  MT_CHECK(
+      modelParameters_full.size() == numModelParametersFull_,
+      "Model parameters don't match full character");
+  MT_CHECK(
+      modelParameters_prev.size() == numModelParametersFull_ || modelParameters_prev.size() == 0,
+      "Prev model parameters don't match full character");
+
+  // Initialize with params copied from fullParams:
+  solvedParametersSimplified_.v.setZero();
+  for (size_t iSimplifiedParam = 0; iSimplifiedParam < simplifiedParamToFullParamIdx_.size();
+       ++iSimplifiedParam) {
+    const auto fullParamIdx = simplifiedParamToFullParamIdx_[iSimplifiedParam];
+    solvedParametersSimplified_[iSimplifiedParam] = modelParameters_full[fullParamIdx];
+  }
+
+  skelStateSimplified_.set(
+      parameterTransformSimplified_.apply(solvedParametersSimplified_),
+      characterSimplified_.skeleton,
+      false);
+
+  if (modelParameters_prev.size() != 0) {
+    // Copy rigid parameters from previous solve to ensure continuity:
+    for (size_t iSimplifiedParam = 0; iSimplifiedParam < simplifiedParamToFullParamIdx_.size();
+         ++iSimplifiedParam) {
+      const auto fullParamIdx = simplifiedParamToFullParamIdx_[iSimplifiedParam];
+      if (rigidParametersSimplified_.test(iSimplifiedParam)) {
+        solvedParametersSimplified_[iSimplifiedParam] = modelParameters_prev[fullParamIdx];
+      }
+    }
+  }
+
+  const TransformT<T> worldFromRootTarget =
+      transform * skelStateSimplified_.jointState[rootJointSimplified_].transform;
+
+  positionError_->clearConstraints();
+  positionError_->addConstraint(PositionDataT<T>(
+      Eigen::Vector3<T>::Zero(), worldFromRootTarget.translation, rootJointSimplified_, 100.0));
+
+  orientationError_->clearConstraints();
+  orientationError_->addConstraint(OrientationDataT<T>(
+      Eigen::Quaternion<T>::Identity(), worldFromRootTarget.rotation, rootJointSimplified_, 10.0));
+
+  // The momentum solver has a lot of local minima issues related to the use
+  // of Euler angles.  As a result for any given solve there is a chance if will
+  // get stuck somewhere non-optimal, which would be really bad in this case because
+  // we'd end up with a single pose out of the set which is flipped backward or whatever.
+  // To avoid this, we'll do the solve with restarts: each solve will start with a random
+  // set of rigid parameters and we'll run to convergence, then exit when the resulting
+  // rotation is close enough.
+
+  for (size_t iIter = 0;; ++iIter) {
+    if (iIter > 10000) {
+      MT_LOGW(
+          "Solver failed to converge after {} iterations when solving for rigid transform.", iIter);
+      break;
+    }
+
+    solver_->solve(solvedParametersSimplified_.v);
+    skelStateSimplified_.set(
+        parameterTransformSimplified_.apply(solvedParametersSimplified_),
+        characterSimplified_.skeleton,
+        false);
+    if ((skelStateSimplified_.jointState[rootJointSimplified_].rotation().toRotationMatrix() -
+         worldFromRootTarget.rotation.toRotationMatrix())
+            .norm() < 1e-3) {
+      break;
+    }
+
+    // Randomize the starting location to deal with Euler angle local minimum issues:
+    for (int k = 0; k < characterSimplified_.parameterTransform.numAllModelParameters(); ++k) {
+      if (rigidParametersSimplified_.test(k)) {
+        solvedParametersSimplified_[k] = rng_.uniform(-pi(), pi());
+      }
+    }
+  }
+
+  for (size_t simplifiedParamIdx = 0; simplifiedParamIdx < simplifiedParamToFullParamIdx_.size();
+       ++simplifiedParamIdx) {
+    if (rigidParametersSimplified_.test(simplifiedParamIdx)) {
+      const auto fullParamIdx = simplifiedParamToFullParamIdx_[simplifiedParamIdx];
+      modelParameters_full.v[fullParamIdx] = solvedParametersSimplified_[simplifiedParamIdx];
+    }
+  }
+}
+
+template <typename T>
 std::vector<ModelParametersT<T>> transformPose(
     const Character& character,
     const std::vector<ModelParametersT<T>>& modelParameters,
@@ -102,63 +239,10 @@ std::vector<ModelParametersT<T>> transformPose(
   // in this case because we're only working with the rigid parameters).
   const auto nPoses = modelParameters.size();
 
-  const momentum::Character characterSimplified = createRigidBodySkeleton(character);
-  MT_CHECK(!characterSimplified.skeleton.joints.empty(), "No joints in simplified character");
+  PoseTransformSolverT<T> transformSolver(character);
 
-  // Use the farthest joint since it should have all parameters applied to it:
-  const auto rootJointSimplified = characterSimplified.skeleton.joints.size() - 1;
-  const auto rootJointFull = rootJointSimplified;
+  std::vector<momentum::ModelParametersT<T>> result(modelParameters.size());
 
-  MT_CHECK(rootJointSimplified != momentum::kInvalidIndex);
-  const auto rigidParametersSimplified =
-      characterSimplified.parameterTransform.getRigidParameters();
-
-  const momentum::ParameterTransformT<T> parameterTransformSimplified =
-      characterSimplified.parameterTransform.cast<T>();
-
-  // TODO would be nice if we can get rid of this in the float case.
-  const momentum::ParameterTransformT<T> parameterTransformFull =
-      character.parameterTransform.cast<T>();
-
-  std::vector<size_t> simplifiedParamToFullParamIdx(
-      parameterTransformSimplified.numAllModelParameters());
-  for (Eigen::Index iSimplifiedParam = 0;
-       iSimplifiedParam < characterSimplified.parameterTransform.numAllModelParameters();
-       ++iSimplifiedParam) {
-    const auto fullParamIdx = character.parameterTransform.getParameterIdByName(
-        characterSimplified.parameterTransform.name[iSimplifiedParam]);
-    MT_CHECK(fullParamIdx != momentum::kInvalidIndex);
-    simplifiedParamToFullParamIdx.at(iSimplifiedParam) = fullParamIdx;
-  }
-
-  auto positionError = std::make_shared<momentum::PositionErrorFunctionT<T>>(characterSimplified);
-  auto orientationError =
-      std::make_shared<momentum::OrientationErrorFunctionT<T>>(characterSimplified);
-
-  momentum::SkeletonSolverFunctionT<T> solverFunction(
-      &characterSimplified.skeleton, &parameterTransformSimplified);
-  solverFunction.addErrorFunction(positionError);
-  solverFunction.addErrorFunction(orientationError);
-
-  momentum::GaussNewtonSolverOptions solverOptions;
-  solverOptions.maxIterations = 1000;
-  solverOptions.minIterations = 10;
-  // It shouldn't need regularization:
-  solverOptions.regularization = std::numeric_limits<T>::epsilon();
-  solverOptions.useBlockJtJ = true;
-
-  GaussNewtonSolverT<T> solver(solverOptions, &solverFunction);
-  solver.setEnabledParameters(rigidParametersSimplified);
-
-  ModelParametersT<T> solvedParametersSimplified =
-      ModelParametersT<T>::Zero(characterSimplified.parameterTransform.numAllModelParameters());
-  momentum::SkeletonStateT<T> skelStateSimplified;
-  momentum::SkeletonStateT<T> skelStateFull;
-
-  momentum::Random<> rng;
-
-  std::vector<momentum::ModelParametersT<T>> result = modelParameters;
-  momentum::ModelParametersT<T> previousSimplifiedParameters;
   for (size_t iFrame = 0; iFrame < nPoses; ++iFrame) {
     const auto& fullParams_init = modelParameters.at(iFrame);
     if (fullParams_init.size() == 0) {
@@ -168,82 +252,12 @@ std::vector<ModelParametersT<T>> transformPose(
     const TransformT<T>& transform =
         (iFrame < transforms.size()) ? transforms.at(iFrame) : transforms.at(0);
 
-    skelStateFull.set(parameterTransformFull.apply(fullParams_init), character.skeleton, false);
-    const Eigen::Vector3<T> worldFromRootTranslationTarget =
-        transform * skelStateFull.jointState[rootJointFull].translation();
-    const Eigen::Quaternion<T> worldFromRootRotationTarget =
-        transform.rotation * skelStateFull.jointState[rootJointFull].rotation();
-
-    positionError->clearConstraints();
-    positionError->addConstraint(PositionDataT<T>(
-        Eigen::Vector3<T>::Zero(), worldFromRootTranslationTarget, rootJointSimplified, 100.0));
-
-    orientationError->clearConstraints();
-    orientationError->addConstraint(OrientationDataT<T>(
-        Eigen::Quaternion<T>::Identity(), worldFromRootRotationTarget, rootJointSimplified, 10.0));
-
-    // Initialize with rest params
-    solvedParametersSimplified.v.setZero();
-    for (size_t iSimplifiedParam = 0; iSimplifiedParam < simplifiedParamToFullParamIdx.size();
-         ++iSimplifiedParam) {
-      // If requested, start from the rigid pose solved in the previous step:
-      if (ensureContinuousOutput && previousSimplifiedParameters.size() != 0 &&
-          rigidParametersSimplified.test(iSimplifiedParam)) {
-        solvedParametersSimplified[iSimplifiedParam] =
-            previousSimplifiedParameters[iSimplifiedParam];
-      } else {
-        const auto fullParamIdx = simplifiedParamToFullParamIdx[iSimplifiedParam];
-        solvedParametersSimplified[iSimplifiedParam] = fullParams_init[fullParamIdx];
-      }
-    }
-
-    // The momentum solver has a lot of local minima issues related to the use
-    // of Euler angles.  As a result for any given solve there is a chance if will
-    // get stuck somewhere non-optimal, which would be really bad in this case because
-    // we'd end up with a single pose out of the set which is flipped backward or whatever.
-    // To avoid this, we'll do the solve with restarts: each solve will start with a random
-    // set of rigid parameters and we'll run to convergence, then exit when the resulting
-    // rotation is close enough.
-
-    for (size_t iIter = 0;; ++iIter) {
-      if (iIter > 10000) {
-        MT_LOGW(
-            "Solver failed to converge after {} iterations when solving for rigid transform.",
-            iIter);
-        break;
-      }
-
-      solver.solve(solvedParametersSimplified.v);
-      skelStateSimplified.set(
-          parameterTransformSimplified.apply(solvedParametersSimplified),
-          characterSimplified.skeleton,
-          false);
-      if ((skelStateSimplified.jointState[rootJointSimplified].rotation().toRotationMatrix() -
-           worldFromRootRotationTarget.toRotationMatrix())
-              .norm() < 1e-3) {
-        break;
-      }
-
-      // Randomize the starting location to deal with Euler angle local minimum issues:
-      for (int k = 0; k < characterSimplified.parameterTransform.numAllModelParameters(); ++k) {
-        if (rigidParametersSimplified.test(k)) {
-          solvedParametersSimplified[k] = rng.uniform(-pi(), pi());
-        }
-      }
-    }
-
-    previousSimplifiedParameters = solvedParametersSimplified;
-
-    ModelParametersT<T> fullParams_final = fullParams_init;
-    for (size_t simplifiedParamIdx = 0; simplifiedParamIdx < simplifiedParamToFullParamIdx.size();
-         ++simplifiedParamIdx) {
-      if (rigidParametersSimplified.test(simplifiedParamIdx)) {
-        const auto fullParamIdx = simplifiedParamToFullParamIdx[simplifiedParamIdx];
-        fullParams_final.v[fullParamIdx] = solvedParametersSimplified[simplifiedParamIdx];
-      }
-    }
-
-    result[iFrame] = std::move(fullParams_final);
+    result[iFrame] = modelParameters[iFrame];
+    transformSolver.transformPose(
+        result[iFrame],
+        transform,
+        (iFrame > 0 && ensureContinuousOutput) ? result[iFrame - 1]
+                                               : momentum::ModelParametersT<T>());
   }
 
   return result;
@@ -270,5 +284,8 @@ template std::vector<ModelParametersT<double>> transformPose(
     const Character& character,
     const std::vector<ModelParametersT<double>>& modelParameters,
     const TransformT<double>& transform);
+
+template class PoseTransformSolverT<float>;
+template class PoseTransformSolverT<double>;
 
 } // namespace momentum

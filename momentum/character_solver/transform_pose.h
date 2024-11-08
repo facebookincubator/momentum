@@ -7,10 +7,12 @@
 
 #pragma once
 
-#include <momentum/character/fwd.h>
+#include <momentum/character/character.h>
 #include <momentum/character_solver/fwd.h>
+#include <momentum/math/random.h>
 #include <momentum/math/transform.h>
 #include <momentum/math/types.h>
+#include <momentum/solver/fwd.h>
 
 namespace momentum {
 
@@ -36,5 +38,43 @@ std::vector<ModelParametersT<T>> transformPose(
     const Character& character,
     const std::vector<ModelParametersT<T>>& modelParameters,
     const TransformT<T>& transforms);
+
+/// Solver which can be reused to repeatedly apply the transformPose function listed above.
+template <typename T>
+class PoseTransformSolverT {
+ public:
+  explicit PoseTransformSolverT(const Character& character);
+  ~PoseTransformSolverT();
+
+  /// Applies a rigid transform to the given model parameters.
+  /// @param[in,out] modelParameters The model parameters to be transformed.
+  /// @param[in] transform The transform to apply.
+  /// @param[in] prevPose The previous pose, which is used to ensure continuity (the solver will
+  /// initialize using the previous frame's rigid parameters).
+  void transformPose(
+      ModelParametersT<T>& modelParameters,
+      const TransformT<T>& transform,
+      const ModelParametersT<T>& prevPose = ModelParametersT<T>{});
+
+ private:
+  Eigen::Index numModelParametersFull_;
+
+  momentum::Character characterSimplified_;
+  momentum::ParameterTransformT<T> parameterTransformSimplified_;
+  size_t rootJointSimplified_;
+  momentum::ParameterSet rigidParametersSimplified_;
+  std::vector<size_t> simplifiedParamToFullParamIdx_;
+
+  momentum::ModelParametersT<T> solvedParametersSimplified_;
+  momentum::SkeletonStateT<T> skelStateSimplified_;
+
+  std::shared_ptr<momentum::PositionErrorFunctionT<T>> positionError_;
+  std::shared_ptr<momentum::OrientationErrorFunctionT<T>> orientationError_;
+
+  std::unique_ptr<momentum::SkeletonSolverFunctionT<T>> solverFunction_;
+  std::unique_ptr<momentum::SolverT<T>> solver_;
+
+  momentum::Random<> rng_;
+};
 
 } // namespace momentum

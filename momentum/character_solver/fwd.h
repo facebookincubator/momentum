@@ -522,6 +522,25 @@ using PosePriorErrorFunctiond_const_u = ::std::unique_ptr<const PosePriorErrorFu
 using PosePriorErrorFunctiond_const_w = ::std::weak_ptr<const PosePriorErrorFunctiond>;
 
 template <typename T>
+class PoseTransformSolverT;
+using PoseTransformSolver = PoseTransformSolverT<float>;
+using PoseTransformSolverd = PoseTransformSolverT<double>;
+
+using PoseTransformSolver_p = ::std::shared_ptr<PoseTransformSolver>;
+using PoseTransformSolver_u = ::std::unique_ptr<PoseTransformSolver>;
+using PoseTransformSolver_w = ::std::weak_ptr<PoseTransformSolver>;
+using PoseTransformSolver_const_p = ::std::shared_ptr<const PoseTransformSolver>;
+using PoseTransformSolver_const_u = ::std::unique_ptr<const PoseTransformSolver>;
+using PoseTransformSolver_const_w = ::std::weak_ptr<const PoseTransformSolver>;
+
+using PoseTransformSolverd_p = ::std::shared_ptr<PoseTransformSolverd>;
+using PoseTransformSolverd_u = ::std::unique_ptr<PoseTransformSolverd>;
+using PoseTransformSolverd_w = ::std::weak_ptr<PoseTransformSolverd>;
+using PoseTransformSolverd_const_p = ::std::shared_ptr<const PoseTransformSolverd>;
+using PoseTransformSolverd_const_u = ::std::unique_ptr<const PoseTransformSolverd>;
+using PoseTransformSolverd_const_w = ::std::weak_ptr<const PoseTransformSolverd>;
+
+template <typename T>
 class PositionErrorFunctionT;
 using PositionErrorFunction = PositionErrorFunctionT<float>;
 using PositionErrorFunctiond = PositionErrorFunctionT<double>;
