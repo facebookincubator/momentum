@@ -413,7 +413,13 @@ size_t addMeshToModel(
     sk.inverseBindMatrices = createAccessorBuffer<const Matrix4f>(model, ibm);
 
     // add skinning data
-    for (size_t b = 0; b < 2; b++) {
+    int weightSets = 1;
+    if (skin.weight.block(0, 4, skin.weight.rows(), 4).maxCoeff() > 0.001f) {
+      // only export two sets of weights if more than one set is being used
+      // only one vertex on the second set would have to have more than 0.1% influence to qualify
+      weightSets = 2;
+    }
+    for (size_t b = 0; b < weightSets; b++) {
       std::vector<Vector4s> indices(skin.index.rows());
       std::vector<Vector4f> weights(skin.index.rows());
       for (size_t i = 0; i < indices.size(); i++) {
