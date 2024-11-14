@@ -177,25 +177,27 @@ PYBIND11_MODULE(geometry, m) {
           "with_mesh_and_skin_weights",
           [](const mm::Character& character,
              const mm::Mesh* mesh,
-             const mm::SkinWeights* skinWeights) {
+             const std::optional<mm::SkinWeights>& skinWeights) {
             mm::Character characterWithMesh = character;
             characterWithMesh.mesh = std::make_unique<mm::Mesh>(*mesh);
-            const auto numMeshVertices = mesh->vertices.size();
-            MT_THROW_IF(
-                skinWeights && mesh &&
-                    numMeshVertices != skinWeights->index.rows() &&
-                    numMeshVertices != skinWeights->weight.rows(),
-                "The number of mesh vertices and skin weight index/weight matrix rows should be the same {} vs {} vs {}",
-                numMeshVertices,
-                skinWeights->index.rows(),
-                skinWeights->weight.rows())
-            characterWithMesh.skinWeights =
-                std::make_unique<mm::SkinWeights>(*skinWeights);
+            if (skinWeights) {
+              const auto numMeshVertices = mesh->vertices.size();
+              MT_THROW_IF(
+                  skinWeights && mesh &&
+                      numMeshVertices != skinWeights->index.rows() &&
+                      numMeshVertices != skinWeights->weight.rows(),
+                  "The number of mesh vertices and skin weight index/weight matrix rows should be the same {} vs {} vs {}",
+                  numMeshVertices,
+                  skinWeights->index.rows(),
+                  skinWeights->weight.rows())
+              characterWithMesh.skinWeights =
+                  std::make_unique<mm::SkinWeights>(*skinWeights);
+            }
             return characterWithMesh;
           },
           "Adds mesh and skin weight to the character and return a new character instance",
           py::arg("mesh"),
-          py::arg("skin_weights"))
+          py::arg("skin_weights") = std::optional<mm::SkinWeights>{})
       .def(
           "with_parameter_limits",
           [](const mm::Character& character,
