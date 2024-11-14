@@ -102,8 +102,8 @@ at::Tensor mapTensor(
     srcIndices.push_back(iSrc);
   }
 
-  at::Tensor srcIndicesTensor = to1DTensor(srcIndices);
-  at::Tensor tgtIndicesTensor = to1DTensor(tgtIndices);
+  at::Tensor srcIndicesTensor = to1DTensor(srcIndices).to(srcTensor.device());
+  at::Tensor tgtIndicesTensor = to1DTensor(tgtIndices).to(srcTensor.device());
 
   std::vector<int64_t> tgtSizes;
   for (int64_t i = 0; i < srcTensor.ndimension(); ++i) {
@@ -932,17 +932,19 @@ at::Tensor applyModelParameterLimitsTemplate(
     //   tensor. The indices tensor used in this step is the same as the one in
     //   tensor.index_select().
 
-    at::Tensor limitedIndicesTensor = to1DTensor(limitedIndices);
-    at::Tensor minLimitsTensor = to1DTensor(minLimits);
-    at::Tensor maxLimitsTensor = to1DTensor(maxLimits);
+    at::Tensor limitedIndicesTensor =
+        to1DTensor(limitedIndices).to(modelParams.device());
+    at::Tensor minLimitsTensor =
+        to1DTensor(minLimits).to(modelParams.device(), modelParams.dtype());
+    at::Tensor maxLimitsTensor =
+        to1DTensor(maxLimits).to(modelParams.device(), modelParams.dtype());
     modelParams = modelParams.index_copy(
         -1,
         limitedIndicesTensor,
-        torch::maximum(
-            torch::minimum(
-                modelParams.index_select(-1, limitedIndicesTensor),
-                maxLimitsTensor),
-            minLimitsTensor));
+        torch::clamp(
+            modelParams.index_select(-1, limitedIndicesTensor),
+            minLimitsTensor,
+            maxLimitsTensor));
   }
 
   if (squeeze) {
