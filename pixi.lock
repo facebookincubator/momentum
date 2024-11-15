@@ -1828,7 +1828,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgomp-14.2.0-h77fa898_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-2.31.0-h804f50b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-storage-2.31.0-h0121fbd_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.50-h4f305b6_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.51-hbd13f7d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgrpc-1.67.1-hc2c308b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libhwloc-2.11.1-default_hecaa2ac_1000.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libiconv-1.17-hd590300_2.conda
@@ -2487,7 +2487,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgomp-14.2.0-h77fa898_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-2.31.0-h804f50b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-storage-2.31.0-h0121fbd_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.50-h4f305b6_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.51-hbd13f7d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgrpc-1.67.1-hc2c308b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libhwloc-2.11.1-default_hecaa2ac_1000.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libiconv-1.17-hd590300_2.conda
@@ -3146,7 +3146,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgomp-14.2.0-h77fa898_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-2.31.0-h804f50b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-storage-2.31.0-h0121fbd_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.50-h4f305b6_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.51-hbd13f7d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgrpc-1.67.1-hc2c308b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libhwloc-2.11.1-default_hecaa2ac_1000.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libiconv-1.17-hd590300_2.conda
@@ -3805,7 +3805,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgomp-14.2.0-h77fa898_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-2.31.0-h804f50b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgoogle-cloud-storage-2.31.0-h0121fbd_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.50-h4f305b6_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.51-hbd13f7d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgrpc-1.67.1-hc2c308b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libhwloc-2.11.1-default_hecaa2ac_1000.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libiconv-1.17-hd590300_2.conda
@@ -13600,22 +13600,23 @@ packages:
   timestamp: 1731122772886
 - kind: conda
   name: libgpg-error
-  version: '1.50'
-  build: h4f305b6_0
+  version: '1.51'
+  build: hbd13f7d_0
   subdir: linux-64
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.50-h4f305b6_0.conda
-  sha256: c60969d5c315f33fee90a1f2dd5d169e2834ace5a55f5a6f822aa7485a3a84cc
-  md5: 0d7ff1a8e69565ca3add6925e18e708f
+  url: https://conda.anaconda.org/conda-forge/linux-64/libgpg-error-1.51-hbd13f7d_0.conda
+  sha256: 2b411b8c6e62874c4c4f24c54ea35821cedd118aaa8104ed776317f0fe936abe
+  md5: a2b4a4600d432adf0ee057f63ee27b23
   depends:
+  - __glibc >=2.17,<3.0.a0
   - gettext
   - libasprintf >=0.22.5,<1.0a0
-  - libgcc-ng >=12
+  - libgcc >=13
   - libgettextpo >=0.22.5,<1.0a0
-  - libstdcxx-ng >=12
+  - libstdcxx >=13
   license: GPL-2.0-only
   license_family: GPL
-  size: 273774
-  timestamp: 1719390736440
+  size: 268660
+  timestamp: 1731684755273
 - kind: conda
   name: libgrpc
   version: 1.62.2
