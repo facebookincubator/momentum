@@ -52,7 +52,5 @@
     "npm": "use yarn instead",
     "yarn": "^1.5"
   },
-  "devDependencies": {
-    "yarn-audit-fix": "^10.0.7"
-  }
+  "devDependencies": {}
 }
