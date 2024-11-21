@@ -165,6 +165,7 @@ mt_library(
     common
     fmt_eigen
     online_qr
+    Dispenso::dispenso
     Eigen3::Eigen
     Microsoft.GSL::GSL
 )
