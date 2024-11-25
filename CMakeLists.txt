@@ -93,7 +93,7 @@ if(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK)
 else()
   include(FetchContent)
   FetchContent_Declare(rerun_sdk
-    URL https://github.com/rerun-io/rerun/releases/download/0.16.0/rerun_cpp_sdk.zip
+    URL https://github.com/rerun-io/rerun/releases/download/0.19.1/rerun_cpp_sdk.zip
   )
   FetchContent_MakeAvailable(rerun_sdk)
 endif()
@@ -509,29 +509,29 @@ if(MOMENTUM_BUILD_TESTING)
     EXCLUDE_FROM_INSTALL
   )
 
-  # set(io_test_helper_libs )
-  # if(APPLE)
-  #   set(io_test_helper_sources io_test_helper_sources_macos)
-  #   list(APPEND io_test_helper_libs "-framework Foundation")
-  # elseif(UNIX)
-  #   set(io_test_helper_sources io_test_helper_sources_linux)
-  # elseif(WIN32)
-  #   set(io_test_helper_sources io_test_helper_sources_windows)
-  # else()
-  #   message(FATAL_ERROR "Unsupported platform")
-  # endif()
+  set(io_test_helper_libs )
+  if(APPLE)
+    set(io_test_helper_sources io_test_helper_sources_macos)
+    list(APPEND io_test_helper_libs "-framework Foundation")
+  elseif(UNIX)
+    set(io_test_helper_sources io_test_helper_sources_linux)
+  elseif(WIN32)
+    set(io_test_helper_sources io_test_helper_sources_windows)
+  else()
+    message(FATAL_ERROR "Unsupported platform")
+  endif()
 
-  # mt_library(
-  #   NAME io_test_helper
-  #   HEADERS_VARS io_test_helper_public_headers
-  #   SOURCES_VARS ${io_test_helper_sources}
-  #   PUBLIC_LINK_LIBRARIES
-  #     test_helpers
-  #     Microsoft.GSL::GSL
-  #   PRIVATE_LINK_LIBRARIES
-  #     ${io_test_helper_libs}
-  #   EXCLUDE_FROM_INSTALL
-  # )
+  mt_library(
+    NAME io_test_helper
+    HEADERS_VARS io_test_helper_public_headers
+    SOURCES_VARS ${io_test_helper_sources}
+    PUBLIC_LINK_LIBRARIES
+      test_helpers
+      Microsoft.GSL::GSL
+    PRIVATE_LINK_LIBRARIES
+      ${io_test_helper_libs}
+    EXCLUDE_FROM_INSTALL
+  )
 
   mt_test(
     NAME common_test
@@ -619,23 +619,23 @@ if(MOMENTUM_BUILD_TESTING)
     )
   endif()
 
-  # mt_test(
-  #   NAME io_common_test
-  #   LINK_LIBRARIES io_common
-  #   SOURCES_VARS io_common_test_sources
-  # )
+  mt_test(
+    NAME io_common_test
+    LINK_LIBRARIES io_common
+    SOURCES_VARS io_common_test_sources
+  )
 
   # TODO: Add io_gltf_test
 
-  # mt_test(
-  #   NAME io_marker_test
-  #   SOURCES_VARS io_marker_test_sources
-  #   LINK_LIBRARIES
-  #     io_marker
-  #     io_test_helper
-  #   ENV
-  #     "TEST_RESOURCES_PATH=${CMAKE_SOURCE_DIR}/momentum/test/resources"
-  # )
+  mt_test(
+    NAME io_marker_test
+    SOURCES_VARS io_marker_test_sources
+    LINK_LIBRARIES
+      io_marker
+      io_test_helper
+    ENV
+      "TEST_RESOURCES_PATH=${CMAKE_SOURCE_DIR}/momentum/test/resources"
+  )
 endif()
 
 #===============================================================================
