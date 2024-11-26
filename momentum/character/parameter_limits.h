@@ -75,8 +75,8 @@ union LimitData {
 
 struct ParameterLimit {
   LimitData data; // limit data depending on the type
-  LimitType type; // type of limit
-  float weight; // limit weight
+  LimitType type = LimitType::MinMax; // type of limit
+  float weight = 1.0f; // limit weight
 
   inline bool operator==(const ParameterLimit& parameterLimit) const {
     return (
