@@ -13,191 +13,334 @@
 #include "momentum/math/constants.h"
 #include "momentum/math/utility.h"
 
-#include <re2/re2.h>
-
 namespace momentum {
 
 namespace {
 
-void parseMinmaxWithParameterIndex(
-    ParameterLimits& pl,
-    const std::string& valueStr,
-    int parameterIndex) {
-  // create new parameterlimit
-  ParameterLimit p;
-  p.weight = 1.0f;
-  p.type = MinMax;
-  // "[<min>, <max>] <optional weight>"
-  static const re2::RE2 minmaxRegex(
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
-  std::string valueX, valueY, weight;
-  MT_THROW_IF(
-      !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
-      "Unrecognized minmax limit token in parameter configuration : {}",
-      valueStr);
-  p.data.minMax.parameterIndex = parameterIndex;
-  p.data.minMax.limits = Vector2f(std::stof(valueX), std::stof(valueY));
-  if (!weight.empty()) {
-    p.weight = std::stof(weight);
+enum class Token {
+  OpenBracket,
+  CloseBracket,
+  Number,
+  Comma,
+  Identifier,
+  Eof,
+};
+
+std::string tokenStr(const Token& t) {
+  switch (t) {
+    case Token::OpenBracket:
+      return "[";
+    case Token::CloseBracket:
+      return "]";
+    case Token::Number:
+      return "float value";
+    case Token::Comma:
+      return ",";
+    case Token::Eof:
+      return "EOF";
+    case Token::Identifier:
+      return "Identifier";
   }
-  pl.push_back(std::move(p));
+  return "Unknown";
 }
 
-void parseMinmaxWithJointIndex(
-    ParameterLimits& pl,
-    const std::string& valueStr,
-    size_t jointIndex,
-    size_t jointParameter) {
-  // create new parameterlimit
-  ParameterLimit p;
-  p.weight = 1.0f;
-  p.type = MinMaxJoint;
-  // "[<min>, <max>] <optional weight>"
-  static const re2::RE2 minmaxRegex(
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
-  std::string valueX, valueY, weight;
-  MT_THROW_IF(
-      !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
-      "Unrecognized minmax limit token in parameter configuration : {}",
-      valueStr);
-  p.data.minMaxJoint.jointIndex = jointIndex;
-  p.data.minMaxJoint.jointParameter = jointParameter;
-  p.data.minMaxJoint.limits = Vector2f(std::stof(valueX), std::stof(valueY));
-  if (!weight.empty()) {
-    p.weight = std::stof(weight);
+class Tokenizer {
+ public:
+  Tokenizer(
+      const std::string& str,
+      size_t lineIndex,
+      const ParameterTransform& parameterTransform,
+      const Skeleton& skeleton)
+      : _str(str),
+        _lineIndex(lineIndex),
+        _parameterTransform(parameterTransform),
+        _skeleton(skeleton) {
+    _curPos = _str.begin();
+    _tokenStart = _curPos;
+    advance();
   }
-  pl.push_back(std::move(p));
+
+  [[nodiscard]] bool isEOF() const {
+    return _curToken == Token::Eof;
+  }
+
+  void eatToken(Token expectedToken) {
+    verifyToken(expectedToken);
+    advance();
+  }
+
+  [[nodiscard]] std::string getIdentifier() {
+    verifyToken(Token::Identifier);
+    std::string result(_tokenStart, _curPos);
+    advance();
+    return result;
+  }
+
+  [[nodiscard]] float getNumber() {
+    verifyToken(Token::Number);
+    float result = std::stof(std::string(_tokenStart, _curPos));
+    advance();
+    return result;
+  }
+
+  template <int N>
+  [[nodiscard]] Vector<float, N> getVec() {
+    Vector<float, N> result;
+
+    eatToken(Token::OpenBracket);
+    for (Eigen::Index i = 0; i < N; ++i) {
+      if (i > 0) {
+        eatToken(Token::Comma);
+      }
+      result[i] = getNumber();
+    }
+    eatToken(Token::CloseBracket);
+
+    return result;
+  }
+
+  [[nodiscard]] std::pair<float, float> getPair() {
+    Vector2<float> result = getVec<2>();
+    return {result.x(), result.y()};
+  }
+
+  [[nodiscard]] size_t modelParameterIndexFromName(const std::string& modelParameterName) const {
+    auto itr = std::find(
+        _parameterTransform.name.begin(), _parameterTransform.name.end(), modelParameterName);
+    MT_THROW_IF(
+        itr == _parameterTransform.name.end(),
+        "Parameter {} not found in transform at line {}: {}",
+        modelParameterName,
+        _lineIndex,
+        _str);
+    return std::distance(_parameterTransform.name.begin(), itr);
+  }
+
+  [[nodiscard]] size_t getModelParameterIndex() {
+    return modelParameterIndexFromName(getIdentifier());
+  }
+
+  [[nodiscard]] std::pair<size_t, size_t> jointParameterIndexFromName(
+      const std::string& jointParameterName) const {
+    auto dotPos = jointParameterName.find('.');
+    MT_THROW_IF(
+        dotPos == std::string::npos,
+        "Could not find '.' in joint parameter name {}; expected 'joint_name.tx/tz/tz/rx/ry/rz/s' at line {}: {}",
+        jointParameterName,
+        _lineIndex,
+        _str);
+
+    auto jointName = jointParameterName.substr(0, dotPos);
+    const auto jointIndex = jointIndexFromName(jointName);
+
+    const auto subParamName = jointParameterName.substr(dotPos + 1);
+    const auto* kJointParameterNamesEnd = kJointParameterNames + kParametersPerJoint;
+    const auto* subParamItr =
+        std::find_if(kJointParameterNames, kJointParameterNamesEnd, [&](const char* name) {
+          return subParamName == name;
+        });
+    MT_THROW_IF(
+        subParamItr == kJointParameterNamesEnd,
+        "Invalid parameter name {}, expected tx/ty/tz/rx/ry/rz/s at line {}: {}",
+        subParamName,
+        _lineIndex,
+        _str);
+    return {jointIndex, std::distance(kJointParameterNames, subParamItr)};
+  }
+
+  [[nodiscard]] size_t jointIndexFromName(const std::string& jointName) const {
+    const auto jointIndex = _skeleton.getJointIdByName(jointName);
+    MT_THROW_IF(
+        jointIndex == kInvalidIndex,
+        "Could not find joint {} in skeleton at line {}: {}",
+        jointName,
+        _lineIndex,
+        _str);
+
+    return jointIndex;
+  }
+
+  [[nodiscard]] size_t getJointIndex() {
+    return jointIndexFromName(getIdentifier());
+  }
+
+  [[nodiscard]] size_t currentPosition() const {
+    return std::distance(_str.begin(), _curPos);
+  }
+
+ private:
+  void verifyToken(Token expectedToken) const {
+    MT_THROW_IF(
+        _curToken != expectedToken,
+        "Expected {} at character {} of line {}: {}",
+        tokenStr(expectedToken),
+        std::distance(_str.begin(), _tokenStart),
+        _lineIndex,
+        _str);
+  }
+
+  void advance() {
+    // Eat all spaces:
+    while (_curPos != _str.end() && std::isspace(*_curPos)) {
+      ++_curPos;
+    }
+
+    _tokenStart = _curPos;
+    if (_curPos == _str.end()) {
+      _curToken = Token::Eof;
+      return;
+    }
+
+    if (*_curPos == '[') {
+      _curToken = Token::OpenBracket;
+      ++_curPos;
+      return;
+    }
+
+    if (*_curPos == ']') {
+      _curToken = Token::CloseBracket;
+      ++_curPos;
+      return;
+    }
+
+    if (*_curPos == ',') {
+      _curToken = Token::Comma;
+      ++_curPos;
+      return;
+    }
+
+    // We won't allow numbers to start with a period so you'll need to say 0.1 instead of .1,
+    // this will help to avoid ambiguous cases whre the dot is part of a joint parameter definition.
+    if (std::isdigit(*_curPos) || *_curPos == '-' || *_curPos == '+') {
+      _curToken = Token::Number;
+      while (_curPos != _str.end() &&
+             (std::isdigit(*_curPos) || *_curPos == '-' || *_curPos == '+' || *_curPos == '.' ||
+              *_curPos == 'e')) {
+        ++_curPos;
+      }
+      return;
+    }
+
+    if (_curPos != _str.end() && (std::isalpha(*_curPos) || *_curPos == '_')) {
+      _curToken = Token::Identifier;
+      // period in identifier is okay, we consider "joint.rx" as a single identifier
+      while (std::isalnum(*_curPos) || *_curPos == '_' || *_curPos == '.') {
+        ++_curPos;
+      }
+      return;
+    }
+
+    MT_THROW(
+        "Unexpected token at character {} of line {}: {}",
+        std::distance(_str.begin(), _tokenStart),
+        _lineIndex,
+        _str);
+  }
+
+  const std::string& _str;
+  const size_t _lineIndex;
+  const ParameterTransform& _parameterTransform;
+  const Skeleton& _skeleton;
+  std::string::const_iterator _curPos;
+  std::string::const_iterator _tokenStart;
+  Token _curToken = Token::Eof;
+};
+
+void parseMinmax(const std::string& parameterName, ParameterLimits& pl, Tokenizer& tokenizer) {
+  if (parameterName.find('.') == std::string::npos) {
+    // "[<min>, <max>] <optional weight>"
+    ParameterLimit p;
+    p.weight = 1.0f;
+    p.type = MinMax;
+    p.data.minMax.parameterIndex = tokenizer.modelParameterIndexFromName(parameterName);
+
+    std::tie(p.data.minMax.limits.x(), p.data.minMax.limits.y()) = tokenizer.getPair();
+    if (!tokenizer.isEOF()) {
+      p.weight = tokenizer.getNumber();
+    }
+    pl.push_back(p);
+  } else {
+    // "[<min>, <max>] <optional weight>"
+    ParameterLimit p;
+    p.weight = 1.0f;
+    p.type = MinMaxJoint;
+    std::tie(p.data.minMaxJoint.jointIndex, p.data.minMaxJoint.jointParameter) =
+        tokenizer.jointParameterIndexFromName(parameterName);
+
+    std::tie(p.data.minMaxJoint.limits.x(), p.data.minMaxJoint.limits.y()) = tokenizer.getPair();
+    if (!tokenizer.isEOF()) {
+      p.weight = tokenizer.getNumber();
+    }
+    pl.push_back(p);
+  }
 }
 
 void parseMinmaxPassive(
+    const std::string& parameterName,
     ParameterLimits& pl,
-    const std::string& valueStr,
-    size_t jointIndex,
-    size_t jointParameter) {
-  // create new parameterlimit
+    Tokenizer& tokenizer) {
+  // "[<min>, <max>] <optional weight>"
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = MinMaxJointPassive;
-  // "[<min>, <max>] <optional weight>"
-  static const re2::RE2 minmaxRegex(
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
-  std::string valueX, valueY, weight;
-  MT_THROW_IF(
-      !re2::RE2::FullMatch(valueStr, minmaxRegex, &valueX, &valueY, &weight),
-      "Unrecognized minmax limit token in parameter configuration : {}",
-      valueStr);
-  p.data.minMaxJoint.jointIndex = jointIndex;
-  p.data.minMaxJoint.jointParameter = jointParameter;
-  p.data.minMaxJoint.limits = Vector2f(std::stof(valueX), std::stof(valueY));
-  if (!weight.empty()) {
-    p.weight = std::stof(weight);
+  std::tie(p.data.minMaxJoint.jointIndex, p.data.minMaxJoint.jointParameter) =
+      tokenizer.jointParameterIndexFromName(parameterName);
+
+  std::tie(p.data.minMaxJoint.limits.x(), p.data.minMaxJoint.limits.y()) = tokenizer.getPair();
+  if (!tokenizer.isEOF()) {
+    p.weight = tokenizer.getNumber();
   }
-  pl.push_back(std::move(p));
+  pl.push_back(p);
 }
 
-void parseLinear(
-    ParameterLimits& pl,
-    const std::string& valueStr,
-    const ParameterTransform& parameterTransform,
-    int parameterIndex) {
+void parseLinear(const std::string& parameterName, ParameterLimits& pl, Tokenizer& tokenizer) {
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = Linear;
-  // "<model parameter name> [<scale>, <offset>] <optional weight>"
-  static const re2::RE2 linearRegex(
-      R"((\w+)\s*\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\](\s*[-+]?[0-9]*\.?[0-9]+)?)");
-  std::string name, scale, offset, weight;
-  MT_THROW_IF(
-      !re2::RE2::FullMatch(valueStr, linearRegex, &name, &scale, &offset, &weight),
-      "Unrecognized linear limit token in parameter configuration : {}",
-      valueStr);
+  p.data.linear.referenceIndex = tokenizer.modelParameterIndexFromName(parameterName);
 
-  int otherParameterIndex = -1;
-  for (size_t d = 0; d < parameterTransform.name.size(); d++) {
-    if (parameterTransform.name[d] == name) {
-      otherParameterIndex = static_cast<int>(d);
-      break;
-    }
-  }
-  MT_THROW_IF(
-      otherParameterIndex == -1,
-      "Unrecognized parameter name for linear limit in parameter configuration : {}",
-      valueStr);
+  // "<model parameter name> [<scale>, <offset>] <optional weight> [<opt. range min>, <opt. range
+  // max>]"
+  p.data.linear.targetIndex = tokenizer.getModelParameterIndex();
 
-  p.data.linear.referenceIndex = parameterIndex;
-  p.data.linear.targetIndex = otherParameterIndex;
-  p.data.linear.scale = std::stof(scale);
-  p.data.linear.offset = std::stof(offset);
-  if (!weight.empty()) {
-    p.weight = std::stof(weight);
+  std::tie(p.data.linear.scale, p.data.linear.offset) = tokenizer.getPair();
+
+  if (!tokenizer.isEOF()) {
+    p.weight = tokenizer.getNumber();
   }
   pl.push_back(std::move(p));
 }
 
-void parseEllipsoid(
-    ParameterLimits& pl,
-    const std::string& valueStr,
-    const Skeleton& skeleton,
-    int jointIndex) {
+void parseEllipsoid(const std::string& jointName, ParameterLimits& pl, Tokenizer& tokenizer) {
   // create new parameterlimit
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = Ellipsoid;
-  // "[offset] parent [translation] [rotation] [scale] <optional weight>"
-  static const re2::RE2 ellipsoidRegex(
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
-      R"((\w+)\s*)"
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
-      R"(\[\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*,\s*([-+]?[0-9]*\.?[0-9]+)\s*\]\s*)"
-      R"((\s*[-+]?[0-9]*\.?[0-9]+)?)");
-  std::string offsetX, offsetY, offsetZ, jointName, transX, transY, transZ, eulerZ, eulerY, eulerX,
-      scaleX, scaleY, scaleZ, weight;
-  MT_THROW_IF(
-      !re2::RE2::FullMatch(
-          valueStr,
-          ellipsoidRegex,
-          &offsetX,
-          &offsetY,
-          &offsetZ,
-          &jointName,
-          &transX,
-          &transY,
-          &transZ,
-          &eulerZ,
-          &eulerY,
-          &eulerX,
-          &scaleX,
-          &scaleY,
-          &scaleZ,
-          &weight),
-      "Unrecognized ellipsoid limit token in parameter configuration : {}",
-      valueStr);
 
-  const size_t ellipsoidJointIndex = skeleton.getJointIdByName(jointName);
-  MT_THROW_IF(
-      ellipsoidJointIndex == kInvalidIndex,
-      "Unrecognized joint name for ellipsoid limit in parameter configuration : {}",
-      valueStr);
+  // "[offset] parent [translation] [rotation] [scale] <optional weight>"
+  p.data.ellipsoid.parent = tokenizer.jointIndexFromName(jointName);
+  p.data.ellipsoid.offset = tokenizer.getVec<3>();
+
+  p.data.ellipsoid.ellipsoidParent = tokenizer.getJointIndex();
+
+  const Eigen::Vector3f translation = tokenizer.getVec<3>();
+  const Eigen::Vector3f eulerZYX = tokenizer.getVec<3>();
+  const Eigen::Vector3f scale = tokenizer.getVec<3>();
+
+  if (!tokenizer.isEOF()) {
+    p.weight = tokenizer.getNumber();
+  }
 
   // parse ellipsoid number data
-  p.data.ellipsoid.parent = jointIndex;
-  p.data.ellipsoid.ellipsoidParent = ellipsoidJointIndex;
-  p.data.ellipsoid.offset = Vector3f(std::stof(offsetX), std::stof(offsetY), std::stof(offsetZ));
   p.data.ellipsoid.ellipsoid = Affine3f::Identity();
-  p.data.ellipsoid.ellipsoid.translation() =
-      Vector3f(std::stof(transX), std::stof(transY), std::stof(transZ));
-  const Vector3f angles =
-      Vector3f(toRad(std::stof(eulerX)), toRad(std::stof(eulerY)), toRad(std::stof(eulerZ)));
+  p.data.ellipsoid.ellipsoid.translation() = translation;
+  const Vector3f eulerXYZ = Vector3f(toRad(eulerZYX.z()), toRad(eulerZYX.y()), toRad(eulerZYX.x()));
   p.data.ellipsoid.ellipsoid.linear() =
-      eulerXYZToRotationMatrix(angles, EulerConvention::Extrinsic) *
-      Eigen::Scaling(std::stof(scaleX), std::stof(scaleY), std::stof(scaleZ));
+      eulerXYZToRotationMatrix(eulerXYZ, EulerConvention::Extrinsic) *
+      Eigen::Scaling(scale.x(), scale.y(), scale.z());
   p.data.ellipsoid.ellipsoidInv = p.data.ellipsoid.ellipsoid.inverse();
 
-  if (!weight.empty()) {
-    p.weight = std::stof(weight);
-  }
   pl.push_back(std::move(p));
 }
 
@@ -211,7 +354,10 @@ ParameterLimits parseParameterLimits(
 
   std::istringstream f(data);
   std::string line;
+  size_t lineIndex = 0;
   while (std::getline(f, line)) {
+    ++lineIndex;
+
     // erase all comments
     line = line.substr(0, line.find_first_of('#'));
 
@@ -222,61 +368,37 @@ ParameterLimits parseParameterLimits(
 
     // parse limits
     // token 1 = parameter name, token 2 = type, token 3 = value
-    static const re2::RE2 reg("limit ([\\w.]+) (\\w+) (.*)");
-    std::string parameterName;
-    std::string type;
-    std::string valueStr;
-    MT_THROW_IF(
-        !re2::RE2::FullMatch(line, reg, &parameterName, &type, &valueStr),
-        "Could not parse limit line in parameter configuration : {}",
-        line);
+    Tokenizer tokenizer(line, lineIndex, parameterTransform, skeleton);
 
-    int parameterIndex = -1;
-    for (size_t d = 0; d < parameterTransform.name.size(); d++) {
-      if (parameterTransform.name[d] == parameterName) {
-        parameterIndex = static_cast<int>(d);
-        break;
-      }
-    }
+    // Eat the initial "limit":
+    std::ignore = tokenizer.getIdentifier();
 
-    // check if the first token is actually a joint name as well
-    const size_t jointIndex =
-        skeleton.getJointIdByName(parameterName.substr(0, parameterName.find_first_of(".")));
-    size_t jointParameter = kInvalidIndex;
-    if (jointIndex != kInvalidIndex) {
-      const std::string jpString = parameterName.substr(parameterName.find_first_of(".") + 1);
-      for (size_t j = 0; j < kParametersPerJoint; j++) {
-        if (jpString == kJointParameterNames[j]) {
-          jointParameter = j;
-          break;
-        }
-      }
-    }
+    const std::string parameterName = tokenizer.getIdentifier();
 
+    const std::string type = tokenizer.getIdentifier();
     // create a new ParameterLimit by the type and add it to pl
-    if (type == "minmax" && parameterIndex != -1) {
-      parseMinmaxWithParameterIndex(pl, valueStr, parameterIndex);
-    } else if (type == "minmax" && jointIndex != kInvalidIndex && jointParameter != kInvalidIndex) {
-      parseMinmaxWithJointIndex(pl, valueStr, jointIndex, jointParameter);
-    } else if (
-        type == "minmax_passive" && jointIndex != kInvalidIndex &&
-        jointParameter != kInvalidIndex) {
-      parseMinmaxPassive(pl, valueStr, jointIndex, jointParameter);
-    } else if (type == "linear" && parameterIndex != -1) {
-      parseLinear(pl, valueStr, parameterTransform, parameterIndex);
-    } else if (type == "ellipsoid" && jointIndex != kInvalidIndex) {
-      parseEllipsoid(pl, valueStr, skeleton, jointIndex);
-    } else if (type == "elipsoid" && jointIndex != kInvalidIndex) {
+    if (type == "minmax") {
+      parseMinmax(parameterName, pl, tokenizer);
+    } else if (type == "minmax_passive") {
+      parseMinmaxPassive(parameterName, pl, tokenizer);
+    } else if (type == "linear") {
+      parseLinear(parameterName, pl, tokenizer);
+    } else if (type == "ellipsoid") {
+      parseEllipsoid(parameterName, pl, tokenizer);
+    } else if (type == "elipsoid") {
       MT_LOGW_ONCE(
           "Deprecated parameter limit type: {} (typo). Please use 'ellipsoid' instead.", type);
-      parseEllipsoid(pl, valueStr, skeleton, jointIndex);
+      parseEllipsoid(parameterName, pl, tokenizer);
     } else {
-      MT_LOGE(
-          "Failed to parse parameter configuration '{}'. It will be ignored. This could be due to an unsupported limit type '{}' or failure to find the parameter name '{}'.",
-          line,
-          type,
-          parameterName);
+      MT_THROW("Unexpected parameter limit type {} in line {}: {}", type, lineIndex, line);
     }
+
+    MT_THROW_IF(
+        !tokenizer.isEOF(),
+        "Unexpected token at character {} in line {}: {}",
+        tokenizer.currentPosition(),
+        lineIndex,
+        line);
   }
   return pl;
 }
