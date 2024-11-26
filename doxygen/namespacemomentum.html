@@ -3674,6 +3674,8 @@ Functions</h2></td></tr>
 <tr class="separator:a611e3f0933e8874ccce1cf032506f804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade484c2e9267807b52f6f7d998d7453d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#af510f44c571cb8771263cbfbb1971367">ParameterLimits</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ade484c2e9267807b52f6f7d998d7453d">getPoseConstraintParameterLimits</a> (const std::string &amp;name, const <a class="el" href="namespacemomentum.html#ac1f6905464260f1a5c2dff54fc03d422">ParameterTransform</a> &amp;pt, const float weight)</td></tr>
 <tr class="separator:ade484c2e9267807b52f6f7d998d7453d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6fde982d4dfa32bc253074c5df04e7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ac6fde982d4dfa32bc253074c5df04e7c">isInRange</a> (const <a class="el" href="structmomentum_1_1LimitLinear.html">LimitLinear</a> &amp;limit, float value)</td></tr>
+<tr class="separator:ac6fde982d4dfa32bc253074c5df04e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af21a02ec65b013a43da8f6d2d8c39f2e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af21a02ec65b013a43da8f6d2d8c39f2e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af21a02ec65b013a43da8f6d2d8c39f2e">mapParameterTransformJoints</a> (const <a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt; &amp;parameterTransform, size_t numTargetJoints, const std::vector&lt; size_t &gt; &amp;jointMapping)</td></tr>
 <tr class="memdesc:af21a02ec65b013a43da8f6d2d8c39f2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new parameter transform where the joints have been mapped to a new skeleton.  <a href="namespacemomentum.html#af21a02ec65b013a43da8f6d2d8c39f2e">More...</a><br /></td></tr>
@@ -4014,6 +4016,8 @@ Functions</h2></td></tr>
 <tr class="separator:ad0778f4670c7fffe2ed4cbdd0ef39ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bff844816dc74cec0b46f20d7543a5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#af510f44c571cb8771263cbfbb1971367">ParameterLimits</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a2bff844816dc74cec0b46f20d7543a5f">parseParameterLimits</a> (const std::string &amp;data, const <a class="el" href="namespacemomentum.html#ab2f864f0ca7e568dba712163aa8569f2">Skeleton</a> &amp;skeleton, const <a class="el" href="namespacemomentum.html#ac1f6905464260f1a5c2dff54fc03d422">ParameterTransform</a> &amp;parameterTransform)</td></tr>
 <tr class="separator:a2bff844816dc74cec0b46f20d7543a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad41e2ab183a69e86a781ff9f76e00d7e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ad41e2ab183a69e86a781ff9f76e00d7e">writeParameterLimits</a> (const <a class="el" href="namespacemomentum.html#af510f44c571cb8771263cbfbb1971367">ParameterLimits</a> &amp;parameterLimits, const <a class="el" href="namespacemomentum.html#ab2f864f0ca7e568dba712163aa8569f2">Skeleton</a> &amp;skeleton, const <a class="el" href="namespacemomentum.html#ac1f6905464260f1a5c2dff54fc03d422">ParameterTransform</a> &amp;parameterTransform)</td></tr>
+<tr class="separator:ad41e2ab183a69e86a781ff9f76e00d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36003e4357ec814b10075f318abb0076"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a36003e4357ec814b10075f318abb0076">loadMomentumModel</a> (const filesystem::path &amp;filename)</td></tr>
 <tr class="separator:a36003e4357ec814b10075f318abb0076"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a761ef18f2b6cc8a7b674a7efd9f95659"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a761ef18f2b6cc8a7b674a7efd9f95659">loadMomentumModelFromBuffer</a> (gsl::span&lt; const std::byte &gt; buffer)</td></tr>
@@ -26876,6 +26880,34 @@ template&lt;typename T  = float&gt; </div>
 
 </div>
 </div>
+<a id="ac6fde982d4dfa32bc253074c5df04e7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6fde982d4dfa32bc253074c5df04e7c">&#9670;&nbsp;</a></span>isInRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool momentum::isInRange </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structmomentum_1_1LimitLinear.html">LimitLinear</a> &amp;&#160;</td>
+          <td class="paramname"><em>limit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a42ed24e5265219385786a126f2a0166b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a42ed24e5265219385786a126f2a0166b">&#9670;&nbsp;</a></span>IsNanNoOpt()</h2>
 
@@ -33855,6 +33887,40 @@ template&lt;typename T &gt; </div>
           <td></td>
           <td class="paramtype">Eigen::Index&#160;</td>
           <td class="paramname"><em>maxEntry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad41e2ab183a69e86a781ff9f76e00d7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad41e2ab183a69e86a781ff9f76e00d7e">&#9670;&nbsp;</a></span>writeParameterLimits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string momentum::writeParameterLimits </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#af510f44c571cb8771263cbfbb1971367">ParameterLimits</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameterLimits</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#ab2f864f0ca7e568dba712163aa8569f2">Skeleton</a> &amp;&#160;</td>
+          <td class="paramname"><em>skeleton</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#ac1f6905464260f1a5c2dff54fc03d422">ParameterTransform</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameterTransform</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
