@@ -38,7 +38,7 @@ else()
   FetchContent_Declare(
     pybind11
     GIT_REPOSITORY https://github.com/pybind/pybind11.git
-    GIT_TAG v2.13.5
+    GIT_TAG v2.13.6
   )
   set(PYBIND11_TEST OFF CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(pybind11)
