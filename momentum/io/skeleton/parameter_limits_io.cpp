@@ -341,10 +341,12 @@ std::string writeParameterLimits(
         Eigen::Matrix3f scalingMat;
         ellipsoid.computeRotationScaling(&rotationMat, &scalingMat);
 
-        const Eigen::Vector3f eulerXYZVecRad = rotationMatrixToEulerXYZ(rotationMat);
+        const Eigen::Vector3f eulerXYZVecRad =
+            rotationMatrixToEulerXYZ(rotationMat, EulerConvention::Extrinsic);
         // Not sure why this is reversed but it's implemented this way in the parser above.
         const Eigen::Vector3f eulerZYXVecDeg(
             toDeg(eulerXYZVecRad.z()), toDeg(eulerXYZVecRad.y()), toDeg(eulerXYZVecRad.x()));
+
         MT_CHECK_LT(limit.data.ellipsoid.parent, skeleton.joints.size());
         MT_CHECK_LT(limit.data.ellipsoid.ellipsoidParent, skeleton.joints.size());
         oss << skeleton.joints.at(limit.data.ellipsoid.parent).name << " ellipsoid "
