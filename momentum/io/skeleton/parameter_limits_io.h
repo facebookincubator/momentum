@@ -17,4 +17,9 @@ ParameterLimits parseParameterLimits(
     const Skeleton& skeleton,
     const ParameterTransform& parameterTransform);
 
+std::string writeParameterLimits(
+    const ParameterLimits& parameterLimits,
+    const Skeleton& skeleton,
+    const ParameterTransform& parameterTransform);
+
 } // namespace momentum

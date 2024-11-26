@@ -281,4 +281,87 @@ ParameterLimits parseParameterLimits(
   return pl;
 }
 
+namespace {
+
+std::string vecToString(Eigen::Ref<const Eigen::VectorXf> vec) {
+  std::ostringstream oss;
+  oss << "[";
+  for (Eigen::Index i = 0; i < vec.size(); ++i) {
+    if (i > 0) {
+      oss << ", ";
+    }
+    oss << vec[i];
+  }
+  oss << "]";
+
+  return oss.str();
+}
+
+} // namespace
+
+std::string writeParameterLimits(
+    const ParameterLimits& parameterLimits,
+    const Skeleton& skeleton,
+    const ParameterTransform& parameterTransform) {
+  std::ostringstream oss;
+
+  auto jointParameterToName = [&](size_t jointIndex, size_t jointParameterIndex) {
+    MT_CHECK_LT(jointParameterIndex, kParametersPerJoint);
+    MT_CHECK_LT(jointIndex, skeleton.joints.size());
+    return (skeleton.joints.at(jointIndex).name + "." + kJointParameterNames[jointParameterIndex]);
+  };
+
+  for (const auto& limit : parameterLimits) {
+    oss << "limit ";
+    switch (limit.type) {
+      case LimitType::MinMax:
+        oss << parameterTransform.name.at(limit.data.minMax.parameterIndex) << " minmax "
+            << vecToString(limit.data.minMax.limits);
+        break;
+      case LimitType::MinMaxJoint:
+        oss << jointParameterToName(
+                   limit.data.minMaxJoint.jointIndex, limit.data.minMaxJoint.jointParameter)
+            << " minmax " << vecToString(limit.data.minMaxJoint.limits);
+        break;
+      case LimitType::MinMaxJointPassive:
+        oss << jointParameterToName(
+                   limit.data.minMaxJoint.jointIndex, limit.data.minMaxJoint.jointParameter)
+            << " minmax_passive " << vecToString(limit.data.minMaxJoint.limits);
+        break;
+      case LimitType::Linear:
+        oss << parameterTransform.name.at(limit.data.linear.referenceIndex) << " linear "
+            << parameterTransform.name.at(limit.data.linear.targetIndex) << " "
+            << vecToString(Eigen::Vector2f(limit.data.linear.scale, limit.data.linear.offset));
+        break;
+
+      case LimitType::Ellipsoid: {
+        const Eigen::Affine3f ellipsoid = limit.data.ellipsoid.ellipsoid;
+        const Eigen::Vector3f translation = ellipsoid.translation();
+        Eigen::Matrix3f rotationMat;
+        Eigen::Matrix3f scalingMat;
+        ellipsoid.computeRotationScaling(&rotationMat, &scalingMat);
+
+        const Eigen::Vector3f eulerXYZVecRad = rotationMatrixToEulerXYZ(rotationMat);
+        // Not sure why this is reversed but it's implemented this way in the parser above.
+        const Eigen::Vector3f eulerZYXVecDeg(
+            toDeg(eulerXYZVecRad.z()), toDeg(eulerXYZVecRad.y()), toDeg(eulerXYZVecRad.x()));
+        MT_CHECK_LT(limit.data.ellipsoid.parent, skeleton.joints.size());
+        MT_CHECK_LT(limit.data.ellipsoid.ellipsoidParent, skeleton.joints.size());
+        oss << skeleton.joints.at(limit.data.ellipsoid.parent).name << " ellipsoid "
+            << vecToString(limit.data.ellipsoid.offset) << " "
+            << skeleton.joints.at(limit.data.ellipsoid.ellipsoidParent).name << " "
+            << vecToString(translation) << " " << vecToString(eulerZYXVecDeg) << " "
+            << vecToString(scalingMat.diagonal());
+      }
+    }
+
+    if (limit.weight != 1.0f) {
+      oss << " " << limit.weight;
+    }
+    oss << "\n";
+  }
+
+  return oss.str();
+}
+
 } // namespace momentum
