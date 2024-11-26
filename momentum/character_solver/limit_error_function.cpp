@@ -73,7 +73,7 @@ double LimitErrorFunctionT<T>::getError(
       case MinMaxJoint: {
         const auto& data = limit.data.minMaxJoint;
         const size_t parameterIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
-        MT_CHECK(parameterIndex <= (size_t)state.jointParameters.size());
+        MT_CHECK(parameterIndex < (size_t)state.jointParameters.size());
         if (this->activeJointParams_[parameterIndex]) {
           if (state.jointParameters(parameterIndex) < data.limits[0]) {
             const T val = data.limits[0] - state.jointParameters[parameterIndex];
@@ -91,11 +91,12 @@ double LimitErrorFunctionT<T>::getError(
       }
       case Linear: {
         const auto& data = limit.data.linear;
-        MT_CHECK(data.referenceIndex <= static_cast<size_t>(params.size()));
-        MT_CHECK(data.targetIndex <= static_cast<size_t>(params.size()));
+        MT_CHECK(data.referenceIndex < static_cast<size_t>(params.size()));
+        MT_CHECK(data.targetIndex < static_cast<size_t>(params.size()));
 
-        if (this->enabledParameters_.test(data.targetIndex) ||
-            this->enabledParameters_.test(data.referenceIndex)) {
+        if ((this->enabledParameters_.test(data.targetIndex) ||
+             this->enabledParameters_.test(data.referenceIndex)) &&
+            isInRange(data, params(data.targetIndex))) {
           const T residual =
               params(data.targetIndex) * data.scale - data.offset - params(data.referenceIndex);
           error += residual * residual * limit.weight;
@@ -163,7 +164,7 @@ double LimitErrorFunctionT<T>::getGradient(
     switch (limit.type) {
       case MinMax: {
         const auto& data = limit.data.minMax;
-        MT_CHECK(data.parameterIndex <= static_cast<size_t>(params.size()));
+        MT_CHECK(data.parameterIndex < static_cast<size_t>(params.size()));
         if (this->enabledParameters_.test(data.parameterIndex)) {
           if (params(data.parameterIndex) < data.limits[0]) {
             const T val = params(data.parameterIndex) - data.limits[0];
@@ -181,7 +182,7 @@ double LimitErrorFunctionT<T>::getGradient(
       case MinMaxJoint: {
         const auto& data = limit.data.minMaxJoint;
         const size_t parameterIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
-        MT_CHECK(parameterIndex <= (size_t)state.jointParameters.size());
+        MT_CHECK(parameterIndex < (size_t)state.jointParameters.size());
         if (this->activeJointParams_[parameterIndex]) {
           if (state.jointParameters(parameterIndex) < data.limits[0]) {
             const T val = state.jointParameters[parameterIndex] - data.limits[0];
@@ -215,19 +216,20 @@ double LimitErrorFunctionT<T>::getGradient(
       }
       case Linear: {
         const auto& data = limit.data.linear;
-        MT_CHECK(data.referenceIndex <= static_cast<size_t>(params.size()));
-        MT_CHECK(data.targetIndex <= static_cast<size_t>(params.size()));
-        const T residual =
-            params(data.targetIndex) * data.scale - data.offset - params(data.referenceIndex);
-        error += residual * residual * limit.weight * tWeight;
+        MT_CHECK(data.referenceIndex < static_cast<size_t>(params.size()));
+        MT_CHECK(data.targetIndex < static_cast<size_t>(params.size()));
+        if (isInRange(data, params(data.targetIndex))) {
+          const T residual =
+              params(data.targetIndex) * data.scale - data.offset - params(data.referenceIndex);
+          error += residual * residual * limit.weight * tWeight;
 
-        if (this->enabledParameters_.test(data.targetIndex)) {
-          gradient[data.targetIndex] += T(2) * residual * data.scale * tWeight;
+          if (this->enabledParameters_.test(data.targetIndex)) {
+            gradient[data.targetIndex] += T(2) * residual * data.scale * tWeight;
+          }
+          if (this->enabledParameters_.test(data.referenceIndex)) {
+            gradient[data.referenceIndex] -= T(2) * residual * tWeight;
+          }
         }
-        if (this->enabledParameters_.test(data.referenceIndex)) {
-          gradient[data.referenceIndex] -= T(2) * residual * tWeight;
-        }
-
         break;
       }
       case Ellipsoid: {
@@ -352,7 +354,7 @@ double LimitErrorFunctionT<T>::getJacobian(
     switch (limit.type) {
       case MinMax: {
         const auto& data = limit.data.minMax;
-        MT_CHECK(data.parameterIndex <= static_cast<size_t>(params.size()));
+        MT_CHECK(data.parameterIndex < static_cast<size_t>(params.size()));
         if (this->enabledParameters_.test(data.parameterIndex)) {
           if (params(data.parameterIndex) < data.limits[0]) {
             const T val = params(data.parameterIndex) - data.limits[0];
@@ -373,7 +375,7 @@ double LimitErrorFunctionT<T>::getJacobian(
         // simple case, our jacobians are currently in joint space, just add them up
         const auto& data = limit.data.minMaxJoint;
         const size_t jointIndex = data.jointIndex * kParametersPerJoint + data.jointParameter;
-        MT_CHECK(jointIndex <= (size_t)state.jointParameters.size());
+        MT_CHECK(jointIndex < (size_t)state.jointParameters.size());
         if (this->activeJointParams_[jointIndex]) {
           if (state.jointParameters(jointIndex) < data.limits[0]) {
             const T val = state.jointParameters[jointIndex] - data.limits[0];
@@ -407,11 +409,12 @@ double LimitErrorFunctionT<T>::getJacobian(
       }
       case Linear: {
         const auto& data = limit.data.linear;
-        MT_CHECK(data.referenceIndex <= static_cast<size_t>(params.size()));
-        MT_CHECK(data.targetIndex <= static_cast<size_t>(params.size()));
+        MT_CHECK(data.referenceIndex < static_cast<size_t>(params.size()));
+        MT_CHECK(data.targetIndex < static_cast<size_t>(params.size()));
 
-        if (this->enabledParameters_.test(data.targetIndex) ||
-            this->enabledParameters_.test(data.referenceIndex)) {
+        if ((this->enabledParameters_.test(data.targetIndex) ||
+             this->enabledParameters_.test(data.referenceIndex)) &&
+            isInRange(data, params(data.targetIndex))) {
           const T res =
               params(data.targetIndex) * data.scale - data.offset - params(data.referenceIndex);
           error += res * res * limit.weight * tWeight;

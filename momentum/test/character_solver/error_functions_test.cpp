@@ -58,7 +58,6 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
 
   // TODO: None of these work right at the moment due to precision issues with numerical gradients,
   // need to fix code to use double
-
   {
     SCOPED_TRACE("Limit MinMax Test");
     lm[0].type = MinMax;
@@ -123,6 +122,70 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
       TEST_GRADIENT_AND_JACOBIAN(
           T, &errorFunction, parameters, skeleton, transform, Eps<T>(1e-2f, 1e-10));
     }
+  }
+
+  {
+    SCOPED_TRACE("Limit PiecewiseLinearTest");
+    ParameterLimits limits;
+
+    ParameterLimit limit;
+    limit.type = LimitType::Linear;
+    limit.data.linear.referenceIndex = 0;
+    limit.data.linear.targetIndex = 5;
+    limit.weight = 1.0f;
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linear.scale = -1.0f;
+      cur.data.linear.offset = 3.0f;
+      cur.data.linear.rangeMin = -FLT_MAX;
+      cur.data.linear.rangeMax = -3.0f;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linear.scale = 1.0f;
+      cur.data.linear.offset = -3.0f;
+      cur.data.linear.rangeMin = -3.0f;
+      cur.data.linear.rangeMax = FLT_MAX;
+      limits.push_back(cur);
+    }
+
+    errorFunction.setLimits(limits);
+
+    // Verify that gradients are ok on either side of the first-derivative discontinuity:
+    ModelParametersT<T> parametersBefore = VectorX<T>::Zero(transform.numAllModelParameters());
+    parametersBefore(limit.data.linear.targetIndex) = -3.01f;
+    const SkeletonStateT<T> skelStateBefore(
+        character.parameterTransform.cast<T>().apply(parametersBefore), character.skeleton);
+    Eigen::VectorX<T> gradBefore = VectorX<T>::Zero(transform.numAllModelParameters());
+    errorFunction.getGradient(parametersBefore, skelStateBefore, gradBefore);
+    TEST_GRADIENT_AND_JACOBIAN(
+        T, &errorFunction, parametersBefore, skeleton, transform, Eps<T>(1e-3f, 1e-10));
+
+    ModelParametersT<T> parametersAfter = VectorX<T>::Zero(transform.numAllModelParameters());
+    parametersAfter(limit.data.linear.targetIndex) = -2.99f;
+    const SkeletonStateT<T> skelStateAfter(
+        character.parameterTransform.cast<T>().apply(parametersAfter), character.skeleton);
+    Eigen::VectorX<T> gradAfter = VectorX<T>::Zero(transform.numAllModelParameters());
+    errorFunction.getGradient(parametersAfter, skelStateAfter, gradAfter);
+    TEST_GRADIENT_AND_JACOBIAN(
+        T, &errorFunction, parametersAfter, skeleton, transform, Eps<T>(1e-3f, 1e-10));
+
+    // Gradient won't be the same at the point 3.0:
+    ModelParametersT<T> parametersMid = VectorX<T>::Zero(transform.numAllModelParameters());
+    parametersMid(limit.data.linear.targetIndex) = -3.0f;
+    const SkeletonStateT<T> skelStateMid(
+        character.parameterTransform.cast<T>().apply(parametersMid), character.skeleton);
+
+    // Verify that the error is C0 continuous:
+    const float errorBefore = errorFunction.getError(parametersBefore, skelStateBefore);
+    const float errorMid = errorFunction.getError(parametersMid, skelStateMid);
+    const float errorAfter = errorFunction.getError(parametersAfter, skelStateAfter);
+
+    ASSERT_NEAR(errorBefore, errorMid, 0.03f);
+    ASSERT_NEAR(errorMid, errorAfter, 0.03f);
   }
 
   //{

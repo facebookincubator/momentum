@@ -41,6 +41,13 @@ struct LimitLinear { // set joints to be similar by a linear relation i.e. p_0 =
   size_t targetIndex; // index of target parameter (p_1)
   float scale; // linear scale of parameter (x)
   float offset; // offset (positive and negative) of acceptable parameter zone
+
+  // Range where limit is applied (in target parameter values p1).  This can be used to construct
+  // piecewise linear limits.  Note that the minimum value of the range is inclusive but the maximum
+  // value is noninclusive, this is to allow constructing overlapping limits without
+  // double-counting.
+  float rangeMin;
+  float rangeMax;
 };
 
 struct LimitEllipsoid {
@@ -88,6 +95,8 @@ ParameterLimits getPoseConstraintParameterLimits(
     const std::string& name,
     const ParameterTransform& pt,
     float weight = 1.0f);
+
+bool isInRange(const LimitLinear& limit, float value);
 
 MOMENTUM_DEFINE_POINTERS(ParameterLimits)
 } // namespace momentum
