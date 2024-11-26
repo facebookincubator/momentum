@@ -66,6 +66,7 @@ Character createCharacterWithLimits() {
   }
 
   {
+    // ellipsoid constraints are the hardest to get right so let's include two of them:
     ParameterLimit limit;
     limit.type = LimitType::Ellipsoid;
     limit.weight = 5.0;
@@ -83,7 +84,6 @@ Character createCharacterWithLimits() {
   }
 
   {
-    // ellipsoid constraints are the hardest to get right so let's include two of them:
     ParameterLimit limit;
     limit.type = LimitType::Linear;
     limit.weight = 2.0;
@@ -91,6 +91,68 @@ Character createCharacterWithLimits() {
     limit.data.linear.offset = 2.0;
     limit.data.linear.referenceIndex = 2;
     limit.data.linear.targetIndex = 1;
+    limits.push_back(limit);
+  }
+
+  // Piecewise linear limit:
+  // We'll use this example from Wikipedia:
+  //  f(x) = { -x - 3        if x < -3
+  //           x + 3         if -3 <= x < 0
+  //           -2x + 3       if 0 <= x < 3
+  //           0.5x - 4.5    if x >= 3
+  {
+    ParameterLimit limit;
+    limit.type = LimitType::Linear;
+    limit.weight = 2.5;
+    limit.data.linear.referenceIndex = 2;
+    limit.data.linear.targetIndex = 1;
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linear.scale = -1.0f;
+      cur.data.linear.offset = 3.0f;
+      cur.data.linear.rangeMin = -std::numeric_limits<float>::max();
+      cur.data.linear.rangeMax = -3.0f;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linear.scale = 1.0f;
+      cur.data.linear.offset = -3.0f;
+      cur.data.linear.rangeMin = -3.0f;
+      cur.data.linear.rangeMax = 0.0f;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linear.scale = -2.0f;
+      cur.data.linear.offset = -3.0f;
+      cur.data.linear.rangeMin = 0.0f;
+      cur.data.linear.rangeMax = 3.0f;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linear.scale = 0.5f;
+      cur.data.linear.offset = 4.5f;
+      cur.data.linear.rangeMin = 3.0f;
+      cur.data.linear.rangeMax = std::numeric_limits<float>::max();
+      limits.push_back(cur);
+    }
+  }
+
+  {
+    // Add one more limit affecting the same parameters:
+    ParameterLimit limit;
+    limit.type = LimitType::Linear;
+    limit.weight = 2.5;
+    limit.data.linear.referenceIndex = 2;
+    limit.data.linear.targetIndex = 1;
+    limit.data.linear.scale = 1.2f;
+    limit.data.linear.offset = 0.3f;
     limits.push_back(limit);
   }
 
@@ -125,6 +187,14 @@ void validateParameterLimitsSame(const ParameterLimits& limits1, const Parameter
         EXPECT_NEAR(l1.data.linear.scale, l2.data.linear.scale, 1e-4f);
         EXPECT_EQ(l1.data.linear.targetIndex, l2.data.linear.targetIndex);
         EXPECT_EQ(l1.data.linear.referenceIndex, l2.data.linear.referenceIndex);
+
+        if (l1.data.linear.rangeMin == 0.0f && l1.data.linear.rangeMax == 0.0f) {
+          EXPECT_EQ(l2.data.linear.rangeMin, -std::numeric_limits<float>::max());
+          EXPECT_EQ(l2.data.linear.rangeMax, std::numeric_limits<float>::max());
+        } else {
+          EXPECT_NEAR(l1.data.linear.rangeMin, l2.data.linear.rangeMin, 1e-4f);
+          EXPECT_NEAR(l1.data.linear.rangeMax, l2.data.linear.rangeMax, 1e-4f);
+        }
         break;
       case LimitType::Ellipsoid:
         EXPECT_LE(

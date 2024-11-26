@@ -7,6 +7,8 @@
 
 #include "momentum/io/skeleton/parameter_limits_io.h"
 
+#include <limits>
+
 #include "momentum/character/parameter_transform.h"
 #include "momentum/character/skeleton.h"
 #include "momentum/common/log.h"
@@ -16,6 +18,9 @@
 namespace momentum {
 
 namespace {
+
+const float kNegativeInfinity = -std::numeric_limits<float>::max();
+const float kPositiveInfinity = std::numeric_limits<float>::max();
 
 enum class Token {
   OpenBracket,
@@ -69,6 +74,14 @@ class Tokenizer {
     advance();
   }
 
+  void expectToken(Token expectedToken) {
+    verifyToken(expectedToken);
+  }
+
+  Token peek() const {
+    return _curToken;
+  }
+
   [[nodiscard]] std::string getIdentifier() {
     verifyToken(Token::Identifier);
     std::string result(_tokenStart, _curPos);
@@ -97,6 +110,26 @@ class Tokenizer {
     eatToken(Token::CloseBracket);
 
     return result;
+  }
+
+  // Get a vector with an arbitrary number of elements.
+  [[nodiscard]] VectorXf getDynamicVec() {
+    std::vector<float> result;
+
+    eatToken(Token::OpenBracket);
+    while (peek() != Token::CloseBracket) {
+      if (!result.empty()) {
+        eatToken(Token::Comma);
+      }
+      result.push_back(getNumber());
+    }
+    eatToken(Token::CloseBracket);
+
+    Eigen::VectorXf vec(result.size());
+    for (Eigen::Index i = 0; i < vec.size(); ++i) {
+      vec(i) = result.at(i);
+    }
+    return vec;
   }
 
   [[nodiscard]] std::pair<float, float> getPair() {
@@ -166,6 +199,14 @@ class Tokenizer {
 
   [[nodiscard]] size_t currentPosition() const {
     return std::distance(_str.begin(), _curPos);
+  }
+
+  [[nodiscard]] size_t lineIndex() const {
+    return _lineIndex;
+  }
+
+  [[nodiscard]] const std::string& str() const {
+    return _str;
   }
 
  private:
@@ -300,16 +341,96 @@ void parseLinear(const std::string& parameterName, ParameterLimits& pl, Tokenize
   p.type = Linear;
   p.data.linear.referenceIndex = tokenizer.modelParameterIndexFromName(parameterName);
 
-  // "<model parameter name> [<scale>, <offset>] <optional weight> [<opt. range min>, <opt. range
-  // max>]"
+  // "<model parameter name> [<segment1_scale>, <segment1_offset>, segment1_rangeEnd>]
+  // [<segment2_scale> <segment2_offset> <segment2_rangeEnd>] ... [<segment_n_scale>
+  // <segment_n_offset] <optional weight>"
+  //
+  // Each segment of the piecewise-linear limit is specified
+  // sequentially as [scale, offset, rangeEnd] where rangeEnd specifies the _upper_ limit where that
+  // segment applies.
+  //
+  // Example:
+  //  f(x) = { -x - 3        if x < -3
+  //           x - (-3)         if -3 <= x < 0
+  //           -2x - (-3)       if x >= 0
+  // This would look like:
+  //    limit param1 linear param2 [-1, 3, -3] [1, -3, 0] [-2, -3] 4.0
+  // The missing end range for the last segment implies that it ranges to +infinity.
   p.data.linear.targetIndex = tokenizer.getModelParameterIndex();
 
-  std::tie(p.data.linear.scale, p.data.linear.offset) = tokenizer.getPair();
+  tokenizer.expectToken(Token::OpenBracket);
+
+  const auto sizeBefore = pl.size();
+
+  auto evalFunction = [](const LimitLinear& limit, float value) -> float {
+    return limit.scale * value - limit.offset;
+  };
+
+  float prevRangeMax = kNegativeInfinity;
+  while (tokenizer.peek() == Token::OpenBracket) {
+    const auto linePos = tokenizer.currentPosition();
+    const VectorXf segment = tokenizer.getDynamicVec();
+
+    if (segment.size() < 2 || segment.size() > 3) {
+      MT_THROW(
+          "Expected 2 or 3 values for linear segment at position {}, got {} at line {}: {}",
+          segment.size(),
+          linePos,
+          tokenizer.lineIndex(),
+          tokenizer.str());
+    }
+
+    if (prevRangeMax == kPositiveInfinity && segment.size() == 3) {
+      MT_THROW(
+          "Only the last linear segment can have unrestricted range at position {} in line {}: {}",
+          linePos,
+          tokenizer.lineIndex(),
+          tokenizer.str());
+    }
+
+    const float curRangeMax = segment.size() == 3 ? segment[2] : kPositiveInfinity;
+
+    auto pCur = p;
+    pCur.data.linear.scale = segment[0];
+    pCur.data.linear.offset = segment[1];
+    pCur.data.linear.rangeMin = prevRangeMax;
+    pCur.data.linear.rangeMax = curRangeMax;
+
+    if (pl.size() > sizeBefore) {
+      const auto& pPrev = pl.back();
+      MT_CHECK(pPrev.type == pCur.type);
+      const auto valuePrev = evalFunction(pPrev.data.linear, prevRangeMax);
+      const auto valueCur = evalFunction(pCur.data.linear, prevRangeMax);
+
+      MT_THROW_IF(
+          std::abs(valuePrev - valueCur) > 1e-3f,
+          "Mismatch between function values between two linear segments in line {}: {}.  "
+          " At x={}, {}*{} - {} = {} vs {}*{} - {} = {}",
+          tokenizer.lineIndex(),
+          tokenizer.str(),
+          prevRangeMax,
+          pPrev.data.linear.scale,
+          prevRangeMax,
+          pPrev.data.linear.offset,
+          valuePrev,
+          pCur.data.linear.scale,
+          prevRangeMax,
+          pCur.data.linear.offset,
+          valueCur);
+    }
+    pl.push_back(pCur);
+
+    prevRangeMax = curRangeMax;
+  }
 
   if (!tokenizer.isEOF()) {
     p.weight = tokenizer.getNumber();
   }
-  pl.push_back(std::move(p));
+
+  // Back-fill all the weights:
+  for (size_t i = sizeBefore; i < pl.size(); ++i) {
+    pl[i].weight = p.weight;
+  }
 }
 
 void parseEllipsoid(const std::string& jointName, ParameterLimits& pl, Tokenizer& tokenizer) {
@@ -433,31 +554,63 @@ std::string writeParameterLimits(
     return (skeleton.joints.at(jointIndex).name + "." + kJointParameterNames[jointParameterIndex]);
   };
 
-  for (const auto& limit : parameterLimits) {
+  auto itr = parameterLimits.begin();
+  while (itr != parameterLimits.end()) {
     oss << "limit ";
-    switch (limit.type) {
+
+    // Linear needs to be handled specially because it can have multiple segments.
+    if (itr->type == LimitType::Linear) {
+      oss << parameterTransform.name.at(itr->data.linear.referenceIndex) << " linear "
+          << parameterTransform.name.at(itr->data.linear.targetIndex);
+
+      const auto origLimit = *itr;
+      float prevRangeMax = kNegativeInfinity;
+
+      // The .data gets initialized with all zeros (using memset) so we need to
+      // handle the case where both rangeMin and rangeMax are zero.
+      if (itr->data.linear.rangeMin == 0.0f && itr->data.linear.rangeMax == 0.0f) {
+        oss << " " << vecToString(Eigen::Vector2f(itr->data.linear.scale, itr->data.linear.offset));
+        ++itr;
+      } else {
+        do {
+          oss << " ";
+          if (itr->data.linear.rangeMax == kPositiveInfinity) {
+            oss << vecToString(Eigen::Vector2f(itr->data.linear.scale, itr->data.linear.offset));
+          } else {
+            oss << vecToString(Eigen::Vector3f(
+                itr->data.linear.scale, itr->data.linear.offset, itr->data.linear.rangeMax));
+          }
+
+          prevRangeMax = itr->data.linear.rangeMax;
+          ++itr;
+        } while (itr != parameterLimits.end() && itr->type == LimitType::Linear &&
+                 itr->data.linear.referenceIndex == origLimit.data.linear.referenceIndex &&
+                 itr->data.linear.targetIndex == origLimit.data.linear.targetIndex &&
+                 itr->data.linear.rangeMin == prevRangeMax);
+      }
+      oss << " " << origLimit.weight << "\n";
+      continue;
+    }
+
+    switch (itr->type) {
       case LimitType::MinMax:
-        oss << parameterTransform.name.at(limit.data.minMax.parameterIndex) << " minmax "
-            << vecToString(limit.data.minMax.limits);
+        oss << parameterTransform.name.at(itr->data.minMax.parameterIndex) << " minmax "
+            << vecToString(itr->data.minMax.limits);
         break;
       case LimitType::MinMaxJoint:
         oss << jointParameterToName(
-                   limit.data.minMaxJoint.jointIndex, limit.data.minMaxJoint.jointParameter)
-            << " minmax " << vecToString(limit.data.minMaxJoint.limits);
+                   itr->data.minMaxJoint.jointIndex, itr->data.minMaxJoint.jointParameter)
+            << " minmax " << vecToString(itr->data.minMaxJoint.limits);
         break;
       case LimitType::MinMaxJointPassive:
         oss << jointParameterToName(
-                   limit.data.minMaxJoint.jointIndex, limit.data.minMaxJoint.jointParameter)
-            << " minmax_passive " << vecToString(limit.data.minMaxJoint.limits);
+                   itr->data.minMaxJoint.jointIndex, itr->data.minMaxJoint.jointParameter)
+            << " minmax_passive " << vecToString(itr->data.minMaxJoint.limits);
         break;
       case LimitType::Linear:
-        oss << parameterTransform.name.at(limit.data.linear.referenceIndex) << " linear "
-            << parameterTransform.name.at(limit.data.linear.targetIndex) << " "
-            << vecToString(Eigen::Vector2f(limit.data.linear.scale, limit.data.linear.offset));
         break;
-
       case LimitType::Ellipsoid: {
-        const Eigen::Affine3f ellipsoid = limit.data.ellipsoid.ellipsoid;
+        const Eigen::Affine3f& ellipsoid = itr->data.ellipsoid.ellipsoid;
         const Eigen::Vector3f translation = ellipsoid.translation();
         Eigen::Matrix3f rotationMat;
         Eigen::Matrix3f scalingMat;
@@ -469,20 +622,21 @@ std::string writeParameterLimits(
         const Eigen::Vector3f eulerZYXVecDeg(
             toDeg(eulerXYZVecRad.z()), toDeg(eulerXYZVecRad.y()), toDeg(eulerXYZVecRad.x()));
 
-        MT_CHECK_LT(limit.data.ellipsoid.parent, skeleton.joints.size());
-        MT_CHECK_LT(limit.data.ellipsoid.ellipsoidParent, skeleton.joints.size());
-        oss << skeleton.joints.at(limit.data.ellipsoid.parent).name << " ellipsoid "
-            << vecToString(limit.data.ellipsoid.offset) << " "
-            << skeleton.joints.at(limit.data.ellipsoid.ellipsoidParent).name << " "
+        MT_CHECK_LT(itr->data.ellipsoid.parent, skeleton.joints.size());
+        MT_CHECK_LT(itr->data.ellipsoid.ellipsoidParent, skeleton.joints.size());
+        oss << skeleton.joints.at(itr->data.ellipsoid.parent).name << " ellipsoid "
+            << vecToString(itr->data.ellipsoid.offset) << " "
+            << skeleton.joints.at(itr->data.ellipsoid.ellipsoidParent).name << " "
             << vecToString(translation) << " " << vecToString(eulerZYXVecDeg) << " "
             << vecToString(scalingMat.diagonal());
       }
     }
 
-    if (limit.weight != 1.0f) {
-      oss << " " << limit.weight;
+    if (itr->weight != 1.0f) {
+      oss << " " << itr->weight;
     }
     oss << "\n";
+    ++itr;
   }
 
   return oss.str();
