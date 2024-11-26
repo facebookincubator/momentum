@@ -338,6 +338,10 @@ io_skeleton_sources = [
     "io/skeleton/parameters_io.cpp",
 ]
 
+io_skeleton_test_sources = [
+    "test/io/io_parameter_limits_test.cpp",
+]
+
 io_shape_public_headers = [
     "io/shape/blend_shape_io.h",
     "io/shape/pose_shape_io.h",
