@@ -1187,12 +1187,18 @@ Create a parameter limit with min and max values for a joint parameter.
              size_t target_model_parameter_index,
              float scale,
              float offset,
-             float weight) {
+             float weight,
+             std::optional<float> rangeMin,
+             std::optional<float> rangeMax) {
             mm::LimitData data;
             data.linear.referenceIndex = reference_model_parameter_index;
             data.linear.targetIndex = target_model_parameter_index;
             data.linear.scale = scale;
             data.linear.offset = offset;
+            data.linear.rangeMin =
+                rangeMin.value_or(-std::numeric_limits<float>::max());
+            data.linear.rangeMax =
+                rangeMax.value_or(std::numeric_limits<float>::max());
             return mm::ParameterLimit{data, mm::LimitType::Linear, weight};
           },
           R"(Create a parameter limit with a linear constraint.
@@ -1202,12 +1208,16 @@ Create a parameter limit with min and max values for a joint parameter.
 :parameter scale: Scale to use in equation p_0 = scale * p_1 - offset.
 :parameter offset: Offset to use in equation p_0 = scale * p_1 - offset.
 :parameter weight: Weight of the parameter limit.  Defaults to 1.
+:parameter range_min: Minimum of the range that the linear limit applies over.  Defaults to -infinity.
+:parameter range_max: Minimum of the range that the linear limit applies over.  Defaults to +infinity.
     )",
           py::arg("reference_model_parameter_index"),
           py::arg("target_model_parameter_index"),
           py::arg("scale"),
           py::arg("offset"),
-          py::arg("weight") = 1.0f)
+          py::arg("weight") = 1.0f,
+          py::arg("range_min") = std::optional<float>{},
+          py::arg("range_max") = std::optional<float>{})
       .def_static(
           "create_ellipsoid",
           [](size_t ellipsoid_parent,
@@ -1295,7 +1305,24 @@ Create a parameter limit with min and max values for a joint parameter.
       .def_readonly(
           "offset",
           &mm::LimitLinear::offset,
-          "Offset to use in equation p_0 = scale * p_1 - offset.");
+          "Offset to use in equation p_0 = scale * p_1 - offset.")
+      .def_property_readonly(
+          "range_min",
+          [](const mm::LimitLinear& data) -> std::optional<float> {
+            if (data.rangeMin <= -std::numeric_limits<float>::max()) {
+              return std::optional<float>{};
+            } else {
+              return std::make_optional(data.rangeMin);
+            }
+          })
+      .def_property_readonly(
+          "range_max", [](const mm::LimitLinear& data) -> std::optional<float> {
+            if (data.rangeMax >= std::numeric_limits<float>::max()) {
+              return std::optional<float>{};
+            } else {
+              return std::make_optional(data.rangeMax);
+            }
+          });
 
   parameterLimitEllipsoidClass
       .def_property_readonly(
