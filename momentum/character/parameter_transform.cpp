@@ -335,12 +335,10 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
     switch (limitOld.type) {
       case MinMax: {
         auto& data = limitNew.data.minMax;
-        auto paramIndexOld = data.parameterIndex;
-        auto paramIndexNew = oldParamToNewParam[paramIndexOld];
-        if (paramIndexNew == kInvalidIndex)
+        data.parameterIndex = oldParamToNewParam[data.parameterIndex];
+        if (data.parameterIndex == kInvalidIndex) {
           continue;
-
-        data.parameterIndex = paramIndexNew;
+        }
         break;
       }
 
@@ -351,17 +349,21 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
 
       case Linear: {
         auto& data = limitNew.data.linear;
-
-        auto referenceIndexNew = oldParamToNewParam[data.referenceIndex];
-        if (referenceIndexNew == kInvalidIndex)
+        data.referenceIndex = oldParamToNewParam[data.referenceIndex];
+        data.targetIndex = oldParamToNewParam[data.targetIndex];
+        if (data.referenceIndex == kInvalidIndex || data.targetIndex == kInvalidIndex) {
           continue;
-        data.referenceIndex = (int)referenceIndexNew;
+        }
+        break;
+      }
 
-        auto targetIndexNew = oldParamToNewParam[data.targetIndex];
-        if (targetIndexNew == kInvalidIndex)
+      case HalfPlane: {
+        auto& data = limitNew.data.halfPlane;
+        data.param1 = oldParamToNewParam[data.param1];
+        data.param2 = oldParamToNewParam[data.param2];
+        if (data.param1 == kInvalidIndex || data.param2 == kInvalidIndex) {
           continue;
-        data.targetIndex = (int)targetIndexNew;
-
+        }
         break;
       }
 

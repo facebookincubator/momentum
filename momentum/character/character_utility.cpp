@@ -136,6 +136,13 @@ ParameterLimits mapParameterLimits(
           result.push_back(l);
         }
         break;
+      case LimitType::HalfPlane:
+        l.data.halfPlane.param1 = parameterMapping[l.data.halfPlane.param1];
+        l.data.halfPlane.param2 = parameterMapping[l.data.halfPlane.param2];
+        if (l.data.halfPlane.param1 != kInvalidIndex && l.data.halfPlane.param2 != kInvalidIndex) {
+          result.push_back(l);
+        }
+        break;
       case LimitType::Ellipsoid:
         l.data.ellipsoid.parent = jointMapping[l.data.ellipsoid.parent];
         l.data.ellipsoid.ellipsoidParent = jointMapping[l.data.ellipsoid.ellipsoidParent];
