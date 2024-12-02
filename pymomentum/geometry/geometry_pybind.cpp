@@ -616,11 +616,53 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
             }
             return character.simplify(enabledParams);
           },
-          R"(Simplifies the character by removing extra joints; this can help to speed up IK.
+          R"(Simplifies the character by removing extra joints; this can help to speed up IK, but passing in a set of
+parameters rather than joints.  Does not modify the parameter transform.  This is the equivalent of calling 
+```character.simplify_skeleton(character.joints_from_parameters(enabled_params))```.
 
 :parameter enabled_parameters: Model parameters to be kept in the simplified model.  Defaults to including all parameters.
 :return: a new :class:`Character` with extraneous joints removed.)",
-          py::arg("enabled_parameters") = std::optional<at::Tensor>{});
+          py::arg("enabled_parameters") = std::optional<at::Tensor>{})
+      .def(
+          "simplify_skeleton",
+          [](const momentum::Character& character,
+             const std::vector<int>& enabledJointIndices)
+              -> momentum::Character {
+            return character.simplifySkeleton(
+                jointListToBitset(character, enabledJointIndices));
+          },
+          "Simplifies the character by removing unwanted joints.",
+          py::arg("enabled_joint_indices"))
+      .def(
+          "simplify_parameter_transform",
+          [](const momentum::Character& character,
+             at::Tensor enabledParameters) -> momentum::Character {
+            return character.simplifyParameterTransform(tensorToParameterSet(
+                character.parameterTransform, enabledParameters));
+          },
+          "Simplifies the character by removing unwanted parameters.",
+          py::arg("enabled_parameters"))
+      .def(
+          "parameters_for_joints",
+          [](const momentum::Character& character,
+             const std::vector<int>& jointIndices) {
+            return parameterSetToTensor(
+                character.parameterTransform,
+                character.activeJointsToParameters(
+                    jointListToBitset(character, jointIndices)));
+          },
+          "Maps a list of joint indices to a boolean tensor containing the parameters which drive those joints.",
+          py::arg("joint_indices"))
+      .def(
+          "joints_for_parameters",
+          [](const momentum::Character& character,
+             at::Tensor enabledParamsTensor) {
+            return bitsetToJointList(
+                character.parametersToActiveJoints(tensorToParameterSet(
+                    character.parameterTransform, enabledParamsTensor)));
+          },
+          "Maps a list of parameter indices to a list of joints driven by those parameters.",
+          py::arg("active_parameters"));
 
   // =====================================================
   // momentum::Joint
@@ -1979,7 +2021,10 @@ This is used e.g. to swap one character's hand skeleton with another.
   // reduceToSelectedModelParameters(character, activeParameters)
   m.def(
       "reduce_to_selected_model_parameters",
-      &reduceToSelectedModelParameters,
+      [](const momentum::Character& character, at::Tensor activeParameters) {
+        return character.simplifyParameterTransform(tensorToParameterSet(
+            character.parameterTransform, activeParameters));
+      },
       R"(Strips out unused parameters from the parameter transform.
 
 :param character: Full-body character.
