@@ -338,21 +338,21 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 #==============
 
 [feature.py312-cuda126]
-channels = ["nvidia", "conda-forge"]
+channels = ["conda-forge"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py312*", channel = "conda-forge" } }
 
 [feature.py311-cuda126]
-channels = ["nvidia", "conda-forge"]
+channels = ["conda-forge"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py311*", channel = "conda-forge" } }
 
 [feature.py310-cuda126]
-channels = ["nvidia", "conda-forge"]
+channels = ["conda-forge"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
