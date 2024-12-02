@@ -81,7 +81,9 @@ config_dev = { cmd = """
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
         -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
-build = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target all", depends_on = ["config"] }
+build = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target all", depends_on = [
+    "config",
+] }
 build_dev = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/debug -j --target all", depends_on = [
     "config_dev",
 ] }
@@ -106,7 +108,7 @@ install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --t
 #===========
 
 [target.linux-64.build-dependencies]
-nvtx-c = ">=3.1.0"  # TODO: Add to pytorch as run dep
+nvtx-c = ">=3.1.0" # TODO: Add to pytorch as run dep
 
 [target.linux-64.dependencies]
 pytorch = ">=2.4.0"
@@ -340,48 +342,42 @@ channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
-dependencies.cuda-toolkit = "12.*"
-dependencies.pytorch = { version = "2.5.*", build = "cuda126_py312*", channel = "conda-forge" }
+dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py312*", channel = "conda-forge" } }
 
 [feature.py312-cuda118]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
-dependencies.cuda-toolkit = "12.*"
-dependencies.pytorch = { version = "2.5.*", build = "cuda118_py312*", channel = "conda-forge" }
+dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda118_py312*", channel = "conda-forge" } }
 
 [feature.py311-cuda126]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
-dependencies.cuda-toolkit = "12.*"
-dependencies.pytorch = { version = "2.5.*", build = "cuda126_py311*", channel = "conda-forge" }
+dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py311*", channel = "conda-forge" } }
 
 [feature.py311-cuda118]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
-dependencies.cuda-toolkit = "12.*"
-dependencies.pytorch = { version = "2.5.*", build = "cuda118_py311*", channel = "conda-forge" }
+dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda118_py311*", channel = "conda-forge" } }
 
 [feature.py310-cuda126]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
-dependencies.cuda-toolkit = "12.*"
-dependencies.pytorch = { version = "2.5.*", build = "cuda126_py310*", channel = "conda-forge" }
+dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py310*", channel = "conda-forge" } }
 
 [feature.py310-cuda118]
 channels = ["nvidia", "conda-forge", "pytorch"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
-dependencies.cuda-toolkit = "12.*"
-dependencies.pytorch = { version = "2.5.*", build = "cuda118_py310*", channel = "conda-forge" }
+dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda118_py310*", channel = "conda-forge" } }
 
 #==============
 # Environments
