@@ -53,18 +53,18 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
   const ParameterTransformT<T> transform = character.parameterTransform.cast<T>();
 
   // create constraints
-  ParameterLimits lm(1);
   LimitErrorFunctionT<T> errorFunction(skeleton, character.parameterTransform);
 
   // TODO: None of these work right at the moment due to precision issues with numerical gradients,
   // need to fix code to use double
   {
     SCOPED_TRACE("Limit MinMax Test");
-    lm[0].type = MinMax;
-    lm[0].weight = 1.0;
-    lm[0].data.minMax.limits = Vector2f(-0.1, 0.1);
-    lm[0].data.minMax.parameterIndex = 0;
-    errorFunction.setLimits(lm);
+    ParameterLimit limit;
+    limit.type = MinMax;
+    limit.weight = 1.0;
+    limit.data.minMax.limits = Vector2f(-0.1, 0.1);
+    limit.data.minMax.parameterIndex = 0;
+    errorFunction.setLimits({limit});
     TEST_GRADIENT_AND_JACOBIAN(
         T,
         &errorFunction,
@@ -81,12 +81,13 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
 
   {
     SCOPED_TRACE("Limit MinMax Joint Test");
-    lm[0].type = MinMaxJoint;
-    lm[0].weight = 1.0;
-    lm[0].data.minMaxJoint.limits = Vector2f(-0.1, 0.1);
-    lm[0].data.minMaxJoint.jointIndex = 2;
-    lm[0].data.minMaxJoint.jointParameter = 5;
-    errorFunction.setLimits(lm);
+    ParameterLimit limit;
+    limit.type = MinMaxJoint;
+    limit.weight = 1.0;
+    limit.data.minMaxJoint.limits = Vector2f(-0.1, 0.1);
+    limit.data.minMaxJoint.jointIndex = 2;
+    limit.data.minMaxJoint.jointParameter = 5;
+    errorFunction.setLimits({limit});
     TEST_GRADIENT_AND_JACOBIAN(
         T,
         &errorFunction,
@@ -103,13 +104,14 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
 
   {
     SCOPED_TRACE("Limit LinearTest");
-    lm[0].type = Linear;
-    lm[0].weight = 1.0;
-    lm[0].data.linear.referenceIndex = 0;
-    lm[0].data.linear.targetIndex = 5;
-    lm[0].data.linear.scale = 0.25;
-    lm[0].data.linear.offset = 0.25;
-    errorFunction.setLimits(lm);
+    ParameterLimit limit;
+    limit.type = Linear;
+    limit.weight = 1.0;
+    limit.data.linear.referenceIndex = 0;
+    limit.data.linear.targetIndex = 5;
+    limit.data.linear.scale = 0.25;
+    limit.data.linear.offset = 0.25;
+    errorFunction.setLimits({limit});
     TEST_GRADIENT_AND_JACOBIAN(
         T,
         &errorFunction,
@@ -188,23 +190,48 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
     ASSERT_NEAR(errorMid, errorAfter, 0.03f);
   }
 
+  {
+    SCOPED_TRACE("Limit HalfPlaneTest");
+
+    ParameterLimit limit;
+    limit.type = HalfPlane;
+    limit.weight = 1.0;
+    limit.data.halfPlane.param1 = 0;
+    limit.data.halfPlane.param2 = 2;
+    limit.data.halfPlane.normal = Eigen::Vector2f(1, -1).normalized();
+    limit.data.halfPlane.offset = 0.5f;
+    errorFunction.setLimits({limit});
+    TEST_GRADIENT_AND_JACOBIAN(
+        T,
+        &errorFunction,
+        ModelParametersT<T>::Zero(transform.numAllModelParameters()),
+        skeleton,
+        transform,
+        Eps<T>(5e-3f, 5e-12));
+    for (size_t i = 0; i < 10; i++) {
+      ModelParametersT<T> parameters = VectorX<T>::Random(transform.numAllModelParameters());
+      TEST_GRADIENT_AND_JACOBIAN(
+          T, &errorFunction, parameters, skeleton, transform, Eps<T>(1e-2f, 1e-10));
+    }
+  }
+
   //{
   //    SCOPED_TRACE("Limit Ellipsoid Test");
-  //    lm[0].type = ELLIPSOID;
-  //    lm[0].weight = 1.0f;
-  //    lm[0].data.ellipsoid.parent = 2;
-  //    lm[0].data.ellipsoid.ellipsoidParent = 0;
-  //    lm[0].data.ellipsoid.offset = Vector3f(0, -1, 0);
-  //    lm[0].data.ellipsoid.ellipsoid = Affine3f::Identity();
-  //    lm[0].data.ellipsoid.ellipsoid.translation() = Vector3f(0.5f, 0.5f, 0.5f);
-  //    lm[0].data.ellipsoid.ellipsoid.linear() = (Quaternionf(Eigen::AngleAxisf(0.1f,
+  //    limit.type = ELLIPSOID;
+  //    limit.weight = 1.0f;
+  //    limit.data.ellipsoid.parent = 2;
+  //    limit.data.ellipsoid.ellipsoidParent = 0;
+  //    limit.data.ellipsoid.offset = Vector3f(0, -1, 0);
+  //    limit.data.ellipsoid.ellipsoid = Affine3f::Identity();
+  //    limit.data.ellipsoid.ellipsoid.translation() = Vector3f(0.5f, 0.5f, 0.5f);
+  //    limit.data.ellipsoid.ellipsoid.linear() = (Quaternionf(Eigen::AngleAxisf(0.1f,
   //    Vector3f::UnitZ())) *
   //                                            Quaternionf(Eigen::AngleAxisf(0.2f,
   //                                            Vector3f::UnitY())) *
   //                                            Quaternionf(Eigen::AngleAxisf(0.3f,
   //                                            Vector3f::UnitX()))).toRotationMatrix() *
   //                                            Scaling(2.0f, 1.5f, 0.5f);
-  //    lm[0].data.ellipsoid.ellipsoidInv = lm[0].data.ellipsoid.ellipsoid.inverse();
+  //    limit.data.ellipsoid.ellipsoidInv = limit.data.ellipsoid.ellipsoid.inverse();
 
   //    errorFunction.setLimits(lm);
   //    parameters.setZero();
