@@ -1,1 +1,1 @@
-var searchData=[["info_5321",["Info",["../namespacemomentum.html#a0da6407898e254fc522385ff8028bf1ba4059b0251f66a18cb56f544728796875",1,"momentum"]]],["intrinsic_5322",["Intrinsic",["../namespacemomentum.html#a6c67fcc2779f9909b648e84d8a3ea1b2a8b0f368e62695dc13b998050ea15a2c5",1,"momentum"]]]];
+var searchData=[["halfplane_5330",["HalfPlane",["../namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83aa1b595ca46d9640a0ef5358729143ba8",1,"momentum"]]]];

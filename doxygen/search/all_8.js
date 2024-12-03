@@ -1,1 +1,1 @@
-var searchData=[["hessianinversetimes_822",["hessianInverseTimes",["../namespacemomentum.html#a680731b9ad3e39f763ba66436f620fc4",1,"momentum"]]]];
+var searchData=[["halfplane_823",["halfPlane",["../unionmomentum_1_1LimitData.html#a4d475fa1af8ba015b66beac18b3d65f8",1,"momentum::LimitData"]]],["halfplane_824",["HalfPlane",["../namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83aa1b595ca46d9640a0ef5358729143ba8",1,"momentum"]]],["hessianinversetimes_825",["hessianInverseTimes",["../namespacemomentum.html#a680731b9ad3e39f763ba66436f620fc4",1,"momentum"]]]];
