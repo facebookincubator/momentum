@@ -73,7 +73,8 @@ PYBIND11_MODULE(geometry, m) {
       .value("MinMaxJoint", mm::LimitType::MinMaxJoint)
       .value("MinMaxJointPassive", mm::LimitType::MinMaxJointPassive)
       .value("Linear", mm::LimitType::Linear)
-      .value("Ellipsoid", mm::LimitType::Ellipsoid);
+      .value("Ellipsoid", mm::LimitType::Ellipsoid)
+      .value("HalfPlane", mm::LimitType::HalfPlane);
 
   // We need to forward-declare classes so that if we refer to them they get
   // typed correctly; otherwise we end up with "momentum::Locator" in the
@@ -109,6 +110,8 @@ PYBIND11_MODULE(geometry, m) {
       py::class_<mm::LimitMinMaxJoint>(m, "LimitMinMaxJoint");
   auto parameterLimitLinearClass =
       py::class_<mm::LimitLinear>(m, "LimitLinear");
+  auto parameterLimitHalfPlaneClass =
+      py::class_<mm::LimitHalfPlane>(m, "LimitHalfPlane");
   auto parameterLimitEllipsoidClass =
       py::class_<mm::LimitEllipsoid>(m, "LimitEllipsoid");
 
@@ -1261,6 +1264,34 @@ Create a parameter limit with min and max values for a joint parameter.
           py::arg("range_min") = std::optional<float>{},
           py::arg("range_max") = std::optional<float>{})
       .def_static(
+          "create_halfplane",
+          [](size_t param1,
+             size_t param2,
+             Eigen::Vector2f normal,
+             float offset,
+             float weight) {
+            mm::LimitData data;
+            data.halfPlane.param1 = param1;
+            data.halfPlane.param2 = param2;
+
+            const float len = normal.norm();
+            data.halfPlane.normal = normal / len;
+            data.halfPlane.offset = offset / len;
+            return mm::ParameterLimit{data, mm::LimitType::HalfPlane, weight};
+          },
+          R"(Create a parameter limit with a half-plane constraint.
+
+:parameter param1_index: Index of the first parameter in the plane equation (p1, p2) . (n1, n2) - offset >= 0.
+:parameter param2_index: Index of the second parameter (p1, p2) . (n1, n2) - offset >= 0.
+:parameter offset: Offset to use in equation (p1, p2) . (n1, n2) - offset >= 0.
+:parameter weight: Weight of the parameter limit.  Defaults to 1.
+    )",
+          py::arg("param1_index"),
+          py::arg("param2_index"),
+          py::arg("normal"),
+          py::arg("offset") = 0.0f,
+          py::arg("weight") = 1.0f)
+      .def_static(
           "create_ellipsoid",
           [](size_t ellipsoid_parent,
              size_t parent,
@@ -1296,6 +1327,8 @@ Create a parameter limit with min and max values for a joint parameter.
           &mm::LimitData::minMaxJoint,
           "Data for MinMaxJoint limit.")
       .def_readonly("linear", &mm::LimitData::linear, "Data for Linear limit.")
+      .def_readonly(
+          "halfplane", &mm::LimitData::halfPlane, "Data for HalfPlane limit.")
       .def_readonly(
           "ellipsoid", &mm::LimitData::ellipsoid, "Data for Ellipsoid limit.");
 
@@ -1365,6 +1398,12 @@ Create a parameter limit with min and max values for a joint parameter.
               return std::make_optional(data.rangeMax);
             }
           });
+
+  parameterLimitHalfPlaneClass
+      .def_readonly("param1_index", &mm::LimitHalfPlane::param1)
+      .def_readonly("param2_index", &mm::LimitHalfPlane::param2)
+      .def_readonly("offset", &mm::LimitHalfPlane::offset)
+      .def_readonly("normal", &mm::LimitHalfPlane::normal);
 
   parameterLimitEllipsoidClass
       .def_property_readonly(
