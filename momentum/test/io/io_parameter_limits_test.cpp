@@ -156,6 +156,17 @@ Character createCharacterWithLimits() {
     limits.push_back(limit);
   }
 
+  {
+    ParameterLimit limit;
+    limit.type = LimitType::HalfPlane;
+    limit.weight = 3.5;
+    limit.data.halfPlane.param1 = 1;
+    limit.data.halfPlane.param2 = 3;
+    limit.data.halfPlane.normal = Eigen::Vector2f(1, -1).normalized();
+    limit.data.halfPlane.offset = 0.7f;
+    limits.push_back(limit);
+  }
+
   return {testCharacter.skeleton, testCharacter.parameterTransform, limits};
 }
 
@@ -208,6 +219,13 @@ void validateParameterLimitsSame(const ParameterLimits& limits1, const Parameter
         EXPECT_EQ(l1.data.ellipsoid.ellipsoidParent, l2.data.ellipsoid.ellipsoidParent);
         EXPECT_EQ(l1.data.ellipsoid.parent, l2.data.ellipsoid.parent);
         EXPECT_LE((l1.data.ellipsoid.offset - l2.data.ellipsoid.offset).norm(), 1e-4f);
+        break;
+
+      case LimitType::HalfPlane:
+        EXPECT_LE((l1.data.halfPlane.normal - l2.data.halfPlane.normal).norm(), 1e-4f);
+        EXPECT_NEAR(l1.data.halfPlane.offset, l2.data.halfPlane.offset, 1e-4f);
+        EXPECT_EQ(l1.data.halfPlane.param1, l2.data.halfPlane.param1);
+        EXPECT_EQ(l1.data.halfPlane.param2, l2.data.halfPlane.param2);
         break;
     }
   }

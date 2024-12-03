@@ -433,6 +433,26 @@ void parseLinear(const std::string& parameterName, ParameterLimits& pl, Tokenize
   }
 }
 
+void parseHalfPlane(const std::string& parameterName, ParameterLimits& pl, Tokenizer& tokenizer) {
+  ParameterLimit p;
+  p.weight = 1.0f;
+  p.type = HalfPlane;
+  p.data.halfPlane.param1 = tokenizer.modelParameterIndexFromName(parameterName);
+  p.data.halfPlane.param2 = tokenizer.getModelParameterIndex();
+  p.data.halfPlane.normal = tokenizer.getVec<2>();
+  p.data.halfPlane.offset = tokenizer.getNumber();
+
+  // Normalize the constraint:
+  const float len = p.data.halfPlane.normal.norm();
+  p.data.halfPlane.normal /= len;
+  p.data.halfPlane.offset /= len;
+
+  if (!tokenizer.isEOF()) {
+    p.weight = tokenizer.getNumber();
+  }
+  pl.push_back(p);
+}
+
 void parseEllipsoid(const std::string& jointName, ParameterLimits& pl, Tokenizer& tokenizer) {
   // create new parameterlimit
   ParameterLimit p;
@@ -504,6 +524,8 @@ ParameterLimits parseParameterLimits(
       parseMinmaxPassive(parameterName, pl, tokenizer);
     } else if (type == "linear") {
       parseLinear(parameterName, pl, tokenizer);
+    } else if (type == "halfplane") {
+      parseHalfPlane(parameterName, pl, tokenizer);
     } else if (type == "ellipsoid") {
       parseEllipsoid(parameterName, pl, tokenizer);
     } else if (type == "elipsoid") {
@@ -608,6 +630,11 @@ std::string writeParameterLimits(
             << " minmax_passive " << vecToString(itr->data.minMaxJoint.limits);
         break;
       case LimitType::Linear:
+        break;
+      case LimitType::HalfPlane:
+        oss << parameterTransform.name.at(itr->data.halfPlane.param1) << " halfplane "
+            << parameterTransform.name.at(itr->data.halfPlane.param2) << " "
+            << vecToString(itr->data.halfPlane.normal) << " " << itr->data.halfPlane.offset;
         break;
       case LimitType::Ellipsoid: {
         const Eigen::Affine3f& ellipsoid = itr->data.ellipsoid.ellipsoid;

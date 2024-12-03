@@ -21,7 +21,7 @@ namespace momentum {
 // option of modeling more complicated limits that depend on each other
 
 // limit type
-enum LimitType { MinMax, MinMaxJoint, MinMaxJointPassive, Linear, Ellipsoid };
+enum LimitType { MinMax, MinMaxJoint, MinMaxJointPassive, Linear, Ellipsoid, HalfPlane };
 
 [[nodiscard]] std::string_view toString(LimitType type);
 
@@ -36,7 +36,7 @@ struct LimitMinMaxJoint {
   Vector2f limits; // min and max values of the parameter
 };
 
-struct LimitLinear { // set joints to be similar by a linear relation i.e. p_0 = p_1 * x - o
+struct LimitLinear { // set joints to be similar by a linear relation i.e. p_0 = s * p_1 - o
   size_t referenceIndex; // index of reference parameter (p_0)
   size_t targetIndex; // index of target parameter (p_1)
   float scale; // linear scale of parameter (x)
@@ -58,11 +58,21 @@ struct LimitEllipsoid {
   size_t parent;
 };
 
+struct LimitHalfPlane {
+  // Constraint is defined by plane normal and offset as
+  //   (p1, p2) . (scale1, scale2) - offset >= 0
+  size_t param1;
+  size_t param2;
+  Vector2f normal;
+  float offset;
+};
+
 union LimitData {
   LimitMinMax minMax;
   LimitMinMaxJoint minMaxJoint;
   LimitLinear linear;
   LimitEllipsoid ellipsoid;
+  LimitHalfPlane halfPlane;
   unsigned char rawData[512];
 
   // Need to explicitly write these constructors to just copy the raw memory
