@@ -656,26 +656,6 @@ momentum::Character stripLowerBodyVertices(
       character.poseShapes.get());
 }
 
-std::unique_ptr<momentum::Character> reduceToSelectedModelParameters(
-    const momentum::Character& character,
-    at::Tensor activeParams) {
-  auto [paramTransform_new, paramLimits_new] =
-      momentum::subsetParameterTransform(
-          character.parameterTransform,
-          character.parameterLimits,
-          tensorToParameterSet(character.parameterTransform, activeParams));
-
-  return std::make_unique<momentum::Character>(
-      character.skeleton,
-      paramTransform_new,
-      paramLimits_new,
-      character.locators,
-      character.mesh.get(),
-      character.skinWeights.get(),
-      character.collision.get(),
-      character.poseShapes.get());
-}
-
 std::tuple<float, Eigen::VectorXf, Eigen::MatrixXf, float> getMppcaModel(
     const momentum::Mppca& mppca,
     int iModel) {
@@ -1041,6 +1021,32 @@ py::array_t<float> getInverseBindPose(const momentum::Character& character) {
   }
 
   return result;
+}
+
+std::vector<bool> jointListToBitset(
+    const momentum::Character& character,
+    const std::vector<int>& jointIndices) {
+  std::vector<bool> activeJoints(character.skeleton.joints.size(), false);
+
+  for (const auto& jointIndex : jointIndices) {
+    if (jointIndex < 0 || jointIndex >= activeJoints.size()) {
+      throw pybind11::index_error(
+          fmt::format("Invalid joint index {}", jointIndex));
+    }
+    activeJoints.at(jointIndex) = true;
+  }
+
+  return activeJoints;
+}
+
+std::vector<int> bitsetToJointList(const std::vector<bool>& jointMask) {
+  std::vector<int> jointIndices;
+  for (size_t i = 0; i < jointMask.size(); ++i) {
+    if (jointMask[i]) {
+      jointIndices.push_back(static_cast<int>(i));
+    }
+  }
+  return jointIndices;
 }
 
 } // namespace pymomentum

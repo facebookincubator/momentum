@@ -185,13 +185,14 @@ ParameterSet CharacterT<T>::activeJointsToParameters(const std::vector<bool>& ac
 // create simplified skeleton for enabled parameters
 template <typename T>
 CharacterT<T> CharacterT<T>::simplifySkeleton(const std::vector<bool>& enabledJoints) const {
-  MT_CHECK(std::find(enabledJoints.begin(), enabledJoints.end(), true) != enabledJoints.end());
   MT_CHECK(
       enabledJoints.size() == skeleton.joints.size(),
       "{} is not {}",
       enabledJoints.size(),
       skeleton.joints.size());
-  MT_CHECK(!enabledJoints.empty(), "No joints are enabled in simplifySkeleton.");
+  MT_THROW_IF(
+      std::find(enabledJoints.begin(), enabledJoints.end(), true) == enabledJoints.end(),
+      "In simplifySkeleton, no joints are enabled; resulting skeleton must have at least one valid joint.");
 
   Skeleton simplifiedSkeleton;
 
@@ -283,11 +284,17 @@ CharacterT<T> CharacterT<T>::simplifySkeleton(const std::vector<bool>& enabledJo
         index = skeleton.joints[index].parent;
       }
       // Find the valid joint above this one in the hierarchy:
-      MT_CHECK(index != kInvalidIndex);
+      MT_THROW_IF(
+          index == kInvalidIndex,
+          "During skeleton simplification, inactive joint '{}' has no valid parent joint.  "
+          "Every joint in the simplified skeleton must have at least one parent joint that is not disabled.",
+          skeleton.joints.at(aIndex).name);
       simplifiedJointMap[aIndex] = intermediateJointMap[index];
     }
   }
-  MT_CHECK(!simplifiedSkeleton.joints.empty(), "SimplifiedSkeleton has no joints.");
+  MT_THROW_IF(
+      simplifiedSkeleton.joints.empty(),
+      "During skeleton simplification, resulting skeleton was empty.  Simplified skeleton must have at least one valid joint.");
 
   const ParameterTransform simplifiedTransform = mapParameterTransformJoints(
       parameterTransform, simplifiedSkeleton.joints.size(), intermediateJointMap);

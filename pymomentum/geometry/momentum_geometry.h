@@ -113,10 +113,6 @@ std::shared_ptr<momentum::BlendShape> loadBlendShapeFromTensors(
 momentum::Character stripLowerBodyVertices(
     const momentum::Character& character);
 
-std::unique_ptr<momentum::Character> reduceToSelectedModelParameters(
-    const momentum::Character& character,
-    at::Tensor activeParams);
-
 std::vector<size_t> getUpperBodyJoints(const momentum::Skeleton& skeleton);
 
 std::tuple<float, Eigen::VectorXf, Eigen::MatrixXf, float> getMppcaModel(
@@ -171,6 +167,11 @@ std::unique_ptr<momentum::Mesh> getPosedMesh(
 momentum::Character replaceRestMesh(
     const momentum::Character& character,
     RowMatrixf positions);
+
+std::vector<bool> jointListToBitset(
+    const momentum::Character& character,
+    const std::vector<int>& jointIndices);
+std::vector<int> bitsetToJointList(const std::vector<bool>& jointMask);
 
 /// Matches the locator names from the available locators in the character
 /// object and returns parents and offsets for the each of the locator names
