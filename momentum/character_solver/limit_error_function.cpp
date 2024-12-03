@@ -103,6 +103,21 @@ double LimitErrorFunctionT<T>::getError(
         }
         break;
       }
+      case HalfPlane: {
+        const auto& data = limit.data.halfPlane;
+        MT_CHECK(data.param1 < static_cast<size_t>(params.size()));
+        MT_CHECK(data.param2 < static_cast<size_t>(params.size()));
+
+        if ((this->enabledParameters_.test(data.param1) ||
+             this->enabledParameters_.test(data.param2))) {
+          const Eigen::Vector2<T> p(params(data.param1), params(data.param2));
+          const T residual = p.dot(data.normal.cast<T>()) - data.offset;
+          if (residual < 0) {
+            error += residual * residual * limit.weight;
+          }
+        }
+        break;
+      }
       case Ellipsoid: {
         const auto& ct = limit.data.ellipsoid;
 
@@ -228,6 +243,25 @@ double LimitErrorFunctionT<T>::getGradient(
           }
           if (this->enabledParameters_.test(data.referenceIndex)) {
             gradient[data.referenceIndex] -= T(2) * residual * tWeight;
+          }
+        }
+        break;
+      }
+      case HalfPlane: {
+        const auto& data = limit.data.halfPlane;
+        if ((this->enabledParameters_.test(data.param1) ||
+             this->enabledParameters_.test(data.param2))) {
+          const Eigen::Vector2<T> p(params(data.param1), params(data.param2));
+          const T residual = p.dot(data.normal.cast<T>()) - data.offset;
+          if (residual < 0.0f) {
+            error += residual * residual * limit.weight * tWeight;
+
+            if (this->enabledParameters_.test(data.param1)) {
+              gradient[data.param1] += T(2) * residual * data.normal[0] * tWeight;
+            }
+            if (this->enabledParameters_.test(data.param2)) {
+              gradient[data.param2] += T(2) * residual * data.normal[1] * tWeight;
+            }
           }
         }
         break;
@@ -431,6 +465,31 @@ double LimitErrorFunctionT<T>::getJacobian(
         count++;
         break;
       }
+      case HalfPlane: {
+        const auto& data = limit.data.halfPlane;
+        MT_CHECK(data.param1 < static_cast<size_t>(params.size()));
+        MT_CHECK(data.param2 < static_cast<size_t>(params.size()));
+
+        if ((this->enabledParameters_.test(data.param1) ||
+             this->enabledParameters_.test(data.param2))) {
+          const Eigen::Vector2<T> p(params(data.param1), params(data.param2));
+          const T res = p.dot(data.normal.cast<T>()) - data.offset;
+          if (res < 0) {
+            error += res * res * limit.weight * tWeight;
+            residual(count) = res * wgt;
+
+            if (this->enabledParameters_.test(data.param1)) {
+              jacobian(count, data.param1) = data.normal[0] * wgt;
+            }
+
+            if (this->enabledParameters_.test(data.param2)) {
+              jacobian(count, data.param2) = data.normal[1] * wgt;
+            }
+          }
+        }
+        count++;
+        break;
+      }
       case Ellipsoid: {
         // NOTE: The jacobian for these is currently simplified
         // It assumes the ellipsoid is static and doesn't move with the parent joint
@@ -541,6 +600,9 @@ size_t LimitErrorFunctionT<T>::getJacobianSize() const {
       case MinMaxJointPassive:
         break;
       case Linear:
+        count++;
+        break;
+      case HalfPlane:
         count++;
         break;
       case Ellipsoid:
