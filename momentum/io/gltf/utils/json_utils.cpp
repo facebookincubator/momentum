@@ -210,6 +210,13 @@ void parameterLimitsToJson(const Character& character, nlohmann::json& j) {
         li["scale"] = lim.data.linear.scale;
         li["offset"] = lim.data.linear.offset;
         break;
+      case HalfPlane:
+        li["type"] = "half_plane";
+        li["param1"] = character.parameterTransform.name[lim.data.halfPlane.param1];
+        li["param2"] = character.parameterTransform.name[lim.data.halfPlane.param2];
+        li["normal"] = lim.data.halfPlane.normal;
+        li["offset"] = lim.data.halfPlane.offset;
+        break;
       case Ellipsoid: {
         li["type"] = "ellipsoid";
         li["parent"] = character.skeleton.joints[lim.data.ellipsoid.parent].name;
@@ -279,6 +286,14 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
           character.parameterTransform.getParameterIdByName(element.value("targetParameter", ""));
       l.data.linear.scale = element["scale"];
       l.data.linear.offset = element["offset"];
+    } else if (type == "half_plane") {
+      l.type = HalfPlane;
+      l.data.halfPlane.param1 =
+          character.parameterTransform.getParameterIdByName(element.value("param1", ""));
+      l.data.halfPlane.param2 =
+          character.parameterTransform.getParameterIdByName(element.value("param2", ""));
+      l.data.halfPlane.normal = fromJson<Vector2f>(element["normal"]);
+      l.data.halfPlane.offset = element["offset"];
     } else if (type == "ellipsoid") {
       l.type = Ellipsoid;
       l.data.ellipsoid.parent = character.skeleton.getJointIdByName(element.value("parent", ""));
