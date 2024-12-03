@@ -338,46 +338,25 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 #==============
 
 [feature.py312-cuda126]
-channels = ["nvidia", "conda-forge", "pytorch"]
+channels = ["conda-forge"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py312*", channel = "conda-forge" } }
 
-[feature.py312-cuda118]
-channels = ["nvidia", "conda-forge", "pytorch"]
-platforms = ["linux-64"]
-system-requirements = { cuda = "12.0" }
-channel-priority = "disabled"
-dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda118_py312*", channel = "conda-forge" } }
-
 [feature.py311-cuda126]
-channels = ["nvidia", "conda-forge", "pytorch"]
+channels = ["conda-forge"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py311*", channel = "conda-forge" } }
 
-[feature.py311-cuda118]
-channels = ["nvidia", "conda-forge", "pytorch"]
-platforms = ["linux-64"]
-system-requirements = { cuda = "12.0" }
-channel-priority = "disabled"
-dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda118_py311*", channel = "conda-forge" } }
-
 [feature.py310-cuda126]
-channels = ["nvidia", "conda-forge", "pytorch"]
+channels = ["conda-forge"]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12.0" }
 channel-priority = "disabled"
 dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda126_py310*", channel = "conda-forge" } }
-
-[feature.py310-cuda118]
-channels = ["nvidia", "conda-forge", "pytorch"]
-platforms = ["linux-64"]
-system-requirements = { cuda = "12.0" }
-channel-priority = "disabled"
-dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "cuda118_py310*", channel = "conda-forge" } }
 
 #==============
 # Environments
@@ -385,11 +364,8 @@ dependencies = { cuda-toolkit = "12.*", pytorch = { version = "2.5.*", build = "
 
 [environments]
 py312-cuda126 = ["py312-cuda126"]
-py312-cuda118 = ["py312-cuda118"]
 py311-cuda126 = ["py311-cuda126"]
-py311-cuda118 = ["py311-cuda118"]
 py310-cuda126 = ["py310-cuda126"]
-py310-cuda118 = ["py310-cuda118"]
 gpu = ["py312-cuda126"]
 cpu = ["cpu"]
 default = ["cpu"]
