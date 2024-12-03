@@ -54,7 +54,7 @@ Character createCharacterWithLimits() {
     limit.weight = 4.0;
     limit.data.ellipsoid.ellipsoid = limit.data.ellipsoid.ellipsoid = Affine3f::Identity();
     limit.data.ellipsoid.ellipsoid.translation() = Eigen::Vector3f(2, 3, 4);
-    const Vector3f eulerXYZ = Vector3f(M_PI / 2.0, M_PI / 4.0, -M_PI / 3.0);
+    const Vector3f eulerXYZ = Vector3f(pi() / 2.0f, pi() / 4.0f, -pi() / 3.0f);
     limit.data.ellipsoid.ellipsoid.linear() =
         eulerXYZToRotationMatrix(eulerXYZ, EulerConvention::Extrinsic) *
         Eigen::Scaling(0.8f, 0.9f, 1.3f);
@@ -72,7 +72,7 @@ Character createCharacterWithLimits() {
     limit.weight = 5.0;
     limit.data.ellipsoid.ellipsoid = limit.data.ellipsoid.ellipsoid = Affine3f::Identity();
     limit.data.ellipsoid.ellipsoid.translation() = Eigen::Vector3f(2, 3, 4);
-    const Vector3f eulerXYZ = Vector3f(-M_PI / 4.0, 2.0f * M_PI / 4.0, M_PI / 3.0);
+    const Vector3f eulerXYZ = Vector3f(-pi() / 4.0f, 2.0f * pi() / 4.0f, pi() / 3.0f);
     limit.data.ellipsoid.ellipsoid.linear() =
         eulerXYZToRotationMatrix(eulerXYZ, EulerConvention::Extrinsic) *
         Eigen::Scaling(2.0f, 0.4f, 0.6f);

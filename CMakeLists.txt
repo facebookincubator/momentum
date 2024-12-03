@@ -636,6 +636,15 @@ if(MOMENTUM_BUILD_TESTING)
     ENV
       "TEST_RESOURCES_PATH=${CMAKE_SOURCE_DIR}/momentum/test/resources"
   )
+
+  mt_test(
+    NAME io_skeleton_test
+    SOURCES_VARS io_skeleton_test_sources
+    LINK_LIBRARIES
+      character_test_helper
+      io_skeleton
+      io_test_helper
+  )
 endif()
 
 #===============================================================================
