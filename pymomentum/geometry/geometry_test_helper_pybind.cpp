@@ -7,7 +7,7 @@
 
 #include <momentum/test/character/character_helpers.h>
 
-#include <pybind11/pybind11.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
+#include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 namespace mm = momentum;

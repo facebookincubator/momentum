@@ -11,7 +11,7 @@
 
 #include <Python.h>
 #include <nlohmann/json.hpp>
-#include <pybind11/pybind11.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
+#include <pybind11/pybind11.h>
 
 #include <cstdint>
 #include <streambuf>

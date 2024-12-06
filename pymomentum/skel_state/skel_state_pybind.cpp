@@ -8,9 +8,9 @@
 #include "pymomentum/tensor_momentum/tensor_skeleton_state.h"
 #include "pymomentum/tensor_momentum/tensor_transforms.h"
 
-#include <pybind11/eigen.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11 // @manual
-#include <pybind11/numpy.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
-#include <pybind11/pybind11.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11 // @manual
+#include <pybind11/eigen.h>
+#include <pybind11/numpy.h>
+#include <pybind11/pybind11.h>
 #include <torch/csrc/utils/pybind.h>
 #include <torch/python.h>
 #include <Eigen/Core>

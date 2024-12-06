@@ -10,9 +10,9 @@
 #include <momentum/marker_tracking/tracker_utils.h>
 #include <momentum/math/mesh.h>
 
-#include <pybind11/eigen.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
-#include <pybind11/pybind11.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
-#include <pybind11/stl.h> // @manual=fbsource//third-party/pybind11/fbcode_py_versioned:pybind11
+#include <pybind11/eigen.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <string>
 
 namespace py = pybind11;
