@@ -476,9 +476,9 @@ if(MOMENTUM_BUILD_TESTING)
   )
 
   mt_library(
-    NAME character_test_helper
-    HEADERS_VARS character_test_helper_public_headers
-    SOURCES_VARS character_test_helper_sources
+    NAME character_test_helpers
+    HEADERS_VARS character_test_helpers_public_headers
+    SOURCES_VARS character_test_helpers_sources
     PUBLIC_LINK_LIBRARIES
       character
     PRIVATE_LINK_LIBRARIES
@@ -570,7 +570,7 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS character_test_sources
     LINK_LIBRARIES
       character
-      character_test_helper
+      character_test_helpers
       test_helpers
   )
 
@@ -579,7 +579,7 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS character_solver_test_sources
     LINK_LIBRARIES
       character_solver
-      character_test_helper
+      character_test_helpers
       error_function_helper
       solver_test_helper
   )
@@ -590,7 +590,7 @@ if(MOMENTUM_BUILD_TESTING)
       SOURCES_VARS simd_constraints_test_sources
       LINK_LIBRARIES
         character_solver
-        character_test_helper
+        character_test_helpers
         error_function_helper
         simd_constraints
     )
@@ -601,7 +601,7 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS character_sequence_solver_test_sources
     LINK_LIBRARIES
       character_sequence_solver
-      character_test_helper
+      character_test_helpers
       solver_test_helper
   )
 
@@ -612,7 +612,7 @@ if(MOMENTUM_BUILD_TESTING)
       HEADERS_VARS diff_ik_test_headers
       SOURCES_VARS diff_ik_test_sources
       LINK_LIBRARIES
-        character_test_helper
+        character_test_helpers
         diff_ik
         io_gltf
         io_skeleton
@@ -641,7 +641,7 @@ if(MOMENTUM_BUILD_TESTING)
     NAME io_skeleton_test
     SOURCES_VARS io_skeleton_test_sources
     LINK_LIBRARIES
-      character_test_helper
+      character_test_helpers
       io_skeleton
       io_test_helper
   )

@@ -456,11 +456,11 @@ test_helpers_sources = [
     "test/helpers/unique_temporary_file.cpp",
 ]
 
-character_test_helper_public_headers = [
+character_test_helpers_public_headers = [
     "test/character/character_helpers.h",
 ]
 
-character_test_helper_sources = [
+character_test_helpers_sources = [
     "test/character/character_helpers.cpp",
 ]
 

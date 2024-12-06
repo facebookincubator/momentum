@@ -175,7 +175,7 @@ if(MOMENTUM_BUILD_TESTING)
     PYMOMENTUM_SOURCES_VARS geometry_test_helper_sources
     INCLUDE_DIRECTORIES
     LINK_LIBRARIES
-      character_test_helper
+      character_test_helpers
   )
 
   mt_test(
