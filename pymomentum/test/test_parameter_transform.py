@@ -8,8 +8,11 @@
 import unittest
 
 import torch
-from pymomentum.geometry import Character, uniform_random_to_model_parameters
-from pymomentum.geometry_test_helper import test_character
+from pymomentum.geometry import (
+    Character,
+    test_character,
+    uniform_random_to_model_parameters,
+)
 
 
 class TestParameterTransform(unittest.TestCase):
