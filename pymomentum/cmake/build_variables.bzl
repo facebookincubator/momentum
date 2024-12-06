@@ -74,3 +74,17 @@ skel_state_public_headers = [
 skel_state_sources = [
     "skel_state/skel_state_pybind.cpp",
 ]
+
+marker_tracking_public_headers = [
+]
+
+marker_tracking_sources = [
+    "marker_tracking/marker_tracking_pybind.cpp",
+]
+
+marker_tracking_extensions_public_headers = [
+]
+
+marker_tracking_extensions_sources = [
+    "marker_tracking_extensions/marker_tracking_extensions_pybind.cpp",
+]
