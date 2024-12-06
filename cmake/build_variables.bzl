@@ -464,6 +464,14 @@ character_test_helpers_sources = [
     "test/character/character_helpers.cpp",
 ]
 
+character_test_helpers_gtest_public_headers = [
+    "test/character/character_helpers_gtest.h",
+]
+
+character_test_helpers_gtest_sources = [
+    "test/character/character_helpers_gtest.cpp",
+]
+
 solver_test_helper_public_headers = [
     "test/solver/solver_test_helpers.h",
 ]
