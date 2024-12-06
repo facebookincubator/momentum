@@ -114,6 +114,7 @@ def main():
         zip_safe=False,
         ext_modules=[
             CMakeExtension("geometry", sourcedir=ROOT_DIR),
+            CMakeExtension("marker_tracking", sourcedir=ROOT_DIR),
             CMakeExtension("quaternion", sourcedir=ROOT_DIR),
             CMakeExtension("skel_state", sourcedir=ROOT_DIR),
         ],
