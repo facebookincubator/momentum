@@ -111,6 +111,7 @@ mt_python_binding(
     ${TORCH_LIBRARIES}
   LINK_LIBRARIES
     character
+    character_test_helpers
     io_fbx
     io_gltf
     io_marker
@@ -168,15 +169,6 @@ mt_python_binding(
 if(MOMENTUM_BUILD_TESTING)
   enable_testing()
   mt_setup_gtest()
-
-  mt_python_binding(
-    NAME geometry_test_helper
-    PYMOMENTUM_HEADERS_VARS geometry_test_helper_public_headers
-    PYMOMENTUM_SOURCES_VARS geometry_test_helper_sources
-    INCLUDE_DIRECTORIES
-    LINK_LIBRARIES
-      character_test_helpers
-  )
 
   mt_test(
     NAME tensor_utility_test
