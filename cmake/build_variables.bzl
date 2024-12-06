@@ -585,6 +585,10 @@ process_markers_app_sources = [
     "examples/process_markers_app/process_markers_app.cpp",
 ]
 
+refine_motion_sources = [
+    "examples/refine_motion/refine_motion.cpp",
+]
+
 #===========
 # Tutorials
 #===========

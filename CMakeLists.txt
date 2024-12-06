@@ -720,6 +720,15 @@ if(MOMENTUM_BUILD_EXAMPLES)
       common
       process_markers
   )
+
+  mt_executable(
+    NAME refine_motion
+    SOURCES_VARS refine_motion_sources
+    LINK_LIBRARIES
+      app_utils
+      io
+      marker_tracker
+  )
 endif()
 
 #===============================================================================

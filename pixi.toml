@@ -99,6 +99,7 @@ c3d_viewer = { cmd = "build/c3d_viewer", depends_on = ["build"] }
 fbx_viewer = { cmd = "build/fbx_viewer", depends_on = ["build"] }
 glb_viewer = { cmd = "build/glb_viewer", depends_on = ["build"] }
 process_markers = { cmd = "build/process_markers_app", depends_on = ["build"] }
+refine_motion = { cmd = "build/refine_motion", depends_on = ["build"] }
 install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target install", depends_on = [
     "build",
 ] }
@@ -320,6 +321,9 @@ glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/glb_viewer.exe", 
     "build",
 ] }
 process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/process_markers_app.exe", depends_on = [
+    "build",
+] }
+refine_motion = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/refine_motion.exe", depends_on = [
     "build",
 ] }
 install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --target install --config Release", depends_on = [
