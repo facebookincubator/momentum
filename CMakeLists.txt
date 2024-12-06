@@ -481,6 +481,15 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS character_test_helpers_sources
     PUBLIC_LINK_LIBRARIES
       character
+    EXCLUDE_FROM_INSTALL
+  )
+
+  mt_library(
+    NAME character_test_helpers_gtest
+    HEADERS_VARS character_test_helpers_gtest_public_headers
+    SOURCES_VARS character_test_helpers_gtest_sources
+    PUBLIC_LINK_LIBRARIES
+      character
     PRIVATE_LINK_LIBRARIES
       GTest::gmock
       GTest::gtest
