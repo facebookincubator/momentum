@@ -8,7 +8,6 @@
 import unittest
 
 import pymomentum.geometry as pym_geometry
-import pymomentum.geometry_test_helper as pym_geometry_test_helper
 import pymomentum.quaternion as pym_quaternion
 import pymomentum.skel_state as pym_skel_state
 import torch
@@ -44,7 +43,7 @@ def generate_random_skel_state(sz):
 
 class TestSkelState(unittest.TestCase):
     def test_skel_state_to_transforms(self) -> None:
-        character = pym_geometry_test_helper.test_character()
+        character = pym_geometry.test_character()
         nBatch = 2
         modelParams = 0.2 * torch.ones(
             nBatch,

@@ -61,13 +61,6 @@ geometry_sources = [
     "geometry/momentum_io.cpp",
 ]
 
-geometry_test_helper_public_headers = [
-]
-
-geometry_test_helper_sources = [
-    "geometry/geometry_test_helper_pybind.cpp",
-]
-
 quaternion_public_headers = [
 ]
 

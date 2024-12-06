@@ -115,7 +115,6 @@ def main():
         ext_modules=[
             CMakeExtension("geometry", sourcedir=ROOT_DIR),
             CMakeExtension("quaternion", sourcedir=ROOT_DIR),
-            CMakeExtension("geometry_test_helper", sourcedir=ROOT_DIR),
             CMakeExtension("skel_state", sourcedir=ROOT_DIR),
         ],
         cmdclass={
