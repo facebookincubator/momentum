@@ -160,7 +160,18 @@ mt_python_binding(
     ${TORCH_CXX_FLAGS}
 )
 
-# TODO: Add tests
+mt_python_binding(
+  NAME marker_tracking
+  PYMOMENTUM_HEADERS_VARS marker_tracking_public_headers
+  PYMOMENTUM_SOURCES_VARS marker_tracking_sources
+  INCLUDE_DIRECTORIES
+  LINK_LIBRARIES
+    character
+    marker_tracker
+    math
+    process_markers
+  COMPILE_OPTIONS
+)
 
 #===============================================================================
 # Tests
