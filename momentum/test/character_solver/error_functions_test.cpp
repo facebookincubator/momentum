@@ -106,7 +106,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
     SCOPED_TRACE("Limit LinearTest");
     ParameterLimit limit;
     limit.type = Linear;
-    limit.weight = 1.0;
+    limit.weight = 1.5;
     limit.data.linear.referenceIndex = 0;
     limit.data.linear.targetIndex = 5;
     limit.data.linear.scale = 0.25;
@@ -134,7 +134,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
     limit.type = LimitType::Linear;
     limit.data.linear.referenceIndex = 0;
     limit.data.linear.targetIndex = 5;
-    limit.weight = 1.0f;
+    limit.weight = 0.5f;
 
     {
       ParameterLimit cur = limit;
