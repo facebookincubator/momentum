@@ -422,6 +422,7 @@ endfunction()
 function(mt_python_binding)
   set(prefix _ARG)
   set(options
+    EXCLUDE_FROM_INSTALL
   )
   set(oneValueArgs
     NAME
@@ -477,4 +478,8 @@ function(mt_python_binding)
   target_compile_features(${_ARG_NAME} PRIVATE cxx_std_17)
   target_link_libraries(${_ARG_NAME} PRIVATE ${_ARG_LINK_LIBRARIES})
   target_compile_options(${_ARG_NAME} PRIVATE ${_ARG_COMPILE_OPTIONS})
+
+  if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
+    set_property(GLOBAL APPEND PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL ${_ARG_NAME})
+  endif()
 endfunction()

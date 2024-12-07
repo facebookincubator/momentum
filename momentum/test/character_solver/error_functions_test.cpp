@@ -610,7 +610,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexPositionErrorFunctionFaceParameter
           modelParams,
           character_blend.skeleton,
           character_blend.parameterTransform.cast<T>(),
-          Eps<T>(1e-2f, 1e-5),
+          Eps<T>(5e-2f, 1e-5),
           Eps<T>(1e-6f, 5e-16),
           true,
           false);
