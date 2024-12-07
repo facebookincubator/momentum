@@ -167,20 +167,10 @@ config_dev = { cmd = """
     """, env = { FBXSDK_PATH = ".deps/fbxsdk", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" }, depends_on = [
     "install_deps",
 ] }
-build_py = { cmd = """
-    python setup.py build \
-        --build-base build/$PIXI_ENVIRONMENT_NAME/py \
-        build_ext \
-        --cmake-args='\
-            -DMOMENTUM_BUILD_IO_FBX=ON \
-            -DMOMENTUM_BUILD_EXAMPLES=OFF \
-            -DMOMENTUM_BUILD_TESTING=ON \
-            -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-            -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
-            -DMOMENTUM_USE_SYSTEM_PYBIND11=OFF \
-            -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
-        '
-    """, env = { FBXSDK_PATH = ".deps/fbxsdk", MOMENTUM_ENABLE_SIMD = "ON" }, depends_on = [
+build_py = { cmd = "pip install . -vv", env = { FBXSDK_PATH = ".deps/fbxsdk", CMAKE_ARGS = """
+    -DMOMENTUM_BUILD_IO_FBX=ON \
+    -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
+""", MOMENTUM_ENABLE_SIMD = "ON" }, depends_on = [
     "install_deps",
 ] }
 test_py = { cmd = """
@@ -205,20 +195,10 @@ test_py = { cmd = """
 pytorch = ">=2.4.0"
 
 [target.osx.tasks]
-build_py = { cmd = """
-    python setup.py build \
-        --build-base build/$PIXI_ENVIRONMENT_NAME/py \
-        build_ext \
-        --cmake-args='\
-            -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
-            -DMOMENTUM_BUILD_EXAMPLES=OFF \
-            -DMOMENTUM_BUILD_TESTING=ON \
-            -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-            -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
-            -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-            -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
-        '
-    """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
+build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
+    -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
+    -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
+""", MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 test_py = { cmd = """
     pytest \
         pymomentum/test/test_closest_points.py \
@@ -241,20 +221,10 @@ test_py = { cmd = """
 pytorch = ">=2.4.0"
 
 [target.osx-arm64.tasks]
-build_py = { cmd = """
-    python setup.py build \
-        --build-base build/$PIXI_ENVIRONMENT_NAME/py \
-        build_ext \
-        --cmake-args='\
-            -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
-            -DMOMENTUM_BUILD_EXAMPLES=OFF \
-            -DMOMENTUM_BUILD_TESTING=ON \
-            -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
-            -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
-            -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-            -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
-        '
-    """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
+build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
+    -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
+    -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
+""", MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 test_py = { cmd = """
     pytest \
         pymomentum/test/test_closest_points.py \

@@ -187,3 +187,10 @@ if(MOMENTUM_BUILD_TESTING)
     LINK_LIBRARIES tensor_utility
   )
 endif()
+
+#===============================================================================
+# Install
+#===============================================================================
+
+get_property(pymomentum_targets_to_install GLOBAL PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL)
+install(TARGETS ${pymomentum_targets_to_install} DESTINATION pymomentum)
