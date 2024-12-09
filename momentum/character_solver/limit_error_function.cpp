@@ -103,6 +103,25 @@ double LimitErrorFunctionT<T>::getError(
         }
         break;
       }
+      case LinearJoint: {
+        const auto& data = limit.data.linearJoint;
+        const size_t referenceParameterIndex =
+            data.referenceJointIndex * kParametersPerJoint + data.referenceJointParameter;
+        const size_t targetParameterIndex =
+            data.targetJointIndex * kParametersPerJoint + data.targetJointParameter;
+        MT_CHECK(referenceParameterIndex < (size_t)state.jointParameters.size());
+        MT_CHECK(targetParameterIndex < (size_t)state.jointParameters.size());
+
+        if ((this->activeJointParams_[referenceParameterIndex] ||
+             this->activeJointParams_[targetParameterIndex]) &&
+            isInRange(data, state.jointParameters[targetParameterIndex])) {
+          const T residual = state.jointParameters(targetParameterIndex) * data.scale -
+              data.offset - state.jointParameters(referenceParameterIndex);
+          error += residual * residual * limit.weight;
+        }
+        break;
+      }
+
       case HalfPlane: {
         const auto& data = limit.data.halfPlane;
         MT_CHECK(data.param1 < static_cast<size_t>(params.size()));
@@ -243,6 +262,42 @@ double LimitErrorFunctionT<T>::getGradient(
           }
           if (this->enabledParameters_.test(data.referenceIndex)) {
             gradient[data.referenceIndex] -= T(2) * residual * limit.weight * tWeight;
+          }
+        }
+        break;
+      }
+      case LinearJoint: {
+        const auto& data = limit.data.linearJoint;
+        const size_t referenceParameterIndex =
+            data.referenceJointIndex * kParametersPerJoint + data.referenceJointParameter;
+        const size_t targetParameterIndex =
+            data.targetJointIndex * kParametersPerJoint + data.targetJointParameter;
+        MT_CHECK(referenceParameterIndex < (size_t)state.jointParameters.size());
+        MT_CHECK(targetParameterIndex < (size_t)state.jointParameters.size());
+
+        if ((this->activeJointParams_[referenceParameterIndex] ||
+             this->activeJointParams_[targetParameterIndex]) &&
+            isInRange(data, state.jointParameters[targetParameterIndex])) {
+          const T residual = state.jointParameters(targetParameterIndex) * data.scale -
+              data.offset - state.jointParameters(referenceParameterIndex);
+          error += residual * residual * limit.weight * tWeight;
+
+          // explicitly multiply joint gradient with the parameter transform to generate parameter
+          // space gradients
+          const T targetGrad = T(2) * residual * data.scale * limit.weight * tWeight;
+          for (auto index = parameterTransform.transform.outerIndexPtr()[targetParameterIndex];
+               index < parameterTransform.transform.outerIndexPtr()[targetParameterIndex + 1];
+               ++index) {
+            gradient[parameterTransform.transform.innerIndexPtr()[index]] +=
+                targetGrad * parameterTransform.transform.valuePtr()[index];
+          }
+
+          const T referenceGrad = T(-2) * residual * limit.weight * tWeight;
+          for (auto index = parameterTransform.transform.outerIndexPtr()[referenceParameterIndex];
+               index < parameterTransform.transform.outerIndexPtr()[referenceParameterIndex + 1];
+               ++index) {
+            gradient[parameterTransform.transform.innerIndexPtr()[index]] +=
+                referenceGrad * parameterTransform.transform.valuePtr()[index];
           }
         }
         break;
@@ -465,6 +520,46 @@ double LimitErrorFunctionT<T>::getJacobian(
         count++;
         break;
       }
+      case LinearJoint: {
+        const auto& data = limit.data.linearJoint;
+        const size_t referenceParameterIndex =
+            data.referenceJointIndex * kParametersPerJoint + data.referenceJointParameter;
+        const size_t targetParameterIndex =
+            data.targetJointIndex * kParametersPerJoint + data.targetJointParameter;
+        MT_CHECK(referenceParameterIndex < (size_t)state.jointParameters.size());
+        MT_CHECK(targetParameterIndex < (size_t)state.jointParameters.size());
+        if ((this->activeJointParams_[referenceParameterIndex] ||
+             this->activeJointParams_[targetParameterIndex]) &&
+            isInRange(data, state.jointParameters(targetParameterIndex))) {
+          const T res = state.jointParameters(targetParameterIndex) * data.scale - data.offset -
+              state.jointParameters(referenceParameterIndex);
+          error += res * res * limit.weight * tWeight;
+
+          residual(count) = res * wgt;
+
+          // explicitly multiply with the parameter transform to generate parameter space
+          // gradients
+          if (this->activeJointParams_[targetParameterIndex]) {
+            for (auto index = parameterTransform.transform.outerIndexPtr()[targetParameterIndex];
+                 index < parameterTransform.transform.outerIndexPtr()[targetParameterIndex + 1];
+                 ++index) {
+              jacobian(count, parameterTransform.transform.innerIndexPtr()[index]) +=
+                  data.scale * wgt * parameterTransform.transform.valuePtr()[index];
+            }
+          }
+
+          if (this->activeJointParams_[referenceParameterIndex]) {
+            for (auto index = parameterTransform.transform.outerIndexPtr()[referenceParameterIndex];
+                 index < parameterTransform.transform.outerIndexPtr()[referenceParameterIndex + 1];
+                 ++index) {
+              jacobian(count, parameterTransform.transform.innerIndexPtr()[index]) -=
+                  wgt * parameterTransform.transform.valuePtr()[index];
+            }
+          }
+        }
+        count++;
+        break;
+      }
       case HalfPlane: {
         const auto& data = limit.data.halfPlane;
         MT_CHECK(data.param1 < static_cast<size_t>(params.size()));
@@ -600,6 +695,9 @@ size_t LimitErrorFunctionT<T>::getJacobianSize() const {
       case MinMaxJointPassive:
         break;
       case Linear:
+        count++;
+        break;
+      case LinearJoint:
         count++;
         break;
       case HalfPlane:

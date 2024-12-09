@@ -103,4 +103,14 @@ bool isInRange(const LimitLinear& limit, float value) {
   return value >= limit.rangeMin && value < limit.rangeMax;
 }
 
+bool isInRange(const LimitLinearJoint& limit, float value) {
+  // Default initialized limits have all zeros in their members due to the std::fill_n above
+  // but we want in this case to have the limit apply across the entire range of values:
+  if (limit.rangeMin == 0 && limit.rangeMax == 0) {
+    return true;
+  }
+
+  return value >= limit.rangeMin && value < limit.rangeMax;
+}
+
 } // namespace momentum
