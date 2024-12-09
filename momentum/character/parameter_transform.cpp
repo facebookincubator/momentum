@@ -343,7 +343,6 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
       }
 
       case MinMaxJoint: {
-        //                auto& data = *((LimitMinMaxJoint*)limitNew.data);
         break;
       }
 
@@ -354,6 +353,10 @@ std::tuple<ParameterTransformT<T>, ParameterLimits> subsetParameterTransform(
         if (data.referenceIndex == kInvalidIndex || data.targetIndex == kInvalidIndex) {
           continue;
         }
+        break;
+      }
+
+      case LinearJoint: {
         break;
       }
 
