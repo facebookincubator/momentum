@@ -15,7 +15,7 @@ import torch
 def _brute_force_closest_points(
     src_pts: torch.Tensor,
     tgt_pts: torch.Tensor,
-    tgt_normals: Optional[torch.Tensor] = None,
+    tgt_normals: torch.Tensor | None = None,
 ):
     n_batch = src_pts.size(0)
     n_src_pts = src_pts.size(1)
