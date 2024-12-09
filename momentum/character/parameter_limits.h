@@ -21,7 +21,15 @@ namespace momentum {
 // option of modeling more complicated limits that depend on each other
 
 // limit type
-enum LimitType { MinMax, MinMaxJoint, MinMaxJointPassive, Linear, Ellipsoid, HalfPlane };
+enum LimitType {
+  MinMax,
+  MinMaxJoint,
+  MinMaxJointPassive,
+  Linear,
+  LinearJoint,
+  Ellipsoid,
+  HalfPlane
+};
 
 [[nodiscard]] std::string_view toString(LimitType type);
 
@@ -50,6 +58,18 @@ struct LimitLinear { // set joints to be similar by a linear relation i.e. p_0 =
   float rangeMax;
 };
 
+struct LimitLinearJoint {
+  size_t referenceJointIndex;
+  size_t referenceJointParameter;
+  size_t targetJointIndex;
+  size_t targetJointParameter;
+  float scale;
+  float offset;
+
+  float rangeMin;
+  float rangeMax;
+};
+
 struct LimitEllipsoid {
   alignas(32) Affine3f ellipsoid;
   alignas(32) Affine3f ellipsoidInv;
@@ -71,6 +91,7 @@ union LimitData {
   LimitMinMax minMax;
   LimitMinMaxJoint minMaxJoint;
   LimitLinear linear;
+  LimitLinearJoint linearJoint;
   LimitEllipsoid ellipsoid;
   LimitHalfPlane halfPlane;
   unsigned char rawData[512];
@@ -107,6 +128,7 @@ ParameterLimits getPoseConstraintParameterLimits(
     float weight = 1.0f);
 
 bool isInRange(const LimitLinear& limit, float value);
+bool isInRange(const LimitLinearJoint& limit, float value);
 
 MOMENTUM_DEFINE_POINTERS(ParameterLimits)
 } // namespace momentum
