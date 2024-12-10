@@ -191,6 +191,83 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, LimitError_GradientsAndJacobians) {
   }
 
   {
+    SCOPED_TRACE("LimitJoint PiecewiseLinearTest");
+    ParameterLimits limits;
+
+    ParameterLimit limit;
+    limit.type = LimitType::LinearJoint;
+    limit.data.linearJoint.referenceJointIndex = 0;
+    limit.data.linearJoint.referenceJointParameter = 2;
+    limit.data.linearJoint.targetJointIndex = 1;
+    limit.data.linearJoint.targetJointParameter = 5;
+    limit.weight = 0.75f;
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linearJoint.scale = 1.0f;
+      cur.data.linearJoint.offset = -4.0f;
+      cur.data.linearJoint.rangeMin = -FLT_MAX;
+      cur.data.linearJoint.rangeMax = 0.0f;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linearJoint.scale = -1.0f;
+      cur.data.linearJoint.offset = -4.0f;
+      cur.data.linearJoint.rangeMin = 0.0f;
+      cur.data.linearJoint.rangeMax = 2.0;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linearJoint.scale = 1.0f;
+      cur.data.linearJoint.offset = 0.0f;
+      cur.data.linearJoint.rangeMin = 2.0f;
+      cur.data.linearJoint.rangeMax = FLT_MAX;
+      limits.push_back(cur);
+    }
+
+    errorFunction.setLimits(limits);
+
+    auto rz_param = character.parameterTransform.getParameterIdByName("shared_rz");
+    ASSERT_NE(rz_param, momentum::kInvalidIndex);
+
+    for (const auto& testPos : {-4.0, 0.0, 4.0}) {
+      // Verify that gradients are ok on either side of the first-derivative discontinuity:
+      ModelParametersT<T> parametersBefore = VectorX<T>::Zero(transform.numAllModelParameters());
+      parametersBefore(rz_param) = testPos - 0.001f;
+      const SkeletonStateT<T> skelStateBefore(
+          character.parameterTransform.cast<T>().apply(parametersBefore), character.skeleton);
+      TEST_GRADIENT_AND_JACOBIAN(
+          T, &errorFunction, parametersBefore, skeleton, transform, Eps<T>(5e-2f, 1e-10));
+
+      ModelParametersT<T> parametersAfter = VectorX<T>::Zero(transform.numAllModelParameters());
+      parametersAfter(rz_param) = testPos + 0.001f;
+      const SkeletonStateT<T> skelStateAfter(
+          character.parameterTransform.cast<T>().apply(parametersAfter), character.skeleton);
+      TEST_GRADIENT_AND_JACOBIAN(
+          T, &errorFunction, parametersAfter, skeleton, transform, Eps<T>(5e-2f, 1e-10));
+
+      // Verify that the error is C0 continuous:
+      const float errorBefore = errorFunction.getError(parametersBefore, skelStateBefore);
+      const float errorAfter = errorFunction.getError(parametersAfter, skelStateAfter);
+      ASSERT_NEAR(errorAfter, errorBefore, 0.03f);
+
+      // Make sure the parameter actually varies:
+      const auto targetJointParameter =
+          limit.data.linearJoint.targetJointIndex * kParametersPerJoint +
+          limit.data.linearJoint.targetJointParameter;
+      EXPECT_GT(
+          std::abs(
+              skelStateBefore.jointParameters[targetJointParameter] -
+              skelStateAfter.jointParameters[targetJointParameter]),
+          0.0005f);
+    }
+  }
+
+  {
     SCOPED_TRACE("Limit HalfPlaneTest");
 
     ParameterLimit limit;

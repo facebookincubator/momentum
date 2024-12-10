@@ -181,6 +181,10 @@ class Tokenizer {
     return {jointIndex, std::distance(kJointParameterNames, subParamItr)};
   }
 
+  [[nodiscard]] std::pair<size_t, size_t> getJointParameterIndex() {
+    return jointParameterIndexFromName(getIdentifier());
+  }
+
   [[nodiscard]] size_t jointIndexFromName(const std::string& jointName) const {
     const auto jointIndex = _skeleton.getJointIdByName(jointName);
     MT_THROW_IF(
@@ -433,6 +437,107 @@ void parseLinear(const std::string& parameterName, ParameterLimits& pl, Tokenize
   }
 }
 
+void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tokenizer& tokenizer) {
+  // create new parameterlimit
+  ParameterLimit p;
+  p.weight = 1.0f;
+  p.type = LinearJoint;
+  std::tie(p.data.linear.referenceIndex, p.data.linear.targetIndex) =
+      tokenizer.jointParameterIndexFromName(parameterName);
+
+  // "<model parameter name> [<segment1_scale>, <segment1_offset>, segment1_rangeEnd>]
+  // [<segment2_scale> <segment2_offset> <segment2_rangeEnd>] ... [<segment_n_scale>
+  // <segment_n_offset] <optional weight>"
+  //
+  // Each segment of the piecewise-linear limit is specified
+  // sequentially as [scale, offset, rangeEnd] where rangeEnd specifies the _upper_ limit where that
+  // segment applies.
+  //
+  // Example:
+  //  f(x) = { -x - 3        if x < -3
+  //           x - (-3)         if -3 <= x < 0
+  //           -2x - (-3)       if x >= 0
+  // This would look like:
+  //    limit param1 linear param2 [-1, 3, -3] [1, -3, 0] [-2, -3] 4.0
+  // The missing end range for the last segment implies that it ranges to +infinity.
+  std::tie(p.data.linearJoint.targetJointIndex, p.data.linearJoint.targetJointParameter) =
+      tokenizer.getJointParameterIndex();
+
+  tokenizer.expectToken(Token::OpenBracket);
+
+  const auto sizeBefore = pl.size();
+
+  auto evalFunction = [](const LimitLinear& limit, float value) -> float {
+    return limit.scale * value - limit.offset;
+  };
+
+  float prevRangeMax = kNegativeInfinity;
+  while (tokenizer.peek() == Token::OpenBracket) {
+    const auto linePos = tokenizer.currentPosition();
+    const VectorXf segment = tokenizer.getDynamicVec();
+
+    if (segment.size() < 2 || segment.size() > 3) {
+      MT_THROW(
+          "Expected 2 or 3 values for linear segment at position {}, got {} at line {}: {}",
+          segment.size(),
+          linePos,
+          tokenizer.lineIndex(),
+          tokenizer.str());
+    }
+
+    if (prevRangeMax == kPositiveInfinity && segment.size() == 3) {
+      MT_THROW(
+          "Only the last linear segment can have unrestricted range at position {} in line {}: {}",
+          linePos,
+          tokenizer.lineIndex(),
+          tokenizer.str());
+    }
+
+    const float curRangeMax = segment.size() == 3 ? segment[2] : kPositiveInfinity;
+
+    auto pCur = p;
+    pCur.data.linearJoint.scale = segment[0];
+    pCur.data.linearJoint.offset = segment[1];
+    pCur.data.linearJoint.rangeMin = prevRangeMax;
+    pCur.data.linearJoint.rangeMax = curRangeMax;
+
+    if (pl.size() > sizeBefore) {
+      const auto& pPrev = pl.back();
+      MT_CHECK(pPrev.type == pCur.type);
+      const auto valuePrev = evalFunction(pPrev.data.linear, prevRangeMax);
+      const auto valueCur = evalFunction(pCur.data.linear, prevRangeMax);
+
+      MT_THROW_IF(
+          std::abs(valuePrev - valueCur) > 1e-3f,
+          "Mismatch between function values between two linear segments in line {}: {}.  "
+          " At x={}, {}*{} - {} = {} vs {}*{} - {} = {}",
+          tokenizer.lineIndex(),
+          tokenizer.str(),
+          prevRangeMax,
+          pPrev.data.linearJoint.scale,
+          prevRangeMax,
+          pPrev.data.linearJoint.offset,
+          valuePrev,
+          pCur.data.linearJoint.scale,
+          prevRangeMax,
+          pCur.data.linearJoint.offset,
+          valueCur);
+    }
+    pl.push_back(pCur);
+
+    prevRangeMax = curRangeMax;
+  }
+
+  if (!tokenizer.isEOF()) {
+    p.weight = tokenizer.getNumber();
+  }
+
+  // Back-fill all the weights:
+  for (size_t i = sizeBefore; i < pl.size(); ++i) {
+    pl[i].weight = p.weight;
+  }
+}
+
 void parseHalfPlane(const std::string& parameterName, ParameterLimits& pl, Tokenizer& tokenizer) {
   ParameterLimit p;
   p.weight = 1.0f;
@@ -524,6 +629,8 @@ ParameterLimits parseParameterLimits(
       parseMinmaxPassive(parameterName, pl, tokenizer);
     } else if (type == "linear") {
       parseLinear(parameterName, pl, tokenizer);
+    } else if (type == "linearJoint") {
+      parseLinearJoint(parameterName, pl, tokenizer);
     } else if (type == "halfplane") {
       parseHalfPlane(parameterName, pl, tokenizer);
     } else if (type == "ellipsoid") {
@@ -612,6 +719,53 @@ std::string writeParameterLimits(
       }
       oss << " " << origLimit.weight << "\n";
       continue;
+    } else if (itr->type == LimitType::LinearJoint) {
+      oss << jointParameterToName(
+                 itr->data.linearJoint.referenceJointIndex,
+                 itr->data.linearJoint.referenceJointParameter)
+          << " linearJoint "
+          << jointParameterToName(
+                 itr->data.linearJoint.targetJointIndex,
+                 itr->data.linearJoint.targetJointParameter);
+
+      const auto origLimit = *itr;
+      float prevRangeMax = kNegativeInfinity;
+
+      // The .data gets initialized with all zeros (using memset) so we need to
+      // handle the case where both rangeMin and rangeMax are zero.
+      if (itr->data.linearJoint.rangeMin == 0.0f && itr->data.linearJoint.rangeMax == 0.0f) {
+        oss << " "
+            << vecToString(
+                   Eigen::Vector2f(itr->data.linearJoint.scale, itr->data.linearJoint.offset));
+        ++itr;
+      } else {
+        do {
+          oss << " ";
+          if (itr->data.linearJoint.rangeMax == kPositiveInfinity) {
+            oss << vecToString(
+                Eigen::Vector2f(itr->data.linearJoint.scale, itr->data.linearJoint.offset));
+          } else {
+            oss << vecToString(Eigen::Vector3f(
+                itr->data.linearJoint.scale,
+                itr->data.linearJoint.offset,
+                itr->data.linearJoint.rangeMax));
+          }
+
+          prevRangeMax = itr->data.linearJoint.rangeMax;
+          ++itr;
+        } while (itr != parameterLimits.end() && itr->type == LimitType::LinearJoint &&
+                 itr->data.linearJoint.referenceJointIndex ==
+                     origLimit.data.linearJoint.referenceJointIndex &&
+                 itr->data.linearJoint.referenceJointParameter ==
+                     origLimit.data.linearJoint.referenceJointParameter &&
+                 itr->data.linearJoint.targetJointIndex ==
+                     origLimit.data.linearJoint.targetJointIndex &&
+                 itr->data.linearJoint.targetJointParameter ==
+                     origLimit.data.linearJoint.targetJointParameter &&
+                 itr->data.linearJoint.rangeMin == prevRangeMax);
+      }
+      oss << " " << origLimit.weight << "\n";
+      continue;
     }
 
     switch (itr->type) {
@@ -629,7 +783,8 @@ std::string writeParameterLimits(
                    itr->data.minMaxJoint.jointIndex, itr->data.minMaxJoint.jointParameter)
             << " minmax_passive " << vecToString(itr->data.minMaxJoint.limits);
         break;
-      case LimitType::Linear:
+      case LimitType::Linear: // Handled above
+      case LimitType::LinearJoint: // Handled above
         break;
       case LimitType::HalfPlane:
         oss << parameterTransform.name.at(itr->data.halfPlane.param1) << " halfplane "
