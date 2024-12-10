@@ -189,6 +189,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1LimitLinear.html">LimitLinear</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1LimitLinearJoint.html">LimitLinearJoint</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1LimitEllipsoid.html">LimitEllipsoid</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1LimitHalfPlane.html">LimitHalfPlane</a></td></tr>
@@ -3211,7 +3213,8 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83aff2fd39fced70107e04a1b7d1745409c">MinMaxJointPassive</a>
 , <a class="el" href="namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83aca5df6b9adf10744e4d47c6a88117354">Linear</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83a749186d8683f337b86da6d6b9999403e">Ellipsoid</a>
+&#160;&#160;<a class="el" href="namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83aa9a0cebd730427aeaeec2bb9d059feba">LinearJoint</a>
+, <a class="el" href="namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83a749186d8683f337b86da6d6b9999403e">Ellipsoid</a>
 , <a class="el" href="namespacemomentum.html#a9a0f06b01e5e0f7eff9212770dcf3f83aa1b595ca46d9640a0ef5358729143ba8">HalfPlane</a>
 <br />
  }</td></tr>
@@ -3679,6 +3682,8 @@ Functions</h2></td></tr>
 <tr class="separator:ade484c2e9267807b52f6f7d998d7453d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6fde982d4dfa32bc253074c5df04e7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#ac6fde982d4dfa32bc253074c5df04e7c">isInRange</a> (const <a class="el" href="structmomentum_1_1LimitLinear.html">LimitLinear</a> &amp;limit, float value)</td></tr>
 <tr class="separator:ac6fde982d4dfa32bc253074c5df04e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ae68da88ca65a75081a499c628ff9b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a8ae68da88ca65a75081a499c628ff9b3">isInRange</a> (const <a class="el" href="structmomentum_1_1LimitLinearJoint.html">LimitLinearJoint</a> &amp;limit, float value)</td></tr>
+<tr class="separator:a8ae68da88ca65a75081a499c628ff9b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af21a02ec65b013a43da8f6d2d8c39f2e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af21a02ec65b013a43da8f6d2d8c39f2e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#af21a02ec65b013a43da8f6d2d8c39f2e">mapParameterTransformJoints</a> (const <a class="el" href="structmomentum_1_1ParameterTransformT.html">ParameterTransformT</a>&lt; T &gt; &amp;parameterTransform, size_t numTargetJoints, const std::vector&lt; size_t &gt; &amp;jointMapping)</td></tr>
 <tr class="memdesc:af21a02ec65b013a43da8f6d2d8c39f2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new parameter transform where the joints have been mapped to a new skeleton.  <a href="namespacemomentum.html#af21a02ec65b013a43da8f6d2d8c39f2e">More...</a><br /></td></tr>
@@ -23554,6 +23559,7 @@ template&lt;typename T &gt; </div>
 <tr><td class="fieldname"><a id="a9a0f06b01e5e0f7eff9212770dcf3f83a44c96cc3ae9420f4bea29bf119c647c4"></a>MinMaxJoint&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9a0f06b01e5e0f7eff9212770dcf3f83aff2fd39fced70107e04a1b7d1745409c"></a>MinMaxJointPassive&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9a0f06b01e5e0f7eff9212770dcf3f83aca5df6b9adf10744e4d47c6a88117354"></a>Linear&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a0f06b01e5e0f7eff9212770dcf3f83aa9a0cebd730427aeaeec2bb9d059feba"></a>LinearJoint&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9a0f06b01e5e0f7eff9212770dcf3f83a749186d8683f337b86da6d6b9999403e"></a>Ellipsoid&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9a0f06b01e5e0f7eff9212770dcf3f83aa1b595ca46d9640a0ef5358729143ba8"></a>HalfPlane&#160;</td><td class="fielddoc"></td></tr>
 </table>
@@ -26887,7 +26893,7 @@ template&lt;typename T  = float&gt; </div>
 </div>
 </div>
 <a id="ac6fde982d4dfa32bc253074c5df04e7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6fde982d4dfa32bc253074c5df04e7c">&#9670;&nbsp;</a></span>isInRange()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6fde982d4dfa32bc253074c5df04e7c">&#9670;&nbsp;</a></span>isInRange() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -26896,6 +26902,34 @@ template&lt;typename T  = float&gt; </div>
           <td class="memname">bool momentum::isInRange </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structmomentum_1_1LimitLinear.html">LimitLinear</a> &amp;&#160;</td>
+          <td class="paramname"><em>limit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8ae68da88ca65a75081a499c628ff9b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ae68da88ca65a75081a499c628ff9b3">&#9670;&nbsp;</a></span>isInRange() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool momentum::isInRange </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structmomentum_1_1LimitLinearJoint.html">LimitLinearJoint</a> &amp;&#160;</td>
           <td class="paramname"><em>limit</em>, </td>
         </tr>
         <tr>
