@@ -74,6 +74,7 @@ PYBIND11_MODULE(geometry, m) {
       .value("MinMaxJoint", mm::LimitType::MinMaxJoint)
       .value("MinMaxJointPassive", mm::LimitType::MinMaxJointPassive)
       .value("Linear", mm::LimitType::Linear)
+      .value("LinearJoint", mm::LimitType::LinearJoint)
       .value("Ellipsoid", mm::LimitType::Ellipsoid)
       .value("HalfPlane", mm::LimitType::HalfPlane);
 
@@ -111,6 +112,8 @@ PYBIND11_MODULE(geometry, m) {
       py::class_<mm::LimitMinMaxJoint>(m, "LimitMinMaxJoint");
   auto parameterLimitLinearClass =
       py::class_<mm::LimitLinear>(m, "LimitLinear");
+  auto parameterLimitLinearJointClass =
+      py::class_<mm::LimitLinearJoint>(m, "LimitLinearJoint");
   auto parameterLimitHalfPlaneClass =
       py::class_<mm::LimitHalfPlane>(m, "LimitHalfPlane");
   auto parameterLimitEllipsoidClass =
@@ -1265,6 +1268,52 @@ Create a parameter limit with min and max values for a joint parameter.
           py::arg("range_min") = std::optional<float>{},
           py::arg("range_max") = std::optional<float>{})
       .def_static(
+          "create_linear_joint",
+          [](size_t reference_joint_index,
+             size_t reference_joint_parameter,
+             size_t target_joint_index,
+             size_t target_joint_parameter,
+             float scale,
+             float offset,
+             float weight,
+             std::optional<float> rangeMin,
+             std::optional<float> rangeMax) {
+            mm::LimitData data;
+            data.linearJoint.referenceJointIndex = reference_joint_index;
+            data.linearJoint.referenceJointParameter =
+                reference_joint_parameter;
+            data.linearJoint.targetJointIndex = target_joint_index;
+            data.linearJoint.targetJointParameter = target_joint_parameter;
+            data.linearJoint.scale = scale;
+            data.linearJoint.offset = offset;
+            data.linearJoint.rangeMin =
+                rangeMin.value_or(-std::numeric_limits<float>::max());
+            data.linearJoint.rangeMax =
+                rangeMax.value_or(std::numeric_limits<float>::max());
+            return mm::ParameterLimit{data, mm::LimitType::LinearJoint, weight};
+          },
+          R"(Create a parameter limit with a linear joint constraint.
+
+:parameter reference_joint_index: Index of reference joint p0 to use in equation p_0 = scale * p_1 - offset.
+:parameter reference_joint_parameter: Index of parameter within joint to use.
+:parameter target_joint_index: Index of target parameter p1 to use in equation p_0 = scale * p_1 - offset.
+:parameter target_joint_parameter: Index of parameter within joint to use.
+:parameter scale: Scale to use in equation p_0 = scale * p_1 - offset.
+:parameter offset: Offset to use in equation p_0 = scale * p_1 - offset.
+:parameter weight: Weight of the parameter limit.  Defaults to 1.
+:parameter range_min: Minimum of the range that the linear limit applies over.  Defaults to -infinity.
+:parameter range_max: Minimum of the range that the linear limit applies over.  Defaults to +infinity.
+    )",
+          py::arg("reference_joint_index"),
+          py::arg("reference_joint_parameter"),
+          py::arg("target_joint_index"),
+          py::arg("target_joint_parameter"),
+          py::arg("scale"),
+          py::arg("offset"),
+          py::arg("weight") = 1.0f,
+          py::arg("range_min") = std::optional<float>{},
+          py::arg("range_max") = std::optional<float>{})
+      .def_static(
           "create_halfplane",
           [](size_t param1,
              size_t param2,
@@ -1328,6 +1377,10 @@ Create a parameter limit with min and max values for a joint parameter.
           &mm::LimitData::minMaxJoint,
           "Data for MinMaxJoint limit.")
       .def_readonly("linear", &mm::LimitData::linear, "Data for Linear limit.")
+      .def_readonly(
+          "linear_joint",
+          &mm::LimitData::linearJoint,
+          "Data for LinearJoint limit.")
       .def_readonly(
           "halfplane", &mm::LimitData::halfPlane, "Data for HalfPlane limit.")
       .def_readonly(
@@ -1393,6 +1446,50 @@ Create a parameter limit with min and max values for a joint parameter.
           })
       .def_property_readonly(
           "range_max", [](const mm::LimitLinear& data) -> std::optional<float> {
+            if (data.rangeMax >= std::numeric_limits<float>::max()) {
+              return std::optional<float>{};
+            } else {
+              return std::make_optional(data.rangeMax);
+            }
+          });
+
+  parameterLimitLinearJointClass
+      .def_readonly(
+          "reference_joint_index",
+          &mm::LimitLinearJoint::referenceJointIndex,
+          "Index of reference joint to use in equation p_0 = scale * p_1 - offset.")
+      .def_readonly(
+          "reference_joint_parameter",
+          &mm::LimitLinearJoint::referenceJointParameter,
+          "Index of reference parameter to use (tx=0,ty=1,tz=2,rx=3,ry=4,rz=5,s=6).")
+      .def_readonly(
+          "target_joint_index",
+          &mm::LimitLinearJoint::targetJointIndex,
+          "Index of target joint to use in equation p_0 = scale * p_1 - offset.")
+      .def_readonly(
+          "target_joint_parameter",
+          &mm::LimitLinearJoint::targetJointParameter,
+          "Index of target parameter to use (tx=0,ty=1,tz=2,rx=3,ry=4,rz=5,s=6).")
+      .def_readonly(
+          "scale",
+          &mm::LimitLinearJoint::scale,
+          "Scale to use in equation p_0 = scale * p_1 - offset.")
+      .def_readonly(
+          "offset",
+          &mm::LimitLinearJoint::offset,
+          "Offset to use in equation p_0 = scale * p_1 - offset.")
+      .def_property_readonly(
+          "range_min",
+          [](const mm::LimitLinearJoint& data) -> std::optional<float> {
+            if (data.rangeMin <= -std::numeric_limits<float>::max()) {
+              return std::optional<float>{};
+            } else {
+              return std::make_optional(data.rangeMin);
+            }
+          })
+      .def_property_readonly(
+          "range_max",
+          [](const mm::LimitLinearJoint& data) -> std::optional<float> {
             if (data.rangeMax >= std::numeric_limits<float>::max()) {
               return std::optional<float>{};
             } else {
