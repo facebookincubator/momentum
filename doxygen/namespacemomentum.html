@@ -3848,6 +3848,8 @@ Functions</h2></td></tr>
 <tr class="memitem:aaf85010246b9208e3282a933d8deebc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#aaf85010246b9208e3282a933d8deebc4">saveCharacter</a> (const filesystem::path &amp;filename, const <a class="el" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a> &amp;<a class="el" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a>, float fps, gsl::span&lt; const <a class="el" href="namespacemomentum.html#a800a78d5d2ea2fd86769021cc0692b63">SkeletonState</a> &gt; skeletonStates, const std::vector&lt; std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; &amp;markerSequence={}, <a class="el" href="namespacemomentum.html#ab4c06c8408d6bc9e0f322065a9ec93e8">GltfFileFormat</a> fileFormat=<a class="el" href="namespacemomentum.html#ab4c06c8408d6bc9e0f322065a9ec93e8a63e4e92bb7d207ca577b11c07f827279">GltfFileFormat::Extension</a>)</td></tr>
 <tr class="memdesc:aaf85010246b9208e3282a933d8deebc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves character skeleton states to a glb file.  <a href="namespacemomentum.html#aaf85010246b9208e3282a933d8deebc4">More...</a><br /></td></tr>
 <tr class="separator:aaf85010246b9208e3282a933d8deebc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623e1e59a3aa81fc37fb566bc52171b7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a623e1e59a3aa81fc37fb566bc52171b7">saveCharacterToBytes</a> (const <a class="el" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a> &amp;character, float fps, const <a class="el" href="namespacemomentum.html#afdca80b52fef9cdaee8e5d253833bd8b">MotionParameters</a> &amp;motion, const <a class="el" href="namespacemomentum.html#a50bf418242216f94d8c770a15c647a92">IdentityParameters</a> &amp;offsets, const std::vector&lt; std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; &amp;markerSequence)</td></tr>
+<tr class="separator:a623e1e59a3aa81fc37fb566bc52171b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fef1ab54250c31fdd451d267430e06f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a1fef1ab54250c31fdd451d267430e06f"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemomentum.html#a1fef1ab54250c31fdd451d267430e06f">copyAccessorBuffer</a> (const fx::gltf::Document &amp;model, int32_t id)</td></tr>
 <tr class="separator:a1fef1ab54250c31fdd451d267430e06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -31178,6 +31180,52 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a623e1e59a3aa81fc37fb566bc52171b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a623e1e59a3aa81fc37fb566bc52171b7">&#9670;&nbsp;</a></span>saveCharacterToBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; momentum::saveCharacterToBytes </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#a9f4c67a24d6c5afccf7ec31801df8e6e">Character</a> &amp;&#160;</td>
+          <td class="paramname"><em>character</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>fps</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#afdca80b52fef9cdaee8e5d253833bd8b">MotionParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>motion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacemomentum.html#a50bf418242216f94d8c770a15c647a92">IdentityParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>offsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; <a class="el" href="structmomentum_1_1Marker.html">Marker</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>markerSequence</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
