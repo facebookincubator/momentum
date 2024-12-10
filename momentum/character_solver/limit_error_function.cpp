@@ -239,10 +239,10 @@ double LimitErrorFunctionT<T>::getGradient(
           error += residual * residual * limit.weight * tWeight;
 
           if (this->enabledParameters_.test(data.targetIndex)) {
-            gradient[data.targetIndex] += T(2) * residual * data.scale * tWeight;
+            gradient[data.targetIndex] += T(2) * residual * data.scale * limit.weight * tWeight;
           }
           if (this->enabledParameters_.test(data.referenceIndex)) {
-            gradient[data.referenceIndex] -= T(2) * residual * tWeight;
+            gradient[data.referenceIndex] -= T(2) * residual * limit.weight * tWeight;
           }
         }
         break;
