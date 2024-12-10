@@ -209,6 +209,28 @@ void parameterLimitsToJson(const Character& character, nlohmann::json& j) {
         li["targetParameter"] = character.parameterTransform.name[lim.data.linear.targetIndex];
         li["scale"] = lim.data.linear.scale;
         li["offset"] = lim.data.linear.offset;
+        if (lim.data.linear.rangeMin != -std::numeric_limits<float>::max()) {
+          li["rangeMin"] = lim.data.linear.rangeMin;
+        }
+        if (lim.data.linear.rangeMax != std::numeric_limits<float>::max()) {
+          li["rangeMax"] = lim.data.linear.rangeMax;
+        }
+        break;
+      case LinearJoint:
+        li["type"] = "linear_joint";
+        li["referenceJoint"] =
+            character.skeleton.joints.at(lim.data.linearJoint.referenceJointIndex).name;
+        li["referenceJointParameter"] = lim.data.linearJoint.referenceJointParameter;
+        li["targetJoint"] = character.skeleton.joints[lim.data.linearJoint.targetJointIndex].name;
+        li["targetJointParameter"] = lim.data.linearJoint.targetJointParameter;
+        li["scale"] = lim.data.linearJoint.scale;
+        li["offset"] = lim.data.linearJoint.offset;
+        if (lim.data.linearJoint.rangeMin != -std::numeric_limits<float>::max()) {
+          li["rangeMin"] = lim.data.linearJoint.rangeMin;
+        }
+        if (lim.data.linearJoint.rangeMax != std::numeric_limits<float>::max()) {
+          li["rangeMax"] = lim.data.linearJoint.rangeMax;
+        }
         break;
       case HalfPlane:
         li["type"] = "half_plane";
@@ -286,6 +308,20 @@ ParameterLimits parameterLimitsFromJson(const Character& character, const nlohma
           character.parameterTransform.getParameterIdByName(element.value("targetParameter", ""));
       l.data.linear.scale = element["scale"];
       l.data.linear.offset = element["offset"];
+      l.data.linear.rangeMin = element.value("rangeMin", -std::numeric_limits<float>::max());
+      l.data.linear.rangeMax = element.value("rangeMax", std::numeric_limits<float>::max());
+    } else if (type == "linear_joint") {
+      l.type = LinearJoint;
+      l.data.linearJoint.referenceJointIndex =
+          character.skeleton.getJointIdByName(element.value("referenceJoint", ""));
+      l.data.linearJoint.targetJointIndex =
+          character.skeleton.getJointIdByName(element.value("targetJoint", ""));
+      l.data.linearJoint.referenceJointParameter = element["referenceJointParameter"].get<size_t>();
+      l.data.linearJoint.targetJointParameter = element["targetJointParameter"].get<size_t>();
+      l.data.linearJoint.scale = element["scale"];
+      l.data.linearJoint.offset = element["offset"];
+      l.data.linearJoint.rangeMin = element.value("rangeMin", -std::numeric_limits<float>::max());
+      l.data.linearJoint.rangeMax = element.value("rangeMax", std::numeric_limits<float>::max());
     } else if (type == "half_plane") {
       l.type = HalfPlane;
       l.data.halfPlane.param1 =
