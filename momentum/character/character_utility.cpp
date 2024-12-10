@@ -136,6 +136,15 @@ ParameterLimits mapParameterLimits(
           result.push_back(l);
         }
         break;
+      case LimitType::LinearJoint:
+        l.data.linearJoint.referenceJointIndex =
+            parameterMapping[l.data.linearJoint.referenceJointIndex];
+        l.data.linearJoint.targetJointIndex = parameterMapping[l.data.linearJoint.targetJointIndex];
+        if (l.data.linearJoint.referenceJointIndex != kInvalidIndex &&
+            l.data.linearJoint.targetJointIndex != kInvalidIndex) {
+          result.push_back(l);
+        }
+        break;
       case LimitType::HalfPlane:
         l.data.halfPlane.param1 = parameterMapping[l.data.halfPlane.param1];
         l.data.halfPlane.param2 = parameterMapping[l.data.halfPlane.param2];

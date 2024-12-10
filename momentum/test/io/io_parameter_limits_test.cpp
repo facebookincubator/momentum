@@ -157,6 +157,58 @@ Character createCharacterWithLimits() {
   }
 
   {
+    // Linear joint limit affecting joint parameter:
+    ParameterLimit limit;
+    limit.type = LimitType::LinearJoint;
+    limit.weight = 2.5;
+    limit.data.linearJoint.referenceJointIndex = 2;
+    limit.data.linearJoint.referenceJointParameter = 3;
+    limit.data.linearJoint.targetJointIndex = 1;
+    limit.data.linearJoint.targetJointParameter = 0;
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linearJoint.scale = 1.0f;
+      cur.data.linearJoint.offset = 0.0f;
+      cur.data.linearJoint.rangeMin = -std::numeric_limits<float>::max();
+      cur.data.linearJoint.rangeMax = 0;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linearJoint.scale = -1.0f;
+      cur.data.linearJoint.offset = 4.0f;
+      cur.data.linearJoint.rangeMin = 0.0f;
+      cur.data.linearJoint.rangeMax = 2.0f;
+      limits.push_back(cur);
+    }
+
+    {
+      ParameterLimit cur = limit;
+      cur.data.linearJoint.scale = 1.0f;
+      cur.data.linearJoint.offset = -2.0f;
+      cur.data.linearJoint.rangeMin = 2.0f;
+      cur.data.linearJoint.rangeMax = std::numeric_limits<float>::max();
+      limits.push_back(cur);
+    }
+  }
+
+  {
+    // Linear joint limit affecting joint parameter:
+    ParameterLimit limit;
+    limit.type = LimitType::LinearJoint;
+    limit.weight = 2.5;
+    limit.data.linearJoint.referenceJointIndex = 2;
+    limit.data.linearJoint.referenceJointParameter = 3;
+    limit.data.linearJoint.targetJointIndex = 1;
+    limit.data.linearJoint.targetJointParameter = 0;
+    limit.data.linearJoint.scale = 1.2f;
+    limit.data.linearJoint.offset = 3.0f;
+    limits.push_back(limit);
+  }
+
+  {
     ParameterLimit limit;
     limit.type = LimitType::HalfPlane;
     limit.weight = 3.5;
@@ -207,6 +259,26 @@ void validateParameterLimitsSame(const ParameterLimits& limits1, const Parameter
           EXPECT_NEAR(l1.data.linear.rangeMax, l2.data.linear.rangeMax, 1e-4f);
         }
         break;
+      case LimitType::LinearJoint:
+        EXPECT_NEAR(l1.data.linearJoint.offset, l2.data.linearJoint.offset, 1e-4f);
+        EXPECT_NEAR(l1.data.linearJoint.scale, l2.data.linearJoint.scale, 1e-4f);
+        EXPECT_EQ(l1.data.linearJoint.targetJointIndex, l2.data.linearJoint.targetJointIndex);
+        EXPECT_EQ(l1.data.linearJoint.referenceJointIndex, l2.data.linearJoint.referenceJointIndex);
+        EXPECT_EQ(
+            l1.data.linearJoint.targetJointParameter, l2.data.linearJoint.targetJointParameter);
+        EXPECT_EQ(
+            l1.data.linearJoint.referenceJointParameter,
+            l2.data.linearJoint.referenceJointParameter);
+
+        if (l1.data.linearJoint.rangeMin == 0.0f && l1.data.linearJoint.rangeMax == 0.0f) {
+          EXPECT_EQ(l2.data.linearJoint.rangeMin, -std::numeric_limits<float>::max());
+          EXPECT_EQ(l2.data.linearJoint.rangeMax, std::numeric_limits<float>::max());
+        } else {
+          EXPECT_NEAR(l1.data.linearJoint.rangeMin, l2.data.linearJoint.rangeMin, 1e-4f);
+          EXPECT_NEAR(l1.data.linearJoint.rangeMax, l2.data.linearJoint.rangeMax, 1e-4f);
+        }
+        break;
+
       case LimitType::Ellipsoid:
         EXPECT_LE(
             (l1.data.ellipsoid.ellipsoid.matrix() - l2.data.ellipsoid.ellipsoid.matrix())
