@@ -1063,4 +1063,25 @@ void saveCharacter(
   GltfBuilder::save(model, filename, fileFormat, kEmbedResources);
 }
 
+std::vector<std::byte> saveCharacterToBytes(
+    const Character& character,
+    float fps,
+    const MotionParameters& motion,
+    const IdentityParameters& offsets,
+    const std::vector<std::vector<Marker>>& markerSequence) {
+  constexpr auto kEmbedResources = false; // Don't embed resource for saving glb
+  fx::gltf::Document model =
+      makeCharacterDocument(character, fps, motion, offsets, markerSequence, kEmbedResources);
+
+  std::ostringstream output(std::ios::binary | std::ios::out);
+  fx::gltf::Save(model, output, {}, true);
+  const auto view = output.str();
+  const auto n = view.size();
+  std::vector<std::byte> result(n);
+  for (size_t i = 0; i < n; ++i) {
+    result[i] = static_cast<std::byte>(view[i]);
+  }
+  return result;
+}
+
 } // namespace momentum

@@ -115,4 +115,11 @@ void saveCharacter(
     const std::vector<std::vector<Marker>>& markerSequence = {},
     GltfFileFormat fileFormat = GltfFileFormat::Extension);
 
+std::vector<std::byte> saveCharacterToBytes(
+    const Character& character,
+    float fps = 120.0f,
+    const MotionParameters& motion = {},
+    const IdentityParameters& offsets = {},
+    const std::vector<std::vector<Marker>>& markerSequence = {});
+
 } // namespace momentum
