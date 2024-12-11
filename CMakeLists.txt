@@ -204,6 +204,15 @@ mt_library(
 )
 
 mt_library(
+  NAME character_test_helpers
+  HEADERS_VARS character_test_helpers_public_headers
+  SOURCES_VARS character_test_helpers_sources
+  PUBLIC_LINK_LIBRARIES
+    character
+  EXCLUDE_FROM_INSTALL
+)
+
+mt_library(
   NAME solver
   HEADERS_VARS solver_public_headers
   SOURCES_VARS solver_sources
@@ -472,15 +481,6 @@ if(MOMENTUM_BUILD_TESTING)
       GTest::gtest
     PRIVATE_LINK_LIBRARIES
       Boost::boost
-    EXCLUDE_FROM_INSTALL
-  )
-
-  mt_library(
-    NAME character_test_helpers
-    HEADERS_VARS character_test_helpers_public_headers
-    SOURCES_VARS character_test_helpers_sources
-    PUBLIC_LINK_LIBRARIES
-      character
     EXCLUDE_FROM_INSTALL
   )
 
