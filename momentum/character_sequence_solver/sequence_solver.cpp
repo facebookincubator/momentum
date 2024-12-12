@@ -12,6 +12,7 @@
 #include "momentum/character_sequence_solver/sequence_solver_function.h"
 #include "momentum/character_solver/skeleton_error_function.h"
 #include "momentum/common/checks.h"
+#include "momentum/common/log.h"
 #include "momentum/common/profile.h"
 #include "momentum/common/progress_bar.h"
 #include "momentum/math/online_householder_qr.h"
@@ -473,6 +474,7 @@ void SequenceSolverT<T>::doIteration() {
   const Eigen::VectorX<T> searchDir = qrSolver.x_dense();
 
   const double error_orig = this->error_;
+  MT_LOGD("error {}", error_orig);
   if (doLineSearch_) {
     const double innerProd = -qrSolver.At_times_b().dot(searchDir);
 
