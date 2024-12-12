@@ -178,7 +178,7 @@ Character createCharacterWithLimits() {
     {
       ParameterLimit cur = limit;
       cur.data.linearJoint.scale = -1.0f;
-      cur.data.linearJoint.offset = 4.0f;
+      cur.data.linearJoint.offset = 0.0f;
       cur.data.linearJoint.rangeMin = 0.0f;
       cur.data.linearJoint.rangeMax = 2.0f;
       limits.push_back(cur);
@@ -187,7 +187,7 @@ Character createCharacterWithLimits() {
     {
       ParameterLimit cur = limit;
       cur.data.linearJoint.scale = 1.0f;
-      cur.data.linearJoint.offset = -2.0f;
+      cur.data.linearJoint.offset = 4.0f;
       cur.data.linearJoint.rangeMin = 2.0f;
       cur.data.linearJoint.rangeMax = std::numeric_limits<float>::max();
       limits.push_back(cur);

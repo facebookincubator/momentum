@@ -56,10 +56,10 @@ class Tokenizer {
       size_t lineIndex,
       const ParameterTransform& parameterTransform,
       const Skeleton& skeleton)
-      : _str(str),
-        _lineIndex(lineIndex),
-        _parameterTransform(parameterTransform),
-        _skeleton(skeleton) {
+      : parameterTransform(parameterTransform),
+        skeleton(skeleton),
+        _str(str),
+        _lineIndex(lineIndex) {
     _curPos = _str.begin();
     _tokenStart = _curPos;
     advance();
@@ -139,14 +139,14 @@ class Tokenizer {
 
   [[nodiscard]] size_t modelParameterIndexFromName(const std::string& modelParameterName) const {
     auto itr = std::find(
-        _parameterTransform.name.begin(), _parameterTransform.name.end(), modelParameterName);
+        parameterTransform.name.begin(), parameterTransform.name.end(), modelParameterName);
     MT_THROW_IF(
-        itr == _parameterTransform.name.end(),
+        itr == parameterTransform.name.end(),
         "Parameter {} not found in transform at line {}: {}",
         modelParameterName,
         _lineIndex,
         _str);
-    return std::distance(_parameterTransform.name.begin(), itr);
+    return std::distance(parameterTransform.name.begin(), itr);
   }
 
   [[nodiscard]] size_t getModelParameterIndex() {
@@ -186,7 +186,7 @@ class Tokenizer {
   }
 
   [[nodiscard]] size_t jointIndexFromName(const std::string& jointName) const {
-    const auto jointIndex = _skeleton.getJointIdByName(jointName);
+    const auto jointIndex = skeleton.getJointIdByName(jointName);
     MT_THROW_IF(
         jointIndex == kInvalidIndex,
         "Could not find joint {} in skeleton at line {}: {}",
@@ -212,6 +212,9 @@ class Tokenizer {
   [[nodiscard]] const std::string& str() const {
     return _str;
   }
+
+  const ParameterTransform& parameterTransform;
+  const Skeleton& skeleton;
 
  private:
   void verifyToken(Token expectedToken) const {
@@ -284,8 +287,6 @@ class Tokenizer {
 
   const std::string& _str;
   const size_t _lineIndex;
-  const ParameterTransform& _parameterTransform;
-  const Skeleton& _skeleton;
   std::string::const_iterator _curPos;
   std::string::const_iterator _tokenStart;
   Token _curToken = Token::Eof;
@@ -400,6 +401,13 @@ void parseLinear(const std::string& parameterName, ParameterLimits& pl, Tokenize
     pCur.data.linear.rangeMin = prevRangeMax;
     pCur.data.linear.rangeMax = curRangeMax;
 
+    MT_LOGT(
+        "Parsed linear (joint) parameter limit {} = {}*{} - {}",
+        tokenizer.parameterTransform.name.at(pCur.data.linear.referenceIndex),
+        pCur.data.linearJoint.scale,
+        tokenizer.parameterTransform.name.at(pCur.data.linear.targetIndex),
+        pCur.data.linearJoint.offset);
+
     if (pl.size() > sizeBefore) {
       const auto& pPrev = pl.back();
       MT_CHECK(pPrev.type == pCur.type);
@@ -442,7 +450,7 @@ void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tok
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = LinearJoint;
-  std::tie(p.data.linear.referenceIndex, p.data.linear.targetIndex) =
+  std::tie(p.data.linearJoint.referenceJointIndex, p.data.linearJoint.referenceJointParameter) =
       tokenizer.jointParameterIndexFromName(parameterName);
 
   // "<model parameter name> [<segment1_scale>, <segment1_offset>, segment1_rangeEnd>]
@@ -467,7 +475,7 @@ void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tok
 
   const auto sizeBefore = pl.size();
 
-  auto evalFunction = [](const LimitLinear& limit, float value) -> float {
+  auto evalFunction = [](const LimitLinearJoint& limit, float value) -> float {
     return limit.scale * value - limit.offset;
   };
 
@@ -501,11 +509,20 @@ void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tok
     pCur.data.linearJoint.rangeMin = prevRangeMax;
     pCur.data.linearJoint.rangeMax = curRangeMax;
 
+    MT_LOGT(
+        "Parsed linear (joint) parameter limit {}.{} = {}*{}.{} - {}",
+        tokenizer.skeleton.joints.at(pCur.data.linearJoint.referenceJointIndex).name,
+        kJointParameterNames[pCur.data.linearJoint.referenceJointParameter],
+        pCur.data.linearJoint.scale,
+        tokenizer.skeleton.joints.at(pCur.data.linearJoint.targetJointIndex).name,
+        kJointParameterNames[pCur.data.linearJoint.targetJointParameter],
+        pCur.data.linearJoint.offset);
+
     if (pl.size() > sizeBefore) {
       const auto& pPrev = pl.back();
       MT_CHECK(pPrev.type == pCur.type);
-      const auto valuePrev = evalFunction(pPrev.data.linear, prevRangeMax);
-      const auto valueCur = evalFunction(pCur.data.linear, prevRangeMax);
+      const auto valuePrev = evalFunction(pPrev.data.linearJoint, prevRangeMax);
+      const auto valueCur = evalFunction(pCur.data.linearJoint, prevRangeMax);
 
       MT_THROW_IF(
           std::abs(valuePrev - valueCur) > 1e-3f,
@@ -628,9 +645,11 @@ ParameterLimits parseParameterLimits(
     } else if (type == "minmax_passive") {
       parseMinmaxPassive(parameterName, pl, tokenizer);
     } else if (type == "linear") {
-      parseLinear(parameterName, pl, tokenizer);
-    } else if (type == "linearJoint") {
-      parseLinearJoint(parameterName, pl, tokenizer);
+      if (parameterName.find('.') == std::string::npos) {
+        parseLinear(parameterName, pl, tokenizer);
+      } else {
+        parseLinearJoint(parameterName, pl, tokenizer);
+      }
     } else if (type == "halfplane") {
       parseHalfPlane(parameterName, pl, tokenizer);
     } else if (type == "ellipsoid") {
@@ -723,7 +742,7 @@ std::string writeParameterLimits(
       oss << jointParameterToName(
                  itr->data.linearJoint.referenceJointIndex,
                  itr->data.linearJoint.referenceJointParameter)
-          << " linearJoint "
+          << " linear "
           << jointParameterToName(
                  itr->data.linearJoint.targetJointIndex,
                  itr->data.linearJoint.targetJointParameter);
