@@ -442,7 +442,7 @@ void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tok
   ParameterLimit p;
   p.weight = 1.0f;
   p.type = LinearJoint;
-  std::tie(p.data.linear.referenceIndex, p.data.linear.targetIndex) =
+  std::tie(p.data.linearJoint.referenceJointIndex, p.data.linearJoint.referenceJointParameter) =
       tokenizer.jointParameterIndexFromName(parameterName);
 
   // "<model parameter name> [<segment1_scale>, <segment1_offset>, segment1_rangeEnd>]
@@ -467,7 +467,7 @@ void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tok
 
   const auto sizeBefore = pl.size();
 
-  auto evalFunction = [](const LimitLinear& limit, float value) -> float {
+  auto evalFunction = [](const LimitLinearJoint& limit, float value) -> float {
     return limit.scale * value - limit.offset;
   };
 
@@ -504,8 +504,8 @@ void parseLinearJoint(const std::string& parameterName, ParameterLimits& pl, Tok
     if (pl.size() > sizeBefore) {
       const auto& pPrev = pl.back();
       MT_CHECK(pPrev.type == pCur.type);
-      const auto valuePrev = evalFunction(pPrev.data.linear, prevRangeMax);
-      const auto valueCur = evalFunction(pCur.data.linear, prevRangeMax);
+      const auto valuePrev = evalFunction(pPrev.data.linearJoint, prevRangeMax);
+      const auto valueCur = evalFunction(pCur.data.linearJoint, prevRangeMax);
 
       MT_THROW_IF(
           std::abs(valuePrev - valueCur) > 1e-3f,
