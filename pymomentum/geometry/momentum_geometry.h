@@ -91,6 +91,7 @@ at::Tensor uniformRandomToModelParameters(
 
 std::shared_ptr<const momentum::Mppca> loadPosePriorFromFile(
     const std::string& path);
+void savePosePriorToFile(const momentum::Mppca& mppca, const std::string& path);
 std::shared_ptr<const momentum::Mppca> loadPosePriorFromBytes(
     const pybind11::bytes& bytes);
 
