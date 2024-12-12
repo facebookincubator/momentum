@@ -295,6 +295,12 @@ std::shared_ptr<const momentum::Mppca> loadPosePriorFromFile(
   return momentum::loadMppca(path);
 }
 
+void savePosePriorToFile(
+    const momentum::Mppca& mppca,
+    const std::string& path) {
+  return momentum::saveMppca(mppca, path);
+}
+
 std::shared_ptr<const momentum::Mppca> loadPosePriorFromBytes(
     const py::bytes& bytes) {
   return momentum::loadMppca(toSpan<unsigned char>(bytes));

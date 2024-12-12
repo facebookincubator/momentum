@@ -1730,6 +1730,12 @@ The resulting tensors are as follows:
           "Load a mixture PCA model (e.g. poseprior.mppca).",
           py::arg("mppca_filename"))
       .def_static(
+          "save",
+          &savePosePriorToFile,
+          "Save a mixture PCA model to file (e.g. poseprior.mppca).",
+          py::arg("mppca"),
+          py::arg("mppca_filename"))
+      .def_static(
           "from_bytes",
           &loadPosePriorFromBytes,
           "Load a mixture PCA model (e.g. poseprior.mppca).",
