@@ -645,9 +645,11 @@ ParameterLimits parseParameterLimits(
     } else if (type == "minmax_passive") {
       parseMinmaxPassive(parameterName, pl, tokenizer);
     } else if (type == "linear") {
-      parseLinear(parameterName, pl, tokenizer);
-    } else if (type == "linearJoint") {
-      parseLinearJoint(parameterName, pl, tokenizer);
+      if (parameterName.find('.') == std::string::npos) {
+        parseLinear(parameterName, pl, tokenizer);
+      } else {
+        parseLinearJoint(parameterName, pl, tokenizer);
+      }
     } else if (type == "halfplane") {
       parseHalfPlane(parameterName, pl, tokenizer);
     } else if (type == "ellipsoid") {
@@ -740,7 +742,7 @@ std::string writeParameterLimits(
       oss << jointParameterToName(
                  itr->data.linearJoint.referenceJointIndex,
                  itr->data.linearJoint.referenceJointParameter)
-          << " linearJoint "
+          << " linear "
           << jointParameterToName(
                  itr->data.linearJoint.targetJointIndex,
                  itr->data.linearJoint.targetJointParameter);
