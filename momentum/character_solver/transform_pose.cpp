@@ -243,6 +243,7 @@ std::vector<ModelParametersT<T>> transformPose(
 
   std::vector<momentum::ModelParametersT<T>> result(modelParameters.size());
 
+  momentum::ModelParametersT<T> prevSolve;
   for (size_t iFrame = 0; iFrame < nPoses; ++iFrame) {
     const auto& fullParams_init = modelParameters.at(iFrame);
     if (fullParams_init.size() == 0) {
@@ -253,11 +254,8 @@ std::vector<ModelParametersT<T>> transformPose(
         (iFrame < transforms.size()) ? transforms.at(iFrame) : transforms.at(0);
 
     result[iFrame] = modelParameters[iFrame];
-    transformSolver.transformPose(
-        result[iFrame],
-        transform,
-        (iFrame > 0 && ensureContinuousOutput) ? result[iFrame - 1]
-                                               : momentum::ModelParametersT<T>());
+    transformSolver.transformPose(result[iFrame], transform, prevSolve);
+    prevSolve = result[iFrame];
   }
 
   return result;

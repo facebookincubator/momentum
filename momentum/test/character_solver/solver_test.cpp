@@ -446,3 +446,91 @@ TYPED_TEST(TransformPoseTest, ValidateTransformsContinuous) {
         modelParams_final[iPose][root_rz_param], modelParams_final[iPose - 1][root_rz_param], 0.2);
   }
 }
+
+TYPED_TEST(TransformPoseTest, ValidateTransformsContinuousWithSkips) {
+  using T = typename TestFixture::Type;
+
+  const Character character = createDividedRootCharacter();
+  ParameterTransformT<T> castedCharacterParameterTransform = character.parameterTransform.cast<T>();
+  const Skeleton& skeleton = character.skeleton;
+
+  SkeletonState initialBodySkeletonState(character.parameterTransform.zero(), skeleton);
+
+  const auto root_rx_param = character.parameterTransform.getParameterIdByName("root_rx");
+  const auto root_ry_param = character.parameterTransform.getParameterIdByName("root_ry");
+  const auto root_rz_param = character.parameterTransform.getParameterIdByName("root_rz");
+  ASSERT_LT(root_rx_param, character.parameterTransform.numAllModelParameters());
+  ASSERT_LT(root_ry_param, character.parameterTransform.numAllModelParameters());
+  ASSERT_LT(root_rz_param, character.parameterTransform.numAllModelParameters());
+
+  std::vector<ModelParametersT<T>> modelParams_init;
+  {
+    ModelParametersT<T> randomParams_init =
+        VectorX<T>::Random(character.parameterTransform.numAllModelParameters());
+    // 100 frames ensures we go around several times.
+    for (size_t iFrame = 0; iFrame < 400; ++iFrame) {
+      if (iFrame % 2 == 0) {
+        modelParams_init.push_back(ModelParametersT<T>());
+        continue;
+      }
+
+      modelParams_init.push_back(randomParams_init);
+      randomParams_init(root_rx_param) -= 0.05;
+      randomParams_init(root_ry_param) += 0.03;
+      if (iFrame % 25 == 0) {
+        randomParams_init(root_ry_param) += 2 * pi<T>();
+      }
+    }
+  }
+
+  const TransformT<T> transform(
+      Vector3<T>(0, 0, 0),
+      Quaternion<T>(AngleAxis<T>(pi<T>(), Vector3<T>::UnitY())) *
+          Quaternion<T>(AngleAxis<T>(pi<T>(), Vector3<T>::UnitX())));
+
+  const std::vector<ModelParametersT<T>> modelParams_final =
+      transformPose(character, modelParams_init, transform);
+
+  ASSERT_EQ(modelParams_init.size(), modelParams_final.size());
+
+  for (size_t iPose = 0; iPose < modelParams_init.size(); ++iPose) {
+    ASSERT_EQ(modelParams_final[iPose].size(), modelParams_init[iPose].size());
+
+    if (modelParams_init[iPose].size() == 0) {
+      continue;
+    }
+
+    const SkeletonStateT<T> skelState_init(
+        castedCharacterParameterTransform.apply(modelParams_init[iPose]), character.skeleton);
+    const SkeletonStateT<T> skelState_final(
+        castedCharacterParameterTransform.apply(modelParams_final[iPose]), character.skeleton);
+
+    // Start at the root joint, the world joint doesn't have all the parameters it needs to match
+    // the transform:
+    const auto expectedError = T(10) * std::sqrt(std::numeric_limits<T>::epsilon());
+    for (size_t iJoint = 1; iJoint < skelState_init.jointState.size(); ++iJoint) {
+      const TransformT<T> targetTransform = transform * skelState_init.jointState[iJoint].transform;
+      const TransformT<T> actualTransform = skelState_final.jointState[iJoint].transform;
+
+      EXPECT_LE((targetTransform.toMatrix() - actualTransform.toMatrix()).norm(), expectedError);
+    }
+  }
+
+  // Check for Euler flips:
+  ModelParametersT<T> lastPose;
+  for (size_t iPose = 0; iPose < modelParams_init.size(); ++iPose) {
+    ASSERT_EQ(modelParams_final[iPose].size(), modelParams_init[iPose].size());
+
+    if (modelParams_init[iPose].size() == 0) {
+      continue;
+    }
+
+    if (lastPose.size() != 0) {
+      ASSERT_NEAR(modelParams_final[iPose][root_rx_param], lastPose[root_rx_param], 0.2);
+      ASSERT_NEAR(modelParams_final[iPose][root_ry_param], lastPose[root_ry_param], 0.2);
+      ASSERT_NEAR(modelParams_final[iPose][root_rz_param], lastPose[root_rz_param], 0.2);
+    }
+
+    lastPose = modelParams_final[iPose];
+  }
+}
