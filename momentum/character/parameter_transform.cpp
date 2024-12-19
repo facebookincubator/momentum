@@ -9,11 +9,10 @@
 
 #include "momentum/character/skeleton.h"
 #include "momentum/common/checks.h"
+#include "momentum/common/profile.h"
 #include "momentum/math/utility.h"
 
 #include <fmt/format.h>
-
-#include <type_traits>
 
 namespace momentum {
 
@@ -84,6 +83,7 @@ VectorX<bool> ParameterTransformT<T>::computeActiveJointParams(const ParameterSe
 // map model parameters to joint parameters using a linear transformation
 template <typename T>
 JointParametersT<T> ParameterTransformT<T>::apply(const ModelParametersT<T>& parameters) const {
+  MT_PROFILE_FUNCTION();
   MT_CHECK(
       parameters.size() == transform.cols(),
       "Size mismatch: The size of the parameters vector '{}' does not match the number of columns in the transform matrix '{}'.",
@@ -100,6 +100,7 @@ JointParametersT<T> ParameterTransformT<T>::apply(const ModelParametersT<T>& par
 // map model parameters to joint parameters using a linear transformation
 template <typename T>
 JointParametersT<T> ParameterTransformT<T>::apply(const CharacterParametersT<T>& parameters) const {
+  MT_PROFILE_FUNCTION();
   MT_CHECK(
       parameters.pose.size() == transform.cols(),
       "{} is not {}",

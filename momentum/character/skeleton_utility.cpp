@@ -6,6 +6,7 @@
  */
 
 #include "momentum/character/skeleton_utility.h"
+#include "momentum/common/profile.h"
 
 namespace momentum {
 
@@ -14,6 +15,7 @@ ModelParameters extrapolateModelParameters(
     const ModelParameters& current,
     const float factor,
     const float maxDelta) {
+  MT_PROFILE_FUNCTION();
   // check if we have any reasonable data
   if (current.size() != previous.size()) {
     return current;
@@ -32,6 +34,7 @@ ModelParameters extrapolateModelParameters(
     const ParameterSet& activeParams,
     const float factor,
     const float maxDelta) {
+  MT_PROFILE_FUNCTION();
   if (current.size() != previous.size()) {
     return current;
   }

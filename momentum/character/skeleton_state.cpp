@@ -9,6 +9,7 @@
 
 #include "momentum/character/skeleton.h"
 #include "momentum/common/checks.h"
+#include "momentum/common/profile.h"
 #include "momentum/math/types.h"
 
 namespace momentum {
@@ -41,6 +42,7 @@ SkeletonStateT<T>::SkeletonStateT(const SkeletonStateT<T2>& rhs)
 template <typename T>
 template <typename T2>
 void SkeletonStateT<T>::set(const SkeletonStateT<T2>& rhs) {
+  MT_PROFILE_FUNCTION();
   jointParameters = rhs.jointParameters.template cast<T>();
   jointState.resize(rhs.jointState.size());
   copy(rhs);
@@ -49,6 +51,7 @@ void SkeletonStateT<T>::set(const SkeletonStateT<T2>& rhs) {
 template <typename T>
 template <typename T2>
 void SkeletonStateT<T>::copy(const SkeletonStateT<T2>& rhs) {
+  MT_PROFILE_FUNCTION();
   for (size_t iJoint = 0; iJoint < jointState.size(); ++iJoint) {
     jointState[iJoint].set(rhs.jointState[iJoint]);
   }
@@ -59,6 +62,7 @@ void SkeletonStateT<T>::set(
     const JointParametersT<T>& parameters,
     const Skeleton& referenceSkeleton,
     bool computeDeriv) {
+  MT_PROFILE_FUNCTION();
   this->jointParameters = parameters;
   this->jointState.resize(referenceSkeleton.joints.size());
   set(referenceSkeleton, computeDeriv);
@@ -69,6 +73,7 @@ void SkeletonStateT<T>::set(
     JointParametersT<T>&& parameters,
     const Skeleton& referenceSkeleton,
     bool computeDeriv) {
+  MT_PROFILE_FUNCTION();
   this->jointParameters = std::move(parameters);
   this->jointState.resize(referenceSkeleton.joints.size());
   set(referenceSkeleton, computeDeriv);
@@ -76,6 +81,7 @@ void SkeletonStateT<T>::set(
 
 template <typename T>
 void SkeletonStateT<T>::set(const Skeleton& referenceSkeleton, bool computeDeriv) {
+  MT_PROFILE_FUNCTION();
   // get input joints
   const JointListT<T>& joints = ::momentum::cast<T>(referenceSkeleton.joints);
 

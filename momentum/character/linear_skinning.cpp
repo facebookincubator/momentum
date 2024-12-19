@@ -10,6 +10,7 @@
 #include "momentum/character/skeleton_state.h"
 #include "momentum/character/skin_weights.h"
 #include "momentum/common/checks.h"
+#include "momentum/common/profile.h"
 #include "momentum/math/mesh.h"
 
 #include <dispenso/parallel_for.h>
@@ -22,6 +23,8 @@ std::vector<Vector3<T>> applySSD(
     const SkinWeights& skin,
     typename DeduceSpanType<const Vector3<T>>::type points,
     const SkeletonStateT<T>& state) {
+  MT_PROFILE_FUNCTION();
+
   // some sanity checks
   MT_CHECK(
       state.jointState.size() == inverseBindPose.size(),
@@ -102,6 +105,8 @@ void applySSD(
     const MeshT<T>& mesh,
     const JointStateListT<T>& jointState,
     MeshT<T>& outputMesh) {
+  MT_PROFILE_FUNCTION();
+
   // some sanity checks
   MT_CHECK(
       jointState.size() >= inverseBindPose.size(),
