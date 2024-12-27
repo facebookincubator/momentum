@@ -463,10 +463,9 @@ void addSkeletonStatesToModel(
   }
 
   // check for valid character and stuff before adding things
-  if (character.skeleton.joints.empty() ||
-      character.parameterTransform.numAllModelParameters() == 0) {
-    return;
-  }
+  MT_THROW_IF(
+      character.skeleton.joints.empty() || character.parameterTransform.numJointParameters() == 0,
+      "Character is not valid when trying to add skeleton states to model");
 
   // store parameterized motion into joints for actual animation
   const auto numJoints = character.skeleton.joints.size();
