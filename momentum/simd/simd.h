@@ -16,6 +16,12 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
+#define DRJIT_VERSION_GE(major, minor, patch)                           \
+  ((DRJIT_VERSION_MAJOR > (major)) ||                                   \
+   (DRJIT_VERSION_MAJOR == (major) && DRJIT_VERSION_MINOR > (minor)) || \
+   (DRJIT_VERSION_MAJOR == (major) && DRJIT_VERSION_MINOR == (minor) && \
+    DRJIT_VERSION_PATCH >= (patch)))
+
 // Utilities for writing cross-platform SIMD code.
 // This currently uses the DrJit library for SIMD primitives.
 
@@ -194,3 +200,17 @@ Vector3P<S> cross(const Vector3P<S>& v1, const Eigen::MatrixBase<Derived>& v2) {
 }
 
 } // namespace momentum
+
+#if DRJIT_VERSION_GE(1, 0, 0)
+
+namespace drjit {
+
+template <typename Stream, typename T>
+std::stringstream& operator<<(std::stringstream& stream, const drjit::Packet<T>& packet) {
+  stream << drjit::string(packet).c_str();
+  return stream;
+}
+
+} // namespace drjit
+
+#endif
