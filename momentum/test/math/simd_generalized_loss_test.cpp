@@ -65,7 +65,8 @@ void testSimdGeneralizedLoss(T alpha, T c, T absTol, T relTol) {
       << "\n - val1     : " << val1
       << "\n - val2     : " << val2
       << "\n - refDeriv : " << refDeriv
-      << "\n - testDeriv: " << testDeriv << std::endl;
+      << "\n - testDeriv: " << testDeriv
+      << std::endl;
       // clang-format off
 }
 

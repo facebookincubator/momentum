@@ -71,9 +71,9 @@ closestPointOnTwoSegments(
   // Note that the actual returned values are inherently unstable
   // if the lines are near parallel, but the distance from
   // (p0 + t0*d0) to (p1 + t1*d1) will be stable.
-  t0 = drjit::clamp(drjit::select(div > 0.0f, (pd0 * d11 - pd1 * d01) / div, t0), 0.0f, 1.0f);
-  t1 = drjit::clamp(drjit::select(d11 > 0.0f, (t0 * d01 - pd1) / d11, t1), 0.0f, 1.0f);
-  t0 = drjit::clamp(drjit::select(d00 > 0.0f, (t1 * d01 + pd0) / d00, t0), 0.0f, 1.0f);
+  t0 = drjit::clip(drjit::select(div > 0.0f, (pd0 * d11 - pd1 * d01) / div, t0), 0.0f, 1.0f);
+  t1 = drjit::clip(drjit::select(d11 > 0.0f, (t0 * d01 - pd1) / d11, t1), 0.0f, 1.0f);
+  t0 = drjit::clip(drjit::select(d00 > 0.0f, (t1 * d01 + pd0) / d00, t0), 0.0f, 1.0f);
 
   return {t0, t1};
 }
