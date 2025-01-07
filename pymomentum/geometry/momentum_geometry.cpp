@@ -332,8 +332,7 @@ std::shared_ptr<momentum::BlendShape> loadBlendShapeFromBytes(
   return std::make_shared<momentum::BlendShape>(std::move(result));
 }
 
-template <typename T>
-std::string formatDimensions(const py::array_t<T>& array) {
+std::string formatDimensions(const py::array& array) {
   std::ostringstream oss;
   oss << "[";
   for (size_t i = 0; i < array.ndim(); ++i) {

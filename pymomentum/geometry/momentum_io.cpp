@@ -6,6 +6,7 @@
  */
 
 #include "pymomentum/geometry/momentum_io.h"
+#include "pymomentum/geometry/momentum_geometry.h"
 
 #include <momentum/character/character.h>
 #include <momentum/character/joint_state.h>
@@ -56,73 +57,70 @@ void saveGLTFCharacterToFileFromSkelStates(
     const std::string& path,
     const momentum::Character& character,
     const float fps,
-    const std::vector<RowMatrixf>& skel_states,
-    const std::vector<RowMatrixf>& joint_params,
+    const pybind11::array_t<float>& skel_states,
     std::optional<const std::vector<std::vector<momentum::Marker>>> markers) {
   MT_THROW_IF(
-      markers.has_value() && markers->size() != skel_states.size(),
+      skel_states.ndim() != 3,
+      "Expected skel_states to have size n_frames x n_joints x 8, but got {}",
+      formatDimensions(skel_states));
+
+  const int numFrames = skel_states.shape(0);
+  const int numJoints = skel_states.shape(1);
+  const int numElements = skel_states.shape(2);
+
+  MT_THROW_IF(
+      markers.has_value() && markers->size() != numFrames,
       "The number of frames of the skeleton states array {} does not coincide with the number of frames of the markers {}",
       skel_states.size(),
       markers->size());
-  const int numFrames = skel_states.size();
-  const int numJoints = skel_states[0].rows();
-  const int numElements = skel_states[0].cols();
-  MT_CHECK(
-      numElements == 8,
+
+  MT_THROW_IF(
+      numElements != 8,
       "Expecting size 8 (3 translation + 4 rotation + sale) for last dimension of the skel_states, but got {}",
       numElements);
+  MT_THROW_IF(
+      numJoints != character.skeleton.joints.size(),
+      "Expecting {} joints in the skeleton states, but got {}",
+      character.skeleton.joints.size(),
+      numJoints);
 
-  std::vector<momentum::SkeletonState> skeletonStates;
+  std::vector<momentum::SkeletonState> skeletonStates(numFrames);
+
+  auto skelStatesAccess = skel_states.unchecked<3>();
 
   for (int iFrame = 0; iFrame < numFrames; ++iFrame) {
-    momentum::JointStateList jointStateList;
-    std::vector<float> jointParamsVec;
-    for (int iJoint = 0; iJoint < numJoints; ++iJoint) {
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 0));
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 1));
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 2));
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 3));
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 4));
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 5));
-      jointParamsVec.push_back(joint_params[iFrame].coeff(iJoint, 6));
-
-      const Eigen::Quaternionf localRotation{
-          joint_params[iFrame].coeff(iJoint, 3),
-          joint_params[iFrame].coeff(iJoint, 4),
-          joint_params[iFrame].coeff(iJoint, 5),
-          joint_params[iFrame].coeff(iJoint, 6),
-      };
-      const Eigen::Vector3f localTranslation{
-          joint_params[iFrame].coeff(iJoint, 0),
-          joint_params[iFrame].coeff(iJoint, 1),
-          joint_params[iFrame].coeff(iJoint, 2),
-      };
-      const float localScale = 1.0;
-      const Eigen::Quaternionf rotation{
-          skel_states[iFrame].coeff(iJoint, 3),
-          skel_states[iFrame].coeff(iJoint, 4),
-          skel_states[iFrame].coeff(iJoint, 5),
-          skel_states[iFrame].coeff(iJoint, 6),
-      };
+    auto& skelStateCur = skeletonStates[iFrame];
+    skelStateCur.jointState.resize(numJoints);
+    for (int jJoint = 0; jJoint < numJoints; ++jJoint) {
       const Eigen::Vector3f translation{
-          skel_states[iFrame].coeff(iJoint, 0),
-          skel_states[iFrame].coeff(iJoint, 1),
-          skel_states[iFrame].coeff(iJoint, 2),
+          skelStatesAccess(iFrame, jJoint, 0),
+          skelStatesAccess(iFrame, jJoint, 1),
+          skelStatesAccess(iFrame, jJoint, 2),
       };
-      const float scale = skel_states[iFrame].coeff(iJoint, 7);
 
-      momentum::JointState jointState{
-          Eigen::Affine3f::Identity(),
-          momentum::Transform(localTranslation, localRotation, localScale),
-          momentum::Transform(translation, rotation, scale),
-          Eigen::Matrix3f::Identity(),
-          Eigen::Matrix3f::Identity()};
-      jointStateList.push_back(jointState);
+      // Skel_state has order rx, ry, rz, rw
+      // Quaternion constructor takes order w, x, y, z
+      const Eigen::Quaternionf rotation{
+          skelStatesAccess(iFrame, jJoint, 6),
+          skelStatesAccess(iFrame, jJoint, 3),
+          skelStatesAccess(iFrame, jJoint, 4),
+          skelStatesAccess(iFrame, jJoint, 5)};
+      const float scale = skelStatesAccess(iFrame, jJoint, 7);
+
+      const momentum::Transform transform{translation, rotation, scale};
+
+      momentum::Transform parentTransform;
+      const auto parent = character.skeleton.joints[jJoint].parent;
+      if (parent != momentum::kInvalidIndex) {
+        parentTransform = skelStateCur.jointState[parent].transform;
+      }
+
+      // transform = parentTransform * localTransform
+      // localTransform = parentTransform.inverse() * transform
+      skelStateCur.jointState[jJoint].transform = transform;
+      skelStateCur.jointState[jJoint].localTransform =
+          parentTransform.inverse() * transform;
     }
-    momentum::JointParameters jointParams = Eigen::Map<Eigen::VectorXf>(
-        jointParamsVec.data(), jointParamsVec.size());
-    momentum::SkeletonState skeletonState{jointParams, character.skeleton};
-    skeletonStates.push_back(skeletonState);
   }
   momentum::saveCharacter(
       path,
