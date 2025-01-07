@@ -273,7 +273,7 @@ double SimdCollisionErrorFunctionT<T>::getError(
       const Packet<T> radius = (radius_i.x() * (1.0f - t_i) + radius_i.y() * t_i) +
           (radius_j.x() * (1.0f - t_j) + radius_j.y() * t_j);
 
-      drjit::masked(error, mask) += drjit::sqr(drjit::maximum(radius - distance, 0));
+      drjit::masked(error, mask) += drjit::square(drjit::maximum(radius - distance, 0));
     }
   }
 
@@ -331,7 +331,7 @@ double SimdCollisionErrorFunctionT<T>::getGradient(
       const Packet<T> wgt = -2.0f * kCollisionWeight * this->weight_ * overlapFraction;
 
       drjit::masked(error, finalMask) +=
-          kCollisionWeight * this->weight_ * drjit::sqr(radius - distance);
+          kCollisionWeight * this->weight_ * drjit::square(radius - distance);
 
       const size_t iJoint = collisionGeometry_[iCol].parent;
       for (uint32_t k = 0; k < kSimdPacketSize; ++k) {
@@ -519,7 +519,7 @@ double SimdCollisionErrorFunctionT<T>::getJacobian(
       }
 
       drjit::masked(error, finalMask) +=
-          kCollisionWeight * this->weight_ * drjit::sqr(radius - distance);
+          kCollisionWeight * this->weight_ * drjit::square(radius - distance);
 
       // calculate collision resolve direction. this is what we need to push joint parent i in.
       // the direction for joint parent j is the inverse
