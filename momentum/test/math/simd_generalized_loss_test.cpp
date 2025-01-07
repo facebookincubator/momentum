@@ -56,16 +56,16 @@ void testSimdGeneralizedLoss(T alpha, T c, T absTol, T relTol) {
   EXPECT_TRUE(drjit::all(result))
       // clang-format off
       << "Failure in testSimdGeneralizedLoss. Local variables are:"
-      << "\n - alpha    : " << alpha
-      << "\n - c        : " << c
-      << "\n - absTol   : " << absTol
-      << "\n - relTol   : " << relTol
-      << "\n - stepSize : " << stepSize
-      << "\n - sqrError : " << sqrError
-      << "\n - val1     : " << val1
-      << "\n - val2     : " << val2
-      << "\n - refDeriv : " << refDeriv
-      << "\n - testDeriv: " << testDeriv
+      // << "\n - alpha    : " << alpha
+      // << "\n - c        : " << c
+      // << "\n - absTol   : " << absTol
+      // << "\n - relTol   : " << relTol
+      // << "\n - stepSize : " << stepSize
+      // << "\n - sqrError : " << sqrError
+      // << "\n - val1     : " << val1
+      // << "\n - val2     : " << val2
+      // << "\n - refDeriv : " << refDeriv
+      // << "\n - testDeriv: " << testDeriv
       << std::endl;
       // clang-format off
 }
