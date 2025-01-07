@@ -488,7 +488,8 @@ void addSkeletonStatesToModel(
 
       auto localR = skeletonStates[i].jointState[j].localRotation().cast<float>();
       rotation[j][i] = {localR.x(), localR.y(), localR.z(), localR.w()};
-      if (!(localR.coeffs() - character.skeleton.joints[j].preRotation.coeffs()).isZero(1e-5f)) {
+      if (!(localR.toRotationMatrix() - character.skeleton.joints[j].preRotation.toRotationMatrix())
+               .isZero(1e-5f)) {
         useChannel[j][1] = true;
         foundAnyChannel = true;
       }
