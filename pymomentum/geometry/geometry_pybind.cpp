@@ -561,14 +561,12 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
 :parameter character: A Character to be saved to the output file.
 :parameter fps: Frequency in frames per second
 :parameter skel_states: Skeleton states [n_frames x n_joints x n_parameters_per_joint]
-:parameter joint_params: Joint parameters [n_joints x n_parameters_per_joint]
 :parameter markers: Additional marker (3d positions) data in [n_frames][n_markers]
       )",
           py::arg("path"),
           py::arg("character"),
           py::arg("fps"),
           py::arg("skel_states"),
-          py::arg("joint_params"),
           py::arg("markers") =
               std::optional<const std::vector<std::vector<momentum::Marker>>>{})
       .def_static(

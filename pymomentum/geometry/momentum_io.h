@@ -9,6 +9,7 @@
 
 #include <momentum/character/marker.h>
 #include <momentum/character/types.h>
+#include <pybind11/numpy.h>
 
 #include <optional>
 #include <string>
@@ -42,8 +43,7 @@ void saveGLTFCharacterToFileFromSkelStates(
     const std::string& path,
     const momentum::Character& character,
     const float fps,
-    const std::vector<RowMatrixf>& skel_states,
-    const std::vector<RowMatrixf>& joint_params,
+    const pybind11::array_t<float>& skel_states,
     std::optional<const std::vector<std::vector<momentum::Marker>>> markers);
 
 void saveFBXCharacterToFile(
