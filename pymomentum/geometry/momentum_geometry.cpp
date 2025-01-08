@@ -253,11 +253,23 @@ momentum::Character loadConfigFromFile(
     const std::string& configPath) {
   MT_THROW_IF(configPath.empty(), "Missing model definition path.");
 
-  momentum::Character result = character;
-  std::tie(result.parameterTransform, result.parameterLimits) =
+  const auto [parameterTransform, parameterLimits] =
       momentum::loadModelDefinition(
           filesystem::path(configPath), character.skeleton);
-  return result;
+
+  return momentum::Character(
+      character.skeleton,
+      parameterTransform,
+      parameterLimits,
+      character.locators,
+      character.mesh.get(),
+      character.skinWeights.get(),
+      character.collision.get(),
+      character.poseShapes.get(),
+      character.blendShape,
+      character.faceExpressionBlendShape,
+      character.name,
+      character.inverseBindPose);
 }
 
 momentum::Character loadFBXCharacterFromBytes(
@@ -270,11 +282,23 @@ momentum::Character loadFBXCharacterFromBytes(
 momentum::Character loadConfigFromBytes(
     const momentum::Character& character,
     const pybind11::bytes& bytes) {
-  momentum::Character result = character;
-  std::tie(result.parameterTransform, result.parameterLimits) =
+  const auto [parameterTransform, parameterLimits] =
       momentum::loadModelDefinition(
           toSpan<std::byte>(bytes), character.skeleton);
-  return result;
+
+  return momentum::Character(
+      character.skeleton,
+      parameterTransform,
+      parameterLimits,
+      character.locators,
+      character.mesh.get(),
+      character.skinWeights.get(),
+      character.collision.get(),
+      character.poseShapes.get(),
+      character.blendShape,
+      character.faceExpressionBlendShape,
+      character.name,
+      character.inverseBindPose);
 }
 
 momentum::Character loadLocatorsFromBytes(
