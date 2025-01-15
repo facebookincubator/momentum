@@ -10,6 +10,12 @@
 #include <ATen/ATen.h>
 #include <torch/torch.h>
 #include <Eigen/Core>
+
+#if defined(_MSC_VER)
+#include <BaseTsd.h>
+using ssize_t = SSIZE_T;
+#endif
+
 #include <optional>
 #include <unordered_map>
 

@@ -42,6 +42,7 @@ ms-gsl = ">=4.1.0,<5"
 nlohmann_json = ">=3.11.3,<4"
 openfbx = ">=0.9,<0.10"
 openssl = ">=3.4.1,<4"
+pytorch = ">=2.6.0,<3"
 re2 = ">=2024.7.2,<2025"
 spdlog = ">=1.15.1,<2"
 tracy-profiler-client = ">=0.11.1,<0.12"
@@ -130,6 +131,23 @@ install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --t
     "build",
 ] }
 tracy = { cmd = "tracy-profiler" }
+test_py = { cmd = """
+    pytest \
+        pymomentum/test/test_closest_points.py \
+        pymomentum/test/test_fbx.py \
+        pymomentum/test/test_parameter_transform.py \
+        pymomentum/test/test_quaternion.py \
+        pymomentum/test/test_skel_state.py \
+        pymomentum/test/test_skeleton.py
+    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
+    "build_py",
+] }
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/python_api_doc", depends-on = [
+    "build_py",
+] }
+open_doc_py = { cmd = "open build/python_api_doc/index.html", depends-on = [
+    "doc_py",
+] }
 
 #===========
 # linux-64
@@ -139,7 +157,6 @@ tracy = { cmd = "tracy-profiler" }
 nvtx-c = ">=3.1.0" # TODO: Add to pytorch as run dep
 
 [target.linux-64.dependencies]
-pytorch = ">=2.6.0,<3"
 sysroot_linux-64 = ">=2.28"
 
 [target.linux-64.tasks]
@@ -222,7 +239,6 @@ open_doc_py = { cmd = "open build/python_api_doc/index.html", depends-on = [
 [target.osx.build-dependencies]
 
 [target.osx.dependencies]
-pytorch = ">=2.6.0,<3"
 
 [target.osx.tasks]
 build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
@@ -248,7 +264,6 @@ open_doc_py = { cmd = "open build/python_api_doc/index.html", depends-on = [
 [target.osx-arm64.build-dependencies]
 
 [target.osx-arm64.dependencies]
-pytorch = ">=2.6.0,<3"
 
 [target.osx-arm64.tasks]
 build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
@@ -335,6 +350,10 @@ install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --target in
     "build",
 ] }
 tracy = { cmd = "tracy-profiler.exe" }
+build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
+    -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
+    -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
+""", MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 
 #==============
 # Feature: CPU
@@ -347,19 +366,19 @@ tracy = { cmd = "tracy-profiler.exe" }
 #==============
 
 [feature.py312-cuda126]
-platforms = ["linux-64"]
+platforms = ["linux-64", "win-64"]
 system-requirements = { cuda = "12" }
 build-dependencies = { cuda-toolkit = ">=12.6.3,<13", cuda-nvtx-dev = ">=12.6.3,<13" }
 dependencies = { python = "3.12.*", pytorch-gpu = ">=2.6.0,<3" }
 
 [feature.py311-cuda126]
-platforms = ["linux-64"]
+platforms = ["linux-64", "win-64"]
 system-requirements = { cuda = "12" }
 build-dependencies = { cuda-toolkit = ">=12.6.3,<13", cuda-nvtx-dev = ">=12.6.3,<13" }
 dependencies = { python = "3.11.*", pytorch-gpu = ">=2.6.0,<3" }
 
 [feature.py310-cuda126]
-platforms = ["linux-64"]
+platforms = ["linux-64", "win-64"]
 system-requirements = { cuda = "12" }
 build-dependencies = { cuda-toolkit = ">=12.6.3,<13", cuda-nvtx-dev = ">=12.6.3,<13" }
 dependencies = { python = "3.10.*", pytorch-gpu = ">=2.6.0,<3" }
