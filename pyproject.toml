@@ -39,7 +39,6 @@ sdist.exclude = [
     "CMakeLists.txt",
 ]
 wheel.exclude = ["geometry_test_helper.*"]
-wheel.py-api = "cp310"
 
 [[tool.scikit-build.overrides]]
 if.platform-system = "^win32"

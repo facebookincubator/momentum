@@ -16,6 +16,12 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
+#define DRJIT_VERSION_GE(major, minor, patch)                           \
+  ((DRJIT_VERSION_MAJOR > (major)) ||                                   \
+   (DRJIT_VERSION_MAJOR == (major) && DRJIT_VERSION_MINOR > (minor)) || \
+   (DRJIT_VERSION_MAJOR == (major) && DRJIT_VERSION_MINOR == (minor) && \
+    DRJIT_VERSION_PATCH >= (patch)))
+
 // Utilities for writing cross-platform SIMD code.
 // This currently uses the DrJit library for SIMD primitives.
 
