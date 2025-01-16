@@ -10,9 +10,4 @@
  * http://www.smartmenus.org/
  * Copyright Vasil Dinkov, Vadikom Web Ltd. http://vadikom.com; Licensed MIT */
 
-/*! jQuery UI - v1.12.1 - 2019-01-27
-* http://jqueryui.com
-* Includes: widget.js, position.js, data.js, disable-selection.js, focusable.js, form-reset-mixin.js, jquery-1-7.js, keycode.js, labels.js, scroll-parent.js, tabbable.js, unique-id.js, widgets/resizable.js, widgets/mouse.js
-* Copyright jQuery Foundation and other contributors; Licensed MIT */
-
-/*! jQuery v3.4.1 | (c) JS Foundation and other contributors | jquery.org/license */
+/*! jQuery v3.6.0 | (c) OpenJS Foundation and other contributors | jquery.org/license */
