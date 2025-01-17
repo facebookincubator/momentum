@@ -369,7 +369,16 @@ CharacterT<T> CharacterT<T>::simplifyParameterTransform(const ParameterSet& para
 
 template <typename T>
 CharacterT<T> CharacterT<T>::simplify(const ParameterSet& activeParams) const {
-  return simplifySkeleton(parametersToActiveJoints(activeParams));
+  auto activeJoints = parametersToActiveJoints(activeParams);
+  // always keep the root joint to ensure valid simplification.
+  // This is needed because while previously we generally parametrized the root joint with
+  // the root transform, modern skeletons sometimes have a body_world above b_root that is
+  // not parametrized, but if we throw it out we end up with an invalid character.
+  if (!activeJoints.empty()) {
+    activeJoints[0] = true;
+  }
+
+  return simplifySkeleton(activeJoints);
 }
 
 template <typename T>
