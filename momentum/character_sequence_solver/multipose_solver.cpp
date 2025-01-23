@@ -46,7 +46,7 @@ void MultiposeSolverT<T>::initializeSolver() {}
 
 template <typename T>
 void MultiposeSolverT<T>::doIteration() {
-  MT_PROFILE_EVENT("MultiposeIteration");
+  MT_PROFILE_FUNCTION();
 
   MultiposeSolverFunctionT<T>* fn =
       dynamic_cast<MultiposeSolverFunctionT<T>*>(this->solverFunction_);

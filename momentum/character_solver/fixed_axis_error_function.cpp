@@ -21,7 +21,7 @@ void FixedAxisDiffErrorFunctionT<T>::evalFunction(
     Vector3<T>& f,
     optional_ref<std::array<Vector3<T>, 1>> v,
     optional_ref<std::array<Matrix3<T>, 1>> dfdv) const {
-  MT_PROFILE_EVENT("FixedAxis Diff: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const FixedAxisDataT<T>& constr = this->constraints_[constrIndex];
   Vector3<T> vec = state.rotation() * constr.localAxis;
@@ -41,7 +41,7 @@ void FixedAxisCosErrorFunctionT<T>::evalFunction(
     Vector<T, 1>& f,
     optional_ref<std::array<Vector3<T>, 1>> v,
     optional_ref<std::array<Eigen::Matrix<T, 1, 3>, 1>> dfdv) const {
-  MT_PROFILE_EVENT("FixedAxis Cos: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const FixedAxisDataT<T>& constr = this->constraints_[constrIndex];
   Vector3<T> vec = state.rotation() * constr.localAxis;
@@ -61,7 +61,7 @@ void FixedAxisAngleErrorFunctionT<T>::evalFunction(
     Vector<T, 1>& f,
     optional_ref<std::array<Vector3<T>, 1>> v,
     optional_ref<std::array<Eigen::Matrix<T, 1, 3>, 1>> dfdv) const {
-  MT_PROFILE_EVENT("FixedAxis Angle: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const FixedAxisDataT<T>& constr = this->constraints_[constrIndex];
   Vector3<T> vec = state.rotation() * constr.localAxis;

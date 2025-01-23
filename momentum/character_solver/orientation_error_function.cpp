@@ -23,7 +23,7 @@ void OrientationErrorFunctionT<T>::evalFunction(
     Vector<T, 9>& f,
     optional_ref<std::array<Vector3<T>, 3>> v,
     optional_ref<std::array<Eigen::Matrix<T, 9, 3>, 3>> dfdv) const {
-  MT_PROFILE_EVENT("Orientation: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const OrientationDataT<T>& constr = this->constraints_[constrIndex];
   Matrix3<T> vec = state.rotation() * constr.offset.toRotationMatrix();

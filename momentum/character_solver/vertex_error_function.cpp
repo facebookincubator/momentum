@@ -67,7 +67,7 @@ template <typename T>
 double VertexErrorFunctionT<T>::getError(
     const ModelParametersT<T>& modelParameters,
     const SkeletonStateT<T>& state) {
-  MT_PROFILE_EVENT("VertexErrorFunction - getError");
+  MT_PROFILE_FUNCTION();
 
   updateMeshes(modelParameters, state);
 

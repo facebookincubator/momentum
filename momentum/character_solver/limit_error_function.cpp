@@ -40,12 +40,12 @@ template <typename T>
 double LimitErrorFunctionT<T>::getError(
     const ModelParametersT<T>& params,
     const SkeletonStateT<T>& state) {
+  MT_PROFILE_FUNCTION();
+
   // check all is valid
   MT_CHECK(
       state.jointParameters.size() ==
       gsl::narrow<Eigen::Index>(this->skeleton_.joints.size() * kParametersPerJoint));
-
-  MT_PROFILE_EVENT("Limit: getError");
 
   // loop over all joints and check for limit violations
   double error = 0.0;
@@ -182,7 +182,7 @@ double LimitErrorFunctionT<T>::getGradient(
     const ModelParametersT<T>& params,
     const SkeletonStateT<T>& state,
     Eigen::Ref<Eigen::VectorX<T>> gradient) {
-  MT_PROFILE_EVENT("Limit: getGradient");
+  MT_PROFILE_FUNCTION();
 
   const auto& parameterTransform = this->parameterTransform_;
 
@@ -422,7 +422,7 @@ double LimitErrorFunctionT<T>::getJacobian(
     Eigen::Ref<Eigen::MatrixX<T>> jacobian,
     Eigen::Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("Limit: getJacobian");
+  MT_PROFILE_FUNCTION();
 
   const auto& parameterTransform = this->parameterTransform_;
 

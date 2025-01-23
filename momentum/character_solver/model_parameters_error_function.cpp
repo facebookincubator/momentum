@@ -96,7 +96,7 @@ double ModelParametersErrorFunctionT<T>::getJacobian(
     Ref<Eigen::MatrixX<T>> jacobian,
     Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("MotionError: getJacobian");
+  MT_PROFILE_FUNCTION();
 
   usedRows = 0;
 

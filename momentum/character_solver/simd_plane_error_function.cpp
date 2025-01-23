@@ -304,7 +304,7 @@ double SimdPlaneErrorFunction::getJacobian(
     Ref<MatrixXf> jacobian,
     Ref<VectorXf> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("SimdJacobian");
+  MT_PROFILE_FUNCTION();
   MT_CHECK(jacobian.cols() == static_cast<Eigen::Index>(parameterTransform_.transform.cols()));
 
   if (constraints_ == nullptr) {
@@ -747,7 +747,7 @@ double SimdPlaneErrorFunctionAVX::getJacobian(
     Ref<MatrixXf> jacobian,
     Ref<VectorXf> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("SimdJacobian");
+  MT_PROFILE_FUNCTION();
   MT_CHECK(jacobian.cols() == static_cast<Eigen::Index>(parameterTransform_.transform.cols()));
 
   if (constraints_ == nullptr) {

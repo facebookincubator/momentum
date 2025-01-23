@@ -58,7 +58,7 @@ void PlaneErrorFunctionT<T>::evalFunction(
     Vector<T, 1>& f,
     optional_ref<std::array<Vector3<T>, 1>> v,
     optional_ref<std::array<Eigen::Matrix<T, 1, 3>, 1>> dfdv) const {
-  MT_PROFILE_EVENT("Plane: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const PlaneDataT<T>& constr = this->constraints_[constrIndex];
   Vector3<T> vec = state.transformation * constr.offset;

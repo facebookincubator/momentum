@@ -54,7 +54,7 @@ void GaussNewtonSolverT<T>::initializeSolver() {
 
 template <typename T>
 void GaussNewtonSolverT<T>::doIteration() {
-  MT_PROFILE_EVENT("Solver: GaussNewtonIteration");
+  MT_PROFILE_FUNCTION();
   if (denseIteration_) {
     doIterationDense();
   } else {
