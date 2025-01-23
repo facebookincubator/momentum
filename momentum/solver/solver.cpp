@@ -8,6 +8,7 @@
 #include "momentum/solver/solver.h"
 
 #include "momentum/common/checks.h"
+#include "momentum/common/profile.h"
 #include "momentum/solver/solver_function.h"
 
 namespace momentum {
@@ -44,6 +45,8 @@ void SolverT<T>::setEnabledParameters(const ParameterSet& parameterSet) {
 
 template <typename T>
 double SolverT<T>::solve(Eigen::VectorX<T>& params) {
+  MT_PROFILE_FUNCTION();
+
   if (storeHistory) {
     auto& parameterHistory = iterationHistory_["parameters"];
     auto& errorHistory = iterationHistory_["error"];

@@ -7,6 +7,8 @@
 
 #include "momentum/math/online_householder_qr.h"
 
+#include "momentum/common/profile.h"
+
 namespace momentum {
 
 namespace {
@@ -119,6 +121,8 @@ template <typename T>
 void OnlineHouseholderQR<T>::addMutating(
     ColumnIndexedMatrix<MatrixType> A,
     Eigen::Ref<VectorType> b) {
+  MT_PROFILE_FUNCTION();
+
   const Eigen::Index n = R_.rows();
   MT_CHECK(A.rows() == b.rows());
   MT_CHECK(A.cols() == n);
