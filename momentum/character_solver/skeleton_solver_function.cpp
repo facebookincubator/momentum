@@ -88,7 +88,7 @@ double SkeletonSolverFunctionT<T>::getGradient(
 template <typename T>
 std::pair<size_t, std::vector<size_t>> getDimensions(
     const std::vector<std::shared_ptr<SkeletonErrorFunctionT<T>>>& error_func) {
-  MT_PROFILE_EVENT("GetJacobianSize");
+  MT_PROFILE_FUNCTION();
   std::vector<size_t> offset(error_func.size());
   size_t jacobianSize = 0;
   for (size_t i = 0; i < error_func.size(); i++) {
@@ -111,9 +111,9 @@ double SkeletonSolverFunctionT<T>::getJacobian(
     Eigen::MatrixX<T>& jacobian,
     Eigen::VectorX<T>& residual,
     size_t& actualRows) {
-  // update the state according to the transformed parameters
-  MT_PROFILE_EVENT("GetSkeletonJacobian");
+  MT_PROFILE_FUNCTION();
 
+  // update the state according to the transformed parameters
   {
     MT_PROFILE_EVENT("Skeleton: set state");
     state_->set(parameterTransform_->apply(parameters), *skeleton_);
@@ -167,7 +167,7 @@ double SkeletonSolverFunctionT<T>::getJtJR(
     const Eigen::VectorX<T>& parameters,
     Eigen::MatrixX<T>& JtJ,
     Eigen::VectorX<T>& JtR) {
-  MT_PROFILE_EVENT("GetSkeletonJacobian");
+  MT_PROFILE_FUNCTION();
 
   // update the state according to the transformed parameters
   {
@@ -247,7 +247,7 @@ double SkeletonSolverFunctionT<T>::getSolverDerivatives(
     const Eigen::VectorX<T>& parameters,
     Eigen::MatrixX<T>& hess,
     Eigen::VectorX<T>& grad) {
-  MT_PROFILE_EVENT("getSolverDerivativesSkeleton");
+  MT_PROFILE_FUNCTION();
 
   // update the state according to the transformed parameters
   {

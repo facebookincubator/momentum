@@ -60,7 +60,7 @@ void SequenceSolverT<T>::setOptions(const SolverOptions& options) {
 
 template <typename T>
 void SequenceSolverT<T>::initializeSolver() {
-  MT_PROFILE_EVENT("SequenceSolver_initializeSolver");
+  MT_PROFILE_FUNCTION();
 
   auto* fn = dynamic_cast<SequenceSolverFunctionT<T>*>(this->solverFunction_);
   MT_CHECK(fn != nullptr);
@@ -441,7 +441,7 @@ double SequenceSolverT<T>::processSequenceErrors_serial(
 
 template <typename T>
 void SequenceSolverT<T>::doIteration() {
-  MT_PROFILE_EVENT("SequenceSolver_doIteration");
+  MT_PROFILE_FUNCTION();
 
   auto* fn = dynamic_cast<SequenceSolverFunctionT<T>*>(this->solverFunction_);
   MT_CHECK(fn != nullptr);

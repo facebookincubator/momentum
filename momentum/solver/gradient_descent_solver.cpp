@@ -43,7 +43,7 @@ void GradientDescentSolverT<T>::initializeSolver() {}
 
 template <typename T>
 void GradientDescentSolverT<T>::doIteration() {
-  MT_PROFILE_EVENT("Solver: GradientDescentIteration");
+  MT_PROFILE_FUNCTION();
   this->error_ = this->solverFunction_->getGradient(this->parameters_, gradient_);
   this->solverFunction_->updateParameters(this->parameters_, gradient_ * learningRate_);
 }

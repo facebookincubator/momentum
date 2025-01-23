@@ -23,7 +23,7 @@ void PositionErrorFunctionT<T>::evalFunction(
     Vector3<T>& f,
     optional_ref<std::array<Vector3<T>, 1>> v,
     optional_ref<std::array<Matrix3<T>, 1>> dfdv) const {
-  MT_PROFILE_EVENT("Position: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const PositionDataT<T>& constr = this->constraints_[constrIndex];
   Vector3<T> vec = state.transformation * constr.offset;

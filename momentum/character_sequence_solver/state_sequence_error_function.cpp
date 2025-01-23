@@ -51,7 +51,7 @@ template <typename T>
 double StateSequenceErrorFunctionT<T>::getError(
     gsl::span<const ModelParametersT<T>> /* modelParameters */,
     gsl::span<const SkeletonStateT<T>> skelStates) const {
-  MT_PROFILE_EVENT("StateSequenceError: getError");
+  MT_PROFILE_FUNCTION();
 
   // loop over all joints and check for smoothness
   double error = 0.0;
@@ -88,7 +88,7 @@ double StateSequenceErrorFunctionT<T>::getGradient(
     gsl::span<const ModelParametersT<T>> /* modelParameters */,
     gsl::span<const SkeletonStateT<T>> skelStates,
     Eigen::Ref<Eigen::VectorX<T>> gradient) const {
-  MT_PROFILE_EVENT("StateSequenceError: getGradient");
+  MT_PROFILE_FUNCTION();
 
   MT_CHECK(skelStates.size() == 2);
   const auto& prevState = skelStates[0];
@@ -211,7 +211,7 @@ double StateSequenceErrorFunctionT<T>::getJacobian(
     Eigen::Ref<Eigen::MatrixX<T>> jacobian_full,
     Eigen::Ref<Eigen::VectorX<T>> residual_full,
     int& usedRows) const {
-  MT_PROFILE_EVENT("StateSequenceError: getJacobian");
+  MT_PROFILE_FUNCTION();
 
   MT_CHECK(skelStates.size() == 2);
   const auto& prevState = skelStates[0];

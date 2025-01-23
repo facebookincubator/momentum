@@ -21,7 +21,7 @@ void AimDistErrorFunctionT<T>::evalFunction(
     Vector3<T>& f,
     optional_ref<std::array<Vector3<T>, 2>> v,
     optional_ref<std::array<Eigen::Matrix3<T>, 2>> dfdv) const {
-  MT_PROFILE_EVENT("AimDist: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const AimDataT<T>& constr = this->constraints_[constrIndex];
   const Vector3<T> point = state.transformation * constr.localPoint;
@@ -52,7 +52,7 @@ void AimDirErrorFunctionT<T>::evalFunction(
     Vector3<T>& f,
     optional_ref<std::array<Vector3<T>, 2>> v,
     optional_ref<std::array<Eigen::Matrix3<T>, 2>> dfdv) const {
-  MT_PROFILE_EVENT("AimDir: evalFunction");
+  MT_PROFILE_FUNCTION();
 
   const AimDataT<T>& constr = this->constraints_[constrIndex];
   const Vector3<T> point = state.transformation * constr.localPoint;

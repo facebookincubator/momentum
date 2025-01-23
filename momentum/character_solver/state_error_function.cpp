@@ -87,7 +87,7 @@ template <typename T>
 double StateErrorFunctionT<T>::getError(
     const ModelParametersT<T>& params,
     const SkeletonStateT<T>& state) {
-  MT_PROFILE_EVENT("StateError: getError");
+  MT_PROFILE_FUNCTION();
 
   if (state.jointState.empty())
     return 0.0;
@@ -136,7 +136,7 @@ double StateErrorFunctionT<T>::getGradient(
     const ModelParametersT<T>& params,
     const SkeletonStateT<T>& state,
     Ref<Eigen::VectorX<T>> gradient) {
-  MT_PROFILE_EVENT("StateError: getGradient");
+  MT_PROFILE_FUNCTION();
 
   if (state.jointState.empty())
     return 0.0;
@@ -259,7 +259,7 @@ double StateErrorFunctionT<T>::getJacobian(
     Eigen::Ref<Eigen::MatrixX<T>> jacobian,
     Eigen::Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("StateError: getJacobian");
+  MT_PROFILE_FUNCTION();
 
   // loop over all constraints and calculate the error
   double error = 0.0;

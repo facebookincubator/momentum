@@ -31,7 +31,7 @@ template <typename T, class Data, size_t FuncDim, size_t NumVec, size_t NumPos>
 double ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::getError(
     const ModelParametersT<T>& /* params */,
     const SkeletonStateT<T>& state) {
-  MT_PROFILE_EVENT("Constraint: getError");
+  MT_PROFILE_FUNCTION();
 
   // loop over all constraints and calculate the error
   FuncType f;
@@ -174,7 +174,7 @@ double ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::getJacobian(
     Ref<Eigen::MatrixX<T>> jacobian,
     Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("Constraint: getJacobian");
+  MT_PROFILE_FUNCTION();
   usedRows = getJacobianSize();
 
   double error = 0.0;
@@ -298,7 +298,7 @@ double ConstraintErrorFunctionT<T, Data, FuncDim, NumVec, NumPos>::getGradient(
     const ModelParametersT<T>& /*unused*/,
     const SkeletonStateT<T>& state,
     Ref<Eigen::VectorX<T>> gradient) {
-  MT_PROFILE_EVENT("Contraint: getGradient");
+  MT_PROFILE_FUNCTION();
 
   // initialize joint gradients storage
   jointGrad_.setZero();

@@ -240,7 +240,7 @@ double MultiposeSolverFunctionT<T>::getJacobian(
     Eigen::MatrixX<T>& jacobian,
     Eigen::VectorX<T>& residual,
     size_t& actualRows) {
-  MT_PROFILE_EVENT("GetMultiposeJacobian");
+  MT_PROFILE_FUNCTION();
   // update states
   MT_CHECK(
       universal_.size() ==

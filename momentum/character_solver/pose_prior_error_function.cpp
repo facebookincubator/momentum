@@ -96,7 +96,7 @@ double PosePriorErrorFunctionT<T>::getGradient(
     const ModelParametersT<T>& params,
     const SkeletonStateT<T>& /* state */,
     Eigen::Ref<Eigen::VectorX<T>> gradient) {
-  MT_PROFILE_EVENT("PosePrior: getGradient");
+  MT_PROFILE_FUNCTION();
 
   // loop over all joints and check for smoothness
   double error = 0.0;
@@ -149,7 +149,7 @@ double PosePriorErrorFunctionT<T>::getJacobian(
     Eigen::Ref<Eigen::MatrixX<T>> jacobian,
     Eigen::Ref<Eigen::VectorX<T>> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("PosePrior: getJacobian");
+  MT_PROFILE_FUNCTION();
 
   // loop over all joints and check for smoothness
   double error = 0.0;

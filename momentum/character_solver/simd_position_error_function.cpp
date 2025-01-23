@@ -299,11 +299,12 @@ double SimdPositionErrorFunction::getJacobian(
     Ref<MatrixXf> jacobian,
     Ref<VectorXf> residual,
     int& usedRows) {
+  MT_PROFILE_FUNCTION();
+
   if (constraints_ == nullptr) {
     return 0.0f;
   }
 
-  MT_PROFILE_EVENT("SimdJacobian");
   MT_CHECK(jacobian.cols() == static_cast<Eigen::Index>(parameterTransform_.transform.cols()));
   MT_CHECK((size_t)constraints_->numJoints <= jacobianOffset_.size());
 

@@ -68,7 +68,7 @@ void SubsetGaussNewtonSolverT<T>::setEnabledParameters(const ParameterSet& param
 
 template <typename T>
 void SubsetGaussNewtonSolverT<T>::doIteration() {
-  MT_PROFILE_EVENT("Solver: doIteration");
+  MT_PROFILE_FUNCTION();
 
   // get the jacobian and residual
   size_t jacobianRows = 0;

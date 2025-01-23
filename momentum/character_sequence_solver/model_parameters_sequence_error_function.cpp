@@ -102,12 +102,11 @@ double ModelParametersSequenceErrorFunctionT<T>::getJacobian(
     Eigen::Ref<Eigen::MatrixX<T>> jacobian,
     Eigen::Ref<Eigen::VectorX<T>> residual,
     int& usedRows) const {
+  MT_PROFILE_FUNCTION();
   MT_CHECK(
       jacobian.cols() ==
       gsl::narrow_cast<Eigen::Index>(
           numFrames() * this->parameterTransform_.numAllModelParameters()));
-
-  MT_PROFILE_EVENT("MotionError: getJacobian");
 
   usedRows = 0;
 

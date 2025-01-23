@@ -420,7 +420,7 @@ double CollisionErrorFunctionT<T>::getJacobian(
     Ref<MatrixX<T>> jacobian,
     Ref<VectorX<T>> residual,
     int& usedRows) {
-  MT_PROFILE_EVENT("Collision: getJacobian");
+  MT_PROFILE_FUNCTION();
   MT_CHECK(
       jacobian.rows() >= gsl::narrow<Eigen::Index>(getJacobianSize()),
       "Jacobian rows mismatch: Actual {}, Expected {}",
