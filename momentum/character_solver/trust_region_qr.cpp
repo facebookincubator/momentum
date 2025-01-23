@@ -56,7 +56,7 @@ void TrustRegionQRT<T>::doIteration() {
   const auto parameterTransform = sf->getParameterTransform();
 
   {
-    MT_PROFILE_EVENT("Skeleton: JtJR - update state");
+    MT_PROFILE_EVENT("JtJR - update state");
     skeletonState_.set(parameterTransform->apply(this->parameters_), *skeleton);
   }
 

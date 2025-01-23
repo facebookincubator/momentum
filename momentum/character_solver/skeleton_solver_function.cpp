@@ -115,7 +115,7 @@ double SkeletonSolverFunctionT<T>::getJacobian(
 
   // update the state according to the transformed parameters
   {
-    MT_PROFILE_EVENT("Skeleton: set state");
+    MT_PROFILE_EVENT("Set state");
     state_->set(parameterTransform_->apply(parameters), *skeleton_);
   }
 
@@ -141,7 +141,7 @@ double SkeletonSolverFunctionT<T>::getJacobian(
   // add values to the jacobian
   size_t position = 0;
 
-  MT_PROFILE_EVENT("Skeleton: collect all jacobians");
+  MT_PROFILE_EVENT("Collect all jacobians");
 
   for (size_t i = 0; i < errorFunctions_.size(); i++) {
     int rows = 0;
@@ -171,7 +171,7 @@ double SkeletonSolverFunctionT<T>::getJtJR(
 
   // update the state according to the transformed parameters
   {
-    MT_PROFILE_EVENT("Skeleton: JtJR - update state");
+    MT_PROFILE_EVENT("JtJR - update state");
     state_->set(parameterTransform_->apply(parameters), *skeleton_);
   }
 
@@ -193,7 +193,7 @@ double SkeletonSolverFunctionT<T>::getJtJR(
   }
 
   {
-    MT_PROFILE_EVENT("Skeleton: JtJR - set to Zero");
+    MT_PROFILE_EVENT("JtJR - set to Zero");
 
     tJacobian_.topRows(jacobianSize).setZero();
     tResidual_.head(jacobianSize).setZero();
@@ -222,7 +222,7 @@ double SkeletonSolverFunctionT<T>::getJtJR(
 
       // Update JtJ
       if (rows > 0) {
-        MT_PROFILE_EVENT("Skeleton: partial JtJ JtR");
+        MT_PROFILE_EVENT("Partial JtJ JtR");
 
         // ! In truth, on the the "this->actualParameters_" leftmost block will be used
         // We take advantage of this here and skip the other computations

@@ -64,10 +64,12 @@ void GaussNewtonSolverT<T>::doIteration() {
 
 template <typename T>
 void GaussNewtonSolverT<T>::doIterationDense() {
+  MT_PROFILE_FUNCTION();
+
   Eigen::VectorX<T> delta;
   if (useBlockJtJ_) {
     // get JtJ and JtR pre-computed
-    MT_PROFILE_EVENT("Solver: Get JtJ and JtR");
+    MT_PROFILE_EVENT("Get JtJ and JtR");
     this->error_ = this->solverFunction_->getJtJR(this->parameters_, hessianApprox_, JtR_);
   } else {
     // Get the jacobian and compute JtJ and JtR here
@@ -90,7 +92,7 @@ void GaussNewtonSolverT<T>::doIterationDense() {
   // calculate the step direction according to the gauss newton update
   delta.setZero(this->numParameters_);
   {
-    MT_PROFILE_EVENT("Solver: Dense gauss newton step");
+    MT_PROFILE_EVENT("Dense gauss newton step");
 
     // delta = (Jt*J)^-1*Jt*r ...
     // - add some regularization to make sure the system is never unstable and explodes in weird
@@ -104,7 +106,7 @@ void GaussNewtonSolverT<T>::doIterationDense() {
   updateParameters(delta);
 
   {
-    MT_PROFILE_EVENT("Solver: Store history");
+    MT_PROFILE_EVENT("Store history");
     if (this->storeHistory) {
       auto& jtjHist = this->iterationHistory_["jtj"];
       if (jtjHist.rows() !=
@@ -123,30 +125,31 @@ void GaussNewtonSolverT<T>::doIterationDense() {
 
 template <typename T>
 void GaussNewtonSolverT<T>::doIterationSparse() {
+  MT_PROFILE_FUNCTION();
+
   Eigen::VectorX<T> delta;
-  MT_PROFILE_EVENT("Solver: sparse gauss newton step");
 
   if (!directSparseJtJ_) // make a dense matrix and sparsify later
   {
     if (useBlockJtJ_) {
       // get JtJ and JtR pre-computed
       {
-        MT_PROFILE_EVENT("Solver: Get sparse JtJ and JtR");
+        MT_PROFILE_EVENT("Get sparse JtJ and JtR");
         this->error_ = this->solverFunction_->getJtJR(this->parameters_, hessianApprox_, JtR_);
       }
 
       {
-        MT_PROFILE_EVENT("Solver: Get sparse JtJ and JtR");
+        MT_PROFILE_EVENT("Get sparse JtJ and JtR");
         // sparsify the system
         JtJ_ = hessianApprox_.sparseView();
       }
     } else {
-      MT_PROFILE_EVENT("Solver: Sparse gauss newton step");
+      MT_PROFILE_EVENT("Sparse gauss newton step");
 
       // get the jacobian and residual
       size_t size = 0;
       {
-        MT_PROFILE_EVENT("Solver: get Jacobian");
+        MT_PROFILE_EVENT("get Jacobian");
         this->error_ =
             this->solverFunction_->getJacobian(this->parameters_, jacobian_, residual_, size);
       }
@@ -160,7 +163,7 @@ void GaussNewtonSolverT<T>::doIterationSparse() {
     }
   } else // directly sparse JtJ
   {
-    MT_PROFILE_EVENT("Solver: Get sparse JtJ and JtR");
+    MT_PROFILE_EVENT("Get sparse JtJ and JtR");
     this->error_ = this->solverFunction_->getJtJR_Sparse(this->parameters_, JtJ_, JtR_);
   }
 
@@ -172,20 +175,20 @@ void GaussNewtonSolverT<T>::doIterationSparse() {
 
   // Symbolic decomposition, only needed if the params pattern changed
   if (this->newParameterPattern_) {
-    MT_PROFILE_EVENT("Solver: Sparse analyze");
+    MT_PROFILE_EVENT("Sparse analyze");
     lltSolver_.analyzePattern(JtJ_);
     this->newParameterPattern_ = !directSparseJtJ_; // works fine for sparse matrix with explicit 0s
   }
 
   // Numerical update with the new coefficients
   {
-    MT_PROFILE_EVENT("Solver: Sparse factorization");
+    MT_PROFILE_EVENT("Sparse factorization");
     lltSolver_.factorize(JtJ_);
   }
 
   // Solve, compute the gauss-newton step
   {
-    MT_PROFILE_EVENT("Solver: Sparse solve");
+    MT_PROFILE_EVENT("Sparse solve");
     delta.setZero(this->numParameters_);
     delta.head(this->actualParameters_) = lltSolver_.solve(JtR_);
   }
@@ -193,7 +196,7 @@ void GaussNewtonSolverT<T>::doIterationSparse() {
   updateParameters(delta);
 
   {
-    MT_PROFILE_EVENT("Solver: Store history");
+    MT_PROFILE_EVENT("Store history");
     if (this->storeHistory) {
       this->iterationHistory_["solver_err"].setZero(1, 1);
       if (lltSolver_.info() != Eigen::Success) {
@@ -209,12 +212,12 @@ void GaussNewtonSolverT<T>::doIterationSparse() {
 template <typename T>
 void GaussNewtonSolverT<T>::updateParameters(Eigen::VectorX<T>& delta) {
   if (!doLineSearch_) {
-    MT_PROFILE_EVENT("Solver: Update params");
+    MT_PROFILE_EVENT("Update params");
     this->solverFunction_->updateParameters(this->parameters_, delta);
     return;
   }
 
-  MT_PROFILE_EVENT("Solver: Line search");
+  MT_PROFILE_EVENT("Line search");
 
   static constexpr T kC1 = 1e-3;
   static constexpr T kTau = 0.5;
