@@ -96,13 +96,14 @@ PYBIND11_MODULE(marker_tracking, m) {
 
   trackingConfig.def(py::init<>())
       .def(
-          py::init<float, float, size_t, bool, float, float>(),
+          py::init<float, float, size_t, bool, float, float, Eigen::VectorXf>(),
           py::arg("min_vis_percent") = 0.0,
           py::arg("loss_alpha") = 2.0,
           py::arg("max_iter") = 30,
           py::arg("debug") = false,
           py::arg("smoothing") = 0.0,
-          py::arg("collision_error_weight") = 0.0)
+          py::arg("collision_error_weight") = 0.0,
+          py::arg("smoothing_weights") = Eigen::VectorXf())
       .def_readwrite(
           "smoothing",
           &marker_tracking::TrackingConfig::smoothing,
@@ -110,7 +111,12 @@ PYBIND11_MODULE(marker_tracking, m) {
       .def_readwrite(
           "collision_error_weight",
           &marker_tracking::TrackingConfig::collisionErrorWeight,
-          "Collision error weight; 0 to disable");
+          "Collision error weight; 0 to disable")
+      .def_readwrite(
+          "smoothing_weights",
+          &marker_tracking::TrackingConfig::smoothingWeights,
+          R"(Smoothing weights per model parameter. The size of this vector should be 
+            equal to number of model parameters and this overrides the value specific in smoothing)");
 
   auto refineConfig = py::
       class_<marker_tracking::RefineConfig, marker_tracking::TrackingConfig>(
@@ -125,6 +131,7 @@ PYBIND11_MODULE(marker_tracking, m) {
               bool,
               float,
               float,
+              Eigen::VectorXf,
               float,
               bool,
               bool>(),
@@ -134,6 +141,7 @@ PYBIND11_MODULE(marker_tracking, m) {
           py::arg("debug") = false,
           py::arg("smoothing") = 0.0,
           py::arg("collision_error_weight") = 0.0,
+          py::arg("smoothing_weights") = Eigen::VectorXf(),
           py::arg("regularizer") = 0.0,
           py::arg("calib_id") = false,
           py::arg("calib_locators") = false)

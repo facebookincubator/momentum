@@ -45,6 +45,9 @@ struct TrackingConfig : public BaseConfig {
   float smoothing = 0;
   /// The weight for the collision error function.
   float collisionErrorWeight = 0.0;
+  /// Smoothing weights per model parameter. The size of this vector should be equal to number of
+  /// model parameters and this overrides the value specific in smoothing
+  Eigen::VectorXf smoothingWeights{};
 };
 
 /// Configuration for refining an already tracked motion, eg. add smoothing and/or collision
