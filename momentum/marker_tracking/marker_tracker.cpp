@@ -120,12 +120,12 @@ Eigen::MatrixXf trackSequence(
   }
 
   // add a smoothness constraint in parameter space
-  if (!config.smoothingWeights.cols()) {
+  if (config.smoothingWeights.size() > 0) {
     // If per parameter weights are provided override the default weight
     MT_CHECK(
-        config.smoothingWeights.cols() == character.parameterTransform.numAllModelParameters(),
+        config.smoothingWeights.size() == character.parameterTransform.numAllModelParameters(),
         "Smoothing weights vector should be equal to the number of model parameters {} vs {}",
-        config.smoothingWeights.cols(),
+        config.smoothingWeights.size(),
         character.parameterTransform.numAllModelParameters());
     auto smoothConstrFunc = std::make_shared<ModelParametersSequenceErrorFunction>(character);
     smoothConstrFunc->setTargetWeights(config.smoothingWeights);
