@@ -243,8 +243,15 @@ function(mt_library)
   )
   target_include_directories(${_ARG_NAME} ${private_or_interface} ${_ARG_PRIVATE_INCLUDE_DIRECTORIES})
   target_compile_features(${_ARG_NAME} ${public_or_interface} cxx_std_17)
+
   target_link_libraries(${_ARG_NAME} ${public_or_interface} ${_ARG_PUBLIC_LINK_LIBRARIES})
   target_link_libraries(${_ARG_NAME} ${private_or_interface} ${_ARG_PRIVATE_LINK_LIBRARIES})
+
+  if(MOMENTUM_ENABLE_PROFILING)
+    target_link_libraries(${_ARG_NAME} ${public_or_interface} Tracy::TracyClient)
+    target_compile_definitions(${_ARG_NAME} ${public_or_interface} -DMOMENTUM_WITH_TRACY_PROFILER=1)
+  endif()
+
   set_target_properties(${_ARG_NAME} PROPERTIES
     OUTPUT_NAME momentum_${_ARG_NAME}
     POSITION_INDEPENDENT_CODE ON

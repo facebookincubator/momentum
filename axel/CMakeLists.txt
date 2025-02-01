@@ -71,6 +71,11 @@ target_link_libraries(${target_name}
     drjit
 )
 
+if(MOMENTUM_ENABLE_PROFILING)
+  target_link_libraries(${target_name} PUBLIC Tracy::TracyClient)
+  target_compile_definitions(${target_name} PUBLIC -DAXEL_WITH_TRACY_PROFILER=1)
+endif()
+
 #===============================================================================
 # Install axel
 #===============================================================================
