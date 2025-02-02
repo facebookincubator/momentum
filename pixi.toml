@@ -23,15 +23,16 @@ pybind11 = ">=2.13.6,<3"
 pytest = ">=8.3.4,<9"
 scipy = ">=1.15.0,<2"
 setuptools = ">=75.6.0,<76"
+tracy-profiler-gui = ">=0.11.1,<0.12"
 
 [dependencies]
-blas = ">=2.126,<3"
+blas = ">=2.128,<3"
 ceres-solver = ">=2.2.0,<3"
 cli11 = ">=2.4.2,<3"
 dispenso = ">=1.4.0,<2"
 eigen = ">=3.4.0,<4"
 ezc3d = ">=1.5.17,<2"
-drjit-cpp = ">=1.0.2,<2"
+drjit-cpp = ">=1.0.4,<2"
 fmt = ">=11.0.2,<12"
 fx-gltf = ">=2.0.0,<3"
 librerun-sdk = ">=0.19.1,<0.20"
@@ -40,7 +41,8 @@ nlohmann_json = ">=3.11.3,<4"
 openfbx = ">=0.9,<0.10"
 openssl = ">=3.4.0,<4"
 re2 = ">=2024.7.2,<2025"
-spdlog = ">=1.15.0,<2"
+spdlog = ">=1.15.1,<2"
+tracy-profiler-client = ">=0.11.1,<0.12"
 
 [tasks]
 clean = { cmd = """
@@ -60,10 +62,12 @@ config = { cmd = """
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+        -DMOMENTUM_ENABLE_PROFILING=ON \
         -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+        -DMOMENTUM_USE_SYSTEM_TRACY=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
 config_dev = { cmd = """
     cmake \
@@ -76,10 +80,12 @@ config_dev = { cmd = """
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+        -DMOMENTUM_ENABLE_PROFILING=ON \
         -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+        -DMOMENTUM_USE_SYSTEM_TRACY=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" } }
 build = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target all", depends-on = [
     "config",
@@ -93,16 +99,17 @@ test = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp/release --outp
 test_dev = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp/debug --output-on-failure", depends-on = [
     "build_dev",
 ] }
-hello_world = { cmd = "build/hello_world", depends-on = ["build"] }
-convert_model = { cmd = "build/convert_model", depends-on = ["build"] }
-c3d_viewer = { cmd = "build/c3d_viewer", depends-on = ["build"] }
-fbx_viewer = { cmd = "build/fbx_viewer", depends-on = ["build"] }
-glb_viewer = { cmd = "build/glb_viewer", depends-on = ["build"] }
-process_markers = { cmd = "build/process_markers_app", depends-on = ["build"] }
-refine_motion = { cmd = "build/refine_motion", depends-on = ["build"] }
+hello_world = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/hello_world", depends-on = ["build"] }
+convert_model = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/convert_model", depends-on = ["build"] }
+c3d_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/c3d_viewer", depends-on = ["build"] }
+fbx_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/fbx_viewer", depends-on = ["build"] }
+glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/glb_viewer", depends-on = ["build"] }
+process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/process_markers_app", depends-on = ["build"] }
+refine_motion = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/refine_motion", depends-on = ["build"] }
 install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target install", depends-on = [
     "build",
 ] }
+tracy = { cmd = "tracy-profiler" }
 
 #===========
 # linux-64
@@ -142,10 +149,12 @@ config = { cmd = """
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+        -DMOMENTUM_ENABLE_PROFILING=ON \
         -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+        -DMOMENTUM_USE_SYSTEM_TRACY=ON
     """, env = { FBXSDK_PATH = ".deps/fbxsdk", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" }, depends-on = [
     "install_deps",
 ] }
@@ -160,10 +169,12 @@ config_dev = { cmd = """
         -DMOMENTUM_BUILD_TESTING=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
+        -DMOMENTUM_ENABLE_PROFILING=ON \
         -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+        -DMOMENTUM_USE_SYSTEM_TRACY=ON
     """, env = { FBXSDK_PATH = ".deps/fbxsdk", MOMENTUM_ENABLE_SIMD = "ON", MOMENTUM_BUILD_PYMOMENTUM = "ON" }, depends-on = [
     "install_deps",
 ] }
@@ -255,10 +266,12 @@ config = { cmd = """
         -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
         -DMOMENTUM_BUILD_TESTING=ON \
+        -DMOMENTUM_ENABLE_PROFILING=ON \
         -DMOMENTUM_ENABLE_SIMD=%MOMENTUM_ENABLE_SIMD% \
         -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
         -DMOMENTUM_USE_SYSTEM_PYBIND11=ON \
-        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
+        -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON \
+        -DMOMENTUM_USE_SYSTEM_TRACY=ON
     """, env = { MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_BUILD_PYMOMENTUM = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 open_vs = { cmd = "cmd /c start build\\$PIXI_ENVIRONMENT_NAME\\cpp\\momentum.sln", depends-on = [
     "config",
@@ -299,6 +312,7 @@ refine_motion = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/refine_motion.
 install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --target install --config Release", depends-on = [
     "build",
 ] }
+tracy = { cmd = "tracy-profiler.exe" }
 
 #==============
 # Feature: CPU

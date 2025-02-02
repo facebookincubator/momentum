@@ -12,6 +12,10 @@ find_dependency(Eigen3 3.4.0 CONFIG)
 find_dependency(Microsoft.GSL CONFIG)
 find_dependency(Dispenso CONFIG)
 
+if(@MOMENTUM_ENABLE_PROFILING@)
+  find_dependency(Tracy CONFIG)
+endif()
+
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 
 check_required_components("@PROJECT_NAME@")

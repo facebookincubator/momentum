@@ -63,10 +63,21 @@ mt_option(MOMENTUM_BUILD_IO_FBX "Build with IO FBX" OFF)
 mt_option(MOMENTUM_BUILD_PYMOMENTUM "Build Python binding" OFF)
 mt_option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
 mt_option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
+mt_option(MOMENTUM_ENABLE_PROFILING "Enable building with profiling annotations" OFF)
 mt_option(MOMENTUM_ENABLE_SIMD "Enable building with SIMD instructions" ON)
 mt_option(MOMENTUM_USE_SYSTEM_GOOGLETEST "Use GoogleTest installed in system" OFF)
 mt_option(MOMENTUM_USE_SYSTEM_PYBIND11 "Use pybind11 installed in system" OFF)
 mt_option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
+mt_option(MOMENTUM_USE_SYSTEM_TRACY "Use Tracy installed in system" OFF)
+
+if(MOMENTUM_ENABLE_PROFILING AND CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+  # Force disable profiling on Mac x86 to avoid initialization failure:
+  # "Tracy Profiler initialization failure: CPU doesn't support invariant TSC."
+  # Defining TRACY_NO_INVARIANT_CHECK=1 or TRACY_TIMER_FALLBACK is not recommended,
+  # as it may lead to inaccurate profiling results.
+  message(WARNING "MOMENTUM_ENABLE_PROFILING was set to ON, but Tracy profiling is not supported on Mac x86 due to CPU incompatibility. Disabling profiling.")
+  set(MOMENTUM_ENABLE_PROFILING OFF CACHE BOOL "Enable building with profiling annotations" FORCE)
+endif()
 
 mt_print_options()
 
@@ -88,6 +99,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(openfbx CONFIG REQUIRED)
 find_package(re2 MODULE REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+
 if(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK)
   find_package(rerun_sdk CONFIG REQUIRED)
 else()
@@ -96,6 +108,26 @@ else()
     URL https://github.com/rerun-io/rerun/releases/download/0.19.1/rerun_cpp_sdk.zip
   )
   FetchContent_MakeAvailable(rerun_sdk)
+endif()
+
+if(MOMENTUM_ENABLE_PROFILING)
+  if(MOMENTUM_USE_SYSTEM_TRACY)
+    find_package(Tracy CONFIG REQUIRED)
+  else()
+    include(FetchContent)
+    FetchContent_Declare(tracy
+      GIT_REPOSITORY https://github.com/wolfpld/tracy.git
+      GIT_TAG v0.11.1
+      GIT_SHALLOW TRUE
+      GIT_PROGRESS TRUE
+    )
+    FetchContent_MakeAvailable(tracy)
+    if(MSVC)
+      target_compile_options(TracyClient PRIVATE /W0)
+    else()
+      target_compile_options(TracyClient PRIVATE -w)
+    endif()
+  endif()
 endif()
 
 # 1st party
