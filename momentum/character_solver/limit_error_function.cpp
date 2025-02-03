@@ -130,7 +130,7 @@ double LimitErrorFunctionT<T>::getError(
         if ((this->enabledParameters_.test(data.param1) ||
              this->enabledParameters_.test(data.param2))) {
           const Eigen::Vector2<T> p(params(data.param1), params(data.param2));
-          const T residual = p.dot(data.normal.cast<T>()) - data.offset;
+          const T residual = p.dot(data.normal.template cast<T>()) - data.offset;
           if (residual < 0) {
             error += residual * residual * limit.weight;
           }
@@ -307,7 +307,7 @@ double LimitErrorFunctionT<T>::getGradient(
         if ((this->enabledParameters_.test(data.param1) ||
              this->enabledParameters_.test(data.param2))) {
           const Eigen::Vector2<T> p(params(data.param1), params(data.param2));
-          const T residual = p.dot(data.normal.cast<T>()) - data.offset;
+          const T residual = p.dot(data.normal.template cast<T>()) - data.offset;
           if (residual < 0.0f) {
             error += residual * residual * limit.weight * tWeight;
 
@@ -568,7 +568,7 @@ double LimitErrorFunctionT<T>::getJacobian(
         if ((this->enabledParameters_.test(data.param1) ||
              this->enabledParameters_.test(data.param2))) {
           const Eigen::Vector2<T> p(params(data.param1), params(data.param2));
-          const T res = p.dot(data.normal.cast<T>()) - data.offset;
+          const T res = p.dot(data.normal.template cast<T>()) - data.offset;
           if (res < 0) {
             error += res * res * limit.weight * tWeight;
             residual(count) = res * wgt;
