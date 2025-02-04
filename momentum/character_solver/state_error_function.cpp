@@ -276,9 +276,9 @@ double StateErrorFunctionT<T>::getJacobian(
     const Eigen::VectorX<T> pdiff =
         (params.v - targetParameters_).cwiseProduct(targetParameterWeights_);
     const T sWeight = std::sqrt(this->weight_);
-    jacobian.topLeftCorner(pdiff.size(), pdiff.size()).diagonal() =
+    jacobian.topLeftCorner(pdiff.size(), pdiff.size()).diagonal().noalias() =
         targetParameterWeights_ * sWeight;
-    residual.head(pdiff.size()) = pdiff * sWeight;
+    residual.head(pdiff.size()).noalias() = pdiff * sWeight;
     error += pdiff.squaredNorm() * this->weight_;
     offset += params.size();
   }
@@ -291,7 +291,7 @@ double StateErrorFunctionT<T>::getJacobian(
 
     Ref<Eigen::MatrixX<T>> jac =
         jacobian.block(offset, 0, 12, this->parameterTransform_.transform.cols());
-    Ref<Eigen::VectorX<T>> res = residual.middleRows(offset, 12);
+    Ref<Eigen::VectorX<T>> res = residual.template middleRows<12>(offset);
     offset += 12;
 
     // calculate translation gradient
@@ -311,9 +311,9 @@ double StateErrorFunctionT<T>::getJacobian(
     error += transDiff.squaredNorm() * pwgt;
 
     // update the residue
-    res.template topRows<3>() = transDiff * wgt;
-    res.template bottomRows<9>() =
-        Map<const Eigen::VectorX<T>>(rotDiff.data(), rotDiff.size()) * awgt;
+    res.template topRows<3>().noalias() = transDiff * wgt;
+    res.template bottomRows<9>().noalias() =
+        Map<const Eigen::Matrix<T, 9, 1>>(rotDiff.data()) * awgt;
 
     // loop over all joints the constraint is attached to and calculate jacobian
     size_t jointIndex = i;
@@ -345,7 +345,7 @@ double StateErrorFunctionT<T>::getJacobian(
 
           const Eigen::Vector3<T> axis = state.jointState[jointIndex].rotationAxis.col(d);
           const Eigen::Matrix3<T> rotD = crossProductMatrix(axis) * rot * awgt;
-          const auto ja = Map<const Eigen::VectorX<T>>(rotD.data(), rotD.size());
+          const auto ja = Map<const Eigen::Matrix<T, 9, 1>>(rotD.data(), rotD.size());
 
           for (auto index = this->parameterTransform_.transform.outerIndexPtr()[paramIndex + d + 3];
                index < this->parameterTransform_.transform.outerIndexPtr()[paramIndex + d + 3 + 1];
