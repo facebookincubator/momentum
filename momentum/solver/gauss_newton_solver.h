@@ -27,6 +27,10 @@ struct GaussNewtonSolverOptions : SolverOptions {
   /// to true.
   bool directSparseJtJ = false;
 
+  /// The minimum number of parameters required to switch from dense to sparse matrix
+  /// representations for Jacobian and Hessian computations.
+  size_t sparseMatrixThreshold = 200;
+
   GaussNewtonSolverOptions() = default;
 
   /* implicit */ GaussNewtonSolverOptions(const SolverOptions& baseOptions)
@@ -55,6 +59,7 @@ class GaussNewtonSolverT : public SolverT<T> {
 
   bool useBlockJtJ_{};
   bool directSparseJtJ_{};
+  size_t sparseMatrixThreshold_{200};
   bool initialized_;
   bool doLineSearch_;
 

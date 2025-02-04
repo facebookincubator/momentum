@@ -39,6 +39,7 @@ void GaussNewtonSolverT<T>::setOptions(const SolverOptions& options) {
     doLineSearch_ = derivedOptions->doLineSearch;
     useBlockJtJ_ = derivedOptions->useBlockJtJ;
     directSparseJtJ_ = derivedOptions->directSparseJtJ;
+    sparseMatrixThreshold_ = derivedOptions->sparseMatrixThreshold;
   }
 }
 
@@ -49,7 +50,7 @@ void GaussNewtonSolverT<T>::initializeSolver() {
   this->newParameterPattern_ = true;
   this->lastError_ = std::numeric_limits<double>::max();
 
-  denseIteration_ = this->numParameters_ < 200;
+  denseIteration_ = this->numParameters_ < sparseMatrixThreshold_;
 }
 
 template <typename T>
