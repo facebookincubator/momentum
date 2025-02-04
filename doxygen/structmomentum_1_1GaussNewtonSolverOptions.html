@@ -121,6 +121,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a4ec1773454be02ef42bcfdf47b1c671e" id="r_a4ec1773454be02ef42bcfdf47b1c671e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#a1f12cb470d2d0a22b8eb57b097739e06">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1GaussNewtonSolverOptions.html#a4ec1773454be02ef42bcfdf47b1c671e">directSparseJtJ</a> = <a class="el" href="namespacemomentum.html#a1f12cb470d2d0a22b8eb57b097739e06">false</a></td></tr>
 <tr class="memdesc:a4ec1773454be02ef42bcfdf47b1c671e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag to use direct sparse jacobian and hessian.  <br /></td></tr>
 <tr class="separator:a4ec1773454be02ef42bcfdf47b1c671e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a141ef7753b9aa007a1b7be3ea6f4a75d" id="r_a141ef7753b9aa007a1b7be3ea6f4a75d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#a1f12cb470d2d0a22b8eb57b097739e06">size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1GaussNewtonSolverOptions.html#a141ef7753b9aa007a1b7be3ea6f4a75d">sparseMatrixThreshold</a> = 200</td></tr>
+<tr class="memdesc:a141ef7753b9aa007a1b7be3ea6f4a75d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minimum number of parameters required to switch from dense to sparse matrix representations for Jacobian and Hessian computations.  <br /></td></tr>
+<tr class="separator:a141ef7753b9aa007a1b7be3ea6f4a75d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structmomentum_1_1SolverOptions"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structmomentum_1_1SolverOptions')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structmomentum_1_1SolverOptions.html">momentum::SolverOptions</a></td></tr>
 <tr class="memitem:a0391e9638fea2cc4838c4c59876f4f4d inherit pub_attribs_structmomentum_1_1SolverOptions" id="r_a0391e9638fea2cc4838c4c59876f4f4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacemomentum.html#a1f12cb470d2d0a22b8eb57b097739e06">size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmomentum_1_1SolverOptions.html#a0391e9638fea2cc4838c4c59876f4f4d">minIterations</a> = 1</td></tr>
 <tr class="memdesc:a0391e9638fea2cc4838c4c59876f4f4d inherit pub_attribs_structmomentum_1_1SolverOptions"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum number of iterations for the solver.  <br /></td></tr>
@@ -236,6 +239,22 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Regularization parameter that will be added to the diagonal elements of approximated Hessian. </p>
+
+</div>
+</div>
+<a id="a141ef7753b9aa007a1b7be3ea6f4a75d" name="a141ef7753b9aa007a1b7be3ea6f4a75d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a141ef7753b9aa007a1b7be3ea6f4a75d">&#9670;&#160;</a></span>sparseMatrixThreshold</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacemomentum.html#a1f12cb470d2d0a22b8eb57b097739e06">size_t</a> momentum::GaussNewtonSolverOptions::sparseMatrixThreshold = 200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The minimum number of parameters required to switch from dense to sparse matrix representations for Jacobian and Hessian computations. </p>
 
 </div>
 </div>
