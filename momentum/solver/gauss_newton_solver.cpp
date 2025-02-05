@@ -67,12 +67,12 @@ template <typename T>
 void GaussNewtonSolverT<T>::doIterationDense() {
   MT_PROFILE_FUNCTION();
 
-  Eigen::VectorX<T> delta;
   if (useBlockJtJ_) {
     // get JtJ and JtR pre-computed
     MT_PROFILE_EVENT("Get JtJ and JtR");
     this->error_ = this->solverFunction_->getJtJR(this->parameters_, hessianApprox_, JtR_);
   } else {
+    MT_PROFILE_EVENT("Get Jacobian and compute JtJ and JtR");
     // Get the jacobian and compute JtJ and JtR here
     size_t actualRows = 0;
     this->error_ =
@@ -82,16 +82,15 @@ void GaussNewtonSolverT<T>::doIterationDense() {
       hessianApprox_.resize(this->actualParameters_, this->actualParameters_);
     }
 
-    hessianApprox_.template triangularView<Eigen::Lower>() =
-        jacobian_.topLeftCorner(actualRows, this->actualParameters_).transpose() *
-        jacobian_.topLeftCorner(actualRows, this->actualParameters_);
+    const auto JBlock = jacobian_.topLeftCorner(actualRows, this->actualParameters_);
 
-    JtR_.noalias() = jacobian_.topLeftCorner(actualRows, this->actualParameters_).transpose() *
-        residual_.head(actualRows);
+    hessianApprox_.template triangularView<Eigen::Lower>() = JBlock.transpose() * JBlock;
+
+    JtR_.noalias() = JBlock.transpose() * residual_.head(actualRows);
   }
 
   // calculate the step direction according to the gauss newton update
-  delta.setZero(this->numParameters_);
+  Eigen::VectorX<T> delta = Eigen::VectorX<T>::Zero(this->numParameters_);
   {
     MT_PROFILE_EVENT("Dense gauss newton step");
 

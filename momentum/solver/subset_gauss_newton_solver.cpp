@@ -93,17 +93,15 @@ void SubsetGaussNewtonSolverT<T>::doIteration() {
     }
   }
 
+  const auto JBlock = this->jacobian_.topLeftCorner(jacobianRows, nSubsetParams);
+
   // Compute grad = (J^T * r) and hess ~= (J^T * J) for the actual solved subset:
   // The gradient is just Jt * r but only keeping `jacobianRows` which can be smaller than the
   // number of rows of the `jacobian` matrix.
-  this->subsetGradient_.noalias() = this->residual_.head(jacobianRows).transpose() *
-      this->jacobian_.topLeftCorner(jacobianRows, nSubsetParams);
+  this->subsetGradient_.noalias() = this->residual_.head(jacobianRows).transpose() * JBlock;
 
   // The Hessian takes a regularizer on top of Jt * J
-  this->subsetHessian_.template triangularView<Eigen::Lower>() =
-      (this->jacobian_.topLeftCorner(jacobianRows, nSubsetParams).transpose() *
-       this->jacobian_.topLeftCorner(jacobianRows, nSubsetParams))
-          .template triangularView<Eigen::Lower>();
+  this->subsetHessian_.template triangularView<Eigen::Lower>() = JBlock.transpose() * JBlock;
   this->subsetHessian_.diagonal().array() += this->regularization_;
 
   // LLT only reads the lower triangular part
