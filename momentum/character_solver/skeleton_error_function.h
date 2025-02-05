@@ -99,13 +99,15 @@ class SkeletonErrorFunctionT {
       if (rows > 0) {
         // ! In truth, on the the "actualParameters" leftmost block will be used
         // We take advantage of this here and skip the other computations
-        hess.template triangularView<Eigen::Lower>() += 2.0 *
-            jacobian.topLeftCorner(rows, actualParameters).transpose() *
-            jacobian.topLeftCorner(rows, actualParameters);
+        const auto JtBlock2 =
+            (jacobian.topLeftCorner(rows, actualParameters).transpose() * 2.0).eval();
+
+        // Update Hessian (Hessian += 2.0 * J^T * J) using selfadjointView with rankUpdate,
+        // replacing triangularView
+        hess.template selfadjointView<Eigen::Lower>().rankUpdate(JtBlock2);
 
         // Update JtR
-        grad.noalias() +=
-            2.0 * jacobian.topLeftCorner(rows, actualParameters).transpose() * residual.head(rows);
+        grad.noalias() += JtBlock2 * residual.head(rows);
       }
     }
 

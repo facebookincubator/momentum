@@ -226,11 +226,15 @@ double SkeletonSolverFunctionT<T>::getJtJR(
 
         // ! In truth, on the the "this->actualParameters_" leftmost block will be used
         // We take advantage of this here and skip the other computations
-        const auto jacobianBlock = tJacobian_.block(position, 0, rows, this->actualParameters_);
-        JtJ.template triangularView<Eigen::Lower>() += jacobianBlock.transpose() * jacobianBlock;
+        const auto JtBlock =
+            tJacobian_.block(position, 0, rows, this->actualParameters_).transpose();
+
+        // Efficiently update JtJ (JtJ = J^T * J) using selfadjointView with rankUpdate,
+        // replacing triangularView to leverage symmetry and improve performance
+        JtJ.template selfadjointView<Eigen::Lower>().rankUpdate(JtBlock);
 
         // Update JtR
-        JtR.noalias() += jacobianBlock.transpose() * tResidual_.segment(position, rows);
+        JtR.noalias() += JtBlock * tResidual_.segment(position, rows);
       }
       position += n;
     }

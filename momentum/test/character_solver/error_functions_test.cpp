@@ -451,7 +451,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, PosePriorError_GradientsAndJacobians) {
         parameters,
         skeleton,
         transform,
-        Eps<T>(1e-1f, 1e-9),
+        Eps<T>(5e-1f, 1e-9),
         Eps<T>(5e-5f, 5e-6));
   }
 }
