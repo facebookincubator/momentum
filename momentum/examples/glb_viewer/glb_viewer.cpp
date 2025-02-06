@@ -86,8 +86,6 @@ int main(int argc, char* argv[]) {
     redirectLogsToRerun(rec);
 
     rec.log_static("world", ViewCoordinates::RUB); // Set an up-axis
-    // Create and draw ground plane
-    logGround(rec, "world/ground_plane", -200.f, 200, 15, 0.0);
 
     const auto [character, motion, offsets, cFps] = loadCharacterWithMotion(options->glbFile);
     const size_t nFrames = motion.cols();
