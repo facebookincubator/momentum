@@ -44,29 +44,6 @@ rerun::HalfSize3D toRerunHalfSizes3D(const Eigen::MatrixBase<Derived>& vec3) {
   return rerun::HalfSize3D(vec3[0], vec3[1], vec3[2]);
 }
 
-// Creates a ground plane as line strips in momentum coordinate (Y-up)
-std::vector<std::vector<rerun::Position3D>>
-createGroundPlane(float from, float to, size_t n, float height) {
-  std::vector<std::vector<rerun::Position3D>> output;
-  for (float z : rerun::demo::linspace(from, to, n)) {
-    std::vector<rerun::Position3D> row;
-    for (float x : rerun::demo::linspace(from, to, n)) {
-      row.emplace_back(x, height, z);
-    }
-    output.emplace_back(row);
-  }
-
-  for (float x : rerun::demo::linspace(from, to, n)) {
-    std::vector<rerun::Position3D> col;
-    for (float z : rerun::demo::linspace(from, to, n)) {
-      col.emplace_back(x, height, z);
-    }
-    output.emplace_back(col);
-  }
-
-  return output;
-}
-
 } // namespace
 
 void logMesh(
@@ -413,18 +390,6 @@ void logCharacter(
     logCollisionGeometry(
         rec, charStreamName + "/collision_geometry", *collision, characterState.skeletonState);
   }
-}
-
-void logGround(
-    const rerun::RecordingStream& rec,
-    const std::string& streamName,
-    float from,
-    float to,
-    size_t n,
-    float height) {
-  auto points = createGroundPlane(from, to, n, height);
-  const rerun::Color grey(100, 100, 100);
-  rec.log_static(streamName, rerun::LineStrips3D(points).with_colors({grey}).with_radii({0.1f}));
 }
 
 } // namespace momentum

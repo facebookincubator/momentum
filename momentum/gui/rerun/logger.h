@@ -100,13 +100,4 @@ void logJointParamNames(
     const std::string& posePrefix,
     gsl::span<const std::string> names);
 
-/// Logs to draw a plane as a grid.
-void logGround(
-    const rerun::RecordingStream& rec,
-    const std::string& streamName,
-    float from,
-    float to,
-    size_t n,
-    float height = 0);
-
 } // namespace momentum

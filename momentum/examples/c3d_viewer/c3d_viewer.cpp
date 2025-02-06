@@ -55,8 +55,6 @@ int main(int argc, char* argv[]) {
     redirectLogsToRerun(rec);
 
     rec.log_static("world", ViewCoordinates::RUB); // Set an up-axis
-    // Create and draw ground plane
-    logGround(rec, "world/ground_plane", -200.f, 200.f, 15, 0.0);
 
     for (const auto& actor : sequences) {
       if (actor.frames.empty()) {
