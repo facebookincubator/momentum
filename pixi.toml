@@ -23,6 +23,7 @@ pybind11 = ">=2.13.6,<3"
 pytest = ">=8.3.4,<9"
 scipy = ">=1.15.0,<2"
 setuptools = ">=75.6.0,<76"
+sphinx = ">=8.1.3,<9"
 tracy-profiler-gui = ">=0.11.1,<0.12"
 
 [dependencies]
@@ -100,13 +101,27 @@ test = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp/release --outp
 test_dev = { cmd = "ctest --test-dir build/$PIXI_ENVIRONMENT_NAME/cpp/debug --output-on-failure", depends-on = [
     "build_dev",
 ] }
-hello_world = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/hello_world", depends-on = ["build"] }
-convert_model = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/convert_model", depends-on = ["build"] }
-c3d_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/c3d_viewer", depends-on = ["build"] }
-fbx_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/fbx_viewer", depends-on = ["build"] }
-glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/glb_viewer", depends-on = ["build"] }
-process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/process_markers_app", depends-on = ["build"] }
-refine_motion = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/refine_motion", depends-on = ["build"] }
+hello_world = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/hello_world", depends-on = [
+    "build",
+] }
+convert_model = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/convert_model", depends-on = [
+    "build",
+] }
+c3d_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/c3d_viewer", depends-on = [
+    "build",
+] }
+fbx_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/fbx_viewer", depends-on = [
+    "build",
+] }
+glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/glb_viewer", depends-on = [
+    "build",
+] }
+process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/process_markers_app", depends-on = [
+    "build",
+] }
+refine_motion = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/refine_motion", depends-on = [
+    "build",
+] }
 install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp/release -j --target install", depends-on = [
     "build",
 ] }
@@ -196,6 +211,11 @@ test_py = { cmd = """
     """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
     "build_py",
 ] }
+install_py = { cmd = "pip install -e ." }
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/html", depends-on = [
+    "install_py",
+] }
+open_doc_py = { cmd = "open build/html/index.html", depends-on = ["doc_py"] }
 
 #============
 # osx-64
@@ -222,6 +242,11 @@ test_py = { cmd = """
     """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
     "build_py",
 ] }
+install_py = { cmd = "pip install -e ." }
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/html", depends-on = [
+    "install_py",
+] }
+open_doc_py = { cmd = "open build/html/index.html", depends-on = ["doc_py"] }
 
 #============
 # osx-arm64
@@ -248,6 +273,11 @@ test_py = { cmd = """
     """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
     "build_py",
 ] }
+install_py = { cmd = "pip install -e ." }
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/html", depends-on = [
+    "install_py",
+] }
+open_doc_py = { cmd = "open build/html/index.html", depends-on = ["doc_py"] }
 
 #=========
 # win-64

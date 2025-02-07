@@ -76,3 +76,8 @@ jobs:
         run: |
           MOMENTUM_BUILD_IO_FBX=ON \
             pixi run test_py
+
+      - name: Build Python API Doc
+        run: |
+          MOMENTUM_BUILD_IO_FBX=ON \
+            pixi run doc_py
