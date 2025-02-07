@@ -158,6 +158,8 @@ PYBIND11_MODULE(geometry, m) {
   // - load_fbx_with_motion_from_bytes(fbx_bytes, permissive)
   // - load_gltf(path)
   // - load_gltf_with_motion(gltfFilename)
+  // - load_urdf(urdf_filename)
+  // - load_urdf_from_bytes(urdf_bytes)
   // - save_gltf(path, character, fps, motion, offsets, markers)
   // - save_gltf_from_skel_states(path, character, fps, skel_states,
   // joint_params, markers)
@@ -529,6 +531,26 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
 :parameter path: A .gltf file; e.g. character_s0.glb.
       )",
           py::arg("path"))
+      // loadURDFCharacterFromFile(urdfPath)
+      .def_static(
+          "load_urdf",
+          &loadURDFCharacterFromFile,
+          py::call_guard<py::gil_scoped_release>(),
+          R"(Load a character from a urdf file.
+
+:parameter urdf_filename: A .urdf file; e.g. character.urdf.
+      )",
+          py::arg("urdf_filename"))
+      // loadURDFCharacterFromBytes(urdfBytes)
+      .def_static(
+          "load_urdf_from_bytes",
+          &loadURDFCharacterFromBytes,
+          py::call_guard<py::gil_scoped_release>(),
+          R"(Load a character from urdf bytes.
+
+:parameter urdf_bytes: Bytes array containing the urdf definition.
+      )",
+          py::arg("urdf_bytes"))
       // saveGLTFCharacterToFile(filename, character)
       .def_static(
           "save_gltf",
@@ -622,7 +644,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
             return character.simplify(enabledParams);
           },
           R"(Simplifies the character by removing extra joints; this can help to speed up IK, but passing in a set of
-parameters rather than joints.  Does not modify the parameter transform.  This is the equivalent of calling 
+parameters rather than joints.  Does not modify the parameter transform.  This is the equivalent of calling
 ```character.simplify_skeleton(character.joints_from_parameters(enabled_params))```.
 
 :parameter enabled_parameters: Model parameters to be kept in the simplified model.  Defaults to including all parameters.

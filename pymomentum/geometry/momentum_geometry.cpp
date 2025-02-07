@@ -25,6 +25,7 @@
 #include <momentum/io/skeleton/locator_io.h>
 #include <momentum/io/skeleton/mppca_io.h>
 #include <momentum/io/skeleton/parameter_transform_io.h>
+#include <momentum/io/urdf/urdf_io.h>
 #include <momentum/math/mesh.h>
 
 #include <torch/csrc/jit/python/python_ivalue.h>
@@ -312,6 +313,15 @@ momentum::Character loadLocatorsFromBytes(
   std::copy(
       locators.begin(), locators.end(), std::back_inserter(result.locators));
   return result;
+}
+
+momentum::Character loadURDFCharacterFromFile(const std::string& urdfPath) {
+  return momentum::loadUrdfCharacter<float>(urdfPath);
+}
+
+momentum::Character loadURDFCharacterFromBytes(
+    const pybind11::bytes& urdfBytes) {
+  return momentum::loadUrdfCharacter<float>(toSpan<std::byte>(urdfBytes));
 }
 
 std::shared_ptr<const momentum::Mppca> loadPosePriorFromFile(

@@ -19,4 +19,8 @@ namespace momentum {
 template <typename T = float>
 [[nodiscard]] CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath);
 
+/// Loads a character from a URDF file using the provided byte data.
+template <typename T = float>
+[[nodiscard]] CharacterT<T> loadUrdfCharacter(gsl::span<const std::byte> bytes);
+
 } // namespace momentum

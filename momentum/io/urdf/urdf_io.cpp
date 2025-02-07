@@ -218,20 +218,10 @@ bool loadUrdfSkeletonRecursive(
   return true;
 }
 
-} // namespace
-
 template <typename T>
-CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath) {
-  urdf::ModelInterfaceSharedPtr urdfModel;
-
-  try {
-    urdfModel = urdf::parseURDFFile(filepath.string());
-  } catch (const std::runtime_error& e) {
-    MT_THROW("Failed to parse URDF file from: {}. Error: {}", filepath.string(), e.what());
-  }
-
+CharacterT<T> loadUrdfCharacterFromUrdfModel(urdf::ModelInterfaceSharedPtr urdfModel) {
   const urdf::Link* root = urdfModel->getRoot().get();
-  MT_THROW_IF(!root, "Failed to parse URDF file from: {}. No root link found.", filepath.string());
+  MT_THROW_IF(!root, "Failed to parse URDF file from. No root link found.");
 
   ParsingData<T> data;
 
@@ -241,12 +231,11 @@ CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath) {
   if (root->name == "world") {
     if (root->child_links.empty()) {
       MT_THROW(
-          "Failed to parse URDF file from: {}. The world link must have at least one child link, but it has none.",
-          filepath.string());
+          "Failed to parse URDF. The world link must have at least one child link, but it has none.");
     } else if (root->child_links.size() > 1) {
       MT_THROW(
-          "Failed to parse URDF file from: {}. The world link must have only one child link, but it has {}.",
-          filepath.string(),
+          "Failed to parse URDF. The world link must have only one child link, but it has {}.",
+
           root->child_links.size());
     }
     root = root->child_links[0].get();
@@ -254,7 +243,7 @@ CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath) {
 
   if (!loadUrdfSkeletonRecursive(
           data, kInvalidIndex, Quaternionf::Identity(), urdfModel.get(), root)) {
-    MT_THROW("Failed to parse URDF file from: {}.", filepath.string());
+    MT_THROW("Failed to parse URDF.");
   }
 
   Skeleton& skeleton = data.skeleton;
@@ -275,7 +264,58 @@ CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath) {
   return CharacterT<T>(data.skeleton, data.parameterTransform);
 }
 
+} // namespace
+
+template <typename T>
+CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath) {
+  urdf::ModelInterfaceSharedPtr urdfModel;
+
+  try {
+    urdfModel = urdf::parseURDFFile(filepath.string());
+  } catch (const std::exception& e) {
+    MT_THROW("Failed to parse URDF file from: {}. Error: {}", filepath.string(), e.what());
+  } catch (...) {
+    MT_THROW("Failed to parse URDF file from: {}", filepath.string());
+  }
+
+  try {
+    return loadUrdfCharacterFromUrdfModel<T>(urdfModel);
+  } catch (const std::exception& e) {
+    MT_THROW(
+        "Failed to create Character from URDF file: {}. Error: {}", filepath.string(), e.what());
+  } catch (...) {
+    MT_THROW("Failed to create Character from URDF file: {}", filepath.string());
+  }
+}
+
 template CharacterT<float> loadUrdfCharacter(const filesystem::path& filepath);
 template CharacterT<double> loadUrdfCharacter(const filesystem::path& filepath);
+
+template <typename T>
+CharacterT<T> loadUrdfCharacter(gsl::span<const std::byte> bytes) {
+  urdf::ModelInterfaceSharedPtr urdfModel;
+
+  try {
+    // Convert the byte span to a string
+    std::string urdfString(reinterpret_cast<const char*>(bytes.data()), bytes.size());
+    // Parse the URDF from the string
+    urdfModel = urdf::parseURDF(urdfString);
+  } catch (const std::exception& e) {
+    MT_THROW("Failed to read URDF file from URDF bytes. Error: {}", e.what());
+  } catch (...) {
+    MT_THROW("Failed to read URDF file from URDF bytes");
+  }
+
+  try {
+    return loadUrdfCharacterFromUrdfModel<T>(urdfModel);
+  } catch (const std::exception& e) {
+    MT_THROW("Failed to create Character from URDF bytes. Error: {}", e.what());
+  } catch (...) {
+    MT_THROW("Failed to create Character from URDF bytes");
+  }
+}
+
+template CharacterT<float> loadUrdfCharacter(gsl::span<const std::byte> bytes);
+template CharacterT<double> loadUrdfCharacter(gsl::span<const std::byte> bytes);
 
 } // namespace momentum
