@@ -15,9 +15,7 @@
 
 namespace momentum {
 
-template <typename T = float>
-[[nodiscard]] SkeletonT<T> loadUrdfSkeleton(const filesystem::path& filepath);
-
+/// Loads a character from a URDF file.
 template <typename T = float>
 [[nodiscard]] CharacterT<T> loadUrdfCharacter(const filesystem::path& filepath);
 

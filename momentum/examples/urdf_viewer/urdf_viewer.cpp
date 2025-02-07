@@ -66,10 +66,24 @@ int main(int argc, char* argv[]) {
 
     const auto kNumModelParams = character.parameterTransform.numAllModelParameters();
 
-    // Generate a random motion
-    const auto kNumFrames = 100;
-    const auto motion = MatrixXf::Zero(kNumModelParams, kNumFrames);
+    // Sinusoidal motion for each joint, one at a time
+    const int framesPerDoF = 100;
+    const auto totalDoFs = character.parameterTransform.transform.cols();
+    const auto kNumFrames = framesPerDoF * totalDoFs;
+    MatrixXf motion = MatrixXf::Zero(kNumModelParams, kNumFrames);
     const float fps = 30.0f;
+    const float frequency = 1.0f;
+    const float amplitude = 1.0f;
+    for (auto j = 0; j < totalDoFs; ++j) {
+      for (auto i = 0; i < framesPerDoF; ++i) {
+        int frameIndex = j * framesPerDoF + i;
+        if (frameIndex >= kNumFrames) {
+          break; // Prevent exceeding total frames
+        }
+        const float time = i / fps;
+        motion(j, frameIndex) = amplitude * std::sin(2.0f * pi() * frequency * time);
+      }
+    }
 
     const std::string title = options->title.empty() ? fileName : options->title;
     const auto rec = RecordingStream(title);
