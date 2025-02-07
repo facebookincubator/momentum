@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include <string>
-#include <string_view>
-
 #include <momentum/character/joint.h>
 #include <momentum/character/parameter_transform.h>
 #include <momentum/character/types.h>
 #include <momentum/common/exception.h>
+
+#include <string>
+#include <string_view>
 
 namespace momentum {
 
@@ -27,49 +27,13 @@ struct SkeletonT {
   SkeletonT() = default;
 
   /// Look up the index of a joint from its name.
-  [[nodiscard]] size_t getJointIdByName(const std::string_view name) const {
-    for (size_t i = 0; i < joints.size(); i++)
-      if (joints[i].name == name)
-        return i;
-    return kInvalidIndex;
-  }
+  [[nodiscard]] size_t getJointIdByName(std::string_view name) const;
 
   /// Get the names of all the joints in this skeleton.
-  [[nodiscard]] std::vector<std::string> getJointNames() const {
-    std::vector<std::string> result;
-    result.reserve(joints.size());
-    for (const auto& j : joints)
-      result.emplace_back(j.name);
-    return result;
-  }
+  [[nodiscard]] std::vector<std::string> getJointNames() const;
 
   /// Get the list of indices of the direct children of a joint or all its descendants.
-  [[nodiscard]] std::vector<size_t> getChildrenJoints(
-      const size_t jointId,
-      const bool recursive = true) const {
-    MT_THROW_IF_T(
-        jointId >= joints.size(),
-        std::out_of_range,
-        "Out of bounds getChildrenJoints query. Requested index: {}. Number of joints: {}",
-        jointId,
-        joints.size());
-
-    std::vector<size_t> childrenJoints;
-    std::vector<int> jointDistance(joints.size(), -1);
-    jointDistance[jointId] = 0;
-
-    // traversal assuming parentJoint < childJoint
-    for (size_t jointIter = jointId + 1; jointIter < joints.size(); ++jointIter) {
-      const auto jointParent = joints[jointIter].parent;
-      const int distParent = (jointParent == kInvalidIndex) ? -1 : jointDistance[jointParent];
-      if ((recursive && distParent >= 0) || (!recursive && distParent == 0)) {
-        jointDistance[jointIter] = distParent + 1;
-        childrenJoints.push_back(jointIter);
-      }
-    }
-
-    return childrenJoints;
-  }
+  [[nodiscard]] std::vector<size_t> getChildrenJoints(size_t jointId, bool recursive = true) const;
 
   /// Check whether the two input joints lie on the same branch of the hierarchy.
   /// Returns true if ancestorJointId is an ancestor of jointId; that is,

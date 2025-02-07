@@ -408,6 +408,21 @@ io_gltf_test_sources = [
     "test/io/io_gltf_test.cpp",
 ]
 
+io_urdf_public_headers = [
+    "io/urdf/urdf_io.h",
+]
+
+io_urdf_private_headers = [
+]
+
+io_urdf_sources = [
+    "io/urdf/urdf_io.cpp",
+]
+
+io_urdf_test_sources = [
+    "test/io/io_urdf_test.cpp",
+]
+
 io_motion_public_headers = [
     "io/motion/joint_params_binary_io.h",
     "io/motion/mmo_io.h",
@@ -571,6 +586,10 @@ glb_viewer_sources = [
 
 fbx_viewer_sources = [
     "examples/fbx_viewer/fbx_viewer.cpp",
+]
+
+urdf_viewer_sources = [
+    "examples/urdf_viewer/urdf_viewer.cpp",
 ]
 
 c3d_viewer_sources = [
