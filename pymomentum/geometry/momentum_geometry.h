@@ -78,6 +78,10 @@ momentum::Character loadConfigFromBytes(
     const momentum::Character& character,
     const pybind11::bytes& bytes);
 
+momentum::Character loadURDFCharacterFromFile(const std::string& urdfPath);
+momentum::Character loadURDFCharacterFromBytes(
+    const pybind11::bytes& urdfBytes);
+
 // Convert uniform noise to meaningful model parameters.
 // unifNoise: size: batchSize (optional) x #modelParameters, each entry
 //   range in [0, 1].
@@ -179,10 +183,10 @@ std::vector<int> bitsetToJointList(const std::vector<bool>& jointMask);
 /// @param[in] character A momentum character object with locators
 /// @param[in] names A vector of locator names
 /// @return A tuple of (locator_parents, locator_offsets)
-/// locator_parents has the same size as names vector and contains parent index
-/// of the locator if found otherwise -1. locator_offsets is a matrix of size
-/// (names.size(), 3) containing the offset of the locator wrt locators' parent
-/// joint
+/// locator_parents has the same size as names vector and contains parent
+/// index of the locator if found otherwise -1. locator_offsets is a matrix of
+/// size (names.size(), 3) containing the offset of the locator wrt locators'
+/// parent joint
 std::tuple<Eigen::VectorXi, RowMatrixf> getLocators(
     const momentum::Character& character,
     const std::vector<std::string>& names);
