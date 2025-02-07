@@ -118,6 +118,7 @@ mt_python_binding(
     io_openfbx
     io_shape
     io_skeleton
+    io_urdf
     python_utility
     tensor_momentum
     tensor_utility
