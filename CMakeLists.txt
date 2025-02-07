@@ -99,6 +99,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(openfbx CONFIG REQUIRED)
 find_package(re2 MODULE REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(urdfdom CONFIG REQUIRED)
 
 if(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK)
   find_package(rerun_sdk CONFIG REQUIRED)
@@ -392,6 +393,20 @@ mt_library(
     fx-gltf::fx-gltf
   PRIVATE_LINK_LIBRARIES
     nlohmann_json::nlohmann_json
+)
+
+mt_library(
+  NAME io_urdf
+  HEADERS_VARS
+    io_urdf_public_headers
+  PRIVATE_HEADERS_VARS
+    io_urdf_private_headers
+  SOURCES_VARS io_urdf_sources
+  PUBLIC_LINK_LIBRARIES
+    character
+    io_common
+    io_skeleton
+    urdfdom::urdf_parser
 )
 
 mt_library(

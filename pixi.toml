@@ -43,6 +43,7 @@ openssl = ">=3.4.0,<4"
 re2 = ">=2024.7.2,<2025"
 spdlog = ">=1.15.1,<2"
 tracy-profiler-client = ">=0.11.1,<0.12"
+urdfdom = ">=4.0.1,<5"
 
 [tasks]
 clean = { cmd = """
