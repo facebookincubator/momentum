@@ -24,21 +24,6 @@ std::optional<filesystem::path> getTestFilePath(const std::string& filename) {
   return filesystem::path(envVar.value()) / filename;
 }
 
-TEST(IoUrdfTest, LoadSkeleton) {
-  auto urdfPath = getTestFilePath("character.urdf");
-  if (!urdfPath.has_value()) {
-    GTEST_SKIP() << "Environment variable 'TEST_MOMENTUM_MODELS_PATH' is not set.";
-    return;
-  }
-
-  auto skeleton = loadUrdfSkeleton(*urdfPath);
-  EXPECT_EQ(skeleton.joints.size(), 45);
-  EXPECT_EQ(skeleton.joints[0].name, "b_root");
-  EXPECT_EQ(skeleton.joints[0].parent, kInvalidIndex);
-  EXPECT_TRUE(skeleton.joints[0].preRotation.isApprox(Quaternionf::Identity()));
-  EXPECT_TRUE(skeleton.joints[0].translationOffset.isApprox(Vector3f::Zero()));
-}
-
 TEST(IoUrdfTest, LoadCharacter) {
   auto urdfPath = getTestFilePath("character.urdf");
   if (!urdfPath.has_value()) {
@@ -53,6 +38,16 @@ TEST(IoUrdfTest, LoadCharacter) {
   EXPECT_EQ(skeleton.joints[0].parent, kInvalidIndex);
   EXPECT_TRUE(skeleton.joints[0].preRotation.isApprox(Quaternionf::Identity()));
   EXPECT_TRUE(skeleton.joints[0].translationOffset.isApprox(Vector3f::Zero()));
+
+  const auto& parameterTransform = character.parameterTransform;
+  const auto totalDofs = parameterTransform.transform.cols();
+  EXPECT_EQ(totalDofs, 6 + 34); // 6 global parameters (root) + 34 joint parameters
+  const size_t numJoints = skeleton.joints.size();
+  const size_t numJointParameters = numJoints * kParametersPerJoint;
+  EXPECT_EQ(parameterTransform.name.size(), totalDofs);
+  EXPECT_EQ(parameterTransform.offsets.size(), (numJointParameters));
+  EXPECT_EQ(parameterTransform.transform.rows(), numJointParameters);
+  EXPECT_EQ(parameterTransform.transform.cols(), totalDofs);
 }
 
 } // namespace
