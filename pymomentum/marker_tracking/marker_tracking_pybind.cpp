@@ -115,7 +115,7 @@ PYBIND11_MODULE(marker_tracking, m) {
       .def_readwrite(
           "smoothing_weights",
           &marker_tracking::TrackingConfig::smoothingWeights,
-          R"(Smoothing weights per model parameter. The size of this vector should be 
+          R"(Smoothing weights per model parameter. The size of this vector should be
             equal to number of model parameters and this overrides the value specific in smoothing)");
 
   auto refineConfig = py::
@@ -171,15 +171,15 @@ PYBIND11_MODULE(marker_tracking, m) {
       .def_readwrite(
           "model",
           &marker_tracking::ModelOptions::model,
-          "Path to template model file with locators e.g. blueman.glb")
+          "Path to template model file with locators e.g. character.glb")
       .def_readwrite(
           "parameters",
           &marker_tracking::ModelOptions::parameters,
-          "Path of parameter transform model file e.g. blueman.model")
+          "Path of parameter transform model file e.g. character.model")
       .def_readwrite(
           "locators",
           &marker_tracking::ModelOptions::locators,
-          "Path to locator mapping file e.g. blueman.locators");
+          "Path to locator mapping file e.g. character.locators");
   m.def(
       "process_marker_file",
       &marker_tracking::processMarkerFile,

@@ -423,7 +423,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
           py::call_guard<py::gil_scoped_release>(),
           R"(Load a character from an FBX file.  Optionally pass in a separate model definition and locators file.
 
-:parameter fbx_filename: .fbx file that contains the skeleton and skinned mesh; e.g. blue_man_s0.fbx.
+:parameter fbx_filename: .fbx file that contains the skeleton and skinned mesh; e.g. character_s0.fbx.
 :parameter model_filename: Configuration file that defines the parameter mappings and joint limits; e.g. character.cfg.
 :parameter locators_filename: File containing the locators, e.g. character.locators.
 :return: A valid Character.)",
@@ -439,7 +439,7 @@ Note: In practice, most limits are enforced on the model parameters, but momentu
           py::call_guard<py::gil_scoped_release>(),
           R"(Load a character and animation curves from an FBX file.
 
-:parameter fbx_filename: .fbx file that contains the skeleton and skinned mesh; e.g. blue_man_s0.fbx.
+:parameter fbx_filename: .fbx file that contains the skeleton and skinned mesh; e.g. character_s0.fbx.
 :return: A valid Character, a vector of motions in the format of nFrames X nNumJointParameters, and fps. The caller needs to decide how to handle the joint parameters.)",
           py::arg("fbx_filename"),
           py::arg("permissive") = false)
