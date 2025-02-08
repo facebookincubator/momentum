@@ -17,7 +17,7 @@ cmake = ">=3.31.2,<4"
 cxx-compiler = ">=1.8.0,<2"
 gtest = ">=1.15.2,<2"
 ninja = ">=1.12.1,<2"
-rerun-sdk = ">=0.19.1,<0.20"
+rerun-sdk = ">=0.21.0,<0.22"
 pip = ">=24.3.1,<25"
 pybind11 = ">=2.13.6,<3"
 pytest = ">=8.3.4,<9"
@@ -36,7 +36,7 @@ ezc3d = ">=1.5.17,<2"
 drjit-cpp = ">=1.0.4,<2"
 fmt = ">=11.0.2,<12"
 fx-gltf = ">=2.0.0,<3"
-librerun-sdk = ">=0.19.1,<0.20"
+librerun-sdk = ">=0.21.0,<0.22"
 ms-gsl = ">=4.1.0,<5"
 nlohmann_json = ">=3.11.3,<4"
 openfbx = ">=0.9,<0.10"
@@ -114,6 +114,9 @@ fbx_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/fbx_viewer", depe
     "build",
 ] }
 glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/glb_viewer", depends-on = [
+    "build",
+] }
+urdf_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/urdf_viewer", depends-on = [
     "build",
 ] }
 process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/release/process_markers_app", depends-on = [
@@ -332,6 +335,9 @@ fbx_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/fbx_viewer.exe", 
     "build",
 ] }
 glb_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/glb_viewer.exe", depends-on = [
+    "build",
+] }
+urdf_viewer = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/urdf_viewer.exe", depends-on = [
     "build",
 ] }
 process_markers = { cmd = "build/$PIXI_ENVIRONMENT_NAME/cpp/Release/process_markers_app.exe", depends-on = [

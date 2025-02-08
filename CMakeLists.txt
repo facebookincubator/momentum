@@ -753,6 +753,16 @@ if(MOMENTUM_BUILD_EXAMPLES)
   )
 
   mt_executable(
+    NAME urdf_viewer
+    SOURCES_VARS urdf_viewer_sources
+    LINK_LIBRARIES
+      io_urdf
+      rerun
+      CLI11::CLI11
+      rerun_sdk
+  )
+
+  mt_executable(
     NAME animate_shapes
     SOURCES_VARS animate_shapes_sources
     LINK_LIBRARIES
