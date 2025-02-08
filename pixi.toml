@@ -212,10 +212,10 @@ test_py = { cmd = """
     "build_py",
 ] }
 install_py = { cmd = "pip install -e ." }
-doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/html", depends-on = [
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/python_api_doc", depends-on = [
     "install_py",
 ] }
-open_doc_py = { cmd = "open build/html/index.html", depends-on = ["doc_py"] }
+open_doc_py = { cmd = "open build/python_api_doc/index.html", depends-on = ["doc_py"] }
 
 #============
 # osx-64
@@ -243,10 +243,10 @@ test_py = { cmd = """
     "build_py",
 ] }
 install_py = { cmd = "pip install -e ." }
-doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/html", depends-on = [
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/python_api_doc", depends-on = [
     "install_py",
 ] }
-open_doc_py = { cmd = "open build/html/index.html", depends-on = ["doc_py"] }
+open_doc_py = { cmd = "open build/python_api_doc/index.html", depends-on = ["doc_py"] }
 
 #============
 # osx-arm64
@@ -274,10 +274,10 @@ test_py = { cmd = """
     "build_py",
 ] }
 install_py = { cmd = "pip install -e ." }
-doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/html", depends-on = [
+doc_py = { cmd = "sphinx-build -a -E -b html pymomentum/doc build/python_api_doc", depends-on = [
     "install_py",
 ] }
-open_doc_py = { cmd = "open build/html/index.html", depends-on = ["doc_py"] }
+open_doc_py = { cmd = "open build/python_api_doc/index.html", depends-on = ["doc_py"] }
 
 #=========
 # win-64
