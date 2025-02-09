@@ -39,3 +39,17 @@ pixi run c3d_viewer --input <my_file.c3d>
 ```
 
 * [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/c3d_viewer)
+
+## URDF Viewer
+
+To run the URDF viewer, use the following command:
+
+```
+pixi run urdf_viewer --input <my_file.urdf>
+```
+
+* [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/urdf_viewer)
+
+For example, you can download an Atlas robot from this [link](https://github.com/Daniella1/urdf_files_dataset/blob/main/urdf_files/matlab/Atlas/urdf/atlas.urdf), which may look like:
+
+![urdf_viewer](/img/urdf_viewer.png)
