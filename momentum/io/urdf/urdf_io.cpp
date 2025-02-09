@@ -22,6 +22,7 @@ struct ParsingData {
   Skeleton skeleton;
   ParameterTransform parameterTransform;
   std::vector<Eigen::Triplet<float>> triplets;
+  ParameterLimits limits;
   size_t totalDoFs = 0;
 };
 
@@ -82,6 +83,8 @@ bool loadUrdfSkeletonRecursive(
   joint.parent = parentJointId;
 
   const size_t jointId = data.skeleton.joints.size();
+  const size_t jointParamsBaseIndex = jointId * kParametersPerJoint;
+  const size_t modelParamsBaseIndex = data.totalDoFs;
 
   //---------------------------
   // Parse Parameter transform
@@ -90,9 +93,6 @@ bool loadUrdfSkeletonRecursive(
   Quaternionf jointAxis = Quaternionf::Identity();
 
   if (urdfJoint != nullptr) {
-    const size_t jointParamsBaseIndex = jointId * kParametersPerJoint;
-    const size_t modelParamsBaseIndex = data.totalDoFs;
-
     // Set parameter transform based on joint type
     switch (urdfJoint->type) {
       case urdf::Joint::PRISMATIC: {
@@ -156,6 +156,37 @@ bool loadUrdfSkeletonRecursive(
       default: {
         // Do nothing
         break;
+      }
+    }
+
+    // Parse joint limits (required only for revolute and prismatic joint)
+    if (auto urdfJointLimits = urdfJoint->limits) {
+      switch (urdfJoint->type) {
+        case urdf::Joint::REVOLUTE: {
+          ParameterLimit jointLimits;
+          jointLimits.type = MinMax;
+          jointLimits.data.minMax.parameterIndex = modelParamsBaseIndex;
+          jointLimits.data.minMax.limits[0] = urdfJointLimits->lower; // rad
+          jointLimits.data.minMax.limits[1] = urdfJointLimits->upper;
+          jointLimits.weight = 1.0f;
+          data.limits.push_back(jointLimits);
+          break;
+        }
+        case urdf::Joint::PRISMATIC: {
+          ParameterLimit jointLimits;
+          jointLimits.type = MinMax;
+          jointLimits.data.minMax.parameterIndex = modelParamsBaseIndex;
+          // meters in URDF, centimeters in Momentum
+          jointLimits.data.minMax.limits[0] = urdfJointLimits->lower * kMtoCM;
+          jointLimits.data.minMax.limits[1] = urdfJointLimits->upper * kMtoCM;
+          jointLimits.weight = 1.0f;
+          data.limits.push_back(jointLimits);
+          break;
+        }
+        default: {
+          // Do nothing
+          break;
+        }
       }
     }
   }
@@ -258,10 +289,9 @@ CharacterT<T> loadUrdfCharacterFromUrdfModel(urdf::ModelInterfaceSharedPtr urdfM
   parameterTransform.transform.setFromTriplets(triplets.begin(), triplets.end());
   parameterTransform.activeJointParams = parameterTransform.computeActiveJointParams();
 
-  // TODO: Parse joint limits
   // TODO: Parse collision geometries
 
-  return CharacterT<T>(data.skeleton, data.parameterTransform);
+  return CharacterT<T>(data.skeleton, data.parameterTransform, data.limits);
 }
 
 } // namespace

@@ -48,6 +48,13 @@ TEST(IoUrdfTest, LoadCharacter) {
   EXPECT_EQ(parameterTransform.offsets.size(), (numJointParameters));
   EXPECT_EQ(parameterTransform.transform.rows(), numJointParameters);
   EXPECT_EQ(parameterTransform.transform.cols(), totalDofs);
+
+  const auto& parameterLimits = character.parameterLimits;
+  EXPECT_EQ(parameterLimits.size(), 34); // the number of revolute and prismatic joints
+  EXPECT_EQ(parameterLimits[0].type, MinMax);
+  EXPECT_EQ(parameterLimits[0].data.minMax.parameterIndex, 6); // the first joint parameter
+  EXPECT_FLOAT_EQ(parameterLimits[0].data.minMax.limits[0], -2.095);
+  EXPECT_FLOAT_EQ(parameterLimits[0].data.minMax.limits[1], 0.785);
 }
 
 } // namespace
