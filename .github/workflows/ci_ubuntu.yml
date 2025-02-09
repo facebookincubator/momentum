@@ -58,7 +58,7 @@ jobs:
         include:
           - pixi_env: "cpu"
           - pixi_env: "gpu"
-            cuda_version: "12.6.2"
+            cuda_version: "12.8.0"
     env:
       FULL_CUDA_VERSION: ${{ matrix.cuda_version }}
     steps:
@@ -103,7 +103,7 @@ jobs:
       - name: Build PyMomentum
         run: |
           pixi run -e ${{ matrix.pixi_env }} test_py
-     
+
       - name: Build Python API Doc
         run: |
           MOMENTUM_BUILD_IO_FBX=ON \
