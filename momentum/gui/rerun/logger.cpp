@@ -338,34 +338,40 @@ void logCollisionGeometry(
     const SkeletonState& skeletonState) {
   // TODO: update collision geometry representation from box to capsule
 
-  std::vector<rerun::Position3D> centers;
-  std::vector<rerun::Quaternion> rotations;
-  std::vector<rerun::HalfSize3D> halfSizes;
+  std::vector<rerun::Position3D> translations;
+  std::vector<rerun::Quaternion> quaternions;
+  std::vector<float> lengths;
+  std::vector<float> radii;
 
-  centers.reserve(collisionGeometry.size());
-  rotations.reserve(collisionGeometry.size());
-  halfSizes.reserve(collisionGeometry.size());
+  translations.reserve(collisionGeometry.size());
+  quaternions.reserve(collisionGeometry.size());
+  lengths.reserve(collisionGeometry.size());
+  radii.reserve(collisionGeometry.size());
 
   for (const auto& cg : collisionGeometry) {
     const auto& js = skeletonState.jointState.at(cg.parent);
 
-    const float halfX = 0.5f * cg.length;
-    const Affine3f tf = js.transformation * cg.transformation * Translation3f(halfX, 0, 0);
-    const Quaternionf q(tf.linear());
+    const Affine3f tf = js.transformation * cg.transformation;
+    // Rerun capsule's axis is along the Z-axis while Momentum's is along the X-axis, so we need to
+    // rotate 90 degrees around the Y-axis to align the axes.
+    const Quaternionf q =
+        Quaternionf(tf.linear()) * Eigen::AngleAxisf(0.5f * pi(), Vector3f::UnitY());
 
-    centers.push_back(toRerunPosition3D(tf.translation()));
-    rotations.emplace_back(rerun::Quaternion::from_xyzw(q.x(), q.y(), q.z(), q.w()));
-    halfSizes.emplace_back(
-        halfX, static_cast<float>(cg.radius[0]), static_cast<float>(cg.radius[1]));
+    translations.push_back(toRerunPosition3D(tf.translation()));
+    quaternions.emplace_back(rerun::Quaternion::from_xyzw(q.x(), q.y(), q.z(), q.w()));
+    lengths.emplace_back(cg.length);
+    // TODO: Rerun doesn't support capsules with different radii (i.e. tapered capsule) yet
+    radii.emplace_back(cg.radius.maxCoeff());
   }
 
   // TODO: make radius and color configurable
   rec.log(
       streamName,
-      rerun::Boxes3D::from_centers_and_half_sizes(centers, halfSizes)
-          .with_quaternions(rotations)
-          .with_radii(0.1f)
+      rerun::Capsules3D::from_lengths_and_radii(lengths, radii)
+          .with_translations(translations)
+          .with_quaternions(quaternions)
           .with_colors(rerun::Color(128, 64, 64)));
+  // TODO: Switch to wireframe once available in Rerun
 
   logBvh(rec, streamName + "/bvh", collisionGeometry, skeletonState);
 }
