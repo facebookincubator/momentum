@@ -227,6 +227,43 @@ PYBIND11_MODULE(geometry, m) {
           },
           "Returns a new character with the parameter limits set to the passed-in limits.",
           py::arg("parameter_limits"))
+      .def(
+          "with_locators",
+          [](const mm::Character& character,
+             const momentum::LocatorList& locators,
+             bool replace = false) {
+            momentum::LocatorList combinedLocators;
+            if (!replace) {
+              std::copy(
+                  character.locators.begin(),
+                  character.locators.end(),
+                  std::back_inserter(combinedLocators));
+            }
+            std::copy(
+                locators.begin(),
+                locators.end(),
+                std::back_inserter(combinedLocators));
+            return momentum::Character(
+                character.skeleton,
+                character.parameterTransform,
+                character.parameterLimits,
+                combinedLocators,
+                character.mesh.get(),
+                character.skinWeights.get(),
+                character.collision.get(),
+                character.poseShapes.get(),
+                character.blendShape,
+                character.faceExpressionBlendShape,
+                character.name,
+                character.inverseBindPose);
+          },
+          R"(Returns a new character with the passed-in locators.  If 'replace' is true, the existing locators are replaced, otherwise (the default) the new locators are appended to the existing ones.
+          
+          :param locators: The locators to add to the character.
+          :param replace: If true, replace the existing locators with the passed-in ones.  Otherwise, append the new locators to the existing ones.  Defaults to false.
+          )",
+          py::arg("locators"),
+          py::arg("replace") = false)
       .def_readonly("name", &mm::Character::name, "The character's name.")
       .def_readonly(
           "skeleton", &mm::Character::skeleton, "The character's skeleton.")
