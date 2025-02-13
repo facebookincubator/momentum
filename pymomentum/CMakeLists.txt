@@ -9,6 +9,8 @@
 
 set(ENV{NVTOOLSEXT_PATH} "$ENV{CONDA_PREFIX}/include")
 
+find_package(CUDAToolkit REQUIRED)
+
 find_package(ATen CONFIG REQUIRED
   HINTS
     $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
