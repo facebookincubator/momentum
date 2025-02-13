@@ -81,7 +81,7 @@ jobs:
         uses: Jimver/cuda-toolkit@v0.2.22
         id: cuda-toolkit
         with:
-          # Available versions: https://github.com/Jimver/cuda-toolkit/blob/v0.2.18/src/links/linux-links.ts
+          # Available versions: https://github.com/Jimver/cuda-toolkit/blob/v0.2.21/src/links/linux-links.ts
           cuda: ${{ matrix.cuda_version }}
 
       - name: Check CUDA Version
