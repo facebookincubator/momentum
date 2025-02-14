@@ -17,10 +17,7 @@
 #include <ceres/jet.h>
 #include <dispenso/parallel_for.h> // @manual
 #include <torch/csrc/jit/python/python_ivalue.h>
-#include <torch/library.h>
-#include <torch/torch.h>
 #include <Eigen/Core>
-#include <Eigen/Geometry>
 
 namespace pymomentum {
 

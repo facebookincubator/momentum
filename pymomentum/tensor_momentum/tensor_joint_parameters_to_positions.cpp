@@ -18,8 +18,6 @@
 #include <momentum/character/skeleton_state.h>
 
 #include <torch/csrc/jit/python/python_ivalue.h>
-#include <torch/library.h>
-#include <torch/torch.h>
 #include <Eigen/Core>
 
 namespace pymomentum {

@@ -32,8 +32,6 @@
 #include <momentum/test/character/character_helpers.h>
 
 #include <pybind11/eigen.h>
-#include <pybind11/numpy.h>
-#include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <torch/csrc/utils/pybind.h>
 #include <torch/python.h>

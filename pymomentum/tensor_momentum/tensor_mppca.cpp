@@ -13,7 +13,6 @@
 #include <momentum/math/mppca.h>
 
 #include <Eigen/Core>
-#include <Eigen/Eigenvalues>
 
 namespace pymomentum {
 

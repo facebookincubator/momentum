@@ -14,8 +14,6 @@
 #include <ceres/jet.h>
 #include <dispenso/parallel_for.h> // @manual
 #include <momentum/common/exception.h>
-#include <torch/library.h>
-#include <torch/torch.h>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
