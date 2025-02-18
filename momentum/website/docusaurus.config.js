@@ -77,7 +77,10 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
             label: 'C++ API',
           },
           {
-            href: 'pathname:///python_api_doc/index.html',
+            href: fbContent({
+              internal: 'https://facebookincubator.github.io/momentum/python_api_doc/index.html',
+              external: 'pathname:///python_api_doc/index.html',
+            }),
             position: 'left',
             label: 'Python API',
           },
