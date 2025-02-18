@@ -29,6 +29,7 @@
 #include "momentum/character_solver/plane_error_function.h"
 #include "momentum/character_solver/pose_prior_error_function.h"
 #include "momentum/character_solver/position_error_function.h"
+#include "momentum/character_solver/projection_error_function.h"
 #include "momentum/character_solver/state_error_function.h"
 #include "momentum/character_solver/vertex_error_function.h"
 #include "momentum/math/constants.h"
@@ -1399,6 +1400,68 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, AimDirError_GradientsAndJacobians) {
           skeleton,
           transform,
           Eps<T>(1e-1f, 2e-5),
+          Eps<T>(1e-6f, 1e-7));
+    }
+  }
+}
+
+TYPED_TEST(Momentum_ErrorFunctionsTest, ProjectionError_GradientsAndJacobians) {
+  using T = typename TestFixture::Type;
+
+  // create skeleton and reference values
+  const Character character = createTestCharacter();
+  const Skeleton& skeleton = character.skeleton;
+  const ParameterTransformT<T> transform = character.parameterTransform.cast<T>();
+
+  Random<> rng;
+
+  // create constraints
+  ProjectionErrorFunctionT<T> errorFunction(skeleton, character.parameterTransform, 0.01);
+  {
+    SCOPED_TRACE("Projection Constraint Test");
+    // Make a few projection constraints to ensure that at least one of them is active, since
+    // projections are ignored behind the camera
+    for (int i = 0; i < 5; ++i) {
+      errorFunction.addConstraint(ProjectionConstraintDataT<T>{
+          rng.uniformAffine3<T>().matrix().topRows(3),
+          rng.uniform<size_t>(size_t(0), size_t(2)),
+          rng.normal<Vector3<T>>(Vector3<T>::Zero(), Vector3<T>::Ones()),
+          rng.uniform<T>(0.1, 2.0),
+          rng.normal<Vector2<T>>(Vector2<T>::Zero(), Vector2<T>::Ones())});
+    }
+
+    if constexpr (std::is_same_v<T, float>) {
+      TEST_GRADIENT_AND_JACOBIAN(
+          T,
+          &errorFunction,
+          ModelParametersT<T>::Zero(transform.numAllModelParameters()),
+          skeleton,
+          transform,
+          5e-2f);
+    } else if constexpr (std::is_same_v<T, double>)
+      TEST_GRADIENT_AND_JACOBIAN(
+          T,
+          &errorFunction,
+          ModelParametersT<T>::Zero(transform.numAllModelParameters()),
+          skeleton,
+          transform,
+          1e-7,
+          1e-6,
+          true,
+          false); // jacobian test is inaccurate around the corner case
+}
+    for (size_t i = 0; i < 10; i++) {
+      // TODO why does this numerical epsilon need to be so large?
+      ModelParametersT<T> parameters = VectorX<T>::Random(transform.numAllModelParameters());
+      const momentum::SkeletonStateT<T> skelState(transform.apply(parameters), skeleton);
+      ASSERT_GT(errorFunction.getError(parameters, skelState), 0);
+      TEST_GRADIENT_AND_JACOBIAN(
+          T,
+          &errorFunction,
+          parameters,
+          skeleton,
+          transform,
+          Eps<T>(1e-1f, 1e-3),
           Eps<T>(1e-6f, 1e-7));
     }
   }

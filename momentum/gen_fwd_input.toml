@@ -80,6 +80,7 @@ template_classes = [
     "PosePriorErrorFunction",
     "PoseTransformSolver",
     "PositionErrorFunction",
+    "ProjectionErrorFunction",
     "SimdCollisionErrorFunction",
     "SkeletonErrorFunction",
     "SkeletonSolverFunction",
