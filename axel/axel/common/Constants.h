@@ -9,9 +9,7 @@
 
 #include <type_traits>
 
-namespace axel {
-
-namespace detail {
+namespace axel::detail {
 
 template <typename T>
 [[nodiscard]] constexpr T eps(T floatEps = 1e-6, T doubleEps = 1e-15) {
@@ -26,6 +24,4 @@ template <typename T>
   }
 }
 
-} // namespace detail
-
-} // namespace axel
+} // namespace axel::detail
