@@ -26,7 +26,7 @@ TEST(IoHelpersTest, EnvVarExisting) {
 
 TEST(IoHelpersTest, DISABLED_EnvVarEmpty) {
   // Windows handle empty environment variable differently and will fail the test.
-  std::string expected_value = "";
+  std::string expected_value;
   SetEnvVar("TEST_VAR", expected_value);
   std::optional<std::string> value = GetEnvVar("TEST_VAR");
   ASSERT_TRUE(value.has_value());
