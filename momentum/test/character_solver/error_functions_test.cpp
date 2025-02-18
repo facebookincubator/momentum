@@ -20,6 +20,7 @@
 #include "momentum/character/skin_weights.h"
 #include "momentum/character_solver/aim_error_function.h"
 #include "momentum/character_solver/collision_error_function.h"
+#include "momentum/character_solver/distance_error_function.h"
 #include "momentum/character_solver/fixed_axis_error_function.h"
 #include "momentum/character_solver/fwd.h"
 #include "momentum/character_solver/limit_error_function.h"
@@ -1462,6 +1463,60 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, ProjectionError_GradientsAndJacobians) {
           skeleton,
           transform,
           Eps<T>(1e-1f, 1e-3),
+          Eps<T>(1e-6f, 1e-7));
+    }
+  }
+}
+
+TYPED_TEST(Momentum_ErrorFunctionsTest, DistanceConstraint_GradientsAndJacobians) {
+  using T = typename TestFixture::Type;
+
+  // create skeleton and reference values
+  const Character character = createTestCharacter();
+  const Skeleton& skeleton = character.skeleton;
+  const ParameterTransformT<T> transform = character.parameterTransform.cast<T>();
+
+  // create constraints
+  DistanceErrorFunctionT<T> errorFunction(skeleton, character.parameterTransform);
+  const T TEST_WEIGHT_VALUE = 4.5;
+  {
+    SCOPED_TRACE("Distance Constraint Test");
+    DistanceConstraintDataT<T> constraintData;
+    constraintData.parent = 1;
+    constraintData.offset = Vector3<T>::Random();
+    constraintData.origin = Vector3<T>::Random();
+    constraintData.target = 2.3f;
+    constraintData.weight = TEST_WEIGHT_VALUE;
+    errorFunction.setConstraints({constraintData});
+
+    if constexpr (std::is_same_v<T, float>)
+      TEST_GRADIENT_AND_JACOBIAN(
+          T,
+          &errorFunction,
+          ModelParametersT<T>::Zero(transform.numAllModelParameters()),
+          skeleton,
+          transform,
+          5e-2f);
+    else if constexpr (std::is_same_v<T, double>)
+      TEST_GRADIENT_AND_JACOBIAN(
+          T,
+          &errorFunction,
+          ModelParametersT<T>::Zero(transform.numAllModelParameters()),
+          skeleton,
+          transform,
+          1e-8,
+          1e-6,
+          true,
+          false); // jacobian test is inaccurate around the corner case
+    for (size_t i = 0; i < 10; i++) {
+      ModelParametersT<T> parameters = VectorX<T>::Random(transform.numAllModelParameters());
+      TEST_GRADIENT_AND_JACOBIAN(
+          T,
+          &errorFunction,
+          parameters,
+          skeleton,
+          transform,
+          Eps<T>(1e-1f, 2e-5),
           Eps<T>(1e-6f, 1e-7));
     }
   }
