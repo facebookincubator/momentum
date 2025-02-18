@@ -20,12 +20,14 @@
 #include <momentum/diff_ik/fully_differentiable_orientation_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_pose_prior_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_position_error_function.h>
+#include <momentum/diff_ik/fully_differentiable_projection_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_skeleton_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_state_error_function.h>
 #include <momentum/diff_ik/union_error_function.h>
 #include <momentum/io/gltf/gltf_io.h>
 #include <momentum/io/skeleton/locator_io.h>
 #include <momentum/math/mppca.h>
+#include <momentum/math/random.h>
 #include <momentum/test/character/character_helpers.h>
 
 #include <array>
@@ -217,9 +219,11 @@ void testInputDerivs(
 
     {
       // Test setInput:
-      errorFunction.setInput(inputName, inputVal_init);
+      Eigen::VectorX<T> testInput = inputVal_init + Eigen::VectorX<T>::Ones(inputSize);
+      errorFunction.setInput(inputName, testInput);
       const Eigen::VectorX<T> inputVal_cur = errorFunction.getInput(inputName);
-      EXPECT_LT((inputVal_cur - inputVal_init).norm(), 1e-5);
+      EXPECT_GT((inputVal_cur - inputVal_init).norm(), 0.25f);
+      errorFunction.setInput(inputName, inputVal_init);
     }
 
     Eigen::MatrixX<T> dGrad_dInput_exact(parameterTransform.numAllModelParameters(), inputSize);
@@ -469,6 +473,34 @@ TEST(ErrorFunction, PosePriorErrorFunction) {
 
   testConstraintDerivs<double>(skeleton, parameterTransform, posePriorError, true);
   testInputDerivs<double>(skeleton, parameterTransform, posePriorError);
+}
+
+TEST(ErrorFunction, ProjectionErrorFunction) {
+  SCOPED_TRACE("ProjectionErrorFunction");
+
+  const Character character = createTestCharacter();
+  const auto& skeleton = character.skeleton;
+  const auto& parameterTransform = character.parameterTransform;
+
+  using T = double;
+
+  Random<> rng;
+
+  FullyDifferentiableProjectionErrorFunctionT<T> errorFunction(
+      skeleton, character.parameterTransform, -FLT_MAX);
+  // Make a few projection constraints to ensure that at least one of them is active, since
+  // projections are ignored behind the camera
+  for (int i = 0; i < 5; ++i) {
+    errorFunction.addConstraint(ProjectionConstraintDataT<T>{
+        rng.uniformAffine3<T>().matrix().topRows(3),
+        rng.uniform<size_t>(size_t(0), size_t(2)),
+        rng.normal<Vector3<T>>(Vector3<T>::Zero(), Vector3<T>::Ones()),
+        rng.uniform<T>(0.1, 2.0),
+        rng.normal<Vector2<T>>(Vector2<T>::Zero(), Vector2<T>::Ones())});
+  }
+
+  testConstraintDerivs<double>(skeleton, parameterTransform, errorFunction, true);
+  testInputDerivs<double>(skeleton, parameterTransform, errorFunction);
 }
 
 } // anonymous namespace
