@@ -65,11 +65,8 @@ quaternion_sources = [
     "quaternion.py",
 ]
 
-skel_state_public_headers = [
-]
-
 skel_state_sources = [
-    "skel_state/skel_state_pybind.cpp",
+    "skel_state.py",
 ]
 
 marker_tracking_public_headers = [

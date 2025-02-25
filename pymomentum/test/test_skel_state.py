@@ -3,9 +3,10 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-# pyre-unsafe
+# pyre-strict
 
 import unittest
+from typing import Tuple
 
 import pymomentum.geometry as pym_geometry
 import pymomentum.quaternion as pym_quaternion
@@ -13,8 +14,11 @@ import pymomentum.skel_state as pym_skel_state
 import torch
 
 
-def generate_skel_state_components(sz):
-    trans = torch.normal(
+def generate_skel_state_components(
+    sz: int,
+) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    # [sz, 3
+    trans: torch.Tensor = torch.normal(
         mean=0,
         std=4,
         size=(sz, 3),
@@ -22,7 +26,7 @@ def generate_skel_state_components(sz):
         requires_grad=True,
     )
 
-    rot = pym_quaternion.normalize(
+    rot: torch.Tensor = pym_quaternion.normalize(
         torch.normal(
             mean=0,
             std=4,
@@ -32,11 +36,13 @@ def generate_skel_state_components(sz):
         )
     )
 
-    scale = torch.rand(size=(sz, 1), dtype=torch.float64, requires_grad=True)
+    scale: torch.Tensor = torch.rand(
+        size=(sz, 1), dtype=torch.float64, requires_grad=True
+    )
     return (trans, rot, scale)
 
 
-def generate_random_skel_state(sz):
+def generate_random_skel_state(sz: int):
     (trans, rot, scale) = generate_skel_state_components(sz)
     return torch.cat([trans, rot, scale], -1)
 
