@@ -43,6 +43,20 @@ Eigen::Matrix<ceres::Jet<T, N>, N, 1> buildJetVec(const Eigen::Matrix<T, N, 1>& 
   return result;
 }
 
+template <typename T, int Rows, int Cols>
+Eigen::Matrix<ceres::Jet<T, Cols * Rows>, Rows, Cols> buildJetMat(
+    const Eigen::Matrix<T, Rows, Cols>& m) {
+  Eigen::Matrix<ceres::Jet<T, Cols * Rows>, Rows, Cols> result;
+  for (int iRow = 0; iRow < Rows; ++iRow) {
+    for (int jCol = 0; jCol < Cols; ++jCol) {
+      result(iRow, jCol).a = m(iRow, jCol);
+      result(iRow, jCol).v.setZero();
+      result(iRow, jCol).v(iRow * Cols + jCol) = 1;
+    }
+  }
+  return result;
+}
+
 template <typename T, typename T2>
 T times_parameterTransform_times_v(
     const T& value,
