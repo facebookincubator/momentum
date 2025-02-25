@@ -560,6 +560,25 @@ using PositionErrorFunctiond_const_u = ::std::unique_ptr<const PositionErrorFunc
 using PositionErrorFunctiond_const_w = ::std::weak_ptr<const PositionErrorFunctiond>;
 
 template <typename T>
+class ProjectionErrorFunctionT;
+using ProjectionErrorFunction = ProjectionErrorFunctionT<float>;
+using ProjectionErrorFunctiond = ProjectionErrorFunctionT<double>;
+
+using ProjectionErrorFunction_p = ::std::shared_ptr<ProjectionErrorFunction>;
+using ProjectionErrorFunction_u = ::std::unique_ptr<ProjectionErrorFunction>;
+using ProjectionErrorFunction_w = ::std::weak_ptr<ProjectionErrorFunction>;
+using ProjectionErrorFunction_const_p = ::std::shared_ptr<const ProjectionErrorFunction>;
+using ProjectionErrorFunction_const_u = ::std::unique_ptr<const ProjectionErrorFunction>;
+using ProjectionErrorFunction_const_w = ::std::weak_ptr<const ProjectionErrorFunction>;
+
+using ProjectionErrorFunctiond_p = ::std::shared_ptr<ProjectionErrorFunctiond>;
+using ProjectionErrorFunctiond_u = ::std::unique_ptr<ProjectionErrorFunctiond>;
+using ProjectionErrorFunctiond_w = ::std::weak_ptr<ProjectionErrorFunctiond>;
+using ProjectionErrorFunctiond_const_p = ::std::shared_ptr<const ProjectionErrorFunctiond>;
+using ProjectionErrorFunctiond_const_u = ::std::unique_ptr<const ProjectionErrorFunctiond>;
+using ProjectionErrorFunctiond_const_w = ::std::weak_ptr<const ProjectionErrorFunctiond>;
+
+template <typename T>
 class SimdCollisionErrorFunctionT;
 using SimdCollisionErrorFunction = SimdCollisionErrorFunctionT<float>;
 using SimdCollisionErrorFunctiond = SimdCollisionErrorFunctionT<double>;
