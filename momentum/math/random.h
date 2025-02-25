@@ -181,7 +181,9 @@ class Random final {
   /// @param[in] mean The mean of the Gaussian distribution
   /// @param[in] sigma The standard deviation of the Gaussian distribution
   template <typename FixedSizeT>
-  [[nodiscard]] FixedSizeT normal(typename FixedSizeT::Scalar min, typename FixedSizeT::Scalar max);
+  [[nodiscard]] FixedSizeT normal(
+      typename FixedSizeT::Scalar mean,
+      typename FixedSizeT::Scalar sigma);
 
   /// Generates a random value from the Gaussian distribution
   ///
