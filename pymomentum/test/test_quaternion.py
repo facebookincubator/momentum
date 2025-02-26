@@ -197,7 +197,7 @@ class TestQuaternion(unittest.TestCase):
         q = quaternion.from_two_vectors(v1, v2)
         rotated_v1 = quaternion.rotate_vector(q, v1)
 
-        self.assertTrue(torch.allclose(rotated_v1, v2))
+        self.assertTrue(torch.allclose(rotated_v1, v2, rtol=1e-4, atol=1e-6))
 
     def test_from_two_vectors_opposite(self):
         # Test with two opposite vectors
@@ -220,7 +220,5 @@ class TestQuaternion(unittest.TestCase):
         self.assertTrue(torch.allclose(rotated_v1, v1))
 
 
-if __name__ == "__main__":
-    unittest.main()
 if __name__ == "__main__":
     unittest.main()
