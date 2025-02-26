@@ -330,6 +330,25 @@ using CollisionErrorFunctionStatelessd_const_w =
     ::std::weak_ptr<const CollisionErrorFunctionStatelessd>;
 
 template <typename T>
+class DistanceErrorFunctionT;
+using DistanceErrorFunction = DistanceErrorFunctionT<float>;
+using DistanceErrorFunctiond = DistanceErrorFunctionT<double>;
+
+using DistanceErrorFunction_p = ::std::shared_ptr<DistanceErrorFunction>;
+using DistanceErrorFunction_u = ::std::unique_ptr<DistanceErrorFunction>;
+using DistanceErrorFunction_w = ::std::weak_ptr<DistanceErrorFunction>;
+using DistanceErrorFunction_const_p = ::std::shared_ptr<const DistanceErrorFunction>;
+using DistanceErrorFunction_const_u = ::std::unique_ptr<const DistanceErrorFunction>;
+using DistanceErrorFunction_const_w = ::std::weak_ptr<const DistanceErrorFunction>;
+
+using DistanceErrorFunctiond_p = ::std::shared_ptr<DistanceErrorFunctiond>;
+using DistanceErrorFunctiond_u = ::std::unique_ptr<DistanceErrorFunctiond>;
+using DistanceErrorFunctiond_w = ::std::weak_ptr<DistanceErrorFunctiond>;
+using DistanceErrorFunctiond_const_p = ::std::shared_ptr<const DistanceErrorFunctiond>;
+using DistanceErrorFunctiond_const_u = ::std::unique_ptr<const DistanceErrorFunctiond>;
+using DistanceErrorFunctiond_const_w = ::std::weak_ptr<const DistanceErrorFunctiond>;
+
+template <typename T>
 class FixedAxisAngleErrorFunctionT;
 using FixedAxisAngleErrorFunction = FixedAxisAngleErrorFunctionT<float>;
 using FixedAxisAngleErrorFunctiond = FixedAxisAngleErrorFunctionT<double>;
