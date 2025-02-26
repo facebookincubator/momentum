@@ -188,6 +188,39 @@ class TestQuaternion(unittest.TestCase):
             "quaternion blending of single-axis Euler rotation should be the midway rotation.",
         )
 
+    def test_from_two_vectors(self):
+        # Test with two random vectors
+        n_batch = 5
+        v1 = torch.nn.functional.normalize(torch.randn(n_batch, 3), dim=-1)
+        v2 = torch.nn.functional.normalize(torch.randn(n_batch, 3), dim=-1)
 
+        q = quaternion.from_two_vectors(v1, v2)
+        rotated_v1 = quaternion.rotate_vector(q, v1)
+
+        self.assertTrue(torch.allclose(rotated_v1, v2))
+
+    def test_from_two_vectors_opposite(self):
+        # Test with two opposite vectors
+        v1 = torch.tensor([1.0, 0.0, 0.0])
+        v2 = torch.tensor([-1.0, 0.0, 0.0])
+
+        q = quaternion.from_two_vectors(v1, v2)
+        rotated_v1 = quaternion.rotate_vector(q, v1)
+
+        self.assertTrue(torch.allclose(rotated_v1, v2))
+
+    def test_from_two_vectors_parallel(self):
+        # Test with two parallel vectors
+        v1 = torch.tensor([1.0, 0.0, 0.0])
+        v2 = torch.tensor([2.0, 0.0, 0.0])
+
+        q = quaternion.from_two_vectors(v1, v2)
+        rotated_v1 = quaternion.rotate_vector(q, v1)
+
+        self.assertTrue(torch.allclose(rotated_v1, v1))
+
+
+if __name__ == "__main__":
+    unittest.main()
 if __name__ == "__main__":
     unittest.main()
