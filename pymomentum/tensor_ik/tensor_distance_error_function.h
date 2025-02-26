@@ -12,7 +12,7 @@ template <typename T>
 std::unique_ptr<TensorErrorFunction<T>> createDistanceErrorFunction(
     size_t batchSize,
     size_t nFrames,
-    at::Tensor cameras,
+    at::Tensor origins,
     at::Tensor parents,
     at::Tensor offsets,
     at::Tensor weights,

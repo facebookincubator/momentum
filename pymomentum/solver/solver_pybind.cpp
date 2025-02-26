@@ -126,16 +126,16 @@ PYBIND11_MODULE(solver, m) {
       "transform_pose",
       &transformPose,
       R"(
-Computes a new set of model parameters such that the character pose is a rigidly transformed version of the 
-original pose.  While there is technically a closed form solution for any given skeleton, this is complicated 
-in momentum because different characters attach the rigid parameters to different joints, so a fully general 
+Computes a new set of model parameters such that the character pose is a rigidly transformed version of the
+original pose.  While there is technically a closed form solution for any given skeleton, this is complicated
+in momentum because different characters attach the rigid parameters to different joints, so a fully general
 solution uses IK.  This function optimizes the IK to run on a minimal set of joints and be as fast as possible,
 while dealing with local minima problems due to Euler angles.
 
 :return: A new set of model parameters such that the skeleton's root has been transformed.
 :param character: Character to use in the solve.
 :param model_parameters: Model parameters for the posed character in its initial space.
-:param transform: The rigid transform to apply to the character, specified as a skeleton state(tx, ty, tz, rx, ry, rz, rw, s).  Note that the scale is ignored.  
+:param transform: The rigid transform to apply to the character, specified as a skeleton state(tx, ty, tz, rx, ry, rz, rw, s).  Note that the scale is ignored.
 :param ensure_continuous_output: If true, the solver will try to ensure that the output is continuous in time.  This helps to remove Euler flips in continuous data.
   )",
       py::arg("character"),
@@ -196,7 +196,7 @@ All quaternion parameters use the quaternion order [x, y, z, w], where q = w+xi+
 :param projection_cons_offsets: float-valued torch.Tensor of dimension (nBatch x nConstraints x 3); contains the local offset for each projection constraint in its parent frame.
 :param projection_cons_weights: float-valued torch.Tensor of dimension (nBatch x nConstraints); contains a per-projection constraint weight.
 :param projection_cons_targets: float-valued torch.Tensor of dimension (nBatch x nConstraints x 2); contains the world-space target for each projection constraint.
-:param distance_cons_cameras: float-valued torch.Tensor of dimension (nBatch x nCameras x camera_vector_size) vectorized cameras for the projection constraint; use :py:func:`pymomentum.nimble.utilities.cameras_to_flat_vectors` to convert cameras to flat vectors.
+:param distance_cons_origins: float-valued torch.Tensor of dimension (nBatch x nConstraints x 3); contains the world-space origins to measure distance from.
 :param distance_cons_parents: integer-valued torch.Tensor of dimension (nBatch x nConstraints); contains a single parent for each distance constraint.
 :param distance_cons_offsets: float-valued torch.Tensor of dimension (nBatch x nConstraints x 3); contains the local offset for each distance constraint in its parent frame.
 :param distance_cons_weights: float-valued torch.Tensor of dimension (nBatch x nConstraints); contains a per-projection constraint weight.
@@ -229,7 +229,7 @@ All quaternion parameters use the quaternion order [x, y, z, w], where q = w+xi+
       py::arg("projection_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("projection_cons_weights") = std::optional<at::Tensor>{},
       py::arg("projection_cons_targets") = std::optional<at::Tensor>{},
-      py::arg("distance_cons_cameras") = std::optional<at::Tensor>{},
+      py::arg("distance_cons_origins") = std::optional<at::Tensor>{},
       py::arg("distance_cons_parents") = std::optional<at::Tensor>{},
       py::arg("distance_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("distance_cons_weights") = std::optional<at::Tensor>{},
@@ -275,7 +275,7 @@ For details on the arguments, see :py:func:`solve_ik`.
       py::arg("projection_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("projection_cons_weights") = std::optional<at::Tensor>{},
       py::arg("projection_cons_targets") = std::optional<at::Tensor>{},
-      py::arg("distance_cons_cameras") = std::optional<at::Tensor>{},
+      py::arg("distance_cons_origins") = std::optional<at::Tensor>{},
       py::arg("distance_cons_parents") = std::optional<at::Tensor>{},
       py::arg("distance_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("distance_cons_weights") = std::optional<at::Tensor>{},
@@ -318,7 +318,7 @@ For details on the arguments, see :py:func:`solve_ik`.
       py::arg("projection_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("projection_cons_weights") = std::optional<at::Tensor>{},
       py::arg("projection_cons_targets") = std::optional<at::Tensor>{},
-      py::arg("distance_cons_cameras") = std::optional<at::Tensor>{},
+      py::arg("distance_cons_origins") = std::optional<at::Tensor>{},
       py::arg("distance_cons_parents") = std::optional<at::Tensor>{},
       py::arg("distance_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("distance_cons_weights") = std::optional<at::Tensor>{},
@@ -374,7 +374,7 @@ For details on the arguments, see :py:func:`solve_ik`.
       py::arg("projection_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("projection_cons_weights") = std::optional<at::Tensor>{},
       py::arg("projection_cons_targets") = std::optional<at::Tensor>{},
-      py::arg("distance_cons_cameras") = std::optional<at::Tensor>{},
+      py::arg("distance_cons_origins") = std::optional<at::Tensor>{},
       py::arg("distance_cons_parents") = std::optional<at::Tensor>{},
       py::arg("distance_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("distance_cons_weights") = std::optional<at::Tensor>{},
@@ -430,7 +430,7 @@ This is to prevent confusing ambiguities in whether you meant sharing across the
       py::arg("projection_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("projection_cons_weights") = std::optional<at::Tensor>{},
       py::arg("projection_cons_targets") = std::optional<at::Tensor>{},
-      py::arg("distance_cons_cameras") = std::optional<at::Tensor>{},
+      py::arg("distance_cons_origins") = std::optional<at::Tensor>{},
       py::arg("distance_cons_parents") = std::optional<at::Tensor>{},
       py::arg("distance_cons_offsets") = std::optional<at::Tensor>{},
       py::arg("distance_cons_weights") = std::optional<at::Tensor>{},
