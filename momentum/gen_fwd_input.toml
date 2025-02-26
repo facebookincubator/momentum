@@ -130,10 +130,12 @@ template_structs = [
     "PositionConstraintState",
 ]
 template_classes = [
+    "FullyDifferentiableDistanceErrorFunction",
     "FullyDifferentiableMotionErrorFunction",
     "FullyDifferentiableOrientationErrorFunction",
     "FullyDifferentiablePosePriorErrorFunction",
     "FullyDifferentiablePositionErrorFunction",
+    "FullyDifferentiableProjectionErrorFunction",
     "FullyDifferentiableSkeletonErrorFunction",
     "FullyDifferentiableStateErrorFunction",
     "UnionErrorFunction",

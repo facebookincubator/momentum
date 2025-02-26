@@ -111,6 +111,37 @@ using PositionConstraintStated_const_u = ::std::unique_ptr<const PositionConstra
 using PositionConstraintStated_const_w = ::std::weak_ptr<const PositionConstraintStated>;
 
 template <typename T>
+class FullyDifferentiableDistanceErrorFunctionT;
+using FullyDifferentiableDistanceErrorFunction = FullyDifferentiableDistanceErrorFunctionT<float>;
+using FullyDifferentiableDistanceErrorFunctiond = FullyDifferentiableDistanceErrorFunctionT<double>;
+
+using FullyDifferentiableDistanceErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiableDistanceErrorFunction>;
+using FullyDifferentiableDistanceErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiableDistanceErrorFunction>;
+using FullyDifferentiableDistanceErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiableDistanceErrorFunction>;
+using FullyDifferentiableDistanceErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiableDistanceErrorFunction>;
+using FullyDifferentiableDistanceErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiableDistanceErrorFunction>;
+using FullyDifferentiableDistanceErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiableDistanceErrorFunction>;
+
+using FullyDifferentiableDistanceErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiableDistanceErrorFunctiond>;
+using FullyDifferentiableDistanceErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiableDistanceErrorFunctiond>;
+using FullyDifferentiableDistanceErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiableDistanceErrorFunctiond>;
+using FullyDifferentiableDistanceErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiableDistanceErrorFunctiond>;
+using FullyDifferentiableDistanceErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiableDistanceErrorFunctiond>;
+using FullyDifferentiableDistanceErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiableDistanceErrorFunctiond>;
+
+template <typename T>
 class FullyDifferentiableMotionErrorFunctionT;
 using FullyDifferentiableMotionErrorFunction = FullyDifferentiableMotionErrorFunctionT<float>;
 using FullyDifferentiableMotionErrorFunctiond = FullyDifferentiableMotionErrorFunctionT<double>;
@@ -236,6 +267,39 @@ using FullyDifferentiablePositionErrorFunctiond_const_u =
     ::std::unique_ptr<const FullyDifferentiablePositionErrorFunctiond>;
 using FullyDifferentiablePositionErrorFunctiond_const_w =
     ::std::weak_ptr<const FullyDifferentiablePositionErrorFunctiond>;
+
+template <typename T>
+class FullyDifferentiableProjectionErrorFunctionT;
+using FullyDifferentiableProjectionErrorFunction =
+    FullyDifferentiableProjectionErrorFunctionT<float>;
+using FullyDifferentiableProjectionErrorFunctiond =
+    FullyDifferentiableProjectionErrorFunctionT<double>;
+
+using FullyDifferentiableProjectionErrorFunction_p =
+    ::std::shared_ptr<FullyDifferentiableProjectionErrorFunction>;
+using FullyDifferentiableProjectionErrorFunction_u =
+    ::std::unique_ptr<FullyDifferentiableProjectionErrorFunction>;
+using FullyDifferentiableProjectionErrorFunction_w =
+    ::std::weak_ptr<FullyDifferentiableProjectionErrorFunction>;
+using FullyDifferentiableProjectionErrorFunction_const_p =
+    ::std::shared_ptr<const FullyDifferentiableProjectionErrorFunction>;
+using FullyDifferentiableProjectionErrorFunction_const_u =
+    ::std::unique_ptr<const FullyDifferentiableProjectionErrorFunction>;
+using FullyDifferentiableProjectionErrorFunction_const_w =
+    ::std::weak_ptr<const FullyDifferentiableProjectionErrorFunction>;
+
+using FullyDifferentiableProjectionErrorFunctiond_p =
+    ::std::shared_ptr<FullyDifferentiableProjectionErrorFunctiond>;
+using FullyDifferentiableProjectionErrorFunctiond_u =
+    ::std::unique_ptr<FullyDifferentiableProjectionErrorFunctiond>;
+using FullyDifferentiableProjectionErrorFunctiond_w =
+    ::std::weak_ptr<FullyDifferentiableProjectionErrorFunctiond>;
+using FullyDifferentiableProjectionErrorFunctiond_const_p =
+    ::std::shared_ptr<const FullyDifferentiableProjectionErrorFunctiond>;
+using FullyDifferentiableProjectionErrorFunctiond_const_u =
+    ::std::unique_ptr<const FullyDifferentiableProjectionErrorFunctiond>;
+using FullyDifferentiableProjectionErrorFunctiond_const_w =
+    ::std::weak_ptr<const FullyDifferentiableProjectionErrorFunctiond>;
 
 template <typename T>
 class FullyDifferentiableSkeletonErrorFunctionT;

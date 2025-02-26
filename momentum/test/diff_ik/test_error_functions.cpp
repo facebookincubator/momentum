@@ -16,6 +16,7 @@
 #include <momentum/character_solver/model_parameters_error_function.h>
 #include <momentum/character_solver/pose_prior_error_function.h>
 #include <momentum/character_solver/state_error_function.h>
+#include <momentum/diff_ik/fully_differentiable_distance_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_motion_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_orientation_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_pose_prior_error_function.h>
@@ -217,6 +218,7 @@ void testInputDerivs(
     SCOPED_TRACE(inputName);
     const Eigen::VectorX<T> inputVal_init = errorFunction.getInput(inputName);
     const auto inputSize = inputVal_init.size();
+    ASSERT_EQ(inputSize, errorFunction.getInputSize(inputName));
 
     {
       // Test setInput:
@@ -501,6 +503,35 @@ TEST(ErrorFunction, ProjectionErrorFunction) {
         rng.normal<Vector3<T>>(Vector3<T>::Zero(), Vector3<T>::Ones()),
         rng.uniform<T>(0.1, 2.0),
         rng.normal<Vector2<T>>(Vector2<T>::Zero(), Vector2<T>::Ones())});
+  }
+
+  testConstraintDerivs<double>(skeleton, parameterTransform, errorFunction, true);
+  testInputDerivs<double>(skeleton, parameterTransform, errorFunction);
+}
+
+TEST(ErrorFunction, DistanceErrorFunction) {
+  SCOPED_TRACE("DistanceErrorFunction");
+
+  const Character character = createTestCharacter();
+  const auto& skeleton = character.skeleton;
+  const auto& parameterTransform = character.parameterTransform;
+
+  using T = double;
+
+  Random<> rng(12345);
+
+  FullyDifferentiableDistanceErrorFunctionT<T> errorFunction(
+      skeleton, character.parameterTransform);
+  const T TEST_WEIGHT_VALUE = 4.5;
+  {
+    SCOPED_TRACE("Distance Constraint Test");
+    DistanceConstraintDataT<T> constraintData;
+    constraintData.parent = 1;
+    constraintData.offset = Vector3<T>::Random();
+    constraintData.origin = Vector3<T>::Random();
+    constraintData.target = 2.3f;
+    constraintData.weight = TEST_WEIGHT_VALUE;
+    errorFunction.addConstraint(constraintData);
   }
 
   testConstraintDerivs<double>(skeleton, parameterTransform, errorFunction, true);

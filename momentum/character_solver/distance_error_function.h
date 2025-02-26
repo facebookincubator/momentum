@@ -50,8 +50,8 @@ class DistanceErrorFunctionT : public momentum::SkeletonErrorFunctionT<T> {
   void clearConstraints() {
     constraints_.clear();
   }
-  void setConstraints(const std::vector<DistanceConstraintDataT<T>>& constr) {
-    constraints_ = constr;
+  void setConstraints(std::vector<DistanceConstraintDataT<T>> constr) {
+    constraints_ = std::move(constr);
   }
   [[nodiscard]] bool empty() const {
     return constraints_.empty();

@@ -282,6 +282,7 @@ character_sequence_solver_test_sources = [
 diff_ik_public_headers = [
     "diff_ik/ceres_utility.h",
     "diff_ik/fully_differentiable_body_ik.h",
+    "diff_ik/fully_differentiable_distance_error_function.h",
     "diff_ik/fully_differentiable_motion_error_function.h",
     "diff_ik/fully_differentiable_orientation_error_function.h",
     "diff_ik/fully_differentiable_pose_prior_error_function.h",
@@ -295,6 +296,7 @@ diff_ik_public_headers = [
 
 diff_ik_sources = [
     "diff_ik/fully_differentiable_body_ik.cpp",
+    "diff_ik/fully_differentiable_distance_error_function.cpp",
     "diff_ik/fully_differentiable_motion_error_function.cpp",
     "diff_ik/fully_differentiable_orientation_error_function.cpp",
     "diff_ik/fully_differentiable_pose_prior_error_function.cpp",
