@@ -83,7 +83,7 @@ mt_library(
   PUBLIC_INCLUDE_DIRECTORIES
     ${ATEN_INCLUDE_DIR}
   PRIVATE_INCLUDE_DIRECTORIES
-    ${TORCH_LIBRARIES}
+    ${TORCH_INCLUDE_DIRS}
   PUBLIC_LINK_LIBRARIES
     momentum
     ${ATEN_LIBRARIES}
@@ -91,8 +91,29 @@ mt_library(
   PRIVATE_LINK_LIBRARIES
     python_utility
     tensor_utility
-    axel
     Ceres::ceres
+    Dispenso::dispenso
+    Eigen3::Eigen
+    ${TORCH_LIBRARIES}
+    ${torch_python}
+  PUBLIC_COMPILE_OPTIONS
+    ${TORCH_CXX_FLAGS}
+  EXCLUDE_FROM_INSTALL
+)
+
+mt_library(
+  NAME tensor_ik
+  PYMOMENTUM_HEADERS_VARS tensor_ik_public_headers
+  PYMOMENTUM_SOURCES_VARS tensor_ik_sources
+  PUBLIC_INCLUDE_DIRECTORIES
+    ${ATEN_INCLUDE_DIR}
+  PRIVATE_INCLUDE_DIRECTORIES
+    ${TORCH_INCLUDE_DIRS}
+  PUBLIC_LINK_LIBRARIES
+    momentum
+    ${ATEN_LIBRARIES}
+  PRIVATE_LINK_LIBRARIES
+    tensor_utility
     Dispenso::dispenso
     Eigen3::Eigen
     ${TORCH_LIBRARIES}
@@ -108,7 +129,7 @@ mt_python_binding(
   PYMOMENTUM_SOURCES_VARS geometry_sources
   INCLUDE_DIRECTORIES
     ${ATEN_INCLUDE_DIR}
-    ${TORCH_LIBRARIES}
+    ${TORCH_INCLUDE_DIRS}
   LINK_LIBRARIES
     character
     character_test_helpers
@@ -120,6 +141,29 @@ mt_python_binding(
     io_skeleton
     io_urdf
     python_utility
+    tensor_momentum
+    tensor_utility
+    ${ATEN_LIBRARIES}
+    ${TORCH_LIBRARIES}
+    ${torch_python}
+  COMPILE_OPTIONS
+    ${TORCH_CXX_FLAGS}
+)
+
+mt_python_binding(
+  NAME solver
+  PYMOMENTUM_HEADERS_VARS solver_public_headers
+  PYMOMENTUM_SOURCES_VARS solver_sources
+  INCLUDE_DIRECTORIES
+    ${ATEN_INCLUDE_DIR}
+    ${TORCH_INCLUDE_DIRS}
+  LINK_LIBRARIES
+    character_solver
+    math
+    skeleton
+    geometry
+    python_utility
+    tensor_ik
     tensor_momentum
     tensor_utility
     ${ATEN_LIBRARIES}
@@ -163,6 +207,12 @@ if(MOMENTUM_BUILD_TESTING)
   mt_test(
     NAME tensor_utility_test
     PYMOMENTUM_SOURCES_VARS tensor_utility_test_sources
+    LINK_LIBRARIES tensor_utility
+  )
+
+  mt_test(
+    NAME tensor_ik_test
+    PYMOMENTUM_SOURCES_VARS tensor_ik_test_sources
     LINK_LIBRARIES tensor_utility
   )
 endif()
