@@ -490,3 +490,63 @@ function(mt_python_binding)
     set_property(GLOBAL APPEND PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL ${_ARG_NAME})
   endif()
 endfunction()
+
+function(mt_python_library)
+  set(prefix _ARG)
+  set(options
+    EXCLUDE_FROM_INSTALL
+  )
+  set(oneValueArgs
+    NAME
+  )
+  set(multiValueArgs
+    PYMOMENTUM_SOURCES_VARS
+  )
+  cmake_parse_arguments(
+    "${prefix}"
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+    ${ARGN}
+  )
+
+  foreach(var ${_ARG_PYMOMENTUM_SOURCES_VARS})
+    mt_append_pymomentum_filelist("${var}" libs)
+  endforeach()
+
+  if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
+    set_property(GLOBAL APPEND PROPERTY PYMOMENTUM_PYTHON_LIBRARIES_TO_INSTALL ${libs})
+  endif()
+endfunction()
+
+function(mt_install_pymomentum)
+  set(prefix _ARG)
+  set(options
+  )
+  set(oneValueArgs
+    GIT_TAG
+  )
+  set(multiValueArgs
+  )
+  cmake_parse_arguments(
+    "${prefix}"
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+    ${ARGN}
+  )
+
+  # Install C++ binding modules
+  get_property(pymomentum_targets_to_install GLOBAL PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL)
+  install(
+    TARGETS ${pymomentum_targets_to_install}
+    DESTINATION pymomentum
+  )
+
+  # Install Python modules
+  get_property(pymomentum_python_libraries_to_install GLOBAL PROPERTY PYMOMENTUM_PYTHON_LIBRARIES_TO_INSTALL)
+  install(
+    FILES ${pymomentum_python_libraries_to_install}
+    DESTINATION pymomentum
+  )
+endfunction()

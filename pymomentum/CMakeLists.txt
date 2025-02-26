@@ -130,38 +130,6 @@ mt_python_binding(
 )
 
 mt_python_binding(
-  NAME quaternion
-  PYMOMENTUM_HEADERS_VARS quaternion_public_headers
-  PYMOMENTUM_SOURCES_VARS quaternion_sources
-  INCLUDE_DIRECTORIES
-    ${ATEN_INCLUDE_DIR}
-    ${TORCH_LIBRARIES}
-  LINK_LIBRARIES
-    tensor_momentum
-    ${ATEN_LIBRARIES}
-    ${TORCH_LIBRARIES}
-    ${torch_python}
-  COMPILE_OPTIONS
-    ${TORCH_CXX_FLAGS}
-)
-
-mt_python_binding(
-  NAME skel_state
-  PYMOMENTUM_HEADERS_VARS skel_state_public_headers
-  PYMOMENTUM_SOURCES_VARS skel_state_sources
-  INCLUDE_DIRECTORIES
-    ${ATEN_INCLUDE_DIR}
-    ${TORCH_LIBRARIES}
-  LINK_LIBRARIES
-    tensor_momentum
-    ${ATEN_LIBRARIES}
-    ${TORCH_LIBRARIES}
-    ${torch_python}
-  COMPILE_OPTIONS
-    ${TORCH_CXX_FLAGS}
-)
-
-mt_python_binding(
   NAME marker_tracking
   PYMOMENTUM_HEADERS_VARS marker_tracking_public_headers
   PYMOMENTUM_SOURCES_VARS marker_tracking_sources
@@ -172,6 +140,16 @@ mt_python_binding(
     math
     process_markers
   COMPILE_OPTIONS
+)
+
+mt_python_library(
+  NAME quaternion
+  PYMOMENTUM_SOURCES_VARS quaternion_sources
+)
+
+mt_python_library(
+  NAME skel_state
+  PYMOMENTUM_SOURCES_VARS skel_state_sources
 )
 
 #===============================================================================
@@ -193,5 +171,4 @@ endif()
 # Install
 #===============================================================================
 
-get_property(pymomentum_targets_to_install GLOBAL PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL)
-install(TARGETS ${pymomentum_targets_to_install} DESTINATION pymomentum)
+mt_install_pymomentum()
