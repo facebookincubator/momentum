@@ -61,11 +61,8 @@ geometry_sources = [
     "geometry/momentum_io.cpp",
 ]
 
-quaternion_public_headers = [
-]
-
 quaternion_sources = [
-    "quaternion/quaternion_pybind.cpp",
+    "quaternion.py",
 ]
 
 skel_state_public_headers = [

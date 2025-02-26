@@ -3,7 +3,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-# pyre-unsafe
+# pyre-strict
 
 import math
 import unittest
@@ -12,7 +12,7 @@ import pymomentum.quaternion as quaternion
 import torch
 
 
-def generateRandomQuats(sz):
+def generateRandomQuats(sz: int) -> torch.Tensor:
     return quaternion.normalize(
         torch.normal(
             mean=0,
@@ -25,7 +25,7 @@ def generateRandomQuats(sz):
 
 
 class TestQuaternion(unittest.TestCase):
-    def test_eulerConversion(self) -> None:
+    def test_euler_conversion(self) -> None:
         torch.manual_seed(0)  # ensure repeatability
         nBatch = 6
         nMat = 5
