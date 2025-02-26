@@ -12,7 +12,7 @@ template <typename T>
 std::unique_ptr<TensorErrorFunction<T>> createProjectionErrorFunction(
     size_t batchSize,
     size_t nFrames,
-    at::Tensor cameras,
+    at::Tensor projections,
     at::Tensor parents,
     at::Tensor offsets,
     at::Tensor weights,

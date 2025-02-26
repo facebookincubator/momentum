@@ -60,4 +60,22 @@ Eigen::Quaternion<T> extractQuaternion(
   return Eigen::Quaternion<T>(vec.template segment<4>(4 * index)).normalized();
 }
 
+template <typename T, int Rows, int Cols>
+Eigen::Matrix<T, Rows, Cols> extractMatrix(
+    Eigen::Ref<const Eigen::VectorX<T>> vec,
+    Eigen::Index index) {
+  using MatrixType = Eigen::Matrix<T, Rows, Cols>;
+  if (vec.size() == 0) {
+    return MatrixType::Zero();
+  }
+
+  MatrixType result;
+  for (int iRow = 0; iRow < Rows; ++iRow) {
+    for (int jCol = 0; jCol < Cols; ++jCol) {
+      result(iRow, jCol) = vec(index * Rows * Cols + iRow * Cols + jCol);
+    }
+  }
+  return result;
+}
+
 } // namespace pymomentum
