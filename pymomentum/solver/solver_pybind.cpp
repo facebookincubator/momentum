@@ -188,14 +188,14 @@ All quaternion parameters use the quaternion order [x, y, z, w], where q = w+xi+
 :param orientation_cons_offsets: Optional float-valued tensor of dimension (nBatch x nConstraints x 4); contains the quaternion orientation offset for each orientation constraint in its parent frame.
 :param orientation_cons_weights: float-valued torch.Tensor of dimension (nBatch x nConstraints) which contains a per-constraint weight.
 :param orientation_cons_targets: float-valued torch.Tensor of dimension (nBatch x nConstraints x 4) (m x n x 4): Per-constraint world-space orientation targets as quaternions.
-:param posePrior_model: Mixture-PCA model used by the pose prior.
-    It can either be a :py:class:`pymomentum.geometry.Mpcca` which can be loaded using :meth:`pymomentum.nimble.models.loadDefaultPosePrior`, or it can be a
-    tuple of tensors [pi, mu, W, sigma, param_indices] as described in :math:`pymomentum.geometry.Mppca.to_tensors`.  The former is a bit more efficient
-    during the solve (because there is no need to re-calculate the inverse covariance matrix) but the latter case allows for differentiability.
+:param pose_prior_model: Mixture-PCA model used by the pose prior.
+    It can either be a :py:class:`pymomentum.geometry.Mpcca`, or it can be a tuple of tensors [pi, mu, W, sigma, param_indices] as described in
+    :math:`pymomentum.geometry.Mppca.to_tensors`.  The former is a bit more efficient during the solve (because there is no need to re-calculate the inverse covariance matrix) but
+    the latter case allows for differentiability.
 :param motion_targets: float-valued torch.Tensor of dimension (nBatch x nModelParams) which contains the model parameter targets for the motionError.
 :param motion_weights: float-valued torch.Tensor of dimension (nBatch x nModelParams) which contain a per-model-parameter weight for the motionError.
 :param projection_cons_projections: float-valued torch.Tensor of dimension (nBatch x nConstraints x 4 x 3) containing a 4x3 projection matrix for each constraint.  Note
-    that while you can use a standard pinhold model matrix as the projection matrix, we actually recommend constructing a separate local projection matrix
+    that while you can use a standard pinhole model matrix as the projection matrix, we actually recommend constructing a separate local projection matrix
     for each constraint centered around the camera ray, which is more robust for e.g. fisheye cameras.
 :param projection_cons_parents: integer-valued torch.Tensor of dimension (nBatch x nConstraints); contains a single parent for each projection constraint.
 :param projection_cons_offsets: float-valued torch.Tensor of dimension (nBatch x nConstraints x 3); contains the local offset for each projection constraint in its parent frame.
