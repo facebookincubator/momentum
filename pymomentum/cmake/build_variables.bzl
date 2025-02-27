@@ -50,6 +50,46 @@ tensor_momentum_sources = [
     "tensor_momentum/tensor_transforms.cpp",
 ]
 
+tensor_ik_public_headers = [
+    "tensor_ik/solver_options.h",
+    "tensor_ik/tensor_collision_error_function.h",
+    "tensor_ik/tensor_diff_pose_prior_error_function.h",
+    "tensor_ik/tensor_distance_error_function.h",
+    "tensor_ik/tensor_error_function_utility.h",
+    "tensor_ik/tensor_error_function.h",
+    "tensor_ik/tensor_gradient.h",
+    "tensor_ik/tensor_ik_utility.h",
+    "tensor_ik/tensor_ik.h",
+    "tensor_ik/tensor_limit_error_function.h",
+    "tensor_ik/tensor_marker_error_function.h",
+    "tensor_ik/tensor_motion_error_function.h",
+    "tensor_ik/tensor_pose_prior_error_function.h",
+    "tensor_ik/tensor_projection_error_function.h",
+    "tensor_ik/tensor_residual.h",
+    "tensor_ik/tensor_vertex_error_function.h",
+]
+
+tensor_ik_sources = [
+    "tensor_ik/tensor_collision_error_function.cpp",
+    "tensor_ik/tensor_diff_pose_prior_error_function.cpp",
+    "tensor_ik/tensor_distance_error_function.cpp",
+    "tensor_ik/tensor_error_function.cpp",
+    "tensor_ik/tensor_gradient.cpp",
+    "tensor_ik/tensor_ik_utility.cpp",
+    "tensor_ik/tensor_ik.cpp",
+    "tensor_ik/tensor_limit_error_function.cpp",
+    "tensor_ik/tensor_marker_error_function.cpp",
+    "tensor_ik/tensor_motion_error_function.cpp",
+    "tensor_ik/tensor_pose_prior_error_function.cpp",
+    "tensor_ik/tensor_projection_error_function.cpp",
+    "tensor_ik/tensor_residual.cpp",
+    "tensor_ik/tensor_vertex_error_function.cpp",
+]
+
+tensor_ik_test_sources = [
+    "cpp_test/tensor_ik_test.cpp",
+]
+
 geometry_public_headers = [
     "geometry/momentum_geometry.h",
     "geometry/momentum_io.h",
@@ -59,6 +99,15 @@ geometry_sources = [
     "geometry/geometry_pybind.cpp",
     "geometry/momentum_geometry.cpp",
     "geometry/momentum_io.cpp",
+]
+
+solver_public_headers = [
+    "solver/momentum_ik.h",
+]
+
+solver_sources = [
+    "solver/momentum_ik.cpp",
+    "solver/solver_pybind.cpp",
 ]
 
 quaternion_sources = [

@@ -433,6 +433,7 @@ function(mt_python_binding)
   )
   set(oneValueArgs
     NAME
+    MODULE_NAME
   )
   set(multiValueArgs
     HEADERS
@@ -485,6 +486,13 @@ function(mt_python_binding)
   target_compile_features(${_ARG_NAME} PRIVATE cxx_std_17)
   target_link_libraries(${_ARG_NAME} PRIVATE ${_ARG_LINK_LIBRARIES})
   target_compile_options(${_ARG_NAME} PRIVATE ${_ARG_COMPILE_OPTIONS})
+
+  if(NOT _ARG_MODULE_NAME)
+      set(_ARG_MODULE_NAME ${_ARG_NAME})
+  endif()
+  set_target_properties(${_ARG_NAME} PROPERTIES
+      OUTPUT_NAME "${_ARG_MODULE_NAME}"
+  )
 
   if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
     set_property(GLOBAL APPEND PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL ${_ARG_NAME})
