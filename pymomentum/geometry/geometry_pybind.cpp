@@ -878,9 +878,9 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
 :param ancestor_joint_index: The index of a possible ancestor joint.
 
 :return: true if ancestorJointId is an ancestor of jointId; that is,
-if jointId is in the tree rooted at ancestorJointId.
-Note that a joint is considered to be its own ancestor; that is,
-isAncestor(id, id) returns true. )",
+    if jointId is in the tree rooted at ancestorJointId.
+    Note that a joint is considered to be its own ancestor; that is,
+    isAncestor(id, id) returns true. )",
           py::arg("joint_index"),
           py::arg("ancestor_joint_index"))
       .def_property_readonly(
