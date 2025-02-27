@@ -2,12 +2,12 @@
 
 #include "pymomentum/tensor_ik/tensor_projection_error_function.h"
 
-#include "pymomentum/nimble/tensor_camera/camera_utility.h"
 #include "pymomentum/tensor_ik/tensor_error_function_utility.h"
 
 #include <momentum/character/character.h>
 #include <momentum/character_solver/projection_error_function.h>
 #include <momentum/diff_ik/fully_differentiable_projection_error_function.h>
+
 namespace pymomentum {
 
 using momentum::FullyDifferentiableProjectionErrorFunction;

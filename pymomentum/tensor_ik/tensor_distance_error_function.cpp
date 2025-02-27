@@ -2,7 +2,6 @@
 
 #include "pymomentum/tensor_ik/tensor_distance_error_function.h"
 
-#include "pymomentum/nimble/tensor_camera/camera_utility.h"
 #include "pymomentum/tensor_ik/tensor_error_function_utility.h"
 
 #include <momentum/character/character.h>
