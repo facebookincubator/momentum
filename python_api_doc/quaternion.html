@@ -47,15 +47,20 @@
 <li class="toctree-l1"><a class="reference internal" href="geometry.html">pymomentum.geometry</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pymomentum.quaternion</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.blend"><code class="docutils literal notranslate"><span class="pre">blend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.check"><code class="docutils literal notranslate"><span class="pre">check()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.check_and_normalize_weights"><code class="docutils literal notranslate"><span class="pre">check_and_normalize_weights()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.conjugate"><code class="docutils literal notranslate"><span class="pre">conjugate()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.euler_xyz_to_quaternion"><code class="docutils literal notranslate"><span class="pre">euler_xyz_to_quaternion()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.from_axis_angle"><code class="docutils literal notranslate"><span class="pre">from_axis_angle()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.from_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">from_rotation_matrix()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.from_two_vectors"><code class="docutils literal notranslate"><span class="pre">from_two_vectors()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.identity"><code class="docutils literal notranslate"><span class="pre">identity()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.inverse"><code class="docutils literal notranslate"><span class="pre">inverse()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.multiply"><code class="docutils literal notranslate"><span class="pre">multiply()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.quaternion_to_xyz_euler"><code class="docutils literal notranslate"><span class="pre">quaternion_to_xyz_euler()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.rotate_vector"><code class="docutils literal notranslate"><span class="pre">rotate_vector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.quaternion.to_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">to_rotation_matrix()</span></code></a></li>
 </ul>
 </li>
@@ -89,27 +94,58 @@
              
   <section id="module-pymomentum.quaternion">
 <span id="pymomentum-quaternion"></span><h1>pymomentum.quaternion<a class="headerlink" href="#module-pymomentum.quaternion" title="Link to this heading"></a></h1>
-<p>Handling of quaternions.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.blend">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">blend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.blend" title="Link to this definition"></a></dt>
-<dd><p>Blend k quaternions with the passed-in weights.</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">blend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.blend" title="Link to this definition"></a></dt>
+<dd><p>Blend multiple quaternions together using the method described in
+<a class="reference external" href="https://stackoverflow.com/questions/12374087/average-of-multiple-quaternions">https://stackoverflow.com/questions/12374087/average-of-multiple-quaternions</a>
+and <a class="reference external" href="http://www.acsu.buffalo.edu/~johnc/ave_quat07.pdf">http://www.acsu.buffalo.edu/~johnc/ave_quat07.pdf</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>quaternions</strong> – (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.</p></li>
-<li><p><strong>weights</strong> – Optional (nBatch x k) tensor.</p></li>
+<li><p><strong>quaternions</strong> – A tensor of shape (…, k, 4) representing the quaternions to blend.</p></li>
+<li><p><strong>weights_in</strong> – An optional tensor of shape (…, k) representing the weights for each quaternion.
+If not provided, all quaternions will be weighted equally.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(nBatch x 4) blended quaternion.</p>
+<dd class="field-even"><p>A tensor of shape (…, 4) representing the blended quaternion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.quaternion.check">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymomentum.quaternion.check" title="Link to this definition"></a></dt>
+<dd><p>Check if a tensor represents a quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – A tensor representing a quaternion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.quaternion.check_and_normalize_weights">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">check_and_normalize_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.check_and_normalize_weights" title="Link to this definition"></a></dt>
+<dd><p>Check and normalize the weights for blending quaternions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quaternions</strong> – A tensor of shape (…, k, 4) representing the quaternions to blend.</p></li>
+<li><p><strong>weights_in</strong> – An optional tensor of shape (…, k) representing the weights for each quaternion.
+If not provided, all quaternions will be weighted equally.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of shape (…, k) representing the normalized weights.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.conjugate">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.conjugate" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.conjugate" title="Link to this definition"></a></dt>
 <dd><p>Conjugate a quaternion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -123,45 +159,55 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.euler_xyz_to_quaternion">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">euler_xyz_to_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyz_euler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.euler_xyz_to_quaternion" title="Link to this definition"></a></dt>
-<dd><p>Convert XYZ Euler rotations to quaternions.</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">euler_xyz_to_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">euler_xyz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.euler_xyz_to_quaternion" title="Link to this definition"></a></dt>
+<dd><p>Convert Euler XYZ angles to a quaternion.
+:param euler_xyz: A tensor of shape (…, 3) representing the Euler XYZ angles.
+:return: A tensor of shape (…, 4) representing the quaternion in ((x, y, z), w) format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.quaternion.from_axis_angle">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">from_axis_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.from_axis_angle" title="Link to this definition"></a></dt>
+<dd><p>Convert an axis-angle tensor to a quaternion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>xyzEuler</strong> – (nBatch x k x 3) tensor with the 3-dof xyz Euler rotations.</p>
+<dd class="field-odd"><p><strong>axis_angle</strong> – A tensor of shape (…, 3) representing the axis-angle.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x k x 4) tensor containing quaternions in the ((x, y, z), w) format.</p>
+<dd class="field-even"><p>A tensor of shape (…, 4) representing the quaternion in ((x, y, z), w) format.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.from_rotation_matrix">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">from_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.from_rotation_matrix" title="Link to this definition"></a></dt>
-<dd><p>Convert 3x3 rotation matrices to quaternions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrices</strong> – (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.</p>
-</dd>
-</dl>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">from_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.from_rotation_matrix" title="Link to this definition"></a></dt>
+<dd><p>Convert a rotation matrix to a quaternion.
+:param matrices: A tensor of shape (…, 3, 3) representing the rotation matrices.
+:return: A tensor of shape (…, 4) representing the quaternions in ((x, y, z), w) format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.quaternion.from_two_vectors">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">from_two_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.from_two_vectors" title="Link to this definition"></a></dt>
+<dd><p>Construct a quaternion that rotates one vector into another.
+:param v1: The initial vector.
+:param v2: The target vector.
+:return: A quaternion representing the rotation from v1 to v2.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.identity">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.identity" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>the identity quaternion (0, 0, 0, 1)</p>
-</dd>
-</dl>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dtype</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.identity" title="Link to this definition"></a></dt>
+<dd><p>Create a quaternion identity tensor.
+:param sizes: A tuple of integers representing the size of the quaternion tensor.
+:param device: The device on which to create the tensor.
+:return: A quaternion identity tensor with the specified sizes and device.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.inverse">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.inverse" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.inverse" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse of a quaternion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -175,8 +221,8 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.multiply">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.multiply" title="Link to this definition"></a></dt>
-<dd><p>Multiplies two quaternions together.</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.multiply" title="Link to this definition"></a></dt>
+<dd><p>Multiply two quaternions together.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -192,7 +238,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.normalize">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.normalize" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.normalize" title="Link to this definition"></a></dt>
 <dd><p>Normalize a quaternion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -206,7 +252,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.quaternion_to_xyz_euler">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">quaternion_to_xyz_euler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyz_euler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.quaternion_to_xyz_euler" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">quaternion_to_xyz_euler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.quaternion_to_xyz_euler" title="Link to this definition"></a></dt>
 <dd><p>Convert quaternions to XYZ Euler rotations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -220,7 +266,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.rotate_vector">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">rotate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.rotate_vector" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">rotate_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.rotate_vector" title="Link to this definition"></a></dt>
 <dd><p>Rotate a vector by a quaternion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -236,17 +282,25 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pymomentum.quaternion.to_rotation_matrix">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">to_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.to_rotation_matrix" title="Link to this definition"></a></dt>
-<dd><p>Convert quaternions to 3x3 rotation matrices.</p>
+<dt class="sig sig-object py" id="pymomentum.quaternion.split">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pymomentum.quaternion.split" title="Link to this definition"></a></dt>
+<dd><p>Split a quaternion into its scalar and vector parts.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> – (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.</p>
+<dd class="field-odd"><p><strong>q</strong> – A tensor representing a quaternion.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.</p>
+<dd class="field-even"><p>The scalar and vector parts of the quaternion.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.quaternion.to_rotation_matrix">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">to_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.to_rotation_matrix" title="Link to this definition"></a></dt>
+<dd><p>Convert quaternions to 3x3 rotation matrices.
+:param q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
+:return: (nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.</p>
 </dd></dl>
 
 </section>

@@ -48,12 +48,14 @@
 <li class="toctree-l1"><a class="reference internal" href="quaternion.html">pymomentum.quaternion</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pymomentum.skel_state</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.blend"><code class="docutils literal notranslate"><span class="pre">blend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.check"><code class="docutils literal notranslate"><span class="pre">check()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.from_matrix"><code class="docutils literal notranslate"><span class="pre">from_matrix()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.from_quaternion"><code class="docutils literal notranslate"><span class="pre">from_quaternion()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.from_scale"><code class="docutils literal notranslate"><span class="pre">from_scale()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.from_translation"><code class="docutils literal notranslate"><span class="pre">from_translation()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.identity"><code class="docutils literal notranslate"><span class="pre">identity()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.inverse"><code class="docutils literal notranslate"><span class="pre">inverse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.match_leading_dimensions"><code class="docutils literal notranslate"><span class="pre">match_leading_dimensions()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.multiply"><code class="docutils literal notranslate"><span class="pre">multiply()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pymomentum.skel_state.to_matrix"><code class="docutils literal notranslate"><span class="pre">to_matrix()</span></code></a></li>
@@ -89,163 +91,163 @@
              
   <section id="module-pymomentum.skel_state">
 <span id="pymomentum-skel-state"></span><h1>pymomentum.skel_state<a class="headerlink" href="#module-pymomentum.skel_state" title="Link to this heading"></a></h1>
-<p>Handling of skeleton states, including converting to and from transform matrices.</p>
-<p>A skeleton state is an (n x 8) tensor representing an array of transforms, where each transform is represented as a translation,
-rotation, and (uniform) scale.  The 8 components are: (tx, ty, tz, rx, ry, rz, rw, s).</p>
-<p>Skeleton states are used extensively in momentum to represent transforms from joint-local space to world space, hence the name.
-They are convenient because it is easy to separate out the different components of the transform; a matrix representation would
-require using the polar decomposition to split scale from rotation.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.blend">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">blend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_states</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.blend" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">blend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skel_states</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.blend" title="Link to this definition"></a></dt>
 <dd><p>Blend k skeleton states with the passed-in weights.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>skeleton_states</strong> – (nBatch x k x 8) tensor containing skeleton states (tx, ty, tz, rx, ry, rz, rw, s)..</p></li>
-<li><p><strong>weights</strong> – Optional (nBatch x k) tensor.</p></li>
-</ul>
+<dl class="simple">
+<dt>Args:</dt><dd><p>skel_states (torch.Tensor): The skeleton states to blend.
+weights (torch.Tensor, optional): The weights to use for blending. Defaults to None.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(nBatch x 4) blended quaternion.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The blended skeleton state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.skel_state.check">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skel_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pymomentum.skel_state.check" title="Link to this definition"></a></dt>
+<dd><p>Check if the skeleton state has the correct shape.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>skel_state (torch.Tensor): The skeleton state to check.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the skeleton state does not have the correct shape.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.from_matrix">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_matrix" title="Link to this definition"></a></dt>
-<dd><p>Convert 4x4 matrices to skeleton states. The matrix represents the transform from a local joint space to the world space.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>matrix</strong> – (nBatch x nJoints x 4 x 4) tensor with the transforms.</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_matrix" title="Link to this definition"></a></dt>
+<dd><p>Convert 4x4 matrices to skeleton states.  Assumes that the scale is uniform.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>matrices (torch.Tensor): A tensor of 4x4 matrices.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x nJoints x 8) tensor containing the skeleton states.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The corresponding skeleton states.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.from_quaternion">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_quaternion" title="Link to this definition"></a></dt>
-<dd><p>Convert quaternions to a skeleton state.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> – (nBatch x 4) tensor with the quaternion rotations in the form ((x, y, z), w).</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_quaternion" title="Link to this definition"></a></dt>
+<dd><p>Create a skeleton state from translation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>rotation (torch.Tensor): The rotation component.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x 8) tensor containing skeleton states (tx, ty, tz, rx, ry, rz, rw, s).</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The skeleton state.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.from_scale">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_scale" title="Link to this definition"></a></dt>
-<dd><p>Convert scales to a skeleton state.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> – (nBatch x 1) tensor with uniform scales.</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_scale" title="Link to this definition"></a></dt>
+<dd><p>Create a skeleton state from translation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>scale (torch.Tensor): The rotation component.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x 8) tensor containing skeleton states (tx, ty, tz, rx, ry, rz, rw, s).</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The skeleton state.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.from_translation">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_translation" title="Link to this definition"></a></dt>
-<dd><p>Convert translations to a skeleton state.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> – (nBatch x 3) tensor with the translations (x, y, z).</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">from_translation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.from_translation" title="Link to this definition"></a></dt>
+<dd><p>Create a skeleton state from translation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>translation (torch.Tensor): The translation component.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x 8) tensor containing skeleton states (tx, ty, tz, rx, ry, rz, rw, s).</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The skeleton state.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.identity">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.identity" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.identity" title="Link to this definition"></a></dt>
 <dd><p>Returns a skeleton state representing the identity transform.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sizes (list[int], optional): The size of each dimension in the output tensor. Defaults to None, which means the output will be a 1D tensor with 8 elements.
+device (torch.device, optional): The device on which to create the tensor. Defaults to None, which means the tensor will be created on the default device.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The identity skeleton state.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.inverse">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_states</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.inverse" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_states</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.inverse" title="Link to this definition"></a></dt>
 <dd><p>Compute the inverse of a skeleton state.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>skeleton_states</strong> – (nBatch x nJoints x 8) tensor with the skeleton states.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>skeleton_states (torch.Tensor): The skeleton state to invert.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x nJoints x 8) tensor containing the (x, y, z, rx, ry, rz, rw, s) skeleton states corresponding to the inverse transform.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The inverted skeleton state.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pymomentum.skel_state.match_leading_dimensions">
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">match_leading_dimensions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_right</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.match_leading_dimensions" title="Link to this definition"></a></dt>
+<dd><p>Match the leading dimensions of two tensors.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>t_left (torch.Tensor): The first tensor.
+t_right (torch.Tensor): The second tensor.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The first tensor with its leading dimensions matched to the second tensor.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.multiply">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.multiply" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.multiply" title="Link to this definition"></a></dt>
 <dd><p>Multiply two skeleton states.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>s1</strong> – (nBatch x nJoints x 8) tensor with the skeleton states.</p></li>
-<li><p><strong>s2</strong> – (nBatch x nJoints x 8) tensor with the skeleton states.</p></li>
-</ul>
+<dl class="simple">
+<dt>Args:</dt><dd><p>s1 (torch.Tensor): The first skeleton state.
+s2 (torch.Tensor): The second skeleton state.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x nJoints x 8) tensor containing the (x, y, z, rx, ry, rz, rw, s) skeleton states corresponding to the product.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The product of the two skeleton states.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.split">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pymomentum.skel_state.split" title="Link to this definition"></a></dt>
-<dd><p>Splits a skeleton state into translation, rotation, and scale components.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>skeleton_state</strong> – (nBatch x 8)-dimension tensor with skeletons states.</p>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skel_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pymomentum.skel_state.split" title="Link to this definition"></a></dt>
+<dd><p>Split a skeleton state into translation, rotation, and scale components.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>skel_state (torch.Tensor): The skeleton state to split.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple of tensors (translation, rotation, scale).</p>
+<dt>Returns:</dt><dd><p>tuple: A tuple of tensors (translation, rotation, scale).</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.to_matrix">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">to_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.to_matrix" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">to_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.to_matrix" title="Link to this definition"></a></dt>
 <dd><p>Convert skeleton state to a tensor of 4x4 matrices. The matrix represents the transform from a local joint space to the world space.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>skeletonState</strong> – (nBatch x nJoints x 8) tensor with the skeleton state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>skeleton_state (torch.Tensor): The skeleton state to convert.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x nJoints x 4 x 4) tensor containing 4x4 matrix transforms.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: A tensor containing 4x4 matrix transforms.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.skel_state.transform_points">
-<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">transform_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skeleton_states</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.transform_points" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pymomentum.skel_state.</span></span><span class="sig-name descname"><span class="pre">transform_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skel_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.skel_state.transform_points" title="Link to this definition"></a></dt>
 <dd><p>Transform 3d points by the transform represented by the skeleton state.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>skeleton_states</strong> – (nBatch x nJoints x 8) tensor with the skeleton states.</p></li>
-<li><p><strong>points</strong> – (nBatch x nJoints x 3) tensor with the points.</p></li>
-</ul>
+<dl class="simple">
+<dt>Args:</dt><dd><p>skel_state (torch.Tensor): The skeleton state to use for transformation.
+points (torch.Tensor): The points to transform.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A (nBatch x nJoints x 3) tensor containing the points transformed by the skeleton states.</p>
+<dt>Returns:</dt><dd><p>torch.Tensor: The transformed points.</p>
 </dd>
 </dl>
 </dd></dl>
