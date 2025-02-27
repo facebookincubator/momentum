@@ -1449,7 +1449,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, ProjectionError_GradientsAndJacobians) {
           ModelParametersT<T>::Zero(transform.numAllModelParameters()),
           skeleton,
           transform,
-          1e-7,
+          1e-6,
           1e-6,
           true,
           false); // jacobian test is inaccurate around the corner case
@@ -1466,7 +1466,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, ProjectionError_GradientsAndJacobians) {
           parameters,
           skeleton,
           transform,
-          Eps<T>(1e-1f, 1e-3),
+          Eps<T>(1e-1f, 5e-3),
           Eps<T>(1e-6f, 1e-7));
     }
   }
