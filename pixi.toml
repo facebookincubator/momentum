@@ -204,15 +204,7 @@ build_py = { cmd = "pip install . -vv", env = { FBXSDK_PATH = ".deps/fbxsdk", CM
 """, MOMENTUM_ENABLE_SIMD = "ON" }, depends-on = [
     "install_deps",
 ] }
-test_py = { cmd = """
-    pytest \
-        pymomentum/test/test_closest_points.py \
-        pymomentum/test/test_fbx.py \
-        pymomentum/test/test_parameter_transform.py \
-        pymomentum/test/test_quaternion.py \
-        pymomentum/test/test_skel_state.py \
-        pymomentum/test/test_skeleton.py
-    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
+test_py = { cmd = "pytest pymomentum/test/*.py", env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
     "build_py",
 ] }
 install_py = { cmd = "pip install -e ." }
@@ -237,15 +229,8 @@ build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
     -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
     -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
 """, MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
-test_py = { cmd = """
-    pytest \
-        pymomentum/test/test_closest_points.py \
-        pymomentum/test/test_fbx.py \
-        pymomentum/test/test_parameter_transform.py \
-        pymomentum/test/test_quaternion.py \
-        pymomentum/test/test_skel_state.py \
-        pymomentum/test/test_skeleton.py
-    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
+# TODO: Remove -k option, once this tests are disabled programmatically if momentum is not built with FBX support
+test_py = { cmd = "pytest pymomentum/test/*.py -k 'not (TestFBXIO and (test_save_motions_with_joint_params or test_save_motions_with_model_params))'", env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
     "build_py",
 ] }
 install_py = { cmd = "pip install -e ." }
@@ -270,15 +255,8 @@ build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
     -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
     -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
 """, MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
-test_py = { cmd = """
-    pytest \
-        pymomentum/test/test_closest_points.py \
-        pymomentum/test/test_fbx.py \
-        pymomentum/test/test_parameter_transform.py \
-        pymomentum/test/test_quaternion.py \
-        pymomentum/test/test_skel_state.py \
-        pymomentum/test/test_skeleton.py
-    """, env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
+# TODO: Remove -k option, once this tests are disabled programmatically if momentum is not built with FBX support
+test_py = { cmd = "pytest pymomentum/test/*.py -k 'not (TestFBXIO and (test_save_motions_with_joint_params or test_save_motions_with_model_params))'", env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
     "build_py",
 ] }
 install_py = { cmd = "pip install -e ." }

@@ -10,7 +10,6 @@ import unittest
 import pymomentum.geometry as pym_geometry
 import pymomentum.solver as pym_solver
 import torch
-from __manifest__ import fbmake
 from pymomentum.solver import ErrorFunctionType
 
 logger: logging.Logger = logging.getLogger(__name__)
@@ -19,10 +18,6 @@ logger: logging.Logger = logging.getLogger(__name__)
 class TestPosePrior(unittest.TestCase):
     def test_ik_pose_prior(self) -> None:
         """Test solve_ik() with just the pose prior and positions."""
-
-        if fbmake["build_mode"] == "dev":
-            logger.info("This test is too slow in dev mode. Skip it.")
-            return
 
         # The mesh is a made by a few vertices on the line segment from (1,0,0) to (1,1,0)
         # and a few dummy faces.
