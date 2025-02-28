@@ -25,6 +25,7 @@ class TestFBXIO(unittest.TestCase):
         self.joint_params = self.character.parameter_transform.apply(self.model_params)
 
     def test_save_motions_with_model_params(self) -> None:
+        # TODO: Disable this test programmatically if momentum is not built with FBX support
         # Test saving with model parameters
         with tempfile.NamedTemporaryFile(suffix=".fbx") as temp_file:
             offsets = np.zeros(self.joint_params.shape[1])
@@ -55,6 +56,7 @@ class TestFBXIO(unittest.TestCase):
             self._verify_fbx(temp_file.name)
 
     def test_save_motions_with_joint_params(self) -> None:
+        # TODO: Disable this test programmatically if momentum is not built with FBX support
         # Test saving with joint parameters
         with tempfile.NamedTemporaryFile(suffix=".fbx") as temp_file:
             pym_geometry.Character.save_fbx_with_joint_params(

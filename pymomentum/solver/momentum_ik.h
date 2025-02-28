@@ -14,6 +14,7 @@
 
 #include <ATen/ATen.h>
 #include <pybind11/pybind11.h>
+#include <torch/extension.h> // @manual=//caffe2:torch_extension
 #include <torch/torch.h>
 
 #include <optional>

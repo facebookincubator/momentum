@@ -64,7 +64,7 @@ at::Tensor concatBatch(std::vector<at::Tensor> tensors) {
   }
 
   const auto sizes = tensors[0].sizes();
-  std::vector<long> sizes_batch = {(long)tensors.size()};
+  std::vector<int64_t> sizes_batch = {(int64_t)tensors.size()};
   std::copy(
       std::begin(sizes), std::end(sizes), std::back_inserter(sizes_batch));
 
