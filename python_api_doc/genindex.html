@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="geometry.html">pymomentum.geometry</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quaternion.html">pymomentum.quaternion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skel_state.html">pymomentum.skel_state</a></li>
+<li class="toctree-l1"><a class="reference internal" href="solver.html">pymomentum.solver</a></li>
 <li class="toctree-l1"><a class="reference internal" href="marker_tracking.html">pymomentum.marker_tracking</a></li>
 </ul>
 
@@ -168,14 +169,18 @@
       </ul></li>
       <li><a href="quaternion.html#pymomentum.quaternion.check_and_normalize_weights">check_and_normalize_weights() (in module pymomentum.quaternion)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.LinearSolverType.Cholesky">Cholesky (pymomentum.solver.LinearSolverType attribute)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Collision">Collision (pymomentum.solver.ErrorFunctionType attribute)</a>
+</li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.TrackingConfig.collision_error_weight">collision_error_weight (pymomentum.marker_tracking.TrackingConfig property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.collision_geometry">collision_geometry (pymomentum.geometry.Character property)</a>
 </li>
-      <li><a href="geometry.html#pymomentum.geometry.Mesh.colors">colors (pymomentum.geometry.Mesh property)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="geometry.html#pymomentum.geometry.Mesh.colors">colors (pymomentum.geometry.Mesh property)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.BlendShape.compute_shape">compute_shape() (pymomentum.geometry.BlendShape method)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.compute_vertex_normals">compute_vertex_normals() (in module pymomentum.geometry)</a>
@@ -212,6 +217,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.BaseConfig.debug">debug (pymomentum.marker_tracking.BaseConfig property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Distance">Distance (pymomentum.solver.ErrorFunctionType attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -231,6 +238,8 @@
       <li><a href="geometry.html#pymomentum.geometry.LimitEllipsoid.ellipsoid_inv">ellipsoid_inv (pymomentum.geometry.LimitEllipsoid property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitEllipsoid.ellipsoid_parent">ellipsoid_parent (pymomentum.geometry.LimitEllipsoid property)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType">ErrorFunctionType (class in pymomentum.solver)</a>
 </li>
       <li><a href="quaternion.html#pymomentum.quaternion.euler_xyz_to_quaternion">euler_xyz_to_quaternion() (in module pymomentum.quaternion)</a>
 </li>
@@ -296,13 +305,19 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.Skeleton.get_child_joints">get_child_joints() (pymomentum.geometry.Skeleton method)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.get_gradient_statistics">get_gradient_statistics() (in module pymomentum.solver)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.Mppca.get_mixture">get_mixture() (pymomentum.geometry.Mppca method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.Skeleton.get_parent">get_parent() (pymomentum.geometry.Skeleton method)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.get_solve_ik_statistics">get_solve_ik_statistics() (in module pymomentum.solver)</a>
+</li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.CalibrationConfig.global_scale_only">global_scale_only (pymomentum.marker_tracking.CalibrationConfig property)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.gradient">gradient() (in module pymomentum.solver)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -354,6 +369,8 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="solver.html#pymomentum.solver.jacobian">jacobian() (in module pymomentum.solver)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.Joint">Joint (class in pymomentum.geometry)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitMinMaxJoint.joint_index">joint_index (pymomentum.geometry.LimitMinMaxJoint property)</a>
@@ -388,6 +405,10 @@
 </li>
       <li><a href="geometry.html#pymomentum.geometry.TaperedCapsule.length">length (pymomentum.geometry.TaperedCapsule property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.SolverOptions.levmar_lambda">levmar_lambda (pymomentum.solver.SolverOptions property)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Limit">Limit (pymomentum.solver.ErrorFunctionType attribute)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.Locator.limit_origin">limit_origin (pymomentum.geometry.Locator property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Locator.limit_weight">limit_weight (pymomentum.geometry.Locator property)</a>
@@ -408,16 +429,24 @@
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitType">LimitType (class in pymomentum.geometry)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.SolverOptions.line_search">line_search (pymomentum.solver.SolverOptions property)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.LimitData.linear">linear (pymomentum.geometry.LimitData property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitType.Linear">Linear (pymomentum.geometry.LimitType attribute)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitData.linear_joint">linear_joint (pymomentum.geometry.LimitData property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.SolverOptions.linear_solver">linear_solver (pymomentum.solver.SolverOptions property)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.LimitType.LinearJoint">LinearJoint (pymomentum.geometry.LimitType attribute)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.LinearSolverType">LinearSolverType (class in pymomentum.solver)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Mesh.lines">lines (pymomentum.geometry.Mesh property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.BlendShape.load">load() (pymomentum.geometry.BlendShape static method)</a>
 
       <ul>
@@ -426,8 +455,6 @@
       </ul></li>
       <li><a href="geometry.html#pymomentum.geometry.Character.load_fbx">load_fbx() (pymomentum.geometry.Character static method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.Character.load_fbx_from_bytes">load_fbx_from_bytes() (pymomentum.geometry.Character static method)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.load_fbx_with_motion">load_fbx_with_motion() (pymomentum.geometry.Character static method)</a>
@@ -495,7 +522,11 @@
 </li>
       </ul></li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.BaseConfig.max_iter">max_iter (pymomentum.marker_tracking.BaseConfig property)</a>
+
+      <ul>
+        <li><a href="solver.html#pymomentum.solver.SolverOptions.max_iter">(pymomentum.solver.SolverOptions property)</a>
 </li>
+      </ul></li>
       <li><a href="geometry.html#pymomentum.geometry.Mesh">Mesh (class in pymomentum.geometry)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.mesh">mesh (pymomentum.geometry.Character property)</a>
@@ -506,6 +537,8 @@
         <li><a href="geometry.html#pymomentum.geometry.LimitMinMaxJoint.min">(pymomentum.geometry.LimitMinMaxJoint property)</a>
 </li>
       </ul></li>
+      <li><a href="solver.html#pymomentum.solver.SolverOptions.min_iter">min_iter (pymomentum.solver.SolverOptions property)</a>
+</li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.BaseConfig.min_vis_percent">min_vis_percent (pymomentum.marker_tracking.BaseConfig property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitData.minmax">minmax (pymomentum.geometry.LimitData property)</a>
@@ -548,7 +581,11 @@
 </li>
         <li><a href="skel_state.html#module-pymomentum.skel_state">pymomentum.skel_state</a>
 </li>
+        <li><a href="solver.html#module-pymomentum.solver">pymomentum.solver</a>
+</li>
       </ul></li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Motion">Motion (pymomentum.solver.ErrorFunctionType attribute)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.Mppca">Mppca (class in pymomentum.geometry)</a>
 </li>
       <li><a href="quaternion.html#pymomentum.quaternion.multiply">multiply() (in module pymomentum.quaternion)</a>
@@ -596,6 +633,12 @@
 </li>
         <li><a href="geometry.html#pymomentum.geometry.MarkerSequence.name">(pymomentum.geometry.MarkerSequence property)</a>
 </li>
+        <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.name">(pymomentum.solver.ErrorFunctionType property)</a>
+</li>
+        <li><a href="solver.html#pymomentum.solver.LinearSolverType.name">(pymomentum.solver.LinearSolverType property)</a>
+</li>
+        <li><a href="solver.html#pymomentum.solver.VertexConstraintType.name">(pymomentum.solver.VertexConstraintType property)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -608,6 +651,8 @@
       <li><a href="geometry.html#pymomentum.geometry.ParameterTransform.no_parameters">no_parameters (pymomentum.geometry.ParameterTransform property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitHalfPlane.normal">normal (pymomentum.geometry.LimitHalfPlane property)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.VertexConstraintType.Normal">Normal (pymomentum.solver.VertexConstraintType attribute)</a>
 </li>
       <li><a href="quaternion.html#pymomentum.quaternion.normalize">normalize() (in module pymomentum.quaternion)</a>
 </li>
@@ -636,6 +681,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.Skeleton.offsets">offsets (pymomentum.geometry.Skeleton property)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Orientation">Orientation (pymomentum.solver.ErrorFunctionType attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -677,16 +724,26 @@
       </ul></li>
       <li><a href="geometry.html#pymomentum.geometry.FBXFrontVector.ParityEven">ParityEven (pymomentum.geometry.FBXFrontVector attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.FBXFrontVector.ParityOdd">ParityOdd (pymomentum.geometry.FBXFrontVector attribute)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.VertexConstraintType.Plane">Plane (pymomentum.solver.VertexConstraintType attribute)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Marker.pos">pos (pymomentum.geometry.Marker property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.pose_mesh">pose_mesh() (pymomentum.geometry.Character method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.ParameterTransform.pose_parameters">pose_parameters (pymomentum.geometry.ParameterTransform property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.PosePrior">PosePrior (pymomentum.solver.ErrorFunctionType attribute)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Position">Position (pymomentum.solver.ErrorFunctionType attribute)</a>
+
+      <ul>
+        <li><a href="solver.html#pymomentum.solver.VertexConstraintType.Position">(pymomentum.solver.VertexConstraintType attribute)</a>
+</li>
+      </ul></li>
       <li><a href="geometry.html#pymomentum.geometry.Joint.pre_rotation">pre_rotation (pymomentum.geometry.Joint property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Skeleton.pre_rotations">pre_rotations (pymomentum.geometry.Skeleton property)</a>
@@ -694,6 +751,8 @@
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.process_marker_file">process_marker_file() (in module pymomentum.marker_tracking)</a>
 </li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.process_markers">process_markers() (in module pymomentum.marker_tracking)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Projection">Projection (pymomentum.solver.ErrorFunctionType attribute)</a>
 </li>
       <li>
     pymomentum.geometry
@@ -723,11 +782,22 @@
         <li><a href="skel_state.html#module-pymomentum.skel_state">module</a>
 </li>
       </ul></li>
+      <li>
+    pymomentum.solver
+
+      <ul>
+        <li><a href="solver.html#module-pymomentum.solver">module</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="solver.html#pymomentum.solver.LinearSolverType.QR">QR (pymomentum.solver.LinearSolverType attribute)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="quaternion.html#pymomentum.quaternion.quaternion_to_xyz_euler">quaternion_to_xyz_euler() (in module pymomentum.quaternion)</a>
 </li>
@@ -759,10 +829,10 @@
 </li>
       <li><a href="geometry.html#pymomentum.geometry.LimitLinearJoint.reference_joint_parameter">reference_joint_parameter (pymomentum.geometry.LimitLinearJoint property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.LimitLinear.reference_model_parameter_index">reference_model_parameter_index (pymomentum.geometry.LimitLinear property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.refine_motion">refine_motion() (in module pymomentum.marker_tracking)</a>
 </li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.RefineConfig">RefineConfig (class in pymomentum.marker_tracking)</a>
@@ -772,6 +842,12 @@
       <li><a href="geometry.html#pymomentum.geometry.replace_rest_mesh">replace_rest_mesh() (in module pymomentum.geometry)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.replace_skeleton_hierarchy">replace_skeleton_hierarchy() (in module pymomentum.geometry)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.reset_gradient_statistics">reset_gradient_statistics() (in module pymomentum.solver)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.reset_solve_ik_statistics">reset_solve_ik_statistics() (in module pymomentum.solver)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.residual">residual() (in module pymomentum.solver)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.FBXCoordSystem.RightHanded">RightHanded (pymomentum.geometry.FBXCoordSystem attribute)</a>
 </li>
@@ -807,6 +883,8 @@
 </li>
       <li><a href="geometry.html#pymomentum.geometry.ParameterTransform.scaling_parameters">scaling_parameters (pymomentum.geometry.ParameterTransform property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.set_num_threads">set_num_threads() (in module pymomentum.solver)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.BlendShape.shape_vectors">shape_vectors (pymomentum.geometry.BlendShape property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.simplify">simplify() (pymomentum.geometry.Character method)</a>
@@ -815,14 +893,14 @@
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.simplify_skeleton">simplify_skeleton() (pymomentum.geometry.Character method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.ParameterTransform.size">size (pymomentum.geometry.ParameterTransform property)</a>
 
       <ul>
         <li><a href="geometry.html#pymomentum.geometry.Skeleton.size">(pymomentum.geometry.Skeleton property)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="geometry.html#pymomentum.geometry.Skeleton">Skeleton (class in pymomentum.geometry)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.skeleton">skeleton (pymomentum.geometry.Character property)</a>
@@ -839,6 +917,12 @@
 </li>
       <li><a href="marker_tracking.html#pymomentum.marker_tracking.TrackingConfig.smoothing_weights">smoothing_weights (pymomentum.marker_tracking.TrackingConfig property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.solve_ik">solve_ik() (in module pymomentum.solver)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.solve_sequence_ik">solve_sequence_ik() (in module pymomentum.solver)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.SolverOptions">SolverOptions (class in pymomentum.solver)</a>
+</li>
       <li><a href="quaternion.html#pymomentum.quaternion.split">split() (in module pymomentum.quaternion)</a>
 
       <ul>
@@ -848,6 +932,8 @@
       <li><a href="geometry.html#pymomentum.geometry.strip_joints">strip_joints() (in module pymomentum.geometry)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.strip_lower_body_vertices">strip_lower_body_vertices() (in module pymomentum.geometry)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.VertexConstraintType.SymmetricNormal">SymmetricNormal (pymomentum.solver.VertexConstraintType attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -871,12 +957,14 @@
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Mesh.texcoords">texcoords (pymomentum.geometry.Mesh property)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.SolverOptions.threshold">threshold (pymomentum.solver.SolverOptions property)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.Character.to_gltf">to_gltf() (pymomentum.geometry.Character static method)</a>
+</li>
+      <li><a href="skel_state.html#pymomentum.skel_state.to_matrix">to_matrix() (in module pymomentum.skel_state)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="skel_state.html#pymomentum.skel_state.to_matrix">to_matrix() (in module pymomentum.skel_state)</a>
-</li>
       <li><a href="quaternion.html#pymomentum.quaternion.to_rotation_matrix">to_rotation_matrix() (in module pymomentum.quaternion)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Mppca.to_tensors">to_tensors() (pymomentum.geometry.Mppca method)</a>
@@ -887,11 +975,15 @@
 </li>
       <li><a href="skel_state.html#pymomentum.skel_state.transform_points">transform_points() (in module pymomentum.skel_state)</a>
 </li>
+      <li><a href="solver.html#pymomentum.solver.transform_pose">transform_pose() (in module pymomentum.solver)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.TaperedCapsule.transformation">transformation (pymomentum.geometry.TaperedCapsule property)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Character.transformed">transformed() (pymomentum.geometry.Character method)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.Joint.translation_offset">translation_offset (pymomentum.geometry.Joint property)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.LinearSolverType.TrustRegionQR">TrustRegionQR (pymomentum.solver.LinearSolverType attribute)</a>
 </li>
       <li><a href="geometry.html#pymomentum.geometry.ParameterLimit.type">type (pymomentum.geometry.ParameterLimit property)</a>
 </li>
@@ -924,9 +1016,19 @@
 </li>
         <li><a href="geometry.html#pymomentum.geometry.LimitType.value">(pymomentum.geometry.LimitType property)</a>
 </li>
+        <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.value">(pymomentum.solver.ErrorFunctionType property)</a>
+</li>
+        <li><a href="solver.html#pymomentum.solver.LinearSolverType.value">(pymomentum.solver.LinearSolverType property)</a>
+</li>
+        <li><a href="solver.html#pymomentum.solver.VertexConstraintType.value">(pymomentum.solver.VertexConstraintType property)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="solver.html#pymomentum.solver.ErrorFunctionType.Vertex">Vertex (pymomentum.solver.ErrorFunctionType attribute)</a>
+</li>
+      <li><a href="solver.html#pymomentum.solver.VertexConstraintType">VertexConstraintType (class in pymomentum.solver)</a>
+</li>
       <li><a href="geometry.html#pymomentum.geometry.Mesh.vertices">vertices (pymomentum.geometry.Mesh property)</a>
 </li>
   </ul></td>
