@@ -434,9 +434,9 @@ function calls (which is why both are returned together).</p>
 <p>We strongly recommend you use named parameters when calling this function as the parameter list is likely to grow over time.</p>
 <p>Most tensor arguments can be specified either batched (e.g. [nBatch x nConstraints]) or unbatched (e.g. [nConstraints]).  “Unbatched” tensors will be
 automatically expanded to match the batch dimension.  So, for example, you could pass a tensor of size [nConstraints] for the positionConstraints_parents parameter
-and a tensor of dimension [nBatch x nConstraints x 3] for the positionConstraints_targets tensor, and the solver will understand that you mean to use
+and a tensor of dimension [nBatch x nConstraints x 3] for the position_constraints_targets tensor, and the solver will understand that you mean to use
 the same parents across the batch.</p>
-<p>All quaternion parameters use the quaternion order [x, y, z, w], where q = w+xi+yj+zk.</p>
+<p>All quaternion parameters use the quaternion order [x, y, z, w], where <span class="math notranslate nohighlight">\(q = w + xi + yj + zk\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The model parameters that (locally) minimize the error function, as a (nBatch x nModelParams)-dimension torch.Tensor.</p>
@@ -444,14 +444,14 @@ the same parents across the batch.</p>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>character</strong> – Character or list of nBatch Characters to use in the solve.</p></li>
-<li><p><strong>activeParameters</strong> – boolean-valued torch.Tensor with dimension (k), which selects the parameters to be active during the solve.  For example, you might choose to exclude scaling parameters with ‘activeParameters=~character.getScalingParameters()’.  Limiting the parameters can also be helpful when dealing with underdetermined problems.</p></li>
-<li><p><strong>modelParameters_init</strong> – float-valued torch.Tensor which contain the (nBatch x nModelParameters)-dimensional model parameters used to initialize the solve.  This could be important as the solver always converges to a local minimum.</p></li>
-<li><p><strong>activeErrorFunctions</strong> – list of pymomentum.ErrorFunctionType which gives the order of input error function types.</p></li>
-<li><p><strong>errorFunctionWeights</strong> – float-valued torch.Tensor with dimension (nBatch x len(activeErrorFunctions)) which contains a global weight for each active error function. The order of the weights is specified by activeErrorFunctions.</p></li>
+<li><p><strong>active_parameters</strong> – boolean-valued torch.Tensor with dimension (k), which selects the parameters to be active during the solve.  For example, you might choose to exclude scaling parameters with ‘activeParameters=~character.getScalingParameters()’.  Limiting the parameters can also be helpful when dealing with underdetermined problems.</p></li>
+<li><p><strong>model_parameters_init</strong> – float-valued torch.Tensor which contain the (nBatch x nModelParameters)-dimensional model parameters used to initialize the solve.  This could be important as the solver always converges to a local minimum.</p></li>
+<li><p><strong>active_error_functions</strong> – list of pymomentum.ErrorFunctionType which gives the order of input error function types.</p></li>
+<li><p><strong>error_function_weights</strong> – float-valued torch.Tensor with dimension (nBatch x len(activeErrorFunctions)) which contains a global weight for each active error function. The order of the weights is specified by activeErrorFunctions.</p></li>
 <li><p><strong>options.linearSolverType</strong> – Linear solver used in the Levenberg-Marquardt solve (default: QR).</p></li>
 <li><p><strong>options.levmar_lambda</strong> – Lambda value used to regularize the Levenberg-Marquardt solver (default: 0.01).</p></li>
-<li><p><strong>options.minIter</strong> – Minimum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 4).</p></li>
-<li><p><strong>options.maxIter</strong> – Maximum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 50).</p></li>
+<li><p><strong>options.min_iter</strong> – Minimum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 4).</p></li>
+<li><p><strong>options.max_iter</strong> – Maximum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 50).</p></li>
 <li><p><strong>options.threshold</strong> – The solver stops taking steps when the difference between iterations is less than threshold*FLT_EPS.</p></li>
 <li><p><strong>options.line_search</strong> – whether to use line search for the QR solver (default: true).</p></li>
 <li><p><strong>position_cons_parents</strong> – integer-valued torch.Tensor of dimension (nBatch x nConstraints); contains a single parent for each constraint.</p></li>
