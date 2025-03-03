@@ -164,21 +164,21 @@ We strongly recommend you use named parameters when calling this function as the
 
 Most tensor arguments can be specified either batched (e.g. [nBatch x nConstraints]) or unbatched (e.g. [nConstraints]).  "Unbatched" tensors will be
 automatically expanded to match the batch dimension.  So, for example, you could pass a tensor of size [nConstraints] for the positionConstraints_parents parameter
-and a tensor of dimension [nBatch x nConstraints x 3] for the positionConstraints_targets tensor, and the solver will understand that you mean to use
+and a tensor of dimension [nBatch x nConstraints x 3] for the position_constraints_targets tensor, and the solver will understand that you mean to use
 the same parents across the batch.
 
-All quaternion parameters use the quaternion order [x, y, z, w], where q = w+xi+yj+zk.
+All quaternion parameters use the quaternion order [x, y, z, w], where :math:`q = w + xi + yj + zk`.
 
 :return: The model parameters that (locally) minimize the error function, as a (nBatch x nModelParams)-dimension torch.Tensor.
 :param character: Character or list of nBatch Characters to use in the solve.
-:param activeParameters: boolean-valued torch.Tensor with dimension (k), which selects the parameters to be active during the solve.  For example, you might choose to exclude scaling parameters with 'activeParameters=~character.getScalingParameters()'.  Limiting the parameters can also be helpful when dealing with underdetermined problems.
-:param modelParameters_init: float-valued torch.Tensor which contain the (nBatch x nModelParameters)-dimensional model parameters used to initialize the solve.  This could be important as the solver always converges to a local minimum.
-:param activeErrorFunctions: list of pymomentum.ErrorFunctionType which gives the order of input error function types.
-:param errorFunctionWeights: float-valued torch.Tensor with dimension (nBatch x len(activeErrorFunctions)) which contains a global weight for each active error function. The order of the weights is specified by activeErrorFunctions.
+:param active_parameters: boolean-valued torch.Tensor with dimension (k), which selects the parameters to be active during the solve.  For example, you might choose to exclude scaling parameters with 'activeParameters=~character.getScalingParameters()'.  Limiting the parameters can also be helpful when dealing with underdetermined problems.
+:param model_parameters_init: float-valued torch.Tensor which contain the (nBatch x nModelParameters)-dimensional model parameters used to initialize the solve.  This could be important as the solver always converges to a local minimum.
+:param active_error_functions: list of pymomentum.ErrorFunctionType which gives the order of input error function types.
+:param error_function_weights: float-valued torch.Tensor with dimension (nBatch x len(activeErrorFunctions)) which contains a global weight for each active error function. The order of the weights is specified by activeErrorFunctions.
 :param options.linearSolverType: Linear solver used in the Levenberg-Marquardt solve (default: QR).
 :param options.levmar_lambda: Lambda value used to regularize the Levenberg-Marquardt solver (default: 0.01).
-:param options.minIter: Minimum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 4).
-:param options.maxIter: Maximum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 50).
+:param options.min_iter: Minimum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 4).
+:param options.max_iter: Maximum number of iterations used in the nonlinear Levenberg-Marquardt solve (default: 50).
 :param options.threshold: The solver stops taking steps when the difference between iterations is less than threshold*FLT_EPS.
 :param options.line_search: whether to use line search for the QR solver (default: true).
 :param position_cons_parents: integer-valued torch.Tensor of dimension (nBatch x nConstraints); contains a single parent for each constraint.
