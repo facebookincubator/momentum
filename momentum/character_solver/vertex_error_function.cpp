@@ -19,6 +19,10 @@
 #include "momentum/math/mesh.h"
 #include "momentum/math/utility.h"
 
+#include <dispenso/parallel_for.h>
+
+#include <numeric>
+
 namespace momentum {
 
 std::string_view toString(VertexConstraintType type) {
@@ -30,10 +34,12 @@ std::string_view toString(VertexConstraintType type) {
 template <typename T>
 VertexErrorFunctionT<T>::VertexErrorFunctionT(
     const Character& character_in,
-    VertexConstraintType type)
+    VertexConstraintType type,
+    size_t maxThreads)
     : SkeletonErrorFunctionT<T>(character_in.skeleton, character_in.parameterTransform),
       character_(character_in),
-      constraintType_(type) {
+      constraintType_(type),
+      maxThreads_(maxThreads) {
   MT_CHECK(static_cast<bool>(character_in.mesh));
   MT_CHECK(static_cast<bool>(character_in.skinWeights));
   MT_THROW_IF(
@@ -753,24 +759,66 @@ double VertexErrorFunctionT<T>::getGradient(
   updateMeshes(modelParameters, state);
 
   double error = 0;
+  std::vector<std::tuple<double, VectorX<T>>> errorGradThread;
+
+  auto dispensoOptions = dispenso::ParForOptions();
+  dispensoOptions.maxThreads = maxThreads_;
 
   if (constraintType_ == VertexConstraintType::Position) {
-    for (size_t iCons = 0; iCons < constraints_.size(); ++iCons) {
-      error += calculatePositionGradient(modelParameters, state, constraints_[iCons], gradient);
-    }
+    dispenso::parallel_for(
+        errorGradThread,
+        [&]() -> std::tuple<double, VectorX<T>> {
+          return {0.0, VectorX<T>::Zero(modelParameters.size())};
+        },
+        0,
+        constraints_.size(),
+        [&](std::tuple<double, VectorX<T>>& errorGradLocal, const size_t iCons) {
+          double& errorLocal = std::get<0>(errorGradLocal);
+          auto& gradLocal = std::get<1>(errorGradLocal);
+          errorLocal +=
+              calculatePositionGradient(modelParameters, state, constraints_[iCons], gradLocal);
+        },
+        dispensoOptions);
   } else {
-    const auto [sourceNormalWeight, targetNormalWeight] = computeNormalWeights();
+    T sourceNormalWeight;
+    T targetNormalWeight;
+    std::tie(sourceNormalWeight, targetNormalWeight) = computeNormalWeights();
 
-    for (size_t iCons = 0; iCons < constraints_.size(); ++iCons) {
-      error += calculateNormalGradient(
-          modelParameters,
-          state,
-          constraints_[iCons],
-          sourceNormalWeight,
-          targetNormalWeight,
-          gradient);
-    }
+    dispenso::parallel_for(
+        errorGradThread,
+        [&]() -> std::tuple<double, VectorX<T>> {
+          return {0.0, VectorX<T>::Zero(modelParameters.size())};
+        },
+        0,
+        constraints_.size(),
+        [&](std::tuple<double, VectorX<T>>& errorGradLocal, const size_t iCons) {
+          double& errorLocal = std::get<0>(errorGradLocal);
+          auto& gradLocal = std::get<1>(errorGradLocal);
+          errorLocal += calculateNormalGradient(
+              modelParameters,
+              state,
+              constraints_[iCons],
+              sourceNormalWeight,
+              targetNormalWeight,
+              gradLocal);
+        },
+        dispensoOptions);
   }
+
+  if (!errorGradThread.empty()) {
+    errorGradThread[0] = std::accumulate(
+        errorGradThread.begin() + 1,
+        errorGradThread.end(),
+        errorGradThread[0],
+        [](const auto& a, const auto& b) -> std::tuple<double, VectorX<T>> {
+          return {std::get<0>(a) + std::get<0>(b), std::get<1>(a) + std::get<1>(b)};
+        });
+
+    // finalize the gradient
+    gradient += std::get<1>(errorGradThread[0]);
+    error = std::get<0>(errorGradThread[0]);
+  }
+
   return this->weight_ * error;
 }
 
@@ -789,33 +837,57 @@ double VertexErrorFunctionT<T>::getJacobian(
   updateMeshes(modelParameters, state);
 
   double error = 0;
+  std::vector<double> errorThread;
+
+  auto dispensoOptions = dispenso::ParForOptions();
+  dispensoOptions.maxThreads = maxThreads_;
+
   if (constraintType_ == VertexConstraintType::Position) {
     MT_PROFILE_EVENT("VertexErrorFunction - position jacobians");
 
-    for (size_t iCons = 0; iCons < constraints_.size(); ++iCons) {
-      error += calculatePositionJacobian(
-          modelParameters,
-          state,
-          constraints_[iCons],
-          jacobian.block(3 * iCons, 0, 3, modelParameters.size()),
-          residual.middleRows(3 * iCons, 3));
-    }
+    dispenso::parallel_for(
+        errorThread,
+        [&]() -> double { return 0.0; },
+        0,
+        constraints_.size(),
+        [&](double& errorLocal, const size_t iCons) {
+          errorLocal += calculatePositionJacobian(
+              modelParameters,
+              state,
+              constraints_[iCons],
+              jacobian.block(3 * iCons, 0, 3, modelParameters.size()),
+              residual.middleRows(3 * iCons, 3));
+        },
+        dispensoOptions);
     usedRows = 3 * constraints_.size();
   } else {
     MT_PROFILE_EVENT("VertexErrorFunction - normal jacobians");
-    const auto [sourceNormalWeight, targetNormalWeight] = computeNormalWeights();
+    T sourceNormalWeight;
+    T targetNormalWeight;
+    std::tie(sourceNormalWeight, targetNormalWeight) = computeNormalWeights();
 
-    for (size_t iCons = 0; iCons < constraints_.size(); ++iCons) {
-      error += calculateNormalJacobian(
-          modelParameters,
-          state,
-          constraints_[iCons],
-          sourceNormalWeight,
-          targetNormalWeight,
-          jacobian.block(iCons, 0, 1, modelParameters.size()),
-          residual(iCons));
-    }
+    dispenso::parallel_for(
+        errorThread,
+        [&]() -> double { return 0.0; },
+        0,
+        constraints_.size(),
+        [&](double& errorLocal, const size_t iCons) {
+          errorLocal += calculateNormalJacobian(
+              modelParameters,
+              state,
+              constraints_[iCons],
+              sourceNormalWeight,
+              targetNormalWeight,
+              jacobian.block(iCons, 0, 1, modelParameters.size()),
+              residual(iCons));
+        },
+        dispensoOptions);
+
     usedRows = constraints_.size();
+  }
+
+  if (!errorThread.empty()) {
+    error = std::accumulate(errorThread.begin() + 1, errorThread.end(), errorThread[0]);
   }
 
   return error;
