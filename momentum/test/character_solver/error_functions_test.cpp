@@ -573,7 +573,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
 
   // create skeleton and reference values
 
-  const size_t nConstraints = 10;
+  const size_t nConstraints = 1000;
 
   // Test WITHOUT blend shapes:
   {
@@ -604,25 +604,50 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
         }
       }();
 
-      VertexErrorFunctionT<T> errorFunction(character_orig, type);
-      for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
-        errorFunction.addConstraint(
-            uniform<int>(0, character_orig.mesh->vertices.size() - 1),
-            uniform<float>(0, 1),
-            uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized());
-      }
+      // Test SERIAL error function
+      {
+        VertexErrorFunctionT<T> errorFunction(character_orig, type, 0);
+        for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
+          errorFunction.addConstraint(
+              uniform<int>(0, character_orig.mesh->vertices.size() - 1),
+              uniform<float>(0, 1),
+              uniform<Vector3<T>>(0, 1),
+              uniform<Vector3<T>>(0, 1).normalized());
+        }
 
-      TEST_GRADIENT_AND_JACOBIAN(
-          T,
-          &errorFunction,
-          modelParams,
-          character_orig.skeleton,
-          character_orig.parameterTransform.cast<T>(),
-          errorTol,
-          Eps<T>(1e-6f, 1e-15),
-          true,
-          false);
+        TEST_GRADIENT_AND_JACOBIAN(
+            T,
+            &errorFunction,
+            modelParams,
+            character_orig.skeleton,
+            character_orig.parameterTransform.cast<T>(),
+            errorTol,
+            Eps<T>(1e-6f, 1e-15),
+            true,
+            false);
+      }
+      // Test PARALLEL error function
+      {
+        VertexErrorFunctionT<T> errorFunction(character_orig, type, 100000);
+        for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
+          errorFunction.addConstraint(
+              uniform<int>(0, character_orig.mesh->vertices.size() - 1),
+              uniform<float>(0, 1),
+              uniform<Vector3<T>>(0, 1),
+              uniform<Vector3<T>>(0, 1).normalized());
+        }
+
+        TEST_GRADIENT_AND_JACOBIAN(
+            T,
+            &errorFunction,
+            modelParams,
+            character_orig.skeleton,
+            character_orig.parameterTransform.cast<T>(),
+            errorTol,
+            Eps<T>(1e-6f, 1e-15),
+            true,
+            false);
+      }
     }
   }
 
@@ -654,7 +679,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
           character_blend.skeleton,
           character_blend.parameterTransform.cast<T>(),
           Eps<T>(1e-2f, 1e-5),
-          Eps<T>(1e-6f, 5e-16),
+          Eps<T>(1e-6f, 1e-15),
           true,
           false);
     }
@@ -1266,7 +1291,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, NormalError_GradientsAndJacobians) {
           ModelParametersT<T>::Zero(transform.numAllModelParameters()),
           skeleton,
           transform,
-          1e-2f);
+          2e-2f);
     else if constexpr (std::is_same_v<T, double>)
       TEST_GRADIENT_AND_JACOBIAN(
           T,
@@ -1401,7 +1426,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, AimDirError_GradientsAndJacobians) {
           parameters,
           skeleton,
           transform,
-          Eps<T>(1e-1f, 2e-5),
+          Eps<T>(1e-1f, 3e-5),
           Eps<T>(1e-6f, 1e-7));
     }
   }

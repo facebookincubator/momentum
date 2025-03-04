@@ -46,7 +46,8 @@ class VertexErrorFunctionT : public SkeletonErrorFunctionT<T> {
  public:
   explicit VertexErrorFunctionT(
       const Character& character,
-      VertexConstraintType type = VertexConstraintType::Position);
+      VertexConstraintType type = VertexConstraintType::Position,
+      size_t maxThreads = 0);
   virtual ~VertexErrorFunctionT() override;
 
   [[nodiscard]] double getError(const ModelParametersT<T>& params, const SkeletonStateT<T>& state)
@@ -135,6 +136,8 @@ class VertexErrorFunctionT : public SkeletonErrorFunctionT<T> {
       posedMesh_; // The posed mesh after the skeleton transforms have been applied.
 
   const VertexConstraintType constraintType_;
+
+  size_t maxThreads_;
 
   void updateMeshes(const ModelParametersT<T>& modelParameters, const SkeletonStateT<T>& state);
 };
