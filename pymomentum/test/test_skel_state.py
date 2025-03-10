@@ -42,7 +42,7 @@ def generate_skel_state_components(
     return (trans, rot, scale)
 
 
-def generate_random_skel_state(sz: int):
+def generate_random_skel_state(sz: int) -> torch.Tensor:
     (trans, rot, scale) = generate_skel_state_components(sz)
     return torch.cat([trans, rot, scale], -1)
 
