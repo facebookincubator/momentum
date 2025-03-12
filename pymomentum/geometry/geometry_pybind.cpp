@@ -947,31 +947,44 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
   // =====================================================
   meshClass
       .def(
-          py::init([](const RowMatrixf& vertices,
-                      const RowMatrixf& normals,
-                      const RowMatrixi& faces,
+          py::init([](const py::array_t<float>& vertices,
+                      const py::array_t<int>& faces,
+                      const std::optional<py::array_t<float>>& normals,
                       const std::vector<std::vector<int32_t>>& lines,
-                      std::optional<RowMatrixb> colors,
+                      std::optional<py::array_t<uint8_t>> colors,
                       const std::vector<float>& confidence,
-                      std::optional<RowMatrixf> texcoords,
-                      std::optional<RowMatrixi> texcoord_faces,
+                      std::optional<py::array_t<float>> texcoords,
+                      std::optional<py::array_t<int>> texcoord_faces,
                       const std::vector<std::vector<int32_t>>& texcoord_lines) {
             mm::Mesh mesh;
-            const auto nVerts = vertices.rows();
+            MT_THROW_IF(vertices.ndim() != 2, "vertices must be a 2D array");
+            MT_THROW_IF(
+                vertices.shape(1) != 3, "vertices must have size n x 3");
 
-            MT_THROW_IF(
-                normals.rows() != nVerts,
-                "vertices and normals must have the same number of rows");
-            MT_THROW_IF(vertices.cols() != 3, "vertices must have size n x 3");
-            MT_THROW_IF(normals.cols() != 3, "normals must have size n x 3");
-            MT_THROW_IF(faces.cols() != 3, "faces must have size n x 3");
-            MT_THROW_IF(
-                faces.size() > 0 && faces.maxCoeff() >= nVerts,
-                "face index exceeded vertex count");
+            MT_THROW_IF(faces.ndim() != 2, "faces must be a 2D array");
+            MT_THROW_IF(faces.shape(1) != 3, "faces must have size n x 3");
+            const auto nVerts = vertices.shape(0);
 
             mesh.vertices = asVectorList<float, 3>(vertices);
-            mesh.normals = asVectorList<float, 3>(normals);
             mesh.faces = asVectorList<int, 3>(faces);
+            for (const auto& f : mesh.faces) {
+              MT_THROW_IF(
+                  f.x() >= nVerts || f.y() >= nVerts || f.z() >= nVerts,
+                  "face index exceeded vertex count");
+            }
+
+            if (normals.has_value()) {
+              MT_THROW_IF(
+                  normals->ndim() != 2 || normals->shape(1) != 3,
+                  "normals must have size n x 3");
+              MT_THROW_IF(
+                  normals->shape(0) != nVerts,
+                  "vertices and normals must have the same number of rows");
+
+              mesh.normals = asVectorList<float, 3>(normals.value());
+            } else {
+              mesh.updateNormals();
+            }
 
             for (const auto& l : lines) {
               MT_THROW_IF(
@@ -980,9 +993,12 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
             }
             mesh.lines = lines;
 
-            if (colors) {
+            if (colors && colors->size() != 0) {
               MT_THROW_IF(
-                  colors->rows() != 0 && colors->cols() != nVerts,
+                  (colors->ndim() != 2 || colors->shape(1) != 3),
+                  "colors should have size n x 3");
+              MT_THROW_IF(
+                  (colors->shape(0) != nVerts),
                   "colors should be empty or equal to the number of vertices");
               mesh.colors = asVectorList<uint8_t, 3>(*colors);
             }
@@ -993,30 +1009,29 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
             mesh.confidence = confidence;
 
             int nTextureCoords = 0;
-            if (texcoords) {
+            if (texcoords && texcoords->size() != 0) {
               MT_THROW_IF(
-                  texcoords->size() != 0 && texcoords->cols() != 2,
+                  texcoords->ndim() != 2 && texcoords->shape(1) != 2,
                   "texcoords should be empty or must have size n x 2");
-              nTextureCoords = texcoords->rows();
+              nTextureCoords = texcoords->shape(0);
               mesh.texcoords = asVectorList<float, 2>(*texcoords);
             }
 
-            if (texcoord_faces) {
+            if (texcoord_faces && texcoord_faces->size() != 0) {
               MT_THROW_IF(
-                  texcoord_faces->size() != 0 &&
-                      texcoord_faces->rows() != faces.rows(),
-                  "texcoords_faces should be empty or equal to the size of faces");
-
-              MT_THROW_IF(
-                  texcoord_faces->size() != 0 && texcoord_faces->cols() != 3,
+                  texcoord_faces->ndim() != 2 || texcoord_faces->shape(1) != 3,
                   "texcoord_faces should be empty or must have size n x 3");
-
               MT_THROW_IF(
-                  texcoord_faces->size() > 0 &&
-                      texcoord_faces->maxCoeff() >= nTextureCoords,
-                  "texcoord_face index exceeded texcoord count");
-
+                  texcoord_faces->shape(0) != faces.shape(0),
+                  "texcoords_faces should be empty or equal to the size of faces");
               mesh.texcoord_faces = asVectorList<int32_t, 3>(*texcoord_faces);
+
+              for (const auto& f : mesh.texcoord_faces) {
+                MT_THROW_IF(
+                    f.x() >= nTextureCoords || f.y() >= nTextureCoords ||
+                        f.z() >= nTextureCoords,
+                    "texcoord face index exceeded texcoord count");
+              }
             }
 
             mesh.texcoord_lines = texcoord_lines;
@@ -1025,24 +1040,24 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
           }),
           R"(
 :parameter vertices: n x 3 array of vertex locations.
-:parameter normals: n x 3 array of vertex normals.
 :parameter faces: n x 3 array of triangles.
-:parameter lines: list of lines, where each line is a list of vertex indices.
-:parameter colors: n x 3 array of vertex colors.
-:parameter confidence: n x 1 array of vertex confidence values.
-:parameter texcoords: n x 2 array of texture coordinates.
-:parameter texcoord_faces: n x 3 array of triangles in the texture map.  Each triangle corresponds to a triangle on the mesh, but indices should refer to the texcoord array.
-:parameter texcoord_lines: list of lines, where each line is a list of texture coordinate indices.
+:parameter normals: Optional n x 3 array of vertex normals.  If not passed in, vertex normals will be computed automatically.
+:parameter lines: Optional list of lines, where each line is a list of vertex indices.
+:parameter colors: Optional n x 3 array of vertex colors.
+:parameter confidence: Optional n x 1 array of vertex confidence values.
+:parameter texcoords: Optional n x 2 array of texture coordinates.
+:parameter texcoord_faces: Optional n x 3 array of triangles in the texture map.  Each triangle corresponds to a triangle on the mesh, but indices should refer to the texcoord array.
+:parameter texcoord_lines: Optional list of lines, where each line is a list of texture coordinate indices.
           )",
           py::arg("vertices"),
-          py::arg("normals"),
           py::arg("faces"),
           py::kw_only(),
+          py::arg("normals") = std::optional<py::array_t<float>>{},
           py::arg("lines") = std::vector<std::vector<int32_t>>{},
-          py::arg("colors") = std::optional<RowMatrixb>{},
+          py::arg("colors") = std::optional<py::array_t<uint8_t>>{},
           py::arg("confidence") = std::vector<float>{},
-          py::arg("texcoords") = std::optional<RowMatrixf>{},
-          py::arg("texcoord_faces") = std::optional<RowMatrixi>{},
+          py::arg("texcoords") = std::optional<py::array_t<float>>{},
+          py::arg("texcoord_faces") = std::optional<py::array_t<int>>{},
           py::arg("texcoord_lines") = std::vector<std::vector<int32_t>>{})
       .def_property_readonly(
           "n_vertices",

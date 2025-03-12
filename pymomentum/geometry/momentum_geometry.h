@@ -165,6 +165,31 @@ std::vector<Eigen::Matrix<T, N, 1>> asVectorList(
   return result;
 }
 
+template <typename T, int N>
+std::vector<Eigen::Vector<T, N>> asVectorList(const pybind11::array_t<T>& b) {
+  std::vector<Eigen::Vector<T, N>> result;
+  if (b.shape(0) == 0) {
+    return result;
+  }
+
+  MT_THROW_IF(
+      b.shape(1) != N,
+      "Expected a matrix with {} columns, but got {}",
+      N,
+      b.shape(1));
+
+  result.reserve(b.shape(0));
+  auto r = b.template unchecked<2>();
+  for (pybind11::ssize_t i = 0; i < b.shape(0); ++i) {
+    Eigen::Vector<T, N> v;
+    for (pybind11::ssize_t j = 0; j < N; ++j) {
+      v(j) = r(i, j);
+    }
+    result.push_back(v);
+  }
+  return result;
+}
+
 std::unique_ptr<momentum::Mesh> getPosedMesh(
     const momentum::Character& character,
     Eigen::Ref<const Eigen::VectorXf> jointParameters);
