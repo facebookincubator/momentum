@@ -1111,7 +1111,12 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
       .def_readonly(
           "texcoord_lines",
           &mm::Mesh::texcoord_lines,
-          "Texture coordinate indices for each line.  ");
+          "Texture coordinate indices for each line.  ")
+      .def("with_updated_normals", [](const mm::Mesh& mesh) {
+        mm::Mesh result = mesh;
+        result.updateNormals();
+        return result;
+      });
 
   blendShapeClass
       .def_property_readonly(
