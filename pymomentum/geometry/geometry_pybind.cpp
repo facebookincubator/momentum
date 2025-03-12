@@ -257,8 +257,8 @@ PYBIND11_MODULE(geometry, m) {
           },
           R"(Returns a new character with the passed-in locators.  If 'replace' is true, the existing locators are replaced, otherwise (the default) the new locators are appended to the existing ones.
           
-          :param locators: The locators to add to the character.
-          :param replace: If true, replace the existing locators with the passed-in ones.  Otherwise, append the new locators to the existing ones.  Defaults to false.
+          :parameter locators: The locators to add to the character.
+          :parameter replace: If true, replace the existing locators with the passed-in ones.  Otherwise, append the new locators to the existing ones.  Defaults to false.
           )",
           py::arg("locators"),
           py::arg("replace") = false)
