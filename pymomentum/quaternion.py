@@ -14,7 +14,7 @@ def check(q: torch.Tensor) -> None:
     """
     Check if a tensor represents a quaternion.
 
-    :param q: A tensor representing a quaternion.
+    :parameter q: A tensor representing a quaternion.
     """
     assert q.size(-1) == 4, "Quaternion should have last dimension equal to 4."
 
@@ -23,7 +23,7 @@ def split(q: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
     """
     Split a quaternion into its scalar and vector parts.
 
-    :param q: A tensor representing a quaternion.
+    :parameter q: A tensor representing a quaternion.
     :return: The scalar and vector parts of the quaternion.
     """
     check(q)
@@ -34,8 +34,8 @@ def multiply(q1: torch.Tensor, q2: torch.Tensor) -> torch.Tensor:
     """
     Multiply two quaternions together.
 
-    :param q1: A quaternion ((x, y, z), w)).
-    :param q2: A quaternion ((x, y, z), w)).
+    :parameter q1: A quaternion ((x, y, z), w)).
+    :parameter q2: A quaternion ((x, y, z), w)).
     :return: The product q1*q2.
     """
     check(q1)
@@ -52,7 +52,7 @@ def normalize(q: torch.Tensor) -> torch.Tensor:
     """
     Normalize a quaternion.
 
-    :param q: A quaternion ((x, y, z), w)).
+    :parameter q: A quaternion ((x, y, z), w)).
     :return: The normalized quaternion.
     """
     check(q)
@@ -63,7 +63,7 @@ def conjugate(q: torch.Tensor) -> torch.Tensor:
     """
     Conjugate a quaternion.
 
-    :param q: A quaternion ((x, y, z), w)).
+    :parameter q: A quaternion ((x, y, z), w)).
     :return: The conjugate.
     """
     check(q)
@@ -75,7 +75,7 @@ def inverse(q: torch.Tensor) -> torch.Tensor:
     """
     Compute the inverse of a quaternion.
 
-    :param q: A quaternion ((x, y, z), w)).
+    :parameter q: A quaternion ((x, y, z), w)).
     :return: The inverse.
     """
     return conjugate(q) / (q * q).sum(-1, keepdim=True)
@@ -85,7 +85,7 @@ def quaternion_to_xyz_euler(q: torch.Tensor) -> torch.Tensor:
     """
     Convert quaternions to XYZ Euler rotations.
 
-    :param quat: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
+    :parameter quat: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
     :return: A (nBatch x k x 3) tensor containing (x, y, z) Euler angles.
     """
     check(q)
@@ -107,8 +107,8 @@ def rotate_vector(q: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
     """
     Rotate a vector by a quaternion.
 
-    :param q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
-    :param v: (nBatch x k x 3) vector.
+    :parameter q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
+    :parameter v: (nBatch x k x 3) vector.
     :return: (nBatch x k x 3) rotated vectors.
     """
     r, axis = split(q)
@@ -120,7 +120,7 @@ def rotate_vector(q: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
 def to_rotation_matrix(q: torch.Tensor) -> torch.Tensor:
     """
     Convert quaternions to 3x3 rotation matrices.
-    :param q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
+    :parameter q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
     :return: (nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.
     """
     assert q.size(-1) == 4, "Expected quaternion tensor (last dimension=4)."
@@ -162,8 +162,8 @@ def identity(
 ) -> torch.Tensor:
     """
     Create a quaternion identity tensor.
-    :param sizes: A tuple of integers representing the size of the quaternion tensor.
-    :param device: The device on which to create the tensor.
+    :parameter sizes: A tuple of integers representing the size of the quaternion tensor.
+    :parameter device: The device on which to create the tensor.
     :return: A quaternion identity tensor with the specified sizes and device.
     """
     size = size or ()
@@ -180,7 +180,7 @@ def from_axis_angle(axis_angle: torch.Tensor) -> torch.Tensor:
     """
     Convert an axis-angle tensor to a quaternion.
 
-    :param axis_angle: A tensor of shape (..., 3) representing the axis-angle.
+    :parameter axis_angle: A tensor of shape (..., 3) representing the axis-angle.
     :return: A tensor of shape (..., 4) representing the quaternion in ((x, y, z), w) format.
     """
     angles = axis_angle.norm(dim=-1, keepdim=True)
@@ -194,7 +194,8 @@ def from_axis_angle(axis_angle: torch.Tensor) -> torch.Tensor:
 def euler_xyz_to_quaternion(euler_xyz: torch.Tensor) -> torch.Tensor:
     """
     Convert Euler XYZ angles to a quaternion.
-    :param euler_xyz: A tensor of shape (..., 3) representing the Euler XYZ angles.
+
+    :parameter euler_xyz: A tensor of shape (..., 3) representing the Euler XYZ angles.
     :return: A tensor of shape (..., 4) representing the quaternion in ((x, y, z), w) format.
     """
     x_angles = euler_xyz[..., 0]
@@ -219,7 +220,8 @@ def euler_xyz_to_quaternion(euler_xyz: torch.Tensor) -> torch.Tensor:
 def from_rotation_matrix(matrices: torch.Tensor) -> torch.Tensor:
     """
     Convert a rotation matrix to a quaternion.
-    :param matrices: A tensor of shape (..., 3, 3) representing the rotation matrices.
+
+    :parameter matrices: A tensor of shape (..., 3, 3) representing the rotation matrices.
     :return: A tensor of shape (..., 4) representing the quaternions in ((x, y, z), w) format.
     """
     # Convert a rotation matrix to a quaternion using the method described here:
@@ -304,8 +306,8 @@ def check_and_normalize_weights(
     """
     Check and normalize the weights for blending quaternions.
 
-    :param quaternions: A tensor of shape (..., k, 4) representing the quaternions to blend.
-    :param weights_in: An optional tensor of shape (..., k) representing the weights for each quaternion.
+    :parameter quaternions: A tensor of shape (..., k, 4) representing the quaternions to blend.
+    :parameter weights_in: An optional tensor of shape (..., k) representing the weights for each quaternion.
                        If not provided, all quaternions will be weighted equally.
     :return: A tensor of shape (..., k) representing the normalized weights.
     """
@@ -344,8 +346,8 @@ def blend(
     https://stackoverflow.com/questions/12374087/average-of-multiple-quaternions
     and http://www.acsu.buffalo.edu/~johnc/ave_quat07.pdf.
 
-    :param quaternions: A tensor of shape (..., k, 4) representing the quaternions to blend.
-    :param weights_in: An optional tensor of shape (..., k) representing the weights for each quaternion.
+    :parameter quaternions: A tensor of shape (..., k, 4) representing the quaternions to blend.
+    :parameter weights_in: An optional tensor of shape (..., k) representing the weights for each quaternion.
                        If not provided, all quaternions will be weighted equally.
     :return: A tensor of shape (..., 4) representing the blended quaternion.
     """
@@ -364,8 +366,9 @@ def blend(
 def from_two_vectors(v1: torch.Tensor, v2: torch.Tensor) -> torch.Tensor:
     """
     Construct a quaternion that rotates one vector into another.
-    :param v1: The initial vector.
-    :param v2: The target vector.
+
+    :parameter v1: The initial vector.
+    :parameter v2: The target vector.
     :return: A quaternion representing the rotation from v1 to v2.
     """
     # Ensure both vectors are unit vectors
