@@ -6,14 +6,20 @@
 # pyre-unsafe
 
 import math
+import tempfile
 import unittest
 
 import numpy as np
 
+import pymomentum.geometry as pym_geometry
+
 from pymomentum.marker_tracking import (
     CalibrationConfig,
     ModelOptions,
+    process_markers,
+    refine_motion,
     RefineConfig,
+    save_motion,
     TrackingConfig,
 )
 
@@ -110,6 +116,53 @@ class TestMarkerTracker(unittest.TestCase):
         self.assertTrue(
             np.allclose(tracking_config.smoothing_weights, [1.0, 0, 1.0], atol=1e-6)
         )
+
+    def test_motion_matrix(self) -> None:
+        character = pym_geometry.test_character()
+        tracking_config = TrackingConfig()
+        calibration_config = CalibrationConfig()
+        refine_config = RefineConfig()
+        identity = np.zeros(0, dtype=np.float32)
+
+        marker_data = []
+        num_frames = 30
+        for frame_i in range(num_frames):
+            markers = []
+            for loc in character.locators:
+                markers.append(
+                    pym_geometry.Marker(
+                        loc.name, np.array([frame_i, 0.0, 0.0] + loc.offset), False
+                    )
+                )
+            marker_data.append(markers)
+
+        motion = process_markers(
+            character, identity, marker_data, tracking_config, calibration_config
+        )
+        # check that process_markers returns correct motion matrix
+        self.assertEqual(motion.shape[0], num_frames)
+        self.assertEqual(motion.shape[1], character.parameter_transform.size)
+
+        ref_motion = refine_motion(
+            character, identity, motion, marker_data, refine_config
+        )
+        # check that refine_motion returns correct motion matrix
+        self.assertEqual(ref_motion.shape[0], num_frames)
+        self.assertEqual(ref_motion.shape[1], character.parameter_transform.size)
+
+        with tempfile.NamedTemporaryFile() as temp_file:
+            save_motion(
+                temp_file.name,
+                character,
+                identity,
+                ref_motion,
+                marker_data,
+                30,
+                True,
+            )
+            # check that save_motion returns correct motion matrix
+            self.assertEqual(ref_motion.shape[0], num_frames)
+            self.assertEqual(ref_motion.shape[1], character.parameter_transform.size)
 
 
 if __name__ == "__main__":

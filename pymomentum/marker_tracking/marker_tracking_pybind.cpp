@@ -209,7 +209,7 @@ PYBIND11_MODULE(marker_tracking, m) {
               character.parameterTransform.name.size());
         }
 
-        return marker_tracking::processMarkers(
+        Eigen::MatrixXf motion = marker_tracking::processMarkers(
             character,
             params,
             markerData,
@@ -218,6 +218,10 @@ PYBIND11_MODULE(marker_tracking, m) {
             calibrate,
             firstFrame,
             maxFrames);
+
+        // python and cpp have the motion matrix transposed from each other:
+        // python (#frames, #params) vs. cpp (#params, #frames)
+        return motion.transpose();
       },
       R"(process markers given character and identity.
 
@@ -254,14 +258,42 @@ PYBIND11_MODULE(marker_tracking, m) {
           params = momentum::ModelParameters::Zero(
               character.parameterTransform.name.size());
         }
-        return marker_tracking::saveMotion(
-            outFile,
-            character,
-            params,
-            motion,
-            markerData,
-            fps,
-            saveMarkerMesh);
+
+        // python and cpp have the motion matrix transposed from each other:
+        // python (#frames, #params) vs. cpp (#params, #frames)
+        if (motion.cols() ==
+            character.parameterTransform.numAllModelParameters()) {
+          // we need to transpose the matrix before passing it to the cpp
+          Eigen::MatrixXf finalMotion(motion.transpose());
+          // note: saveMotion removes identity from the motion matrix
+          marker_tracking::saveMotion(
+              outFile,
+              character,
+              params,
+              finalMotion,
+              markerData,
+              fps,
+              saveMarkerMesh);
+          // and transpose it back since motion is passed by reference
+          motion = finalMotion.transpose();
+        } else if (
+            motion.rows() ==
+            character.parameterTransform.numAllModelParameters()) {
+          // motion matrix is already in cpp format
+          // keeping this branch for backward compatibility
+          // note: saveMotion removes identity from the motion matrix
+          marker_tracking::saveMotion(
+              outFile,
+              character,
+              params,
+              motion,
+              markerData,
+              fps,
+              saveMarkerMesh);
+        } else {
+          throw std::runtime_error(
+              "Inconsistent number of parameters in motion matrix with the character parameter transform");
+        }
       },
       py::arg("out_file"),
       py::arg("character"),
