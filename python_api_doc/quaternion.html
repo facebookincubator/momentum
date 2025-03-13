@@ -161,9 +161,15 @@ If not provided, all quaternions will be weighted equally.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.euler_xyz_to_quaternion">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">euler_xyz_to_quaternion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">euler_xyz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.euler_xyz_to_quaternion" title="Link to this definition"></a></dt>
-<dd><p>Convert Euler XYZ angles to a quaternion.
-:param euler_xyz: A tensor of shape (…, 3) representing the Euler XYZ angles.
-:return: A tensor of shape (…, 4) representing the quaternion in ((x, y, z), w) format.</p>
+<dd><p>Convert Euler XYZ angles to a quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>euler_xyz</strong> – A tensor of shape (…, 3) representing the Euler XYZ angles.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of shape (…, 4) representing the quaternion in ((x, y, z), w) format.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -183,26 +189,40 @@ If not provided, all quaternions will be weighted equally.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.from_rotation_matrix">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">from_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.from_rotation_matrix" title="Link to this definition"></a></dt>
-<dd><p>Convert a rotation matrix to a quaternion.
-:param matrices: A tensor of shape (…, 3, 3) representing the rotation matrices.
-:return: A tensor of shape (…, 4) representing the quaternions in ((x, y, z), w) format.</p>
+<dd><p>Convert a rotation matrix to a quaternion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>matrices</strong> – A tensor of shape (…, 3, 3) representing the rotation matrices.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of shape (…, 4) representing the quaternions in ((x, y, z), w) format.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.from_two_vectors">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">from_two_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.from_two_vectors" title="Link to this definition"></a></dt>
-<dd><p>Construct a quaternion that rotates one vector into another.
-:param v1: The initial vector.
-:param v2: The target vector.
-:return: A quaternion representing the rotation from v1 to v2.</p>
+<dd><p>Construct a quaternion that rotates one vector into another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – The initial vector.</p></li>
+<li><p><strong>v2</strong> – The target vector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A quaternion representing the rotation from v1 to v2.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.identity">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dtype</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.identity" title="Link to this definition"></a></dt>
 <dd><p>Create a quaternion identity tensor.
-:param sizes: A tuple of integers representing the size of the quaternion tensor.
-:param device: The device on which to create the tensor.
+:parameter sizes: A tuple of integers representing the size of the quaternion tensor.
+:parameter device: The device on which to create the tensor.
 :return: A quaternion identity tensor with the specified sizes and device.</p>
 </dd></dl>
 
@@ -300,7 +320,7 @@ If not provided, all quaternions will be weighted equally.</p></li>
 <dt class="sig sig-object py" id="pymomentum.quaternion.to_rotation_matrix">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">to_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.to_rotation_matrix" title="Link to this definition"></a></dt>
 <dd><p>Convert quaternions to 3x3 rotation matrices.
-:param q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
+:parameter q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
 :return: (nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.</p>
 </dd></dl>
 
