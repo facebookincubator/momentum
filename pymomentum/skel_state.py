@@ -15,11 +15,9 @@ def check(skel_state: torch.Tensor) -> None:
     """
     Check if the skeleton state has the correct shape.
 
-    Args:
-        skel_state (torch.Tensor): The skeleton state to check.
-
-    Raises:
-        ValueError: If the skeleton state does not have the correct shape.
+    :parameter skel_state: The skeleton state to check.
+    :type skel_state: torch.Tensor
+    :raises ValueError: If the skeleton state does not have the correct shape.
     """
     if skel_state.shape[-1] != 8:
         raise ValueError(
@@ -31,11 +29,10 @@ def split(skel_state: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.T
     """
     Split a skeleton state into translation, rotation, and scale components.
 
-    Args:
-        skel_state (torch.Tensor): The skeleton state to split.
-
-    Returns:
-        tuple: A tuple of tensors (translation, rotation, scale).
+    :parameter skel_state: The skeleton state to split.
+    :type skel_state: torch.Tensor
+    :return: A tuple of tensors (translation, rotation, scale).
+    :rtype: tuple[torch.Tensor, torch.Tensor, torch.Tensor]
     """
     check(skel_state)
     return skel_state[..., :3], skel_state[..., 3:7], skel_state[..., 7:]
@@ -45,11 +42,10 @@ def from_translation(translation: torch.Tensor) -> torch.Tensor:
     """
     Create a skeleton state from translation.
 
-    Args:
-        translation (torch.Tensor): The translation component.
-
-    Returns:
-        torch.Tensor: The skeleton state.
+    :parameter translation: The translation component.
+    :type translation: torch.Tensor
+    :return: The skeleton state.
+    :rtype: torch.Tensor
     """
     return torch.cat(
         (
@@ -72,13 +68,12 @@ def from_translation(translation: torch.Tensor) -> torch.Tensor:
 
 def from_quaternion(rotation: torch.Tensor) -> torch.Tensor:
     """
-    Create a skeleton state from translation.
+    Create a skeleton state from rotation.
 
-    Args:
-        rotation (torch.Tensor): The rotation component.
-
-    Returns:
-        torch.Tensor: The skeleton state.
+    :parameter rotation: The rotation component.
+    :type rotation: torch.Tensor
+    :return: The skeleton state.
+    :rtype: torch.Tensor
     """
     return torch.cat(
         (
@@ -99,13 +94,12 @@ def from_quaternion(rotation: torch.Tensor) -> torch.Tensor:
 
 def from_scale(scale: torch.Tensor) -> torch.Tensor:
     """
-    Create a skeleton state from translation.
+    Create a skeleton state from scale.
 
-    Args:
-        scale (torch.Tensor): The rotation component.
-
-    Returns:
-        torch.Tensor: The skeleton state.
+    :parameter scale: The scale component.
+    :type scale: torch.Tensor
+    :return: The skeleton state.
+    :rtype: torch.Tensor
     """
     return torch.cat(
         (
@@ -130,11 +124,10 @@ def to_matrix(skeleton_state: torch.Tensor) -> torch.Tensor:
     """
     Convert skeleton state to a tensor of 4x4 matrices. The matrix represents the transform from a local joint space to the world space.
 
-    Args:
-        skeleton_state (torch.Tensor): The skeleton state to convert.
-
-    Returns:
-        torch.Tensor: A tensor containing 4x4 matrix transforms.
+    :parameter skeleton_state: The skeleton state to convert.
+    :type skeleton_state: torch.Tensor
+    :return: A tensor containing 4x4 matrix transforms.
+    :rtype: torch.Tensor
     """
     check(skeleton_state)
     t, q, s = split(skeleton_state)
@@ -159,12 +152,12 @@ def match_leading_dimensions(
     """
     Match the leading dimensions of two tensors.
 
-    Args:
-        t_left (torch.Tensor): The first tensor.
-        t_right (torch.Tensor): The second tensor.
-
-    Returns:
-        torch.Tensor: The first tensor with its leading dimensions matched to the second tensor.
+    :parameter t_left: The first tensor.
+    :type t_left: torch.Tensor
+    :parameter t_right: The second tensor.
+    :type t_right: torch.Tensor
+    :return: The first tensor with its leading dimensions matched to the second tensor.
+    :rtype: torch.Tensor
     """
     if t_right.dim() < t_left.dim():
         raise ValueError(
@@ -182,12 +175,12 @@ def multiply(s1: torch.Tensor, s2: torch.Tensor) -> torch.Tensor:
     """
     Multiply two skeleton states.
 
-    Args:
-        s1 (torch.Tensor): The first skeleton state.
-        s2 (torch.Tensor): The second skeleton state.
-
-    Returns:
-        torch.Tensor: The product of the two skeleton states.
+    :parameter s1: The first skeleton state.
+    :type s1: torch.Tensor
+    :parameter s2: The second skeleton state.
+    :type s2: torch.Tensor
+    :return: The product of the two skeleton states.
+    :rtype: torch.Tensor
     """
     check(s1)
     check(s2)
@@ -208,11 +201,10 @@ def inverse(skeleton_states: torch.Tensor) -> torch.Tensor:
     """
     Compute the inverse of a skeleton state.
 
-    Args:
-        skeleton_states (torch.Tensor): The skeleton state to invert.
-
-    Returns:
-        torch.Tensor: The inverted skeleton state.
+    :parameter skeleton_states: The skeleton state to invert.
+    :type skeleton_states: torch.Tensor
+    :return: The inverted skeleton state.
+    :rtype: torch.Tensor
     """
     t, q, s = split(skeleton_states)
     q_inv = quaternion.inverse(q)
@@ -225,12 +217,12 @@ def transform_points(skel_state: torch.Tensor, points: torch.Tensor) -> torch.Te
     """
     Transform 3d points by the transform represented by the skeleton state.
 
-    Args:
-        skel_state (torch.Tensor): The skeleton state to use for transformation.
-        points (torch.Tensor): The points to transform.
-
-    Returns:
-        torch.Tensor: The transformed points.
+    :parameter skel_state: The skeleton state to use for transformation.
+    :type skel_state: torch.Tensor
+    :parameter points: The points to transform.
+    :type points: torch.Tensor
+    :return: The transformed points.
+    :rtype: torch.Tensor
     """
     check(skel_state)
     if points.dim() < 1 or points.shape[-1] != 3:
@@ -247,12 +239,12 @@ def identity(
     """
     Returns a skeleton state representing the identity transform.
 
-    Args:
-        sizes (list[int], optional): The size of each dimension in the output tensor. Defaults to None, which means the output will be a 1D tensor with 8 elements.
-        device (torch.device, optional): The device on which to create the tensor. Defaults to None, which means the tensor will be created on the default device.
-
-    Returns:
-        torch.Tensor: The identity skeleton state.
+    :parameter sizes: The size of each dimension in the output tensor. Defaults to None, which means the output will be a 1D tensor with 8 elements.
+    :type sizes: list[int], optional
+    :parameter device: The device on which to create the tensor. Defaults to None, which means the tensor will be created on the default device.
+    :type device: torch.device, optional
+    :return: The identity skeleton state.
+    :rtype: torch.Tensor
     """
     zeros = (
         torch.zeros(*size, 3, device=device) if size else torch.zeros(3, device=device)
@@ -269,12 +261,10 @@ def blend(
     """
     Blend k skeleton states with the passed-in weights.
 
-    Args:
-        skel_states (torch.Tensor): The skeleton states to blend.
-        weights (torch.Tensor, optional): The weights to use for blending. Defaults to None.
-
-    Returns:
-        torch.Tensor: The blended skeleton state.
+    :parameter skel_states: The skeleton states to blend.
+    :type skel_states: torch.Tensor
+    :parameter weights: The weights to use, if not provided, weights are assumed to be all 1s
+    :return: The blended skeleton state.
     """
     t, q, s = split(skel_states)
     weights = quaternion.check_and_normalize_weights(q, weights)
