@@ -135,11 +135,14 @@ std::shared_ptr<momentum::Mppca> createMppcaModel(
 // which can then be converted to a numpy array by pybind11's automatic
 // conversion.
 template <typename T, int N>
-Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> asMatrix(
-    const std::vector<Eigen::Matrix<T, N, 1>>& v) {
-  Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> result(v.size(), N);
-  for (Eigen::Index i = 0; i < result.rows(); ++i) {
-    result.row(i) = v[i];
+pybind11::array_t<T> asArray(const std::vector<Eigen::Matrix<T, N, 1>>& v) {
+  pybind11::array_t<T> result(
+      {static_cast<ssize_t>(v.size()), static_cast<ssize_t>(N)});
+  auto r = result.template mutable_unchecked<2>();
+  for (size_t i = 0; i < v.size(); ++i) {
+    for (int j = 0; j < N; ++j) {
+      r(i, j) = v[i](j);
+    }
   }
   return result;
 }

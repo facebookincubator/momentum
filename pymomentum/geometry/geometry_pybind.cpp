@@ -898,7 +898,7 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
                 skeleton.joints.cend(),
                 std::back_inserter(translationOffsets),
                 [](const mm::Joint& joint) { return joint.translationOffset; });
-            return pymomentum::asMatrix(translationOffsets);
+            return pymomentum::asArray(translationOffsets);
           },
           "Returns skeleton joint offsets tensor for all joints (num_joints, 3")
       .def_property_readonly(
@@ -912,7 +912,7 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
                 [](const mm::Joint& joint) {
                   return joint.preRotation.coeffs();
                 });
-            return pymomentum::asMatrix(preRotations);
+            return pymomentum::asArray(preRotations);
           },
           "Returns skeleton joint offsets tensor for all joints shape: (num_joints, 4)");
 
@@ -1070,33 +1070,31 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
       .def_property_readonly(
           "vertices",
           [](const mm::Mesh& mesh) {
-            return pymomentum::asMatrix(mesh.vertices);
+            return pymomentum::asArray(mesh.vertices);
           },
           ":return: The vertices of the mesh in a [n x 3] numpy array.")
       .def_property_readonly(
           "normals",
           [](const mm::Mesh& mesh) {
-            return pymomentum::asMatrix(mesh.normals);
+            return pymomentum::asArray(mesh.normals);
           },
           ":return: The per-vertex normals of the mesh in a [n x 3] numpy array.")
       .def_property_readonly(
           "faces",
-          [](const mm::Mesh& mesh) { return pymomentum::asMatrix(mesh.faces); },
+          [](const mm::Mesh& mesh) { return pymomentum::asArray(mesh.faces); },
           ":return: The triangles of the mesh in an [n x 3] numpy array.")
       .def_readonly(
           "lines", &mm::Mesh::lines, "list of list of vertex indices per line")
       .def_property_readonly(
           "colors",
-          [](const mm::Mesh& mesh) {
-            return pymomentum::asMatrix(mesh.colors);
-          },
+          [](const mm::Mesh& mesh) { return pymomentum::asArray(mesh.colors); },
           ":return: Per-vertex colors if available; returned as a (possibly empty) [n x 3] numpy array.")
       .def_readonly(
           "confidence", &mm::Mesh::confidence, "list of per-vertex confidences")
       .def_property_readonly(
           "texcoords",
           [](const mm::Mesh& mesh) {
-            return pymomentum::asMatrix(mesh.texcoords);
+            return pymomentum::asArray(mesh.texcoords);
           },
           "texture coordinates as m x 3 array.  Note that the number of texture coordinates may "
           "be different from the number of vertices as there can be cuts in the texture map.  "
@@ -1104,7 +1102,7 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
       .def_property_readonly(
           "texcoord_faces",
           [](const mm::Mesh& mesh) {
-            return pymomentum::asMatrix(mesh.texcoord_faces);
+            return pymomentum::asArray(mesh.texcoord_faces);
           },
           "n x 3 faces in the texture map.  Each face maps 1-to-1 to a face in the original "
           "mesh but indexes into the texcoords array.")
@@ -1122,7 +1120,7 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
       .def_property_readonly(
           "base_shape",
           [](const mm::BlendShape& blendShape) {
-            return pymomentum::asMatrix(blendShape.getBaseShape());
+            return pymomentum::asArray(blendShape.getBaseShape());
           },
           ":return: The base shape of the blend shape solver.")
       .def_property_readonly(
