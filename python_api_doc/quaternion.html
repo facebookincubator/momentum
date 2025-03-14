@@ -220,10 +220,18 @@ If not provided, all quaternions will be weighted equally.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.identity">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dtype</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">torch.float32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.identity" title="Link to this definition"></a></dt>
-<dd><p>Create a quaternion identity tensor.
-:parameter sizes: A tuple of integers representing the size of the quaternion tensor.
-:parameter device: The device on which to create the tensor.
-:return: A quaternion identity tensor with the specified sizes and device.</p>
+<dd><p>Create a quaternion identity tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sizes</strong> – A tuple of integers representing the size of the quaternion tensor.</p></li>
+<li><p><strong>device</strong> – The device on which to create the tensor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A quaternion identity tensor with the specified sizes and device.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -319,9 +327,15 @@ If not provided, all quaternions will be weighted equally.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="pymomentum.quaternion.to_rotation_matrix">
 <span class="sig-prename descclassname"><span class="pre">pymomentum.quaternion.</span></span><span class="sig-name descname"><span class="pre">to_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#pymomentum.quaternion.to_rotation_matrix" title="Link to this definition"></a></dt>
-<dd><p>Convert quaternions to 3x3 rotation matrices.
-:parameter q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
-:return: (nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.</p>
+<dd><p>Convert quaternions to 3x3 rotation matrices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
