@@ -120,6 +120,7 @@ def rotate_vector(q: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
 def to_rotation_matrix(q: torch.Tensor) -> torch.Tensor:
     """
     Convert quaternions to 3x3 rotation matrices.
+
     :parameter q: (nBatch x k x 4) tensor with the quaternions in ((x, y, z), w) format.
     :return: (nBatch x k x 3 x 3) tensor with 3x3 rotation matrices.
     """
@@ -162,6 +163,7 @@ def identity(
 ) -> torch.Tensor:
     """
     Create a quaternion identity tensor.
+
     :parameter sizes: A tuple of integers representing the size of the quaternion tensor.
     :parameter device: The device on which to create the tensor.
     :return: A quaternion identity tensor with the specified sizes and device.
