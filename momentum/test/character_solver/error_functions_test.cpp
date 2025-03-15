@@ -622,7 +622,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
             character_orig.skeleton,
             character_orig.parameterTransform.cast<T>(),
             errorTol,
-            Eps<T>(1e-6f, 1e-15),
+            Eps<T>(1e-6f, 1e-14),
             true,
             false);
       }

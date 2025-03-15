@@ -221,7 +221,7 @@ PYBIND11_MODULE(marker_tracking, m) {
 
         // python and cpp have the motion matrix transposed from each other:
         // python (#frames, #params) vs. cpp (#params, #frames)
-        return motion.transpose();
+        return motion.transpose().eval();
       },
       R"(process markers given character and identity.
 
