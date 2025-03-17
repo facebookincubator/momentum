@@ -71,17 +71,17 @@ JetType FullyDifferentiableDistanceErrorFunctionT<T>::constraintGradient_dot(
 
     // calculate derivatives based on active joints
     for (size_t d = 0; d < 3; d++) {
-      if (this->activeJointParams_[paramIndex + d] > 0) {
+      if (this->activeJointParams_[paramIndex + d]) {
         add_gradient_dot(
             paramIndex + d, jointState.getTranslationDerivative(d).template cast<JetType>());
       }
-      if (this->activeJointParams_[paramIndex + 3 + d] > 0) {
+      if (this->activeJointParams_[paramIndex + 3 + d]) {
         add_gradient_dot(
             paramIndex + 3 + d,
             getRotationDerivative(jointState, d, posd_cm).template cast<JetType>());
       }
     }
-    if (this->activeJointParams_[paramIndex + 6] > 0) {
+    if (this->activeJointParams_[paramIndex + 6]) {
       add_gradient_dot(
           paramIndex + 6, getScaleDerivative(jointState, posd_cm).template cast<JetType>());
     }

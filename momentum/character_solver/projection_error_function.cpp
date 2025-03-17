@@ -114,14 +114,14 @@ double ProjectionErrorFunctionT<T>::getGradient(
 
       // calculate derivatives based on active joints
       for (size_t d = 0; d < 3; d++) {
-        if (this->activeJointParams_[paramIndex + d] > 0) {
+        if (this->activeJointParams_[paramIndex + d]) {
           addGradient(paramIndex + d, jointState.getTranslationDerivative(d));
         }
-        if (this->activeJointParams_[paramIndex + 3 + d] > 0) {
+        if (this->activeJointParams_[paramIndex + 3 + d]) {
           addGradient(paramIndex + 3 + d, jointState.getRotationDerivative(d, posd_cm));
         }
       }
-      if (this->activeJointParams_[paramIndex + 6] > 0) {
+      if (this->activeJointParams_[paramIndex + 6]) {
         addGradient(paramIndex + 6, jointState.getScaleDerivative(posd_cm));
       }
 
