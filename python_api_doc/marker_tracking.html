@@ -117,30 +117,30 @@
 <p>Module for exposing the C++ APIs of the marker tracking pipeline</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.BaseConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">BaseConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">BaseConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Represents base config class</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.BaseConfig.debug">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">debug</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.debug" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">debug</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.debug" title="Link to this definition"></a></dt>
 <dd><p>Whether to output debugging info</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.BaseConfig.loss_alpha">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loss_alpha</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.loss_alpha" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loss_alpha</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.loss_alpha" title="Link to this definition"></a></dt>
 <dd><p>Parameter to control the loss function</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.BaseConfig.max_iter">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_iter</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.max_iter" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_iter</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.max_iter" title="Link to this definition"></a></dt>
 <dd><p>Max iterations</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.BaseConfig.min_vis_percent">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">min_vis_percent</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.min_vis_percent" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">min_vis_percent</span></span><a class="headerlink" href="#pymomentum.marker_tracking.BaseConfig.min_vis_percent" title="Link to this definition"></a></dt>
 <dd><p>Minimum percentage of visible markers to be used</p>
 </dd></dl>
 
@@ -148,30 +148,30 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.CalibrationConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">CalibrationConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">CalibrationConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pymomentum.marker_tracking.BaseConfig" title="pymomentum.marker_tracking.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Config for the body scale calibration step</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.CalibrationConfig.calib_frames">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_frames</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.calib_frames" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_frames</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.calib_frames" title="Link to this definition"></a></dt>
 <dd><p>Number of frames used for model calibration</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.CalibrationConfig.global_scale_only">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">global_scale_only</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.global_scale_only" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">global_scale_only</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.global_scale_only" title="Link to this definition"></a></dt>
 <dd><p>Calibrate only the global scale and not all proportions</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.CalibrationConfig.locators_only">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locators_only</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.locators_only" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locators_only</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.locators_only" title="Link to this definition"></a></dt>
 <dd><p>Calibrate only the locator offsets</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.CalibrationConfig.major_iter">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">major_iter</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.major_iter" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">major_iter</span></span><a class="headerlink" href="#pymomentum.marker_tracking.CalibrationConfig.major_iter" title="Link to this definition"></a></dt>
 <dd><p>Number of calibration loops to run</p>
 </dd></dl>
 
@@ -179,24 +179,24 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.ModelOptions">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">ModelOptions</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">ModelOptions</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Model options to specify the template model, parameter transform and locator mappings</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.ModelOptions.locators">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locators</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions.locators" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locators</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions.locators" title="Link to this definition"></a></dt>
 <dd><p>Path to locator mapping file e.g. character.locators</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.ModelOptions.model">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions.model" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions.model" title="Link to this definition"></a></dt>
 <dd><p>Path to template model file with locators e.g. character.glb</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.ModelOptions.parameters">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions.parameters" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#pymomentum.marker_tracking.ModelOptions.parameters" title="Link to this definition"></a></dt>
 <dd><p>Path of parameter transform model file e.g. character.model</p>
 </dd></dl>
 
@@ -204,24 +204,24 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.RefineConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">RefineConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">RefineConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pymomentum.marker_tracking.TrackingConfig" title="pymomentum.marker_tracking.TrackingConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrackingConfig</span></code></a></p>
 <p>Config for refining a tracked motion.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.RefineConfig.calib_id">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_id</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig.calib_id" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_id</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig.calib_id" title="Link to this definition"></a></dt>
 <dd><p>Calibrate identity parameters; default to False.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.RefineConfig.calib_locators">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_locators</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig.calib_locators" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calib_locators</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig.calib_locators" title="Link to this definition"></a></dt>
 <dd><p>Calibrate locator offsets; default to False.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.RefineConfig.regularizer">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">regularizer</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig.regularizer" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">regularizer</span></span><a class="headerlink" href="#pymomentum.marker_tracking.RefineConfig.regularizer" title="Link to this definition"></a></dt>
 <dd><p>Regularize the time-invariant parameters to prevent large changes.</p>
 </dd></dl>
 
@@ -229,24 +229,24 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.TrackingConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">TrackingConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymomentum.marker_tracking.</span></span><span class="sig-name descname"><span class="pre">TrackingConfig</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pymomentum.marker_tracking.BaseConfig" title="pymomentum.marker_tracking.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Config for the tracking optimization step</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.TrackingConfig.collision_error_weight">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collision_error_weight</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig.collision_error_weight" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">collision_error_weight</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig.collision_error_weight" title="Link to this definition"></a></dt>
 <dd><p>Collision error weight; 0 to disable</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.TrackingConfig.smoothing">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">smoothing</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig.smoothing" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">smoothing</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig.smoothing" title="Link to this definition"></a></dt>
 <dd><p>Smoothing weight; 0 to disable</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.marker_tracking.TrackingConfig.smoothing_weights">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">smoothing_weights</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig.smoothing_weights" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">smoothing_weights</span></span><a class="headerlink" href="#pymomentum.marker_tracking.TrackingConfig.smoothing_weights" title="Link to this definition"></a></dt>
 <dd><p>Smoothing weights per model parameter. The size of this vector should be
 equal to number of model parameters and this overrides the value specific in smoothing</p>
 </dd></dl>
