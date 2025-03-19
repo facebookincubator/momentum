@@ -7,24 +7,31 @@
 # Find dependencies
 #===============================================================================
 
+if(NOT DEFINED ENV{CONDA_PREFIX})
+  message(FATAL_ERROR
+    "CONDA_PREFIX is not set. pymomentum currently only supports building"
+    "with Conda/Pixi. Please ensure you are using a Conda or Pixi environment."
+  )
+endif()
+
 set(ENV{NVTOOLSEXT_PATH} "$ENV{CONDA_PREFIX}/include")
 
-find_package(ATen CONFIG REQUIRED
-  HINTS
-    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
-)
+if(WIN32)
+  set(libtorch_base_path $ENV{CONDA_PREFIX}/Lib/site-packages/torch)
+else()
+  set(libtorch_base_path $ENV{CONDA_PREFIX})
+endif()
 
-find_package(Torch CONFIG REQUIRED
-  HINTS
-    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/
-)
+if(NOT EXISTS "${libtorch_base_path}")
+  message(FATAL_ERROR
+    "PyTorch not found in the expected location: ${libtorch_base_path}"
+    "Please ensure PyTorch is installed in your Conda/Pixi environment."
+  )
+endif()
 
-find_library(torch_python
-  NAMES torch_python
-  HINTS
-    $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch/lib/
-  REQUIRED
-)
+find_package(ATen CONFIG REQUIRED HINTS ${libtorch_base_path})
+find_package(Torch CONFIG REQUIRED HINTS ${libtorch_base_path})
+find_library(torch_python NAMES torch_python HINTS ${libtorch_base_path}/lib/ REQUIRED)
 
 #===============================================================================
 # Find build dependencies

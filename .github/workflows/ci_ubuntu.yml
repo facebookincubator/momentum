@@ -100,7 +100,7 @@ jobs:
           environments: ${{ matrix.pixi_env }}
           cache: true
 
-      - name: Build PyMomentum
+      - name: Build and test PyMomentum
         run: |
           pixi run -e ${{ matrix.pixi_env }} test_py
 
