@@ -45,11 +45,33 @@ jobs:
             --parallel
 
   pymomentum:
-    name: py-win
+    name: py-${{ matrix.pixi_env }}-win
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - pixi_env: "cpu"
+          - pixi_env: "gpu"
+            cuda_version: "12.8.0"
+    env:
+      FULL_CUDA_VERSION: ${{ matrix.cuda_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install CUDA Toolkit
+        if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
+        uses: Jimver/cuda-toolkit@v0.2.22
+        id: cuda-toolkit
+        with:
+          # Available versions: https://github.com/Jimver/cuda-toolkit/blob/v0.2.21/src/links/linux-links.ts
+          cuda: ${{ matrix.cuda_version }}
+
+      - name: Check CUDA Version
+        if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
+        run: |
+          nvcc --version
 
       - name: Set up pixi
         uses: prefix-dev/setup-pixi@v0.8.1
@@ -58,4 +80,4 @@ jobs:
 
       - name: Build and test PyMomentum
         run: |
-          pixi run test_py
+          pixi run -e ${{ matrix.pixi_env }} test_py
