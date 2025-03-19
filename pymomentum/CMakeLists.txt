@@ -19,7 +19,7 @@ set(ENV{NVTOOLSEXT_PATH} "$ENV{CONDA_PREFIX}/include")
 if(WIN32)
   set(libtorch_base_path $ENV{CONDA_PREFIX}/Lib/site-packages/torch)
 else()
-  set(libtorch_base_path $ENV{CONDA_PREFIX}/lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/torch)
+  set(libtorch_base_path $ENV{CONDA_PREFIX})
 endif()
 
 if(NOT EXISTS "${libtorch_base_path}")
