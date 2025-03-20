@@ -23,7 +23,7 @@ namespace momentum {
 ///
 /// @return A span of the new type, with the same number of elements as the original span
 template <typename T>
-[[nodiscard]] gsl::span<T> cast_span(gsl::span<gsl::byte> bs) {
+[[nodiscard]] gsl::span<T> cast_span(gsl::span<std::byte> bs) {
   auto ptr = reinterpret_cast<T*>(bs.data());
   auto tsize = gsl::narrow<decltype(bs)::size_type>(sizeof(T));
   return {ptr, bs.size_bytes() / tsize};
@@ -41,7 +41,7 @@ template <typename T>
 ///
 /// @return A span of the new type, with the same number of elements as the original span
 template <typename T>
-[[nodiscard]] gsl::span<const T> cast_span(gsl::span<const gsl::byte> bs) {
+[[nodiscard]] gsl::span<const T> cast_span(gsl::span<const std::byte> bs) {
   auto ptr = reinterpret_cast<const T*>(bs.data());
   auto tsize = gsl::narrow<decltype(bs)::size_type>(sizeof(T));
   return {ptr, bs.size_bytes() / tsize};
