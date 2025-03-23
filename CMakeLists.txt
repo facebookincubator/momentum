@@ -65,6 +65,7 @@ mt_option(MOMENTUM_BUILD_TESTING "Enable building tests" OFF)
 mt_option(MOMENTUM_BUILD_EXAMPLES "Enable building examples" OFF)
 mt_option(MOMENTUM_ENABLE_PROFILING "Enable building with profiling annotations" OFF)
 mt_option(MOMENTUM_ENABLE_SIMD "Enable building with SIMD instructions" ON)
+mt_option(MOMENTUM_INSTALL_EXAMPLES "Install examples" OFF)
 mt_option(MOMENTUM_USE_SYSTEM_GOOGLETEST "Use GoogleTest installed in system" OFF)
 mt_option(MOMENTUM_USE_SYSTEM_PYBIND11 "Use pybind11 installed in system" OFF)
 mt_option(MOMENTUM_USE_SYSTEM_RERUN_CPP_SDK "Use Rerun C++ SDK installed in system" OFF)
@@ -77,6 +78,10 @@ if(MOMENTUM_ENABLE_PROFILING AND CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_S
   # as it may lead to inaccurate profiling results.
   message(WARNING "MOMENTUM_ENABLE_PROFILING was set to ON, but Tracy profiling is not supported on Mac x86 due to CPU incompatibility. Disabling profiling.")
   set(MOMENTUM_ENABLE_PROFILING OFF CACHE BOOL "Enable building with profiling annotations" FORCE)
+endif()
+
+if(MOMENTUM_INSTALL_EXAMPLES AND NOT MOMENTUM_BUILD_EXAMPLES)
+  message(WARNING "MOMENTUM_INSTALL_EXAMPLES is ON, but MOMENTUM_BUILD_EXAMPLES is OFF. No examples will be built or installed.")
 endif()
 
 mt_print_options()
@@ -242,7 +247,7 @@ mt_library(
   SOURCES_VARS character_test_helpers_sources
   PUBLIC_LINK_LIBRARIES
     character
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 mt_library(
@@ -491,7 +496,7 @@ mt_library(
   PUBLIC_LINK_LIBRARIES
     Eigen3::Eigen
     rerun_sdk
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 mt_library(
@@ -506,7 +511,7 @@ mt_library(
   PRIVATE_LINK_LIBRARIES
     rerun_eigen_adapters
     axel
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 #===============================================================================
@@ -528,7 +533,7 @@ if(MOMENTUM_BUILD_TESTING)
       GTest::gtest
     PRIVATE_LINK_LIBRARIES
       Boost::boost
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
 
   mt_library(
@@ -540,7 +545,7 @@ if(MOMENTUM_BUILD_TESTING)
     PRIVATE_LINK_LIBRARIES
       GTest::gmock
       GTest::gtest
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
 
   mt_library(
@@ -549,7 +554,7 @@ if(MOMENTUM_BUILD_TESTING)
     SOURCES_VARS solver_test_helper_sources
     PUBLIC_LINK_LIBRARIES
       solver
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
 
   mt_library(
@@ -562,7 +567,7 @@ if(MOMENTUM_BUILD_TESTING)
     PRIVATE_LINK_LIBRARIES
       GTest::gmock
       GTest::gtest
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
 
   set(io_test_helper_libs )
@@ -586,7 +591,7 @@ if(MOMENTUM_BUILD_TESTING)
       Microsoft.GSL::GSL
     PRIVATE_LINK_LIBRARIES
       ${io_test_helper_libs}
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
 
   mt_test(
@@ -793,6 +798,25 @@ endif()
 #===============================================================================
 
 get_property(targets GLOBAL PROPERTY MOMENTUM_TARGETS)
+get_property(executables GLOBAL PROPERTY MOMENTUM_EXECUTABLES)
+
+if(targets)
+  message(STATUS "[Installing libraries]")
+  foreach(target ${targets})
+    message(STATUS "  - ${target}")
+  endforeach()
+else()
+  message(STATUS "No libraries to install.")
+endif()
+
+if(executables)
+  message(STATUS "[Installing executables]")
+  foreach(executable ${executables})
+    message(STATUS "  - ${executable}")
+  endforeach()
+else()
+  message(STATUS "No executables to install.")
+endif()
 
 # Generate required install artifacts for CMake buildsystem
 include(CMakePackageConfigHelpers)
@@ -838,6 +862,12 @@ install(
   EXPORT momentumTargets
   NAMESPACE momentum::
   DESTINATION ${MOMENTUM_CONFIG_INSTALL_DIR}
+)
+
+# Install executables
+install(
+  TARGETS ${executables}
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
 #===============================================================================

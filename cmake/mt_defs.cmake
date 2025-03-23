@@ -159,7 +159,7 @@ endfunction()
 function(mt_library)
   set(prefix _ARG)
   set(options
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
   set(oneValueArgs
     NAME
@@ -283,7 +283,7 @@ function(mt_library)
     ${private_or_interface} ${_ARG_PRIVATE_COMPILE_OPTIONS}
   )
 
-  if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
+  if(NOT ${_ARG_NO_INSTALL})
     set_property(GLOBAL APPEND PROPERTY MOMENTUM_TARGETS ${_ARG_NAME})
   endif()
 endfunction()
@@ -291,6 +291,7 @@ endfunction()
 function(mt_executable)
   set(prefix _ARG)
   set(options
+    NO_INSTALL
   )
   set(oneValueArgs
     NAME
@@ -326,6 +327,10 @@ function(mt_executable)
     PRIVATE
       ${_ARG_LINK_LIBRARIES}
   )
+
+  if(MOMENTUM_INSTALL_EXAMPLES AND NOT ${_ARG_NO_INSTALL})
+    set_property(GLOBAL APPEND PROPERTY MOMENTUM_EXECUTABLES ${_ARG_NAME})
+  endif()
 endfunction()
 
 function(mt_setup_gtest)
@@ -429,7 +434,7 @@ endfunction()
 function(mt_python_binding)
   set(prefix _ARG)
   set(options
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
   set(oneValueArgs
     NAME
@@ -494,7 +499,7 @@ function(mt_python_binding)
     OUTPUT_NAME "${_ARG_MODULE_NAME}"
   )
 
-  if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
+  if(NOT ${_ARG_NO_INSTALL})
     set_property(GLOBAL APPEND PROPERTY PYMOMENTUM_TARGETS_TO_INSTALL ${_ARG_NAME})
   endif()
 endfunction()
@@ -502,7 +507,7 @@ endfunction()
 function(mt_python_library)
   set(prefix _ARG)
   set(options
-    EXCLUDE_FROM_INSTALL
+    NO_INSTALL
   )
   set(oneValueArgs
     NAME
@@ -522,7 +527,7 @@ function(mt_python_library)
     mt_append_pymomentum_filelist("${var}" libs)
   endforeach()
 
-  if(NOT ${_ARG_EXCLUDE_FROM_INSTALL})
+  if(NOT ${_ARG_NO_INSTALL})
     set_property(GLOBAL APPEND PROPERTY PYMOMENTUM_PYTHON_LIBRARIES_TO_INSTALL ${libs})
   endif()
 endfunction()

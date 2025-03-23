@@ -170,14 +170,14 @@ double DistanceErrorFunctionT<T>::getJacobian(
 
       // calculate derivatives based on active joints
       for (size_t d = 0; d < 3; d++) {
-        if (this->activeJointParams_[paramIndex + d] > 0) {
+        if (this->activeJointParams_[paramIndex + d]) {
           addJacobian(paramIndex + d, jointState.getTranslationDerivative(d));
         }
-        if (this->activeJointParams_[paramIndex + 3 + d] > 0) {
+        if (this->activeJointParams_[paramIndex + 3 + d]) {
           addJacobian(paramIndex + 3 + d, jointState.getRotationDerivative(d, posd_cm));
         }
       }
-      if (this->activeJointParams_[paramIndex + 6] > 0) {
+      if (this->activeJointParams_[paramIndex + 6]) {
         addJacobian(paramIndex + 6, jointState.getScaleDerivative(posd_cm));
       }
 
