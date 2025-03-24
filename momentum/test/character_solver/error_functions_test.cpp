@@ -610,9 +610,9 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
         for (size_t iCons = 0; iCons < nConstraints; ++iCons) {
           errorFunction.addConstraint(
               uniform<int>(0, character_orig.mesh->vertices.size() - 1),
-              uniform<float>(0, 1),
+              uniform<float>(0, 1e-4),
               uniform<Vector3<T>>(0, 1),
-              uniform<Vector3<T>>(0, 1).normalized());
+              uniform<Vector3<T>>(0.1, 1).normalized());
         }
 
         TEST_GRADIENT_AND_JACOBIAN(
@@ -634,7 +634,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
               uniform<int>(0, character_orig.mesh->vertices.size() - 1),
               uniform<float>(0, 1),
               uniform<Vector3<T>>(0, 1),
-              uniform<Vector3<T>>(0, 1).normalized());
+              uniform<Vector3<T>>(0.1, 1).normalized());
         }
 
         TEST_GRADIENT_AND_JACOBIAN(
@@ -669,7 +669,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexErrorFunction) {
             uniform<int>(0, character_blend.mesh->vertices.size() - 1),
             uniform<float>(0, 1),
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized());
+            uniform<Vector3<T>>(0.1, 1).normalized());
       }
 
       TEST_GRADIENT_AND_JACOBIAN(
@@ -705,7 +705,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexPositionErrorFunctionFaceParameter
             uniform<int>(0, character_blend.mesh->vertices.size() - 1),
             uniform<float>(0, 1),
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized());
+            uniform<Vector3<T>>(0.1, 1).normalized());
       }
 
       TEST_GRADIENT_AND_JACOBIAN(
@@ -736,7 +736,7 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, VertexPositionErrorFunctionFaceParameter
             uniform<int>(0, character_blend.mesh->vertices.size() - 1),
             uniform<float>(0, 1),
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized());
+            uniform<Vector3<T>>(0.1, 1).normalized());
       }
 
       TEST_GRADIENT_AND_JACOBIAN(
@@ -996,13 +996,13 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, PlaneErrorL2_GradientsAndJacobians) {
     std::vector<PlaneDataT<T>> cl{
         PlaneDataT<T>(
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized(),
+            uniform<Vector3<T>>(0.1, 1).normalized(),
             uniform<float>(0, 1),
             2,
             TEST_WEIGHT_VALUE),
         PlaneDataT<T>(
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized(),
+            uniform<Vector3<T>>(0.1, 1).normalized(),
             uniform<float>(0, 1),
             1,
             TEST_WEIGHT_VALUE)};
@@ -1046,13 +1046,13 @@ TYPED_TEST(Momentum_ErrorFunctionsTest, HalfPlaneErrorL2_GradientsAndJacobians) 
     std::vector<PlaneDataT<T>> cl{
         PlaneDataT<T>(
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized(),
+            uniform<Vector3<T>>(0.1, 1).normalized(),
             uniform<float>(0, 1),
             2,
             TEST_WEIGHT_VALUE),
         PlaneDataT<T>(
             uniform<Vector3<T>>(0, 1),
-            uniform<Vector3<T>>(0, 1).normalized(),
+            uniform<Vector3<T>>(0.1, 1).normalized(),
             uniform<float>(0, 1),
             1,
             TEST_WEIGHT_VALUE)};
