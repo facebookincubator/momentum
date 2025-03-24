@@ -61,7 +61,7 @@ mt_library(
     momentum
   PUBLIC_COMPILE_OPTIONS
     ${TORCH_CXX_FLAGS}
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 mt_library(
@@ -73,7 +73,7 @@ mt_library(
     nlohmann_json::nlohmann_json
     pybind11::pybind11
     Python3::Module
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 mt_library(
@@ -99,7 +99,7 @@ mt_library(
     ${torch_python}
   PUBLIC_COMPILE_OPTIONS
     ${TORCH_CXX_FLAGS}
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 mt_library(
@@ -121,7 +121,7 @@ mt_library(
     ${torch_python}
   PUBLIC_COMPILE_OPTIONS
     ${TORCH_CXX_FLAGS}
-  EXCLUDE_FROM_INSTALL
+  NO_INSTALL
 )
 
 mt_python_binding(
