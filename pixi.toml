@@ -12,7 +12,7 @@ repository = "https://github.com/facebookincubator/momentum"
 [build-dependencies]
 boost = ">=1.84.0,<2"
 c-compiler = ">=1.9.0,<2"
-clang-format = ">=20.1.1,<21"
+clang-format = "==18.1.3"
 cmake = ">=3.31.6,<4"
 cxx-compiler = ">=1.9.0,<2"
 gtest = ">=1.16.0,<2"
@@ -297,7 +297,7 @@ config = { cmd = """
         -B build/$PIXI_ENVIRONMENT_NAME/cpp \
         -G 'Visual Studio 17 2022' \
         -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \
-        -DBUILD_SHARED_LIBS=OFF \
+        -DBUILD_SHARED_LIBS=ON \
         -DMOMENTUM_BUILD_EXAMPLES=ON \
         -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
         -DMOMENTUM_BUILD_PYMOMENTUM=$MOMENTUM_BUILD_PYMOMENTUM \
