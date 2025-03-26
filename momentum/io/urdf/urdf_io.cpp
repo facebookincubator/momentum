@@ -82,9 +82,9 @@ bool loadUrdfSkeletonRecursive(
   joint.name = urdfLink->name; // Use link name or joint name?
   joint.parent = parentJointId;
 
-  const size_t jointId = data.skeleton.joints.size();
-  const size_t jointParamsBaseIndex = jointId * kParametersPerJoint;
-  const size_t modelParamsBaseIndex = data.totalDoFs;
+  const Eigen::Index jointId = data.skeleton.joints.size();
+  const Eigen::Index jointParamsBaseIndex = jointId * kParametersPerJoint;
+  const Eigen::Index modelParamsBaseIndex = data.totalDoFs;
 
   //---------------------------
   // Parse Parameter transform

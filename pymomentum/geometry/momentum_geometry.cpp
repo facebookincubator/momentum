@@ -485,7 +485,7 @@ at::Tensor uniformRandomToModelParameters(
 
   at::Tensor result = at::zeros({nBatch, nModelParam}, at::kFloat);
 
-  for (ssize_t iBatch = 0; iBatch < nBatch; ++iBatch) {
+  for (py::ssize_t iBatch = 0; iBatch < nBatch; ++iBatch) {
     auto res_i = toEigenMap<float>(result.select(0, iBatch));
     auto unif_i = toEigenMap<float>(unifNoise.select(0, iBatch));
 
@@ -1031,7 +1031,7 @@ std::tuple<MatrixX7f, MatrixX7f> jointParameterLimits(
 py::array_t<float> getBindPose(const momentum::Character& character) {
   const auto& inverseBindPose = character.inverseBindPose;
   py::array_t<float> result = py::array_t<float>(
-      std::vector<ssize_t>{(ssize_t)inverseBindPose.size(), 4, 4});
+      std::vector<py::ssize_t>{(py::ssize_t)inverseBindPose.size(), 4, 4});
   auto r = result.mutable_unchecked<3>(); // Will throw if ndim != 3 or
                                           // flags.writable is false
   for (py::ssize_t i = 0; i < inverseBindPose.size(); i++) {
@@ -1048,7 +1048,7 @@ py::array_t<float> getBindPose(const momentum::Character& character) {
 py::array_t<float> getInverseBindPose(const momentum::Character& character) {
   const auto& inverseBindPose = character.inverseBindPose;
   py::array_t<float> result = py::array_t<float>(
-      std::vector<ssize_t>{(ssize_t)inverseBindPose.size(), 4, 4});
+      std::vector<py::ssize_t>{(py::ssize_t)inverseBindPose.size(), 4, 4});
   auto r = result.mutable_unchecked<3>(); // Will throw if ndim != 3 or
                                           // flags.writable is false
   for (py::ssize_t i = 0; i < inverseBindPose.size(); i++) {

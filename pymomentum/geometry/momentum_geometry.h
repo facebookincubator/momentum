@@ -137,7 +137,8 @@ std::shared_ptr<momentum::Mppca> createMppcaModel(
 template <typename T, int N>
 pybind11::array_t<T> asArray(const std::vector<Eigen::Matrix<T, N, 1>>& v) {
   pybind11::array_t<T> result(
-      {static_cast<ssize_t>(v.size()), static_cast<ssize_t>(N)});
+      {static_cast<pybind11::ssize_t>(v.size()),
+       static_cast<pybind11::ssize_t>(N)});
   auto r = result.template mutable_unchecked<2>();
   for (size_t i = 0; i < v.size(); ++i) {
     for (int j = 0; j < N; ++j) {

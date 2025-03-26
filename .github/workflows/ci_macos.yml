@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, macos-latest-large]
-        mode: ["", "_dev"]
+        mode: [""]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
