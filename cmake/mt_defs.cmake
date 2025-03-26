@@ -351,7 +351,7 @@ function(mt_setup_gtest)
   )
 
   if(NOT _ARG_GIT_TAG)
-    set(_ARG_GIT_TAG v1.15.2)
+    set(_ARG_GIT_TAG v1.16.0)
   endif()
 
   if(MOMENTUM_USE_SYSTEM_GOOGLETEST)

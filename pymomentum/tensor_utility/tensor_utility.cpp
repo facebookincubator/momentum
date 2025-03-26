@@ -9,6 +9,8 @@
 
 #include <momentum/common/exception.h>
 
+namespace py = pybind11;
+
 namespace pymomentum {
 
 template <typename Iter>
@@ -32,7 +34,7 @@ std::string formatTensorSizes(const at::Tensor& tensor) {
   return formatTensorSizes(sizes.begin(), sizes.end());
 }
 
-std::string formatTensorSizes(const std::vector<ssize_t>& sizes) {
+std::string formatTensorSizes(const std::vector<py::ssize_t>& sizes) {
   return formatTensorSizes(sizes.begin(), sizes.end());
 }
 

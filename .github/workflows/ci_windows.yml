@@ -13,7 +13,7 @@ on:
       - "**/website/**"
 
 jobs:
-  build:
+  momentum:
     name: cpp-${{ matrix.mode == '' && 'opt' || 'dev' }}-win
     runs-on: windows-latest
     strategy:
@@ -43,3 +43,48 @@ jobs:
             --build momentum/examples/hello_world/build `
             --config Release `
             --parallel
+
+  pymomentum:
+    name: py-${{ matrix.pixi_env }}-win
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - pixi_env: "cpu"
+          - pixi_env: "gpu"
+            cuda_version: "12.8.0"
+    env:
+      FULL_CUDA_VERSION: ${{ matrix.cuda_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CUDA Toolkit
+        if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
+        uses: Jimver/cuda-toolkit@v0.2.22
+        id: cuda-toolkit
+        with:
+          # Available versions: https://github.com/Jimver/cuda-toolkit/blob/v0.2.21/src/links/linux-links.ts
+          cuda: ${{ matrix.cuda_version }}
+
+      - name: Check CUDA Version
+        if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
+        run: |
+          nvcc --version
+
+      - name: Set Conda environment variables
+        if: ${{ contains(matrix.pixi_env, 'cuda') || contains(matrix.pixi_env, 'gpu') }}
+        shell: pwsh
+        run: |
+          $majorVersion = $Env:FULL_CUDA_VERSION.Split('.')[0]
+          "CONDA_OVERRIDE_CUDA=$majorVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Set up pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          cache: true
+
+      - name: Build and test PyMomentum
+        run: |
+          pixi run -e ${{ matrix.pixi_env }} test_py

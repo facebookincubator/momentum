@@ -8,8 +8,10 @@
 #pragma once
 
 #include <ATen/ATen.h>
+#include <pybind11/pybind11.h>
 #include <torch/torch.h>
 #include <Eigen/Core>
+
 #include <optional>
 #include <unordered_map>
 
@@ -33,7 +35,7 @@ template <typename T>
 Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> toEigenMap(at::Tensor t);
 
 std::string formatTensorSizes(const at::Tensor& tensor);
-std::string formatTensorSizes(const std::vector<ssize_t>& dims);
+std::string formatTensorSizes(const std::vector<pybind11::ssize_t>& dims);
 
 inline bool isEmpty(const at::Tensor& t) {
   return (t.numel() == 0);

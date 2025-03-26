@@ -112,8 +112,7 @@ void computeSkelStateBackward(
       for (int d = 0; d < momentum::kParametersPerJoint; ++d) {
         Eigen::VectorX<JetType> jointParams_cur =
             jointParameters
-                .template segment(
-                    kParametersPerJoint * curJoint, kParametersPerJoint)
+                .segment(kParametersPerJoint * curJoint, kParametersPerJoint)
                 .template cast<JetType>();
         jointParams_cur(d).v[0] = 1;
 
@@ -189,8 +188,7 @@ void computeLocalSkelStateBackward(
     for (int d = 0; d < momentum::kParametersPerJoint; ++d) {
       Eigen::VectorX<JetType> jointParams_cur =
           jointParameters
-              .template segment(
-                  kParametersPerJoint * iJoint, kParametersPerJoint)
+              .segment(kParametersPerJoint * iJoint, kParametersPerJoint)
               .template cast<JetType>();
       jointParams_cur(d).v[0] = 1;
 
