@@ -775,7 +775,7 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
           "Returns the pre-rotation for this joint in default pose of the character. Quaternion format: (x, y, z, w)")
       .def_property_readonly(
           "translation_offset",
-          [](const mm::Joint& joint) { return joint.name; },
+          [](const mm::Joint& joint) { return joint.translationOffset; },
           "Returns the translation offset for this joint in default pose of the character.");
 
   // =====================================================
