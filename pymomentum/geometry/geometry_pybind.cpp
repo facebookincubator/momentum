@@ -774,6 +774,11 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
           },
           "Returns the pre-rotation for this joint in default pose of the character. Quaternion format: (x, y, z, w)")
       .def_property_readonly(
+          "pre_rotation_matrix",
+          [](const mm::Joint& joint) {
+            return joint.preRotation.toRotationMatrix();
+          })
+      .def_property_readonly(
           "translation_offset",
           [](const mm::Joint& joint) { return joint.translationOffset; },
           "Returns the translation offset for this joint in default pose of the character.");
@@ -914,7 +919,8 @@ parameters rather than joints.  Does not modify the parameter transform.  This i
                 });
             return pymomentum::asArray(preRotations);
           },
-          "Returns skeleton joint offsets tensor for all joints shape: (num_joints, 4)");
+          "Returns skeleton joint offsets tensor for all joints shape: (num_joints, 4)")
+      .def_readonly("joints", &mm::Skeleton::joints);
 
   // =====================================================
   // momentum::SkinWeights
