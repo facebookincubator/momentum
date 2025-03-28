@@ -143,6 +143,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Joint.name"><code class="docutils literal notranslate"><span class="pre">Joint.name</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Joint.parent"><code class="docutils literal notranslate"><span class="pre">Joint.parent</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Joint.pre_rotation"><code class="docutils literal notranslate"><span class="pre">Joint.pre_rotation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Joint.pre_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">Joint.pre_rotation_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Joint.translation_offset"><code class="docutils literal notranslate"><span class="pre">Joint.translation_offset</span></code></a></li>
 </ul>
 </li>
@@ -299,6 +300,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.joint_index"><code class="docutils literal notranslate"><span class="pre">Skeleton.joint_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.joint_names"><code class="docutils literal notranslate"><span class="pre">Skeleton.joint_names</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.joint_parents"><code class="docutils literal notranslate"><span class="pre">Skeleton.joint_parents</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.joints"><code class="docutils literal notranslate"><span class="pre">Skeleton.joints</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.offsets"><code class="docutils literal notranslate"><span class="pre">Skeleton.offsets</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.pre_rotations"><code class="docutils literal notranslate"><span class="pre">Skeleton.pre_rotations</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pymomentum.geometry.Skeleton.size"><code class="docutils literal notranslate"><span class="pre">Skeleton.size</span></code></a></li>
@@ -1214,6 +1216,11 @@ It can be used to solve for shapes and pose simultaneously.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pymomentum.geometry.Joint.pre_rotation_matrix">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pre_rotation_matrix</span></span><a class="headerlink" href="#pymomentum.geometry.Joint.pre_rotation_matrix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.geometry.Joint.translation_offset">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">translation_offset</span></span><a class="headerlink" href="#pymomentum.geometry.Joint.translation_offset" title="Link to this definition"></a></dt>
 <dd><p>Returns the translation offset for this joint in default pose of the character.</p>
@@ -2115,6 +2122,11 @@ isAncestor(id, id) returns true.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pymomentum.geometry.Skeleton.joints">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">joints</span></span><a class="headerlink" href="#pymomentum.geometry.Skeleton.joints" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pymomentum.geometry.Skeleton.offsets">
