@@ -2320,7 +2320,7 @@ Computes vertex normals for a triangle mesh given its positions.
 
   // createTestCharacter()
   m.def(
-      "test_character",
+      "create_test_character",
       &momentum::createTestCharacter<float>,
       R"(Create a simple 3-joint test character.  This is useful for writing confidence tests that
 execute quickly and don't rely on outside files.

@@ -21,7 +21,7 @@ class TestPosePrior(unittest.TestCase):
 
         # The mesh is a made by a few vertices on the line segment from (1,0,0) to (1,1,0)
         # and a few dummy faces.
-        character = pym_geometry.test_character()
+        character = pym_geometry.create_test_character()
 
         n_joints = character.skeleton.size
         n_params = character.parameter_transform.size

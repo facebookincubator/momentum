@@ -10,14 +10,14 @@ import unittest
 import torch
 from pymomentum.geometry import (
     Character,
-    test_character,
+    create_test_character,
     uniform_random_to_model_parameters,
 )
 
 
 class TestParameterTransform(unittest.TestCase):
     def test_get_transform(self) -> None:
-        character: Character = test_character()
+        character: Character = create_test_character()
         transform = character.parameter_transform.transform
         self.assertEqual(tuple(transform.shape), (3 * 7, 10))
 

@@ -49,7 +49,7 @@ def generate_random_skel_state(sz: int) -> torch.Tensor:
 
 class TestSkelState(unittest.TestCase):
     def test_skel_state_to_transforms(self) -> None:
-        character = pym_geometry.test_character()
+        character = pym_geometry.create_test_character()
         nBatch = 2
         modelParams = 0.2 * torch.ones(
             nBatch,
