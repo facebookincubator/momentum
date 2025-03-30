@@ -118,7 +118,7 @@ class TestMarkerTracker(unittest.TestCase):
         )
 
     def test_motion_matrix(self) -> None:
-        character = pym_geometry.test_character()
+        character = pym_geometry.create_test_character()
         tracking_config = TrackingConfig()
         calibration_config = CalibrationConfig()
         refine_config = RefineConfig()

@@ -41,7 +41,7 @@ class TestBlendShape(unittest.TestCase):
 
         nBatch = 2
         n_coeffs = min(blend_shape.n_shapes, 10)
-        coeffs = torch.rand(nBatch, n_coeffs, requires_grad=True)
+        coeffs = torch.rand(nBatch, n_coeffs, dtype=torch.float64, requires_grad=True)
 
         shape1 = blend_shape.compute_shape(coeffs).select(0, 0)
         c1 = coeffs.select(0, 0).detach().numpy()
@@ -64,7 +64,7 @@ class TestBlendShape(unittest.TestCase):
         torch.manual_seed(0)  # ensure repeatability
         np.random.seed(0)
 
-        c = pym_geometry.test_character()
+        c = pym_geometry.create_test_character()
 
         # Build a blend shape basis:
         blend_shape = _build_blend_shape_basis(c)
@@ -78,7 +78,7 @@ class TestBlendShape(unittest.TestCase):
     def test_skinning_compare_momentum(self) -> None:
         """Compare the pymomentum skinning against the native momentum skinning."""
 
-        c = pym_geometry.test_character()
+        c = pym_geometry.create_test_character()
         torch.manual_seed(0)  # ensure repeatability
         n_model_params = c.parameter_transform.size
 
@@ -99,7 +99,7 @@ class TestBlendShape(unittest.TestCase):
 
         torch.set_printoptions(profile="full")
 
-        c = pym_geometry.test_character()
+        c = pym_geometry.create_test_character()
         torch.manual_seed(0)  # ensure repeatability
         n_model_params = c.parameter_transform.size
 
@@ -134,7 +134,7 @@ class TestBlendShape(unittest.TestCase):
         )
 
     def test_solve_blend_shape(self) -> None:
-        c = pym_geometry.test_character()
+        c = pym_geometry.create_test_character()
         blend_shape = _build_blend_shape_basis(c)
         c = c.with_blend_shape(blend_shape)
         pt = c.parameter_transform
