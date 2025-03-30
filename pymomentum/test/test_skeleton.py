@@ -7,12 +7,12 @@
 
 import unittest
 
-from pymomentum.geometry import Character, test_character
+from pymomentum.geometry import Character, create_test_character
 
 
 class TestSkeleton(unittest.TestCase):
     def test_get_skeleton_offsets_and_prerotations(self) -> None:
-        char: Character = test_character()
+        char: Character = create_test_character()
         offsets = char.skeleton.offsets
         pre_rotations = char.skeleton.pre_rotations
         num_joints = len(char.skeleton.joint_names)

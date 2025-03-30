@@ -14,7 +14,7 @@ import torch
 
 class TestFBXIO(unittest.TestCase):
     def setUp(self) -> None:
-        self.character = pym_geometry.test_character()
+        self.character = pym_geometry.create_test_character()
         torch.manual_seed(0)  # ensure repeatability
 
         nBatch = 5
