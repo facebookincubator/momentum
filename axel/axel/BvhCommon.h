@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include <Eigen/Core>
 
 namespace axel {
@@ -30,6 +32,9 @@ template <typename S>
 struct ClosestSurfacePointResult {
   Eigen::Vector3<S> point;
   uint32_t triangleIdx = kInvalidTriangleIdx;
+
+  // TODO: Remove optional once all the queries support barycentric coordinates.
+  std::optional<Eigen::Vector3<S>> baryCoords;
 };
 
 using ClosestSurfacePointResultf = ClosestSurfacePointResult<float>;

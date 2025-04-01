@@ -23,7 +23,8 @@ bool projectOnTriangle(
     const Eigen::Vector3<S>& a,
     const Eigen::Vector3<S>& b,
     const Eigen::Vector3<S>& c,
-    Eigen::Vector3<S>& q) {
+    Eigen::Vector3<S>& q,
+    Eigen::Vector3<S>* barycentric) {
   // See book 'Real-Time Collision Detection' Ericson Section 5.1.5
   // Check if P in vertex region outside A
   const Eigen::Vector3<S> ab = b - a;
@@ -35,6 +36,9 @@ bool projectOnTriangle(
   if (d1 <= kZero && d2 <= kZero) {
     // barycentric coordinates (1.0, 0.0, 0.0)
     q = a;
+    if (barycentric) {
+      *barycentric = Eigen::Vector3<S>::UnitX();
+    }
     return false;
   }
 
@@ -45,6 +49,9 @@ bool projectOnTriangle(
   if (d3 >= kZero && d4 <= d3) {
     // barycentric coordinate (0.0, 1.0, 0.0)
     q = b;
+    if (barycentric) {
+      *barycentric = Eigen::Vector3<S>::UnitY();
+    }
     return false;
   }
 
@@ -54,6 +61,9 @@ bool projectOnTriangle(
     // barycentric coordinate (1.0-v, v, 0.0)
     const S v = d1 / (d1 - d3);
     q = a + v * ab;
+    if (barycentric) {
+      *barycentric = Eigen::Vector3<S>(S(1) - v, v, S(0));
+    }
     return false;
   }
 
@@ -64,6 +74,9 @@ bool projectOnTriangle(
   if (d6 >= kZero && d5 <= d6) {
     // barycentric coordinate (0.0, 0.0, 1.0)
     q = c;
+    if (barycentric) {
+      *barycentric = Eigen::Vector3<S>::UnitZ();
+    }
     return false;
   }
 
@@ -73,6 +86,9 @@ bool projectOnTriangle(
     // barycentric coordinate (1.0-w, 0.0, w)
     const S w = d2 / (d2 - d6);
     q = a + w * ac;
+    if (barycentric) {
+      *barycentric = Eigen::Vector3<S>(S(1) - w, S(0), w);
+    }
     return false;
   }
 
@@ -82,6 +98,9 @@ bool projectOnTriangle(
     // barycentric coordinate (0.0, 1.0-w, w)
     const S w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
     q = b + w * (c - b);
+    if (barycentric) {
+      *barycentric = Eigen::Vector3<S>(S(0), S(1) - w, w);
+    }
     return false;
   }
 
@@ -91,6 +110,9 @@ bool projectOnTriangle(
   const S v = vb * denom;
   const S w = vc * denom;
   q = a + ab * v + ac * w;
+  if (barycentric) {
+    *barycentric = Eigen::Vector3<S>(S(1) - v - w, v, w);
+  }
   return true;
 }
 
@@ -100,7 +122,8 @@ WideMask<WideScalar<S>> projectOnTriangle(
     const WideVec3<S>& a,
     const WideVec3<S>& b,
     const WideVec3<S>& c,
-    WideVec3<S>& q) {
+    WideVec3<S>& q,
+    WideVec3<S>* barycentric) {
   // Check if P in vertex region outside A
   const auto ab = b - a;
   const auto ac = c - a;
@@ -109,6 +132,10 @@ WideMask<WideScalar<S>> projectOnTriangle(
   const auto d2 = drjit::dot(ac, ap);
   auto isOutside = d1 <= 0.0 && d2 <= 0.0;
   q = drjit::select(isOutside, a, q);
+  if (barycentric) {
+    // barycentric coordinates (1.0, 0.0, 0.0)
+    *barycentric = drjit::select(isOutside, WideVec3<S>(S(1), S(0), S(0)), *barycentric);
+  }
 
   // Check if P in vertex region outside B
   const auto bp = p - b;
@@ -117,12 +144,21 @@ WideMask<WideScalar<S>> projectOnTriangle(
   const auto isOutside2 = d3 >= 0.0 && d4 <= d3;
   isOutside = isOutside || isOutside2;
   q = drjit::select(isOutside2, b, q);
+  if (barycentric) {
+    // barycentric coordinates (0.0, 1.0, 0.0)
+    *barycentric = drjit::select(isOutside2, WideVec3<S>(S(0), S(1), S(0)), *barycentric);
+  }
 
   // Check if P in edge region of AB, if so return projection of P onto AB
   const auto vc = d1 * d4 - d3 * d2;
   const auto isOutside3 = vc <= 0.0 && d1 >= 0.0 && d3 <= 0.0;
   isOutside = isOutside || isOutside3;
-  q = drjit::select(isOutside3, a + (d1 / (d1 - d3)) * ab, q);
+  const auto tAB = d1 / (d1 - d3);
+  q = drjit::select(isOutside3, a + tAB * ab, q);
+  if (barycentric) {
+    // barycentric coordinate (1.0-v, v, 0.0)
+    *barycentric = drjit::select(isOutside3, WideVec3<S>(S(1) - tAB, tAB, S(0)), *barycentric);
+  }
 
   // Check if P in vertex region outside C
   const auto cp = p - c;
@@ -131,18 +167,32 @@ WideMask<WideScalar<S>> projectOnTriangle(
   const auto isOutside4 = d6 >= 0.0 && d5 <= d6;
   isOutside = isOutside || isOutside4;
   q = drjit::select(isOutside4, c, q);
+  if (barycentric) {
+    // barycentric coordinate (0.0, 0.0, 1.0)
+    *barycentric = drjit::select(isOutside4, WideVec3<S>(S(0), S(0), S(1)), *barycentric);
+  }
 
   // Check if P in edge region of AC, if so return projection of P onto AC
   const auto vb = d5 * d2 - d1 * d6;
   const auto isOutside5 = vb <= 0.0 && d2 >= 0.0 && d6 <= 0.0;
   isOutside = isOutside || isOutside5;
-  q = drjit::select(isOutside5, a + d2 / (d2 - d6) * ac, q);
+  const auto tAC = d2 / (d2 - d6);
+  q = drjit::select(isOutside5, a + tAC * ac, q);
+  if (barycentric) {
+    // barycentric coordinate (1.0-w, 0.0, w)
+    *barycentric = drjit::select(isOutside5, WideVec3<S>(S(1) - tAC, S(0), tAC), *barycentric);
+  }
 
   // Check if P in edge region of BC, if so return projection of P onto BC
   const auto va = d3 * d6 - d5 * d4;
   const auto isOutside6 = va <= 0.0 && (d4 - d3) >= 0.0 && (d5 - d6) >= 0.0;
   isOutside = isOutside || isOutside6;
-  q = drjit::select(isOutside6, b + (d4 - d3) / ((d4 - d3) + (d5 - d6)) * (c - b), q);
+  const auto tBC = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+  q = drjit::select(isOutside6, b + tBC * (c - b), q);
+  if (barycentric) {
+    // barycentric coordinate (0.0, 1.0-w, w)
+    *barycentric = drjit::select(isOutside6, WideVec3<S>(S(0), S(1) - tBC, tBC), *barycentric);
+  }
 
   // P inside face region.
   // Compute Q through its barycentric coordinates (u, v, w)
@@ -150,6 +200,9 @@ WideMask<WideScalar<S>> projectOnTriangle(
   const auto v = vb * denom;
   const auto w = vc * denom;
   q = drjit::select(isOutside, q, a + ab * v + ac * w);
+  if (barycentric) {
+    *barycentric = drjit::select(isOutside, *barycentric, WideVec3<S>(S(1) - v - w, v, w));
+  }
   return !isOutside;
 }
 

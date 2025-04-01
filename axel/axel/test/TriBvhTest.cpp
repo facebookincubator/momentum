@@ -194,11 +194,23 @@ TYPED_TEST(TriBvhTest, ClosestSurfacePoint_SameResultsAsIgl) {
       Eigen::RowVector3<S> p0{};
       aabb.squared_distance(positions, faces, query, tri0, p0);
 
-      const auto [p1, tri1] = bvh.closestSurfacePoint(query);
+      const auto result = bvh.closestSurfacePoint(query);
+      const auto& p1 = result.point;
+      const auto& tri1 = result.triangleIdx;
+      const auto& baryCoords = result.baryCoords.value();
 
       EXPECT_NEAR(
           (query - Eigen::Vector3<S>(p0)).norm(), (query - p1).norm(), detail::eps<S>(1e-6, 1e-14))
           << "Failed for: " << query.transpose();
+
+      // Check barycentric coordinates
+      const Eigen::Vector3<S> v0 = positions.row(faces(tri1, 0));
+      const Eigen::Vector3<S> v1 = positions.row(faces(tri1, 1));
+      const Eigen::Vector3<S> v2 = positions.row(faces(tri1, 2));
+      const Eigen::Vector3<S> expectedP =
+          baryCoords(0) * v0 + baryCoords(1) * v1 + baryCoords(2) * v2;
+      EXPECT_NEAR((expectedP - p1).norm(), 0.0, detail::eps<S>(1e-6, 1e-14))
+          << "Failed for: " << query.transpose() << " with baryCoords: " << baryCoords.transpose();
     }
   };
 
@@ -216,8 +228,21 @@ TYPED_TEST(TriBvhTest, ClosestSurfacePoint_ExpectZeroDistFromMeshPoints) {
 
   for (uint32_t i = 0; i < queryPoints.rows(); ++i) {
     const Eigen::Vector3<S> query = queryPoints.row(i);
-    const auto [p1, tri1] = bvh.closestSurfacePoint(query);
+    const auto result = bvh.closestSurfacePoint(query);
+    const auto& p1 = result.point;
+    const auto& baryCoords = result.baryCoords.value();
     EXPECT_NEAR((query - p1).norm(), 0.0, detail::eps<S>()) << "Failed for: " << query.transpose();
+
+    // Check barycentric coordinates
+    int numOnes = 0;
+    for (int j = 0; j < 3; ++j) {
+      if (std::abs(baryCoords(j) - 1.0) < detail::eps<S>()) {
+        numOnes++;
+      } else {
+        EXPECT_NEAR(baryCoords(j), 0.0, detail::eps<S>());
+      }
+    }
+    EXPECT_EQ(numOnes, 1);
   }
 }
 
