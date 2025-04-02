@@ -19,7 +19,8 @@ bool projectOnTriangle(
     const Eigen::Vector3<S>& a,
     const Eigen::Vector3<S>& b,
     const Eigen::Vector3<S>& c,
-    Eigen::Vector3<S>& q);
+    Eigen::Vector3<S>& q,
+    Eigen::Vector3<S>* barycentric = nullptr);
 
 template <typename S>
 WideMask<WideScalar<S>> projectOnTriangle(
@@ -27,6 +28,7 @@ WideMask<WideScalar<S>> projectOnTriangle(
     const WideVec3<S>& a,
     const WideVec3<S>& b,
     const WideVec3<S>& c,
-    WideVec3<S>& q);
+    WideVec3<S>& q,
+    WideVec3<S>* barycentric = nullptr);
 
 } // namespace axel

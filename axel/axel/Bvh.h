@@ -181,7 +181,7 @@ class Bvh final : public BvhBase<S> {
 
  private:
   // This bool is used to select either a scalar or a packet-based callback type.
-  template <bool IsPacket, typename ClosestSurfacePointFunc>
+  template <bool IsPacket, bool NeedBarycentric, typename ClosestSurfacePointFunc>
   S queryClosestHelper(
       uint32_t nodeIdx,
       const Eigen::Vector3<S>& query,
@@ -204,6 +204,8 @@ extern template class Bvh<float, kNativeLaneWidth<float>>;
 extern template class Bvh<double, kNativeLaneWidth<double>>;
 
 } // namespace axel
+
+#include <axel/Checks.h>
 
 //------------------------------------------------------------------------------
 // Implementation
@@ -403,18 +405,30 @@ template <typename ClosestSurfacePointFunc>
 [[nodiscard]] ClosestSurfacePointResult<S> Bvh<S, LeafCapacity>::queryClosestSurfacePoint(
     const Eigen::Vector3<S>& query,
     ClosestSurfacePointFunc&& func) const {
-  static_assert(
-      std::is_invocable_r_v<
-          Eigen::Vector3<S>,
-          ClosestSurfacePointFunc,
-          const Eigen::Vector3<S>&,
-          Index>,
-      "Callback function must be invocable with query type, primitive ID and return the closest projection point.");
-
   // TODO(nemanjab): Implement this without recursion. It should be faster.
   ClosestSurfacePointResult<S> res{};
-  queryClosestHelper</*IsPacket=*/false>(
-      0, query, std::forward<ClosestSurfacePointFunc>(func), std::numeric_limits<S>::max(), res);
+  if constexpr (std::is_invocable_r_v<
+                    void,
+                    ClosestSurfacePointFunc,
+                    const Eigen::Vector3<S>&,
+                    Index,
+                    Eigen::Vector3<S>&>) {
+    queryClosestHelper</*IsPacket=*/false, /*NeedBarycentric=*/false>(
+        0, query, std::forward<ClosestSurfacePointFunc>(func), std::numeric_limits<S>::max(), res);
+  } else if (std::is_invocable_r_v<
+                 void,
+                 ClosestSurfacePointFunc,
+                 const Eigen::Vector3<S>&,
+                 Index,
+                 Eigen::Vector3<S>&,
+                 Eigen::Vector3<S>&>) {
+    queryClosestHelper</*IsPacket=*/false, /*NeedBarycentric=*/true>(
+        0, query, std::forward<ClosestSurfacePointFunc>(func), std::numeric_limits<S>::max(), res);
+  } else {
+    XR_CHECK(
+        false,
+        "Callback function must be invocable with query type, primitive ID and return the closest projection point.");
+  }
   return res;
 }
 
@@ -423,26 +437,39 @@ template <typename ClosestSurfacePointFunc>
 [[nodiscard]] ClosestSurfacePointResult<S> Bvh<S, LeafCapacity>::queryClosestSurfacePointPacket(
     const Eigen::Vector3<S>& query,
     ClosestSurfacePointFunc&& func) const {
-  static_assert(
-      std::is_invocable_r_v<
-          void,
-          ClosestSurfacePointFunc,
-          const Eigen::Vector3<S>&,
-          const uint32_t,
-          const WideScalar<int32_t, LeafCapacity>&,
-          WideVec3<S, LeafCapacity>&,
-          WideScalar<S, LeafCapacity>&>,
-      "Callback function must be invocable with query, prim count, prim IDs and return projections and their distances through out param.");
-
   // TODO(nemanjab, T176575677): Implement this without recursion. It should be faster.
   ClosestSurfacePointResult<S> res{};
-  queryClosestHelper</*IsPacket=*/true>(
-      0, query, std::forward<ClosestSurfacePointFunc>(func), std::numeric_limits<S>::max(), res);
+  if constexpr (std::is_invocable_r_v<
+                    void,
+                    ClosestSurfacePointFunc,
+                    const Eigen::Vector3<S>&,
+                    const uint32_t,
+                    const WideScalar<int32_t, LeafCapacity>&,
+                    WideVec3<S, LeafCapacity>&,
+                    WideScalar<S, LeafCapacity>&>) {
+    queryClosestHelper</*IsPacket=*/true, /*NeedBarycentric=*/false>(
+        0, query, std::forward<ClosestSurfacePointFunc>(func), std::numeric_limits<S>::max(), res);
+  } else if (std::is_invocable_r_v<
+                 void,
+                 ClosestSurfacePointFunc,
+                 const Eigen::Vector3<S>&,
+                 const uint32_t,
+                 const WideScalar<int32_t, LeafCapacity>&,
+                 WideVec3<S, LeafCapacity>&,
+                 WideVec3<S, LeafCapacity>&,
+                 WideScalar<S, LeafCapacity>&>) {
+    queryClosestHelper</*IsPacket=*/true, /*NeedBarycentric=*/true>(
+        0, query, std::forward<ClosestSurfacePointFunc>(func), std::numeric_limits<S>::max(), res);
+  } else {
+    XR_CHECK(
+        false,
+        "Callback function must be invocable with query, prim count, prim IDs and return projections and their distances through out param.");
+  }
   return res;
 }
 
 template <typename S, size_t LeafCapacity>
-template <bool IsPacket, typename ClosestSurfacePointFunc>
+template <bool IsPacket, bool NeedBarycentric, typename ClosestSurfacePointFunc>
 S Bvh<S, LeafCapacity>::queryClosestHelper(
     const uint32_t nodeIdx,
     const Eigen::Vector3<S>& query,
@@ -464,28 +491,52 @@ S Bvh<S, LeafCapacity>::queryClosestHelper(
       }
       WideVec3<S, LeafCapacity> projections;
       WideScalar<S, LeafCapacity> squaredDistances;
-      func(
-          query,
-          currNode.nPrims,
-          drjit::load<WideScalar<int32_t, LeafCapacity>>(primIndices.data()),
-          projections,
-          squaredDistances);
+      [[maybe_unused]] WideVec3<S, LeafCapacity> barycentrics;
+      if constexpr (NeedBarycentric) {
+        func(
+            query,
+            currNode.nPrims,
+            drjit::load<WideScalar<int32_t, LeafCapacity>>(primIndices.data()),
+            projections,
+            barycentrics,
+            squaredDistances);
+      } else {
+        func(
+            query,
+            currNode.nPrims,
+            drjit::load<WideScalar<int32_t, LeafCapacity>>(primIndices.data()),
+            projections,
+            squaredDistances);
+      }
       for (int i = 0; i < currNode.nPrims; ++i) {
         if (squaredDistances[i] < sqrDist) {
           sqrDist = squaredDistances[i];
           result.point = Eigen::Vector3<S>{projections[0][i], projections[1][i], projections[2][i]};
           result.triangleIdx = primIndices[i];
+          if constexpr (NeedBarycentric) {
+            result.baryCoords =
+                Eigen::Vector3<S>{barycentrics[0][i], barycentrics[1][i], barycentrics[2][i]};
+          }
         }
       }
     } else {
       // The base scalar case.
       for (uint32_t o = 0; o < currNode.nPrims; ++o) {
         const BoundingBox<S>& obj = buildPrimitives_[currNode.start + o];
-        const Eigen::Vector3<S> projection = func(query, obj.id);
+        Eigen::Vector3<S> projection;
+        [[maybe_unused]] Eigen::Vector3<S> barycentric;
+        if constexpr (NeedBarycentric) {
+          func(query, obj.id, projection, barycentric);
+        } else {
+          func(query, obj.id, projection);
+        }
         const S distSq = (projection - query).squaredNorm();
         if (distSq < sqrDist) {
-          result.point = projection;
+          result.point = std::move(projection);
           result.triangleIdx = obj.id;
+          if constexpr (NeedBarycentric) {
+            result.baryCoords = std::move(barycentric);
+          }
           sqrDist = distSq;
         }
       }
@@ -493,7 +544,8 @@ S Bvh<S, LeafCapacity>::queryClosestHelper(
   } else {
     const auto& checkSubtree = [this, &query, &sqrDist, &func, &result](const uint32_t nodeIdx) {
       ClosestSurfacePointResult<S> tempRes;
-      const S distSq = queryClosestHelper<IsPacket>(nodeIdx, query, func, sqrDist, tempRes);
+      const S distSq =
+          queryClosestHelper<IsPacket, NeedBarycentric>(nodeIdx, query, func, sqrDist, tempRes);
       if (distSq < sqrDist) {
         sqrDist = distSq;
         result = tempRes;

@@ -224,6 +224,7 @@ ClosestSurfacePointResult<S> TriBvh<S, LeafCapacity>::closestSurfacePoint(
             const uint32_t primCount,
             const WideScalari& indices,
             WideVec3<S>& projections,
+            WideVec3<S>& barycentrics,
             WideScalar<S>& squaredDistances) {
           // Is there a more efficient way to create this mask?
           const auto mask = drjit::arange<WideScalari>(LeafCapacity) < primCount;
@@ -235,21 +236,26 @@ ClosestSurfacePointResult<S> TriBvh<S, LeafCapacity>::closestSurfacePoint(
               drjit::gather<WideVec3<S>>(positions_.data(), v0Ind, mask),
               drjit::gather<WideVec3<S>>(positions_.data(), v1Ind, mask),
               drjit::gather<WideVec3<S>>(positions_.data(), v2Ind, mask),
-              projections);
+              projections,
+              &barycentrics);
           squaredDistances = drjit::squared_norm(projections - wideQuery);
         });
   } else {
     return bvh_.queryClosestSurfacePoint(
-        query, [this](const Eigen::Vector3<S>& query, const uint32_t primIdx) {
+        query,
+        [this](
+            const Eigen::Vector3<S>& query,
+            const uint32_t primIdx,
+            Eigen::Vector3<S>& projection,
+            Eigen::Vector3<S>& barycentric) {
           const Eigen::Vector3i& face = triangles_.row(primIdx);
-          Eigen::Vector3<S> projection{};
           projectOnTriangle<S>(
               query,
               positions_.row(face(0)),
               positions_.row(face(1)),
               positions_.row(face(2)),
-              projection);
-          return projection;
+              projection,
+              &barycentric);
         });
   }
 }
