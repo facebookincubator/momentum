@@ -30,6 +30,7 @@ set(headers
   axel/common/Constants.h
   axel/common/Types.h
   axel/common/VectorizationTypes.h
+  axel/math/BoundingBoxUtils.h
   axel/math/PointTriangleProjection.h
   axel/math/PointTriangleProjectionDefinitions.h
   axel/math/RayTriangleIntersection.h
@@ -37,7 +38,9 @@ set(headers
   axel/Bvh.h
   axel/BvhBase.h
   axel/BvhCommon.h
+  axel/Ray.h
   axel/SimdKdTree.h
+  axel/TriBvh.h
 )
 
 set(sources
@@ -46,6 +49,7 @@ set(sources
   axel/BoundingBox.cpp
   axel/Bvh.cpp
   axel/SimdKdTree.cpp
+  axel/TriBvh.cpp
 )
 
 target_sources(${target_name}
