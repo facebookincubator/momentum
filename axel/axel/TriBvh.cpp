@@ -7,9 +7,9 @@
 
 #include "axel/TriBvh.h"
 
-#include <bolt/analyzer/Tracer.h>
 #include <expected/Expected.h>
 
+#include "axel/Profile.h"
 #include "axel/math/BoundingBoxUtils.h"
 #include "axel/math/PointTriangleProjection.h"
 
@@ -37,7 +37,7 @@ Bvh<S, LeafCapacity> buildBvh(
     const Eigen::MatrixX3<S>& positions,
     const Eigen::MatrixX3i& triangles,
     const std::optional<S>& boundingBoxThickness) {
-  BOLT_TRACE_TAG("build_bvh");
+  XR_PROFILE_EVENT("build_bvh");
   const Eigen::Index triangleCount{triangles.rows()};
   std::vector<BoundingBox<S>> boundingBoxes(triangleCount);
 

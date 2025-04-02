@@ -9,10 +9,11 @@
 
 #include <utility>
 
-#include <bolt/analyzer/Tracer.h>
 #include <dispenso/parallel_for.h>
 
 #include <Eigen/Dense>
+
+#include "axel/Profile.h"
 
 #define DEFAULT_LOG_CHANNEL "AXEL: Embree"
 #include "axel/Log.h"
@@ -249,7 +250,7 @@ BVHEmbree& BVHEmbree::operator=(BVHEmbree&& other) noexcept {
 void BVHEmbree::setBoundingBoxes(const std::vector<BoundingBoxd>& bboxes) {
   std::vector<RTCBuildPrimitive> prims;
   {
-    BOLT_TRACE_TAG("BVHEmbree::convert_bbox_to_prims");
+    XR_PROFILE_EVENT("BVHEmbree::convert_bbox_to_prims");
     prims.reserve(bboxes.size() * 2);
     prims.resize(bboxes.size());
     dispenso::parallel_for(0, bboxes.size(), [&bboxes, &prims](const size_t i) {
