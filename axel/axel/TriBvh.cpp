@@ -7,8 +7,7 @@
 
 #include "axel/TriBvh.h"
 
-#include <expected/Expected.h>
-
+#include "axel/Checks.h"
 #include "axel/Profile.h"
 #include "axel/math/BoundingBoxUtils.h"
 #include "axel/math/PointTriangleProjection.h"
@@ -45,7 +44,7 @@ Bvh<S, LeafCapacity> buildBvh(
     const Eigen::Vector3i triangle = triangles.row(triangleIndex);
 
     const Eigen::Index positionCount{positions.rows()};
-    XRE_VERIFY_F(
+    XR_CHECK(
         triangle[0] < positionCount && triangle[1] < positionCount && triangle[2] < positionCount,
         "Triangle {} index out of bounds! It has vertices {}, {}, {}, but the last vertex is at {}.",
         triangleIndex,
