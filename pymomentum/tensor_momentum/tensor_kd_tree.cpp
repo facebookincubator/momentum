@@ -10,6 +10,7 @@
 #include "pymomentum/tensor_utility/tensor_utility.h"
 
 #include <axel/SimdKdTree.h>
+#include <axel/TriBvh.h>
 #include <dispenso/parallel_for.h> // @manual
 #include <pybind11/pybind11.h>
 
@@ -317,6 +318,168 @@ findClosestPointsWithNormals(
   }
 
   return {result_points, result_normals, result_index, result_index >= 0};
+}
+
+template <typename S>
+void findClosestPointsOnMesh_imp(
+    at::Tensor points_source,
+    at::Tensor vertices_target,
+    at::Tensor faces_target,
+    at::Tensor result_points,
+    at::Tensor result_face_index,
+    at::Tensor result_barycentric) {
+  using TriBvh = typename axel::TriBvh<S, axel::kNativeLaneWidth<S>>;
+
+  const int64_t nSrcPts = points_source.size(0);
+  const int64_t nTgtVertices = vertices_target.size(0);
+  const int64_t nTgtFaces = faces_target.size(0);
+
+  if (faces_target.size(1) != 3 || vertices_target.size(1) != 3) {
+    throw std::runtime_error(
+        "find_closest_points_on_mesh: vertices_target and faces_target must have 3 columns");
+  }
+
+  if (faces_target.max().item<int>() >= nTgtVertices) {
+    throw std::runtime_error(
+        "find_closest_points_on_mesh: faces_target contains an index >= nTgtVertices");
+  }
+
+  Eigen::MatrixX3<S> targetVerticesMat(nTgtVertices, 3);
+  Eigen::Map<Eigen::VectorX<S>> vertices_tgt_map =
+      toEigenMap<S>(vertices_target);
+  for (int64_t i = 0; i < nTgtVertices; ++i) {
+    targetVerticesMat.row(i) = vertices_tgt_map.template segment<3>(3 * i);
+  }
+
+  Eigen::MatrixX3i targetFacesMat(nTgtFaces, 3);
+  Eigen::Map<Eigen::VectorXi> faces_tgt_map = toEigenMap<int>(faces_target);
+  for (int64_t i = 0; i < nTgtFaces; ++i) {
+    targetFacesMat.row(i) = faces_tgt_map.segment<3>(3 * i);
+  }
+
+  const TriBvh targetTree(
+      std::move(targetVerticesMat), std::move(targetFacesMat));
+
+  Eigen::Map<Eigen::VectorX<S>> pts_src_map = toEigenMap<S>(points_source);
+  Eigen::Map<Eigen::VectorXi> result_face_indices_map =
+      toEigenMap<int>(result_face_index);
+  Eigen::Map<Eigen::VectorX<S>> result_points_map =
+      toEigenMap<S>(result_points);
+  Eigen::Map<Eigen::VectorX<S>> result_bary_map =
+      toEigenMap<S>(result_barycentric);
+
+  dispenso::parallel_for(
+      dispenso::makeChunkedRange(0, nSrcPts),
+      [&](int64_t srcStart, int64_t srcEnd) {
+        for (int64_t k = srcStart; k < srcEnd; ++k) {
+          const Eigen::Vector3<S> p_src =
+              pts_src_map.template segment<3>(3 * k);
+          const auto queryResult = targetTree.closestSurfacePoint(p_src);
+          if (queryResult.triangleIdx == axel::kInvalidTriangleIdx) {
+            result_face_indices_map(k) = -1;
+          } else {
+            result_face_indices_map[k] = queryResult.triangleIdx;
+            result_points_map.template segment<3>(3 * k) = queryResult.point;
+            if (queryResult.baryCoords) {
+              result_bary_map.template segment<3>(3 * k) =
+                  *queryResult.baryCoords;
+            }
+          }
+        }
+      });
+}
+
+std::tuple<at::Tensor, at::Tensor, at::Tensor, at::Tensor>
+findClosestPointsOnMesh(
+    at::Tensor points_source,
+    at::Tensor vertices_target,
+    at::Tensor faces_target) {
+  TensorChecker checker("find_closest_points_on_mesh");
+
+  bool squeeze_src = false;
+
+  auto dtype = toScalarType<float>();
+  if (vertices_target.dtype() == toScalarType<double>() ||
+      points_source.dtype() == toScalarType<double>()) {
+    dtype = toScalarType<double>();
+  }
+
+  const int nSrcPtsIndex = -1;
+  const int nTgtVerticesIndex = -2;
+  const int nTargetFacesIndex = -3;
+  points_source = checker.validateAndFixTensor(
+      points_source,
+      "points_source",
+      {nSrcPtsIndex, 3},
+      {"nSrcPoints", "xyz"},
+      dtype,
+      true,
+      false,
+      &squeeze_src);
+
+  vertices_target = checker.validateAndFixTensor(
+      vertices_target,
+      "vertices_target",
+      {nTgtVerticesIndex, 3},
+      {"nTgtVertices", "xyz"},
+      dtype,
+      true,
+      false,
+      nullptr);
+
+  faces_target = checker.validateAndFixTensor(
+      faces_target,
+      "faces_target",
+      {nTargetFacesIndex, 3},
+      {"nTgtFaces", "xyz"},
+      toScalarType<int>(),
+      true,
+      false,
+      nullptr);
+
+  const auto nBatch = checker.getBatchSize();
+  const auto nSrcPts = checker.getBoundValue(nSrcPtsIndex);
+
+  at::Tensor result_closest_points =
+      at::zeros({nBatch, nSrcPts, 3}, at::CPU(at::kFloat));
+  at::Tensor result_face_index =
+      at::zeros({nBatch, nSrcPts}, at::CPU(toScalarType<int>()));
+  at::Tensor result_barycentric =
+      at::zeros({nBatch, nSrcPts, 3}, at::CPU(toScalarType<float>()));
+
+  if (dtype == toScalarType<double>()) {
+    for (int64_t iBatch = 0; iBatch < nBatch; ++iBatch) {
+      findClosestPointsOnMesh_imp<double>(
+          points_source.select(0, iBatch),
+          vertices_target.select(0, iBatch),
+          faces_target.select(0, iBatch),
+          result_closest_points.select(0, iBatch),
+          result_face_index.select(0, iBatch),
+          result_barycentric.select(0, iBatch));
+    }
+  } else {
+    for (int64_t iBatch = 0; iBatch < nBatch; ++iBatch) {
+      findClosestPointsOnMesh_imp<float>(
+          points_source.select(0, iBatch),
+          vertices_target.select(0, iBatch),
+          faces_target.select(0, iBatch),
+          result_closest_points.select(0, iBatch),
+          result_face_index.select(0, iBatch),
+          result_barycentric.select(0, iBatch));
+    }
+  }
+
+  if (squeeze_src) {
+    result_closest_points = result_closest_points.squeeze(0);
+    result_face_index = result_face_index.squeeze(0);
+    result_barycentric = result_barycentric.squeeze(0);
+  }
+
+  return {
+      result_face_index >= 0,
+      result_closest_points,
+      result_face_index,
+      result_barycentric};
 }
 
 } // namespace pymomentum
