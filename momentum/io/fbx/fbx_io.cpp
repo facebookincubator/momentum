@@ -197,8 +197,6 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
       // found mesh, need to parse it
       if (!result.mesh)
         result.mesh = std::make_unique<Mesh>();
-      if (!result.skinWeights)
-        result.skinWeights = std::make_unique<SkinWeights>();
 
       // get vertices
       const int numVertices = lMesh->GetControlPointsCount();
@@ -294,6 +292,10 @@ Character loadFbxCommon(::fbxsdk::FbxScene* scene) {
       ::fbxsdk::FbxSkin* fbxskin =
           (::fbxsdk::FbxSkin*)lMesh->GetDeformer(0, ::fbxsdk::FbxDeformer::eSkin);
       if (fbxskin != nullptr) {
+        if (!result.skinWeights) {
+          result.skinWeights = std::make_unique<SkinWeights>();
+        }
+
         int clusterCount = fbxskin->GetClusterCount();
         // resize arrays
         result.skinWeights->index.conservativeResize(voffset + numVertices, Eigen::NoChange);
@@ -795,42 +797,44 @@ void saveFbxCommon(
     // Momentum skinning is saved in two matrices: index and weight (size numvertices x
     // not-ordered-joints). The index contains the joint index and the weight is the normalized
     // weight the vertex for that joint.
-    ::fbxsdk::FbxSkin* fbxskin = ::fbxsdk::FbxSkin::Create(scene, "meshskinning");
-    fbxskin->SetSkinningType(::fbxsdk::FbxSkin::eLinear);
-    fbxskin->SetGeometry(lMesh);
-    FbxAMatrix meshTransform;
-    meshTransform.SetIdentity();
-    for (const auto& jointNode : jointToNodeMap) {
-      size_t jointIdx = jointNode.first;
-      auto* fbxJointNode = jointNode.second;
+    if (character.skinWeights != nullptr) {
+      ::fbxsdk::FbxSkin* fbxskin = ::fbxsdk::FbxSkin::Create(scene, "meshskinning");
+      fbxskin->SetSkinningType(::fbxsdk::FbxSkin::eLinear);
+      fbxskin->SetGeometry(lMesh);
+      FbxAMatrix meshTransform;
+      meshTransform.SetIdentity();
+      for (const auto& jointNode : jointToNodeMap) {
+        size_t jointIdx = jointNode.first;
+        auto* fbxJointNode = jointNode.second;
 
-      std::ostringstream s;
-      s << "skinningcluster_" << jointIdx;
-      FbxCluster* pCluster = ::fbxsdk::FbxCluster::Create(scene, s.str().c_str());
-      pCluster->SetLinkMode(::fbxsdk::FbxCluster::ELinkMode::eNormalize);
-      pCluster->SetLink(fbxJointNode);
+        std::ostringstream s;
+        s << "skinningcluster_" << jointIdx;
+        FbxCluster* pCluster = ::fbxsdk::FbxCluster::Create(scene, s.str().c_str());
+        pCluster->SetLinkMode(::fbxsdk::FbxCluster::ELinkMode::eNormalize);
+        pCluster->SetLink(fbxJointNode);
 
-      ::fbxsdk::FbxAMatrix globalMatrix = fbxJointNode->EvaluateLocalTransform();
-      ::fbxsdk::FbxNode* pParent = fbxJointNode->GetParent();
-      // TODO: should use inverse bind transform from character instead.
-      while (pParent != nullptr) {
-        globalMatrix = pParent->EvaluateLocalTransform() * globalMatrix;
-        pParent = pParent->GetParent();
-      }
-      pCluster->SetTransformLinkMatrix(globalMatrix);
-      pCluster->SetTransformMatrix(meshTransform);
+        ::fbxsdk::FbxAMatrix globalMatrix = fbxJointNode->EvaluateLocalTransform();
+        ::fbxsdk::FbxNode* pParent = fbxJointNode->GetParent();
+        // TODO: should use inverse bind transform from character instead.
+        while (pParent != nullptr) {
+          globalMatrix = pParent->EvaluateLocalTransform() * globalMatrix;
+          pParent = pParent->GetParent();
+        }
+        pCluster->SetTransformLinkMatrix(globalMatrix);
+        pCluster->SetTransformMatrix(meshTransform);
 
-      for (int i = 0; i < character.skinWeights->index.rows(); i++) {
-        for (int j = 0; j < character.skinWeights->index.cols(); j++) {
-          auto boneIndex = character.skinWeights->index(i, j);
-          if (boneIndex == jointNode.first && character.skinWeights->weight(i, j) > 0) {
-            pCluster->AddControlPointIndex(i, character.skinWeights->weight(i, j));
+        for (int i = 0; i < character.skinWeights->index.rows(); i++) {
+          for (int j = 0; j < character.skinWeights->index.cols(); j++) {
+            auto boneIndex = character.skinWeights->index(i, j);
+            if (boneIndex == jointNode.first && character.skinWeights->weight(i, j) > 0) {
+              pCluster->AddControlPointIndex(i, character.skinWeights->weight(i, j));
+            }
           }
         }
+        fbxskin->AddCluster(pCluster);
       }
-      fbxskin->AddCluster(pCluster);
+      lMesh->AddDeformer(fbxskin);
     }
-    lMesh->AddDeformer(fbxskin);
     // Add the mesh under the root
     root->AddChild(meshNode);
   }

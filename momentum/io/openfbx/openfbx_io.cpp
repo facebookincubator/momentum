@@ -591,8 +591,28 @@ void parseSkinnedModel(
   errMsg = faces.warnMessage(textureCoords.size());
   MT_LOGW_IF(!errMsg.empty(), "Error reading polygon data from FBX file: {}", errMsg);
 
+  const size_t vertexOffset = mesh.vertices.size();
+  std::copy(
+      std::begin(vertexPositions), std::end(vertexPositions), std::back_inserter(mesh.vertices));
+  for (const auto& t : triangulate(faces.indices, faces.offsets)) {
+    mesh.faces.emplace_back(t + Eigen::Vector3i::Constant(vertexOffset));
+  }
+
+  mesh.normals.resize(vertexOffset + nVerts, Vector3f::Zero());
+  mesh.colors.resize(vertexOffset + nVerts, Vector3b::Zero());
+  mesh.confidence.resize(vertexOffset + nVerts, 1);
+
+  const size_t textureCoordOffset = mesh.texcoords.size();
+  std::copy(std::begin(textureCoords), std::end(textureCoords), std::back_inserter(mesh.texcoords));
+  for (const auto& t : triangulate(faces.textureIndices, faces.offsets)) {
+    mesh.texcoord_faces.emplace_back(t + Eigen::Vector3i::Constant(textureCoordOffset));
+  }
+
   const auto* fbxskin = geometry->getSkin();
-  MT_THROW_IF(fbxskin == nullptr, "No skin found for geometry.");
+  if (fbxskin == nullptr) {
+    return;
+  }
+
   // Need a fast map from an FbxNode to the bone index in our representation:
   std::unordered_map<const ofbx::Object*, size_t> boneMap;
   for (size_t i = 0; i < boneFbxNodes.size(); ++i) {
@@ -667,23 +687,6 @@ void parseSkinnedModel(
           boneWeight);
       weights.emplace_back(boneVertexIndex, boneIndex, boneWeight);
     }
-  }
-
-  const size_t vertexOffset = mesh.vertices.size();
-  std::copy(
-      std::begin(vertexPositions), std::end(vertexPositions), std::back_inserter(mesh.vertices));
-  for (const auto& t : triangulate(faces.indices, faces.offsets)) {
-    mesh.faces.emplace_back(t + Eigen::Vector3i::Constant(vertexOffset));
-  }
-
-  mesh.normals.resize(vertexOffset + nVerts, Vector3f::Zero());
-  mesh.colors.resize(vertexOffset + nVerts, Vector3b::Zero());
-  mesh.confidence.resize(vertexOffset + nVerts, 1);
-
-  const size_t textureCoordOffset = mesh.texcoords.size();
-  std::copy(std::begin(textureCoords), std::end(textureCoords), std::back_inserter(mesh.texcoords));
-  for (const auto& t : triangulate(faces.textureIndices, faces.offsets)) {
-    mesh.texcoord_faces.emplace_back(t + Eigen::Vector3i::Constant(textureCoordOffset));
   }
 
   skinWeights.index.conservativeResize(vertexOffset + nVerts, Eigen::NoChange);
