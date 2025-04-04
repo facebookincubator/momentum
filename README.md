@@ -5,14 +5,14 @@
 [![CI Ubuntu][ci-ubuntu-badge]][ci-ubuntu]
 [![Publish Website][website-badge]][website]
 
-[ci-windows-badge]: https://github.com/facebookincubator/momentum/actions/workflows/ci_windows.yml/badge.svg
-[ci-windows]: https://github.com/facebookincubator/momentum/actions/workflows/ci_windows.yml
-[ci-macos-badge]: https://github.com/facebookincubator/momentum/actions/workflows/ci_macos.yml/badge.svg
-[ci-macos]: https://github.com/facebookincubator/momentum/actions/workflows/ci_macos.yml
-[ci-ubuntu-badge]: https://github.com/facebookincubator/momentum/actions/workflows/ci_ubuntu.yml/badge.svg
-[ci-ubuntu]: https://github.com/facebookincubator/momentum/actions/workflows/ci_ubuntu.yml
-[website-badge]: https://github.com/facebookincubator/momentum/actions/workflows/publish_website.yml/badge.svg
-[website]: https://github.com/facebookincubator/momentum/actions/workflows/publish_website.yml
+[ci-windows-badge]: https://github.com/facebookresearch/momentum/actions/workflows/ci_windows.yml/badge.svg
+[ci-windows]: https://github.com/facebookresearch/momentum/actions/workflows/ci_windows.yml
+[ci-macos-badge]: https://github.com/facebookresearch/momentum/actions/workflows/ci_macos.yml/badge.svg
+[ci-macos]: https://github.com/facebookresearch/momentum/actions/workflows/ci_macos.yml
+[ci-ubuntu-badge]: https://github.com/facebookresearch/momentum/actions/workflows/ci_ubuntu.yml/badge.svg
+[ci-ubuntu]: https://github.com/facebookresearch/momentum/actions/workflows/ci_ubuntu.yml
+[website-badge]: https://github.com/facebookresearch/momentum/actions/workflows/publish_website.yml/badge.svg
+[website]: https://github.com/facebookresearch/momentum/actions/workflows/publish_website.yml
 
 Momentum provides foundational algorithms for human kinematic motion and
 numerical optimization solvers to apply human motion in various applications.
@@ -65,7 +65,7 @@ Complete the following steps only once:
 1. Clone the repository and navigate to the root directory:
 
    ```
-   git clone https://github.com/facebookincubator/momentum
+   git clone https://github.com/facebookresearch/momentum
    cd momentum
    ```
 
@@ -113,7 +113,7 @@ To run other examples:
 pixi run glb_viewer --help
 ```
 
-For more examples, please refer to the [Examples](https://facebookincubator.github.io/momentum/docs/examples/viewers) page.
+For more examples, please refer to the [Examples](https://facebookresearch.github.io/momentum/docs/examples/viewers) page.
 
 #### Clean Up
 
@@ -157,7 +157,7 @@ $env:MOMENTUM_BUILD_IO_FBX = "ON"; pixi run convert_model -d <input.glb> -o <out
 
 ## 📖 Documentation
 
-The full documentation for Momentum can be found on our [website](https://facebookincubator.github.io/momentum) and the C++ API documentation is available [here](https://facebookincubator.github.io/momentum/doxygen/index.html).
+The full documentation for Momentum can be found on our [website](https://facebookresearch.github.io/momentum) and the C++ API documentation is available [here](https://facebookresearch.github.io/momentum/doxygen/index.html).
 
 ## Contributing
 

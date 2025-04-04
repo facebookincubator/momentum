@@ -6,8 +6,8 @@ version = "0.1.0"
 description = "A library providing foundational algorithms for human kinematic motion and numerical optimization solvers to apply human motion in various applications"
 license = "MIT"
 readme = "README.md"
-homepage = "https://facebookincubator.github.io/momentum/"
-repository = "https://github.com/facebookincubator/momentum"
+homepage = "https://facebookresearch.github.io/momentum/"
+repository = "https://github.com/facebookresearch/momentum"
 
 [build-dependencies]
 boost = ">=1.84.0,<2"

@@ -15,7 +15,7 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/facebookincubator/momentum"
+Homepage = "https://github.com/facebookresearch/momentum"
 
 [tool.scikit-build]
 build-dir = "build/{wheel_tag}"

@@ -4,7 +4,7 @@
 
 ## Checklist:
 
-- [ ] Adheres to the [style guidelines](https://facebookincubator.github.io/momentum/docs/developer_guide/style_guide)
+- [ ] Adheres to the [style guidelines](https://facebookresearch.github.io/momentum/docs/developer_guide/style_guide)
 - [ ] Codebase formatted by running `pixi run lint`
 
 ## Test Plan

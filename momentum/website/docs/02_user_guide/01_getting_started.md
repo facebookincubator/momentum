@@ -44,7 +44,7 @@ Complete the following steps only once:
 1. Clone the repository and navigate to the root directory:
 
    ```
-   git clone https://github.com/facebookincubator/momentum
+   git clone https://github.com/facebookresearch/momentum
    cd momentum
    ```
 
@@ -92,7 +92,7 @@ To run other examples:
 pixi run glb_viewer --help
 ```
 
-For more examples, please refer to the [Examples](https://facebookincubator.github.io/momentum/docs/examples/viewers) page.
+For more examples, please refer to the [Examples](https://facebookresearch.github.io/momentum/docs/examples/viewers) page.
 
 ### Clean Up
 

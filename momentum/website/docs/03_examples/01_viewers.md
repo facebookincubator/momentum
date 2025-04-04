@@ -18,7 +18,7 @@ pixi run glb_viewer --input <my_file.glb>
 
 ![glb_viewer](/img/glb_viewer.png)
 
-* [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/glb_viewer)
+* [Source Code](https://github.com/facebookresearch/momentum/tree/main/momentum/examples/glb_viewer)
 
 ## FBX Viewer
 
@@ -28,7 +28,7 @@ To run the FBX viewer, use the following command:
 pixi run fbx_viewer --input <my_file.fbx>
 ```
 
-* [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/fbx_viewer)
+* [Source Code](https://github.com/facebookresearch/momentum/tree/main/momentum/examples/fbx_viewer)
 
 ## C3D Viewer
 
@@ -38,7 +38,7 @@ To run the C3D viewer, use the following command:
 pixi run c3d_viewer --input <my_file.c3d>
 ```
 
-* [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/c3d_viewer)
+* [Source Code](https://github.com/facebookresearch/momentum/tree/main/momentum/examples/c3d_viewer)
 
 ## URDF Viewer
 
@@ -48,7 +48,7 @@ To run the URDF viewer, use the following command:
 pixi run urdf_viewer --input <my_file.urdf>
 ```
 
-* [Source Code](https://github.com/facebookincubator/momentum/tree/main/momentum/examples/urdf_viewer)
+* [Source Code](https://github.com/facebookresearch/momentum/tree/main/momentum/examples/urdf_viewer)
 
 For example, you can download an Atlas robot from this [link](https://github.com/Daniella1/urdf_files_dataset/blob/main/urdf_files/matlab/Atlas/urdf/atlas.urdf), which may look like:
 

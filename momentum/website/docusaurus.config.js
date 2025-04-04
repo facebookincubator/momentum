@@ -14,12 +14,12 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
 (module.exports = {
   title: 'Momentum',
   tagline: 'A library for human kinematic motion and numerical optimization solvers to apply human motion',
-  url: 'https://facebookincubator.github.io',
+  url: 'https://facebookresearch.github.io',
   baseUrl: '/momentum/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebookincubator',
+  organizationName: 'facebookresearch',
   projectName: 'momentum',
   customFields: {
     fbRepoName: 'fbsource',
@@ -37,7 +37,7 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
             internal:
               'https://www.internalfb.com/code/fbsource/arvr/libraries/momentum/website',
             external:
-              'https://github.com/facebookincubator/momentum/edit/main/momentum/website',
+              'https://github.com/facebookresearch/momentum/edit/main/momentum/website',
           }),
         },
         experimentalXRepoSnippets: {
@@ -78,14 +78,14 @@ const {fbContent, fbInternalOnly} = require('docusaurus-plugin-internaldocs-fb/i
           },
           {
             href: fbContent({
-              internal: 'https://facebookincubator.github.io/momentum/python_api_doc/index.html',
+              internal: 'https://facebookresearch.github.io/momentum/python_api_doc/index.html',
               external: 'pathname:///python_api_doc/index.html',
             }),
             position: 'left',
             label: 'Python API',
           },
           {
-            href: 'https://github.com/facebookincubator/momentum',
+            href: 'https://github.com/facebookresearch/momentum',
             label: 'GitHub',
             position: 'right',
           },
