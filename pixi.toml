@@ -17,7 +17,7 @@ cmake = ">=3.31.6,<4"
 cxx-compiler = ">=1.9.0,<2"
 gtest = ">=1.16.0,<2"
 ninja = ">=1.12.1,<2"
-rerun-sdk = ">=0.21.0,<0.22"
+rerun-sdk = ">=0.22,<0.23"
 pip = ">=25.0.1,<26"
 pybind11 = ">=2.13.6,<3"
 pytest = ">=8.3.5,<9"
@@ -37,7 +37,7 @@ ezc3d = ">=1.5.18,<2"
 drjit-cpp = ">=1.0.5,<2"
 fmt = ">=11.1.4,<12"
 fx-gltf = ">=2.0.0,<3"
-librerun-sdk = ">=0.21.0,<0.22"
+librerun-sdk = ">=0.22,<0.23"
 ms-gsl = ">=4.2.0,<5"
 nlohmann_json = ">=3.11.3,<4"
 openfbx = ">=0.9,<0.10"
@@ -355,7 +355,10 @@ install = { cmd = "cmake --build build/$PIXI_ENVIRONMENT_NAME/cpp -j --target in
 tracy = { cmd = "tracy-profiler.exe" }
 build_py = { cmd = "pip install . -vv", env = { CMAKE_ARGS = """
     -DMOMENTUM_BUILD_IO_FBX=$MOMENTUM_BUILD_IO_FBX \
-    -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD
+    -DMOMENTUM_ENABLE_SIMD=$MOMENTUM_ENABLE_SIMD \
+    -DMOMENTUM_USE_SYSTEM_GOOGLETEST=ON \
+    -DMOMENTUM_USE_SYSTEM_PYBIND11=OFF \
+    -DMOMENTUM_USE_SYSTEM_RERUN_CPP_SDK=ON
 """, MOMENTUM_BUILD_IO_FBX = "OFF", MOMENTUM_ENABLE_SIMD = "ON" } }
 # TODO: Remove -k option, once this tests are disabled programmatically if momentum is not built with FBX support
 test_py = { cmd = "pytest pymomentum/test/*.py -k 'not (TestFBXIO and (test_save_motions_with_joint_params or test_save_motions_with_model_params))'", env = { MOMENTUM_MODELS_PATH = "momentum/" }, depends-on = [
